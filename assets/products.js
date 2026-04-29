@@ -328,6 +328,49 @@ const PRODUCTS = [
         { id: 'mat-bakir', name: 'Mat bakır', priceModifier: 60,  color: '#B07D5C' }
       ]
     }
+  },
+  {
+    id: 'ozl-anahtarlik-isim',
+    slug: 'isimli-anahtarlik',
+    name: 'İsimli anahtarlık',
+    category: 'anahtarlik',
+    mode: 'sana-ozel',
+    price: 290,
+    description: 'Çocuk çantasına, anahtarlığına. İsmini kalın yuvarlak harflerle, çift renkli baskıyla. Hediye için ideal.',
+    materials: ['PLA bazlı', '3D baskı', 'çift renk'],
+    image: 'assets/img/products/anahtarlik.svg',
+    featured: true,
+    customizable: true,
+    customization: {
+      type: 'keychain',
+      textLabel: 'İsim',
+      textPlaceholder: 'Örn. Sam',
+      maxLength: 12,
+      fonts: [
+        { id: 'fredoka',  name: 'Modern yuvarlak',  cssFont: "'Fredoka', sans-serif",      weight: 700 },
+        { id: 'baloo',    name: 'Kalın eğlenceli',  cssFont: "'Baloo 2', sans-serif",      weight: 800 },
+        { id: 'sniglet',  name: 'Çocuksu',          cssFont: "'Sniglet', sans-serif",      weight: 800 },
+        { id: 'mali',     name: 'El yazısı kalın',  cssFont: "'Mali', cursive",            weight: 700 },
+        { id: 'caveat',   name: 'Fırça',            cssFont: "'Caveat Brush', cursive",    weight: 400 },
+        { id: 'pacifico', name: 'Neon stil',        cssFont: "'Pacifico', cursive",        weight: 400 }
+      ],
+      plateColors: [
+        { id: 'beyaz',     name: 'Beyaz',        color: '#FFFFFF' },
+        { id: 'krem',      name: 'Krem',         color: '#F4E5C9' },
+        { id: 'siyah',     name: 'Siyah',        color: '#1A1A1A' },
+        { id: 'pas-mavi',  name: 'Pastel mavi',  color: '#9CC5E8' },
+        { id: 'pas-pembe', name: 'Pastel pembe', color: '#D4A5C9' }
+      ],
+      textColors: [
+        { id: 'pembe',  name: 'Pembe',  color: '#FF3B7E' },
+        { id: 'siyah',  name: 'Siyah',  color: '#1A1A1A' },
+        { id: 'beyaz',  name: 'Beyaz',  color: '#FFFFFF' },
+        { id: 'mavi',   name: 'Mavi',   color: '#3B82F6' },
+        { id: 'yesil',  name: 'Yeşil',  color: '#10B981' },
+        { id: 'sari',   name: 'Sarı',   color: '#F59E0B' },
+        { id: 'bakir',  name: 'Bakır',  color: '#B07D5C' }
+      ]
+    }
   }
 ];
 // Modlar: ürün filtrelemenin yatay segmenti
