@@ -295,54 +295,80 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   background: var(--c-warm-greige);
   padding: var(--space-lg) 0 var(--space-2xl);
   transition: background var(--t-slow);
+  position: relative;
 }
 
 [data-mode="kol"] .mode-area { background: var(--c-cream); }
 [data-mode="ozl"] .mode-area { background: var(--c-soft-bej); }
 
-.mode-buttons {
-  display: grid;
-  grid-template-columns: 1fr 3fr 3fr;
+/* Yeni mode-row: Hepsi | ayraç | Koleksiyon+Sana özel istif | ayraç | Filtre */
+.mode-row {
+  display: flex;
+  align-items: stretch;
   gap: var(--space-md);
-  margin-bottom: var(--space-lg);
+  height: 110px;
 }
 
+/* Ayraçlar */
+.mode-divider {
+  width: 1px;
+  background: rgba(20, 17, 14, 0.18);
+  flex-shrink: 0;
+}
+
+/* Sol: Hepsi kare buton */
 .mode-btn {
-  padding: var(--space-lg) var(--space-md);
-  border-radius: var(--r-lg);
   cursor: pointer;
-  text-align: left;
   font-family: inherit;
-  position: relative;
-  transition: opacity var(--t-base), transform var(--t-base);
   background: transparent;
   border: 0.5px solid transparent;
+  transition: opacity var(--t-base), transform var(--t-base);
+  padding: 0;
 }
 
 .mode-btn:not(.is-active) { opacity: 0.78; }
-.mode-btn:not(.is-active):hover { opacity: 1; transform: translateY(-2px); }
+.mode-btn:not(.is-active):hover { opacity: 1; }
 
-/* Hepsi (warm taupe) */
 .mode-btn-hep {
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
   background: var(--c-warm-taupe);
   color: var(--c-cream);
   border-color: var(--c-warm-taupe);
+  border-radius: var(--r-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-left: var(--space-sm);
-  padding-right: var(--space-sm);
 }
 
-/* Koleksiyon (white) */
+/* Orta: Koleksiyon + Sana özel istifi */
+.mode-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.mode-btn-kol,
+.mode-btn-ozl {
+  flex: 1;
+  border-radius: var(--r-md);
+  padding: 0 14px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .mode-btn-kol {
   background: var(--c-white);
   color: var(--c-sicak-siyah);
   border-color: var(--c-line);
 }
 
-/* Sana özel (bakır) */
 .mode-btn-ozl {
   background: var(--c-bakir);
   color: var(--c-cream);
@@ -350,38 +376,42 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .mode-num {
-  font-size: 9.5px;
-  letter-spacing: 0.3em;
+  font-size: 8.5px;
+  letter-spacing: 0.28em;
   font-weight: 500;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 .mode-btn-kol .mode-num { color: var(--c-bakir); }
-.mode-btn-ozl .mode-num { color: rgba(250, 246, 241, 0.7); }
+.mode-btn-ozl .mode-num { color: rgba(250, 246, 241, 0.75); }
 
 .mode-name {
   font-family: var(--font-serif);
-  font-size: clamp(18px, 2.5vw, 22px);
   font-weight: 400;
   line-height: 1.1;
   font-variation-settings: 'opsz' 144, 'SOFT' 50;
 }
 
-.mode-btn-hep .mode-name { font-size: clamp(15px, 2vw, 17px); }
+.mode-btn-hep .mode-name {
+  font-size: 22px;
+}
+
+.mode-btn-kol .mode-name,
+.mode-btn-ozl .mode-name {
+  font-size: 16px;
+}
 
 [data-mode="ozl"] .mode-btn-ozl.is-active .mode-name {
   font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;
 }
 
-.mode-desc {
-  font-size: 11.5px;
-  margin-top: 6px;
-  line-height: 1.5;
-  color: var(--c-toprak);
-}
-.mode-btn-ozl .mode-desc { color: rgba(250, 246, 241, 0.85); }
-
 /* Aktif buton — alt üçgen indicator */
-.mode-btn.is-active::before {
+.mode-btn.is-active {
+  position: relative;
+}
+
+.mode-btn-hep.is-active::after,
+.mode-btn-kol.is-active::after,
+.mode-btn-ozl.is-active::after {
   content: '';
   position: absolute;
   left: 50%;
@@ -391,102 +421,312 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   height: 14px;
   z-index: 2;
 }
-.mode-btn-hep.is-active::before { background: var(--c-warm-taupe); }
-.mode-btn-kol.is-active::before {
+.mode-btn-hep.is-active::after { background: var(--c-warm-taupe); }
+.mode-btn-kol.is-active::after {
   background: var(--c-white);
   border-right: 0.5px solid var(--c-line);
   border-bottom: 0.5px solid var(--c-line);
 }
-.mode-btn-ozl.is-active::before { background: var(--c-bakir); }
+.mode-btn-ozl.is-active::after { background: var(--c-bakir); }
 
-@media (max-width: 640px) {
-  .mode-buttons {
-    grid-template-columns: 1fr 1.5fr 1.5fr;
-    gap: 8px;
-  }
-  .mode-btn {
-    padding: var(--space-md) 8px;
-  }
-  .mode-btn-hep {
-    padding: var(--space-md) 6px;
-  }
-  .mode-num {
-    font-size: 8.5px;
-    margin-bottom: 2px;
-  }
-  .mode-name {
-    font-size: 14px;
-  }
-  .mode-btn-hep .mode-name {
-    font-size: 13px;
-  }
-  /* Mobilde alt açıklamayı gizle, yer kazan */
-  .mode-desc {
-    display: none;
-  }
+/* Sağ: Filtre alanı */
+.filter-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
 }
 
-/* Sub-category pills */
-.subcat-pills {
+.filter-btn {
+  background: var(--c-bakir);
+  color: var(--c-cream);
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background var(--t-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-btn:hover {
+  background: var(--c-bakir-deep);
+}
+
+.filter-btn[aria-expanded="true"] {
+  background: var(--c-bakir-deep);
+  box-shadow: 0 0 0 3px rgba(176, 125, 92, 0.2);
+}
+
+.filter-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.filter-count {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 1px 7px;
+  border-radius: var(--r-pill);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin-left: 2px;
+}
+
+.filter-chips {
   display: flex;
-  gap: var(--space-sm);
+  gap: 6px;
+  align-items: center;
   flex-wrap: wrap;
 }
 
-.pill {
-  padding: 8px 16px;
-  border: 0.5px solid var(--c-line-strong);
-  border-radius: var(--r-pill);
+.filter-empty {
+  font-size: 12px;
+  color: var(--c-toprak);
+  font-style: italic;
+  font-family: var(--font-serif);
+  font-variation-settings: 'opsz' 14;
+}
+
+.filter-chip {
   background: var(--c-white);
-  font-size: 12.5px;
-  color: var(--c-sicak-siyah);
+  padding: 6px 8px 6px 12px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  border: 0.5px solid var(--c-line-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+}
+
+.filter-chip-remove {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--r-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  color: var(--c-toprak);
+  transition: background var(--t-fast), color var(--t-fast);
   font-family: inherit;
-  transition: all var(--t-base);
-  white-space: nowrap;
 }
 
-.pill:hover {
-  background: var(--c-sicak-siyah);
-  color: var(--c-cream);
-  border-color: var(--c-sicak-siyah);
+.filter-chip-remove:hover {
+  background: var(--c-line-soft);
+  color: var(--c-bakir-deep);
 }
 
-[data-mode="hep"] .pill {
+/* Filtre dropdown paneli */
+.filter-panel {
+  position: absolute;
+  top: calc(var(--space-lg) + 110px + 16px);
+  background: var(--c-white);
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  min-width: 240px;
+  box-shadow: 0 8px 28px rgba(20, 17, 14, 0.1);
+  z-index: 50;
+}
+
+.filter-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.filter-panel-close {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  color: var(--c-toprak);
+  display: none;
+}
+
+.filter-panel-close:hover {
+  background: var(--c-line-soft);
+}
+
+.filter-panel-close svg {
+  width: 12px;
+  height: 12px;
+}
+
+.filter-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--c-sicak-siyah);
+  transition: background var(--t-fast);
+}
+
+.filter-option:hover {
   background: var(--c-cream);
-  border-color: rgba(107, 93, 79, 0.4);
-}
-[data-mode="hep"] .pill:hover {
-  background: var(--c-warm-taupe);
-  color: var(--c-cream);
-  border-color: var(--c-warm-taupe);
 }
 
-[data-mode="ozl"] .pill {
-  background: var(--c-cream);
-  border-color: rgba(176, 125, 92, 0.4);
-}
-[data-mode="ozl"] .pill:hover {
-  background: var(--c-bakir);
-  color: var(--c-cream);
-  border-color: var(--c-bakir);
+.filter-option input[type="checkbox"] {
+  accent-color: var(--c-bakir);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
 }
 
-/* Aktif pill — bağlı moda göre renk alır */
-.pill.is-active {
-  background: var(--c-sicak-siyah);
-  color: var(--c-cream);
-  border-color: var(--c-sicak-siyah);
+.filter-panel-foot {
+  border-top: 0.5px solid var(--c-line);
+  margin-top: 10px;
+  padding-top: 10px;
 }
-[data-mode="hep"] .pill.is-active {
-  background: var(--c-warm-taupe);
-  color: var(--c-cream);
-  border-color: var(--c-warm-taupe);
+
+.filter-clear {
+  background: none;
+  border: none;
+  color: var(--c-bakir);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 4px 8px;
+  letter-spacing: 0.05em;
 }
-[data-mode="ozl"] .pill.is-active {
-  background: var(--c-bakir);
-  color: var(--c-cream);
-  border-color: var(--c-bakir);
+
+.filter-clear:hover {
+  text-decoration: underline;
+}
+
+/* Filtre overlay (mobil için) */
+.filter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 17, 14, 0.4);
+  z-index: 49;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-base);
+}
+
+.filter-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobil — drawer hâline geç */
+@media (max-width: 640px) {
+  .mode-row {
+    height: auto;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Üst satır: Hepsi + Koleksiyon/Sana özel + ayraç gizle */
+  .mode-divider {
+    display: none;
+  }
+
+  .mode-btn-hep {
+    width: 100%;
+    height: 56px;
+    order: 1;
+  }
+
+  .mode-stack {
+    width: 100%;
+    flex-direction: row;
+    height: 56px;
+    order: 2;
+  }
+
+  .mode-btn-hep .mode-name {
+    font-size: 18px;
+  }
+
+  .mode-btn-kol .mode-name,
+  .mode-btn-ozl .mode-name {
+    font-size: 14px;
+  }
+
+  /* Filtre alanı altta */
+  .filter-area {
+    width: 100%;
+    order: 3;
+    padding-top: 4px;
+  }
+
+  /* Mobilde aktif indicator gizli (yer az) */
+  .mode-btn.is-active::after {
+    display: none;
+  }
+
+  /* Mobilde filtre paneli sağdan kayan drawer */
+  .filter-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 85%;
+    max-width: 320px;
+    border-radius: 0;
+    box-shadow: -10px 0 40px rgba(20, 17, 14, 0.15);
+    transform: translateX(100%);
+    transition: transform var(--t-base);
+    padding: var(--space-lg);
+    margin: 0;
+    border: none;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filter-panel:not([hidden]) {
+    display: flex;
+  }
+
+  .filter-panel.is-open {
+    transform: translateX(0);
+  }
+
+  .filter-panel-close {
+    display: flex;
+  }
+
+  .filter-panel-list {
+    max-height: none;
+    flex: 1;
+  }
+
+  .filter-overlay {
+    z-index: 199;
+  }
 }
 
 /* ──────────── 9. Featured products / Product grid ──────────── */
@@ -2211,6 +2451,26 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 /* Kategoriler arası gezinme — yatay kaydırılabilir */
+/* Pill — kategori sayfalarındaki cat-nav için baz stil */
+.pill {
+  padding: 8px 16px;
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: var(--r-pill);
+  background: var(--c-white);
+  font-size: 12.5px;
+  color: var(--c-sicak-siyah);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--t-base);
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background: var(--c-sicak-siyah);
+  color: var(--c-cream);
+  border-color: var(--c-sicak-siyah);
+}
+
 .catalog-cat-nav {
   display: flex;
   gap: 8px;
