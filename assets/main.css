@@ -293,7 +293,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .mode-area {
   background: var(--c-warm-greige);
-  padding: var(--space-lg) 0 var(--space-2xl);
+  padding: var(--space-lg) 0;
   transition: background var(--t-slow);
   position: relative;
 }
