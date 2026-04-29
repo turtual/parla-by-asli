@@ -382,8 +382,30 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .mode-btn-ozl.is-active::before { background: var(--c-bakir); }
 
 @media (max-width: 640px) {
-  .mode-buttons { grid-template-columns: 1fr; }
-  .mode-btn-hep { padding: var(--space-md); }
+  .mode-buttons {
+    grid-template-columns: 1fr 1.5fr 1.5fr;
+    gap: 8px;
+  }
+  .mode-btn {
+    padding: var(--space-md) 8px;
+  }
+  .mode-btn-hep {
+    padding: var(--space-md) 6px;
+  }
+  .mode-num {
+    font-size: 8.5px;
+    margin-bottom: 2px;
+  }
+  .mode-name {
+    font-size: 14px;
+  }
+  .mode-btn-hep .mode-name {
+    font-size: 13px;
+  }
+  /* Mobilde alt açıklamayı gizle, yer kazan */
+  .mode-desc {
+    display: none;
+  }
 }
 
 /* Sub-category pills */
@@ -838,16 +860,25 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   width: 100%;
   padding: 0;
   overflow: hidden;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-modal-body {
   display: grid;
   grid-template-columns: 1fr;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 768px) {
+  .product-modal-card {
+    max-height: 90vh;
+  }
   .product-modal-body {
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    overflow: hidden;
   }
 }
 
@@ -931,13 +962,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  overflow-y: auto;
-  max-height: 90vh;
 }
 
 @media (min-width: 768px) {
   .product-modal-info {
     padding: var(--space-2xl) var(--space-xl);
+    overflow-y: auto;
+    max-height: 90vh;
   }
 }
 
@@ -1399,18 +1430,21 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   padding: 0;
   overflow: hidden;
   max-height: 92vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .studio-modal-body {
   display: grid;
   grid-template-columns: 1fr;
-  max-height: 92vh;
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 900px) {
   .studio-modal-body {
     grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    overflow: hidden;
   }
 }
 
@@ -1422,12 +1456,12 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   flex-direction: column;
   align-items: center;
   gap: var(--space-md);
-  overflow-y: auto;
 }
 
 @media (min-width: 900px) {
   .studio-modal-preview-pane {
     padding: var(--space-xl);
+    overflow-y: auto;
   }
 }
 
@@ -1466,14 +1500,14 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  overflow-y: auto;
-  max-height: 92vh;
 }
 
 @media (min-width: 900px) {
   .studio-modal-controls-pane {
     padding: var(--space-2xl) var(--space-xl) var(--space-xl);
     gap: var(--space-lg);
+    overflow-y: auto;
+    max-height: 92vh;
   }
 }
 
