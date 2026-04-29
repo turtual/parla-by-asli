@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr" data-mode="ozl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FAF6F1">
+  <title>Sipariş Tamamla · Parla By Aslı</title>
+  <meta name="description" content="Siparişini tamamla — Parla By Aslı">
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400..500;1,9..144,400..500&family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap">
+  <link rel="stylesheet" href="../assets/main.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand-link" aria-label="Parla By Aslı anasayfa">
+        <span class="brand-wordmark">PARLA <span>·</span> BY ASLI</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <nav class="breadcrumb container" aria-label="Konum">
+      <ol>
+        <li><a href="../index.html">Anasayfa</a></li>
+        <li class="breadcrumb-sep" aria-hidden="true">›</li>
+        <li aria-current="page">Sipariş tamamla</li>
+      </ol>
+    </nav>
+
+    <section class="checkout-page">
+      <div class="container">
+
+        <header class="checkout-head">
+          <span class="eyebrow">Son adım</span>
+          <h1 class="h-display">Sipariş tamamla</h1>
+          <p>Bilgilerini girip siparişini bize ulaştır. En kısa sürede dönüş yapacağız.</p>
+        </header>
+
+        <div class="checkout-layout">
+
+          <!-- Sol: form -->
+          <form class="checkout-form-pane" id="checkout-form">
+
+            <div class="checkout-section">
+              <h3>İletişim</h3>
+              <div class="form-stack">
+                <div class="form-row-split">
+                  <input type="text" name="ad" class="input" placeholder="Ad" required autocomplete="given-name">
+                  <input type="text" name="soyad" class="input" placeholder="Soyad" required autocomplete="family-name">
+                </div>
+                <input type="tel" name="telefon" class="input" placeholder="Telefon (örn. 0532...)" required autocomplete="tel">
+                <input type="email" name="email" class="input" placeholder="E-posta" required autocomplete="email">
+              </div>
+            </div>
+
+            <div class="checkout-section">
+              <h3>Teslimat adresi</h3>
+              <div class="form-stack">
+                <textarea name="adres" class="input" placeholder="Sokak, mahalle, bina no, daire" required rows="3" style="resize: vertical; min-height: 80px;"></textarea>
+                <input type="text" name="sehir" class="input" placeholder="İlçe / Şehir" required autocomplete="address-level1">
+              </div>
+            </div>
+
+            <div class="checkout-section">
+              <h3>Sipariş notu (opsiyonel)</h3>
+              <div class="form-stack">
+                <textarea name="not" class="input" placeholder="Eklemek istediğin bir şey?" rows="2" style="resize: vertical; min-height: 60px;"></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-bakir btn-block checkout-submit">
+              SİPARİŞİ TAMAMLA
+            </button>
+
+            <p class="checkout-meta">
+              Siparişi tamamladığında bilgilerin bize ulaşır. <strong>Ödeme henüz online değil</strong> — sipariş alındıktan sonra ödeme detayları için seninle iletişime geçeceğiz (havale veya kapıda ödeme).
+            </p>
+
+          </form>
+
+          <!-- Sağ: özet -->
+          <aside class="checkout-summary-pane">
+            <h3>Sipariş özeti</h3>
+
+            <div class="checkout-summary-list" id="checkout-summary-list">
+              <!-- checkout.js dolduracak -->
+            </div>
+
+            <div class="checkout-summary-totals">
+              <div class="checkout-summary-row">
+                <span>Ara toplam</span>
+                <span id="summary-subtotal">—</span>
+              </div>
+              <div class="checkout-summary-row">
+                <span>Kargo</span>
+                <span id="summary-shipping">—</span>
+              </div>
+              <div class="checkout-summary-row is-total">
+                <span>Toplam</span>
+                <span id="summary-total">—</span>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 Parla By Aslı · Tüm hakları saklıdır</span>
+        <span>Türkiye'de tasarlandı</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Formspree endpoint — gerçek hesap açıldığında set edilecek -->
+  <script>
+    // window.PB_FORMSPREE_URL = 'https://formspree.io/f/YOUR_ID_HERE';
+  </script>
+
+  <script src="../assets/products.js"></script>
+  <script src="../assets/ui.js"></script>
+  <script src="../assets/checkout.js"></script>
+
+</body>
+</html>

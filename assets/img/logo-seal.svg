@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Parla By Aslı">
+  <defs>
+    <path id="seal-arc-top" d="M 30,80 A 50,50 0 0,1 130,80" fill="none"/>
+  </defs>
+  <circle cx="80" cy="80" r="74" fill="none" stroke="currentColor" stroke-width="0.8"/>
+  <text font-family="'Fraunces', 'Playfair Display', Georgia, serif" font-size="9" letter-spacing="0.5em" font-weight="500" fill="currentColor">
+    <textPath href="#seal-arc-top" startOffset="50%" text-anchor="middle">PARLA BY ASLI</textPath>
+  </text>
+  <text x="78" y="98" text-anchor="end" font-family="'Fraunces', 'Playfair Display', Georgia, serif" font-size="46" font-weight="400" fill="currentColor">P</text>
+  <text x="82" y="98" text-anchor="start" font-family="'Fraunces', 'Playfair Display', Georgia, serif" font-size="46" font-weight="400" fill="currentColor">A</text>
+  <path d="M 80,124 L 81,119 L 86,118 L 81,117 L 80,112 L 79,117 L 74,118 L 79,119 Z" fill="currentColor"/>
+  <circle cx="22" cy="80" r="1" fill="currentColor"/>
+  <circle cx="138" cy="80" r="1" fill="currentColor"/>
+</svg>

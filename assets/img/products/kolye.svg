@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="Kolye">
+  <path d="M 14 18 Q 40 38 66 18" stroke="currentColor" stroke-width="0.7" fill="none"/>
+  <line x1="40" y1="28" x2="40" y2="46" stroke="currentColor" stroke-width="0.4"/>
+  <circle cx="40" cy="48" r="3" fill="none" stroke="currentColor" stroke-width="0.5"/>
+  <path d="M 40 60 C 33 56 28 50 30 44 C 32 40 36 42 40 46 C 44 42 48 40 50 44 C 52 50 47 56 40 60 Z" fill="none" stroke="currentColor" stroke-width="0.7"/>
+</svg>

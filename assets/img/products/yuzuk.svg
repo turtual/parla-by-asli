@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="Yüzük">
+  <circle cx="40" cy="44" r="20" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <circle cx="40" cy="44" r="14" fill="none" stroke="currentColor" stroke-width="0.4" opacity="0.6"/>
+  <path d="M 36 22 L 40 14 L 44 22 Z" fill="none" stroke="currentColor" stroke-width="0.6"/>
+</svg>

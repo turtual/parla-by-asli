@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="Küpe">
+  <circle cx="32" cy="22" r="2.5" fill="none" stroke="currentColor" stroke-width="0.6"/>
+  <line x1="32" y1="25" x2="32" y2="36" stroke="currentColor" stroke-width="0.4"/>
+  <path d="M 32 38 Q 20 50 32 60 Q 44 50 32 38 Z" fill="none" stroke="currentColor" stroke-width="0.7"/>
+  <circle cx="48" cy="22" r="2.5" fill="none" stroke="currentColor" stroke-width="0.6"/>
+  <line x1="48" y1="25" x2="48" y2="36" stroke="currentColor" stroke-width="0.4"/>
+  <path d="M 48 38 Q 36 50 48 60 Q 60 50 48 38 Z" fill="none" stroke="currentColor" stroke-width="0.7"/>
+</svg>

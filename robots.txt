@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /odeme/
+Disallow: /tesekkurler/
+
+Sitemap: https://parlabyasli.com/sitemap.xml

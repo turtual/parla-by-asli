@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr" data-mode="ozl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FAF6F1">
+  <title>Teşekkürler · Parla By Aslı</title>
+  <meta name="description" content="Siparişin alındı.">
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400..500;1,9..144,400..500&family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap">
+  <link rel="stylesheet" href="../assets/main.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand-link" aria-label="Parla By Aslı anasayfa">
+        <span class="brand-wordmark">PARLA <span>·</span> BY ASLI</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="thanks-page">
+      <div class="container">
+        <div class="thanks-card">
+          <svg class="thanks-icon" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="36" cy="36" r="32"/>
+            <path d="M22 36l10 10 18-18"/>
+          </svg>
+
+          <span class="eyebrow">Sipariş alındı</span>
+          <h1 class="h-display">Teşekkürler</h1>
+
+          <p>
+            Siparişin bize ulaştı. Detayları gözden geçireceğiz ve <strong>en geç 1 iş günü içinde</strong> seninle iletişime geçip ödeme bilgilerini paylaşacağız.
+          </p>
+
+          <p>
+            Sipariş takibi için bu numaranı bir yere not et:
+          </p>
+
+          <div class="thanks-order-id" id="order-id-display">PB-XXXXXX</div>
+
+          <p style="font-size: 12px; padding: 0 var(--space-md);">
+            Bu numarayı kayıtlı e-posta adresinde de bulacaksın. <br>
+            Aklına gelen bir soru olursa <a href="#" style="color: var(--c-bakir); border-bottom: 0.5px solid currentColor;">iletişim</a> üzerinden ulaşabilirsin.
+          </p>
+
+          <a href="../index.html" class="btn btn-primary">ANASAYFAYA DÖN</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 Parla By Aslı · Tüm hakları saklıdır</span>
+        <span>Türkiye'de tasarlandı</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // sessionStorage'dan sipariş ID'sini oku ve göster
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const lastOrder = JSON.parse(sessionStorage.getItem('pb_last_order') || '{}');
+        if (lastOrder.id) {
+          document.getElementById('order-id-display').textContent = lastOrder.id;
+        }
+      } catch (e) {}
+    });
+  </script>
+
+</body>
+</html>
