@@ -316,6 +316,159 @@ const PB_Studio = (function () {
         `;
         wrap.append(stage, caption);
       }
+    },
+
+    /**
+     * 'keychain' tipi: İsim anahtarlığı
+     * - Metin alanı (isim)
+     * - Font seçimi (kalın yuvarlak çocuksu fontlar)
+     * - Plak rengi seçimi (çift renkli baskı için 1. renk)
+     * - Yazı rengi seçimi (çift renkli baskı için 2. renk)
+     */
+    'keychain': {
+      initState(p) {
+        const c = p.customization;
+        return {
+          text: '',
+          fontId: c.fonts[0].id,
+          sizePercent: 80, // varsayılan %80, slider ile 60-100 arası
+          plateColorId: c.plateColors[0].id,
+          textColorId: c.textColors[0].id
+        };
+      },
+
+      renderControls(wrap, p, state, onChange) {
+        const c = p.customization;
+        wrap.innerHTML = '';
+
+        // 1. İsim
+        const textGroup = controlGroup(c.textLabel || 'İsim');
+        const textInput = PB_h('input', {
+          type: 'text',
+          class: 'input',
+          placeholder: c.textPlaceholder || 'Örn. Sam',
+          maxlength: c.maxLength || 12,
+          value: state.text,
+          oninput: e => {
+            state.text = e.target.value;
+            onChange();
+            counterEl.textContent = `${state.text.length} / ${c.maxLength || 12}`;
+          }
+        });
+        const counterEl = PB_h('div', { class: 'studio-counter' }, `0 / ${c.maxLength || 12}`);
+        textGroup.append(textInput, counterEl);
+        wrap.append(textGroup);
+
+        // 2. Font
+        const fontGroup = controlGroup('Yazı tipi');
+        const fontGrid = PB_h('div', { class: 'studio-font-grid' });
+        c.fonts.forEach(f => {
+          const btn = PB_h('button', {
+            type: 'button',
+            class: 'studio-font-option' + (state.fontId === f.id ? ' is-active' : ''),
+            onclick: () => {
+              state.fontId = f.id;
+              fontGrid.querySelectorAll('.studio-font-option').forEach(b => b.classList.remove('is-active'));
+              btn.classList.add('is-active');
+              onChange();
+            }
+          });
+          btn.innerHTML = `
+            <span class="studio-font-preview" style="font-family:${f.cssFont}; font-weight:${f.weight || 400};">Aa</span>
+            <span class="studio-font-name">${f.name}</span>
+          `;
+          fontGrid.append(btn);
+        });
+        fontGroup.append(fontGrid);
+        wrap.append(fontGroup);
+
+        // 3. Yazı boyutu slider'ı
+        const sizeGroup = controlGroup('Yazı boyutu');
+        const sizeRow = PB_h('div', { class: 'studio-slider-row' });
+        const sizeSlider = PB_h('input', {
+          type: 'range',
+          class: 'studio-slider',
+          min: '60',
+          max: '100',
+          step: '5',
+          value: state.sizePercent,
+          oninput: e => {
+            state.sizePercent = parseInt(e.target.value);
+            sizeValue.textContent = `%${state.sizePercent}`;
+            onChange();
+          }
+        });
+        const sizeValue = PB_h('span', { class: 'studio-slider-value' }, `%${state.sizePercent}`);
+        sizeRow.append(sizeSlider, sizeValue);
+        sizeGroup.append(sizeRow);
+        wrap.append(sizeGroup);
+
+        // 4. Plak rengi
+        wrap.append(buildColorPicker('Plak rengi', c.plateColors, state, 'plateColorId', onChange));
+
+        // 5. Yazı rengi
+        wrap.append(buildColorPicker('Yazı rengi', c.textColors, state, 'textColorId', onChange));
+      },
+
+      renderPreview(wrap, p, state) {
+        const c = p.customization;
+        const font = c.fonts.find(f => f.id === state.fontId);
+        const plateColor = c.plateColors.find(m => m.id === state.plateColorId);
+        const textColor = c.textColors.find(m => m.id === state.textColorId);
+
+        wrap.innerHTML = '';
+        const stage = PB_h('div', { class: 'studio-stage', 'data-studio-stage': '' });
+        const text = state.text.trim() || c.textPlaceholder || 'İsim';
+        const isPlaceholder = !state.text.trim();
+
+        // Plak yatay dikdörtgen + sol delik (anahtarlık halkası)
+        // Yazı: ortada büyük, kalın
+        stage.innerHTML = `
+          <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" class="studio-preview-svg" preserveAspectRatio="xMidYMid meet">
+            <!-- Plak gölgesi -->
+            <rect x="42" y="62" width="240" height="86" rx="20" fill="rgba(20,17,14,0.08)"/>
+            <!-- Plak -->
+            <path d="M 60 60
+                     L 280 60
+                     Q 300 60 300 80
+                     L 300 120
+                     Q 300 140 280 140
+                     L 60 140
+                     Q 50 140 45 132
+                     L 30 130
+                     Q 20 125 20 115
+                     Q 20 105 25 100
+                     Q 20 95 20 85
+                     Q 20 75 30 70
+                     L 45 68
+                     Q 50 60 60 60 Z"
+                  fill="${plateColor.color}"
+                  stroke="rgba(20,17,14,0.18)"
+                  stroke-width="0.5"/>
+            <!-- Halka deliği -->
+            <circle cx="32" cy="100" r="5" fill="${plateColor.color === '#FFFFFF' || plateColor.color === '#F4E5C9' ? 'rgba(20,17,14,0.15)' : 'rgba(255,255,255,0.3)'}"/>
+            <!-- İsim yazısı -->
+            <text x="170" y="105"
+                  text-anchor="middle"
+                  font-family="${font.cssFont}"
+                  font-weight="${font.weight || 400}"
+                  font-size="${getKeychainFontSize(text, state.sizePercent)}"
+                  fill="${isPlaceholder ? 'rgba(20,17,14,0.25)' : textColor.color}"
+                  dominant-baseline="middle">${escapeXml(text)}</text>
+          </svg>
+        `;
+
+        const caption = PB_h('div', { class: 'studio-preview-caption' });
+        caption.innerHTML = `
+          <span class="studio-material-swatch" style="background:${plateColor.color}"></span>
+          <span>${plateColor.name}</span>
+          <span style="margin: 0 6px; opacity: 0.4;">+</span>
+          <span class="studio-material-swatch" style="background:${textColor.color}"></span>
+          <span>${textColor.name}</span>
+        `;
+
+        wrap.append(stage, caption);
+      }
     }
   };
 
@@ -361,6 +514,56 @@ const PB_Studio = (function () {
     return group;
   }
 
+  /**
+   * Genel renk seçici (keychain için iki ayrı renk paneli)
+   * State içindeki herhangi bir property'i (örn. plateColorId, textColorId) güncelleyebilir.
+   */
+  function buildColorPicker(label, colors, state, stateKey, onChange) {
+    const group = controlGroup(label);
+    const swatchGrid = PB_h('div', { class: 'studio-swatch-grid' });
+
+    colors.forEach(c => {
+      const btn = PB_h('button', {
+        type: 'button',
+        class: 'studio-swatch' + (state[stateKey] === c.id ? ' is-active' : ''),
+        title: c.name,
+        onclick: () => {
+          state[stateKey] = c.id;
+          swatchGrid.querySelectorAll('.studio-swatch').forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          updateLbl();
+          onChange();
+        }
+      });
+      btn.innerHTML = `<span class="studio-swatch-color" style="background:${c.color}"></span>`;
+      swatchGrid.append(btn);
+    });
+
+    const lbl = PB_h('div', { class: 'studio-swatch-label' });
+    function updateLbl() {
+      const c = colors.find(x => x.id === state[stateKey]);
+      lbl.textContent = c ? c.name : '';
+    }
+    updateLbl();
+
+    group.append(swatchGrid, lbl);
+    return group;
+  }
+
+  function getKeychainFontSize(text, sizePercent) {
+    const len = text.length;
+    let baseSize;
+    if (len <= 3) baseSize = 56;
+    else if (len <= 5) baseSize = 46;
+    else if (len <= 7) baseSize = 38;
+    else if (len <= 9) baseSize = 30;
+    else if (len <= 11) baseSize = 26;
+    else baseSize = 22;
+    // sizePercent (60-100): kullanıcının ince ayarı
+    const factor = (sizePercent || 80) / 80; // 80 baz değer, %80'de 1x
+    return Math.round(baseSize * factor);
+  }
+
   function validateState(p, state) {
     const type = p.customization.type;
     if (type === 'name-text') {
@@ -369,11 +572,18 @@ const PB_Studio = (function () {
     if (type === 'color-only') {
       return !!state.materialId;
     }
+    if (type === 'keychain') {
+      return state.text.trim().length > 0 && state.fontId && state.plateColorId && state.textColorId;
+    }
     return true;
   }
 
   function getFinalPrice(p, state) {
-    const mat = p.customization.materials.find(m => m.id === state.materialId);
+    if (p.customization.type === 'keychain') {
+      // Keychain'de renk modifier'ı yok, sadece base price
+      return p.price;
+    }
+    const mat = p.customization.materials?.find(m => m.id === state.materialId);
     return p.price + (mat?.priceModifier || 0);
   }
 
