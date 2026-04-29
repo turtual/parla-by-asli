@@ -186,10 +186,24 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   align-items: center;
   gap: var(--space-sm);
   text-decoration: none;
-  color: var(--c-sicak-siyah);
+  color: var(--c-bakir);
 }
 
 .brand-link svg { width: 32px; height: 32px; color: var(--c-sicak-siyah); }
+
+/* Yeni yatay logo header'da */
+.brand-logo {
+  height: 28px;
+  width: auto;
+  color: var(--c-bakir);
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .brand-logo {
+    height: 32px;
+  }
+}
 
 .brand-wordmark {
   font-family: var(--font-serif);
@@ -252,7 +266,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   width: 130px;
   height: 130px;
   margin: 0 auto var(--space-sm);
-  color: var(--c-sicak-siyah);
+  color: var(--c-bakir);
 }
 
 @media (min-width: 768px) {
@@ -776,6 +790,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .modal-logo svg { width: 60px; height: 60px; color: var(--c-bakir); }
+.modal-logo img { width: 60px; height: 60px; color: var(--c-bakir); }
 
 /* Tabs */
 .tabs {
