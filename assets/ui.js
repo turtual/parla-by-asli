@@ -148,9 +148,16 @@ function PB_h(tag, attrs = {}, ...children) {
 
 /* ──────────── Path helper ──────────── */
 
-// Ürün görselleri ve diğer asset'ler için doğru relative path döner.
-// Kategori veya sana-ozel sayfalarında ../../ prefix gerek; root sayfalarda yok.
+// Ürün görselleri ve diğer asset'ler için doğru URL döner.
+// - http(s):// ile başlıyorsa (Supabase Storage gibi) → olduğu gibi döner
+// - Lokal yol ise (assets/img/...) → sayfaya göre prefix ekler
 function PB_imgPath(relPath) {
+  if (!relPath) return '';
+  // Tam URL ise direkt döndür (Supabase Storage)
+  if (/^https?:\/\//i.test(relPath) || relPath.startsWith('data:')) {
+    return relPath;
+  }
+  // Lokal yol — sayfa derinliğine göre prefix
   const path = window.location.pathname;
   const isInSubpage = path.includes('/katalog/') || path.includes('/sana-ozel/');
   return isInSubpage ? '../../' + relPath : relPath;
@@ -207,8 +214,8 @@ function renderProductCard(p, animDelay = 0) {
 
 /* ──────────── Ürün detay modal (Koleksiyon) ──────────── */
 
-function PB_openProductModal(slug) {
-  const product = (typeof getProductBySlug === 'function') ? getProductBySlug(slug) : null;
+async function PB_openProductModal(slug) {
+  const product = (typeof getProductBySlug === 'function') ? await getProductBySlug(slug) : null;
   if (!product) return;
 
   // Eğer modal HTML'i yoksa (her sayfada otomatik olmaması durumunda) inject et
