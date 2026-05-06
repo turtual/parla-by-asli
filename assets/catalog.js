@@ -48,10 +48,13 @@
 
   /* ──────────── Render ──────────── */
 
-  function rerender() {
+  async function rerender() {
     if (!grid || typeof getProducts !== 'function') return;
 
-    const items = getProducts({ mode: currentMode, category });
+    // Yükleniyor göstergesi
+    grid.innerHTML = '<div class="catalog-loading" style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
+
+    const items = await getProducts({ mode: currentMode, category });
 
     // Ürün sayısı
     if (countEl) {

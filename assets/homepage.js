@@ -197,20 +197,25 @@
 
   /* ──────────── Render ──────────── */
 
-  function rerender() {
+  async function rerender() {
     const grid = document.getElementById('featured-grid');
     const titleEl = document.getElementById('featured-title');
     const actionEl = document.getElementById('featured-action');
     if (!grid || typeof getProducts !== 'function') return;
 
+    // Yükleniyor göstergesi (cache miss durumunda görünür)
+    if (!grid.children.length) {
+      grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
+    }
+
     // Mod filtresi tüm ürünleri belirler
-    const items = getProducts({ mode: currentMode })
-      .filter(p => {
-        // Eğer hiç kategori seçilmemişse → hepsini göster
-        if (activeCategories.size === 0) return true;
-        // Aksi takdirde sadece seçili kategorilerdekileri göster
-        return activeCategories.has(p.category);
-      });
+    const allItems = await getProducts({ mode: currentMode });
+    const items = allItems.filter(p => {
+      // Eğer hiç kategori seçilmemişse → hepsini göster
+      if (activeCategories.size === 0) return true;
+      // Aksi takdirde sadece seçili kategorilerdekileri göster
+      return activeCategories.has(p.category);
+    });
 
     // Başlık dinamik
     let title;
