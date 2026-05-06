@@ -146,34 +146,6 @@ function PB_h(tag, attrs = {}, ...children) {
   return el;
 }
 
-/* ──────────── Login modal (her sayfada paylaşılan) ──────────── */
-
-function PB_initLoginModal() {
-  const loginModal = document.getElementById('login-modal');
-  if (!loginModal) return;
-
-  const tabs = loginModal.querySelectorAll('.tab');
-  const panels = loginModal.querySelectorAll('[data-panel]');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.toggle('is-active', t === tab));
-      panels.forEach(p => {
-        const show = p.dataset.panel === tab.dataset.tab;
-        if (show) p.removeAttribute('hidden');
-        else p.setAttribute('hidden', '');
-      });
-    });
-  });
-
-  loginModal.querySelectorAll('form').forEach(f => {
-    f.addEventListener('submit', e => {
-      e.preventDefault();
-      alert('Hesap sistemi Faz 1.5\'te aktifleşecek.\nFormun girdileri konsola yazıldı.');
-      console.log('Form data:', Object.fromEntries(new FormData(f).entries()));
-    });
-  });
-}
-
 /* ──────────── Path helper ──────────── */
 
 // Ürün görselleri ve diğer asset'ler için doğru relative path döner.
@@ -559,7 +531,6 @@ const PB_CartDrawer = {
 document.addEventListener('DOMContentLoaded', () => {
   PB_Modal.bind();
   PB_Cart.refreshBadge();
-  PB_initLoginModal();
   PB_CartDrawer.bindHeaderTrigger();
 
   // Sepet'e ekleyince drawer'ı yenile (zaten açıksa güncellensin)

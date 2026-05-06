@@ -1,32 +1,12 @@
 <!DOCTYPE html>
-<html lang="tr" data-mode="hep">
+<html lang="tr" data-mode="ozl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#FAF6F1">
 
-  <title>Ev objeleri · Parla By Aslı</title>
-  <meta name="description" content="Parla By Aslı ev objeleri koleksiyonu. El emeği takı, 3D üretim, sana özel tasarım seçenekleri.">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Ev objeleri · Parla By Aslı">
-  <meta property="og:description" content="Parla By Aslı ev objeleri koleksiyonu — el emeği ve 3D üretim.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://parlabyasli.com/katalog/obje/">
-  <meta property="og:locale" content="tr_TR">
-
-  <!-- Schema.org BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Anasayfa", "item": "https://parlabyasli.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Katalog", "item": "https://parlabyasli.com/katalog/"},
-      {"@type": "ListItem", "position": 3, "name": "Ev objeleri"}
-    ]
-  }
-  </script>
+  <title>İsimli anahtarlık · Tasarla · Parla By Aslı</title>
+  <meta name="description" content="İsimli anahtarlık · Sana özel kişiselleştirme — Parla By Aslı">
 
   <link rel="icon" type="image/svg+xml" href="../../assets/img/logo-pa-bakir.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,18 +16,15 @@
 </head>
 <body>
 
-  <!-- ────────── Üst utility çubuğu ────────── -->
   <div class="utility-bar">
     Türkiye'ye ücretsiz kargo · 500 ₺ üzeri siparişlerde
   </div>
 
-  <!-- ────────── Header ────────── -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="../../index.html" class="brand-link" aria-label="Parla By Aslı anasayfa">
         <img src="../../assets/img/logo-yatay-bakir.svg" alt="Parla By Aslı" class="brand-logo">
       </a>
-
       <nav class="header-icons" aria-label="Ana navigasyon">
         <button class="header-icon-btn" aria-label="Favorilerim" type="button">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
@@ -67,47 +44,51 @@
 
   <main>
 
-    <!-- ────────── Breadcrumb ────────── -->
     <nav class="breadcrumb container" aria-label="Konum">
       <ol>
         <li><a href="../../index.html">Anasayfa</a></li>
         <li class="breadcrumb-sep" aria-hidden="true">›</li>
-        <li aria-current="page">Ev objeleri</li>
+        <li><a href="../katalog/kolye/index.html">Sana özel</a></li>
+        <li class="breadcrumb-sep" aria-hidden="true">›</li>
+        <li aria-current="page">İsimli anahtarlık</li>
       </ol>
     </nav>
 
-    <!-- ────────── Kategori sayfası ────────── -->
-    <section class="catalog-page">
+    <section class="studio">
       <div class="container">
 
-        <header class="catalog-head">
-          <span class="eyebrow">Kategori</span>
-          <h1 class="h-display">Ev objeleri</h1>
-          <p class="catalog-count" id="catalog-count">— ürün</p>
+        <header class="studio-head">
+          <span class="eyebrow">Sana özel · Tasarla</span>
+          <h1 class="h-display" data-studio-product-name>İsimli anahtarlık</h1>
+          <p class="studio-desc" data-studio-product-desc></p>
         </header>
 
-        <!-- Kategoriler arası gezinme -->
-        <nav class="catalog-cat-nav" aria-label="Kategoriler">
-          <a href="../kolye/index.html" class="pill" data-cat="kolye">Kolye</a>
-          <a href="../kupe/index.html" class="pill" data-cat="kupe">Küpe</a>
-          <a href="../bileklik/index.html" class="pill" data-cat="bileklik">Bileklik</a>
-          <a href="../yuzuk/index.html" class="pill" data-cat="yuzuk">Yüzük</a>
-          <a href="../charm/index.html" class="pill" data-cat="charm">Charm</a>
-          <a href="../bros/index.html" class="pill" data-cat="bros">Broş</a>
-          <a href="../anahtarlik/index.html" class="pill" data-cat="anahtarlik">Anahtarlık</a>
-          <a href="../obje/index.html" class="pill" data-cat="obje">Ev objeleri</a>
-        </nav>
+        <div class="studio-layout">
 
-        <!-- Mod filtre -->
-        <div class="catalog-mode-filter" role="tablist" aria-label="Mod filtresi">
-          <button class="pill is-active" data-mode="hep" role="tab" aria-selected="true">Tümü</button>
-          <button class="pill" data-mode="kol" role="tab" aria-selected="false">Koleksiyon</button>
-          <button class="pill" data-mode="ozl" role="tab" aria-selected="false">Sana özel</button>
-        </div>
+          <!-- Sol: önizleme -->
+          <div class="studio-preview-pane">
+            <div id="studio-preview" class="studio-preview"></div>
+            <p class="studio-preview-note">
+              Önizleme · Gerçek ürün boyutları ve doku biraz farklı görünür
+            </p>
+          </div>
 
-        <!-- Ürün gridi -->
-        <div class="product-grid" id="catalog-grid">
-          <!-- catalog.js render eder -->
+          <!-- Sağ: kontroller + sepete ekle -->
+          <aside class="studio-controls-pane">
+            <div id="studio-controls"></div>
+
+            <div class="studio-summary">
+              <div class="studio-price-row">
+                <span class="eyebrow">Toplam</span>
+                <span class="studio-price" id="studio-price">—</span>
+              </div>
+              <button type="button" class="btn btn-bakir btn-block" id="studio-add">
+                SEPETE EKLE
+              </button>
+              <p class="studio-meta">El emeği üretim · 7-10 iş günü teslim · Türkiye'ye ücretsiz kargo</p>
+            </div>
+          </aside>
+
         </div>
 
       </div>
@@ -115,10 +96,8 @@
 
   </main>
 
-  <!-- ────────── Footer ────────── -->
   <footer class="site-footer">
     <div class="container">
-
       <div class="footer-grid">
         <div>
           <img src="../../assets/img/logo-seal-bakir.svg" alt="" class="footer-brand-seal" aria-hidden="true">
@@ -126,17 +105,15 @@
             El emeği takı, 3D üretim, kişiye özel tasarım. Türkiye'de tasarlandı, Türkiye'de üretildi.
           </p>
         </div>
-
         <div class="footer-col">
           <h4>Kategoriler</h4>
           <ul>
-            <li><a href="../kolye/index.html">Kolye</a></li>
-            <li><a href="../kupe/index.html">Küpe</a></li>
-            <li><a href="../bileklik/index.html">Bileklik</a></li>
-            <li><a href="../yuzuk/index.html">Yüzük</a></li>
+            <li><a href="../katalog/kolye/index.html">Kolye</a></li>
+            <li><a href="../katalog/kupe/index.html">Küpe</a></li>
+            <li><a href="../katalog/bileklik/index.html">Bileklik</a></li>
+            <li><a href="../katalog/yuzuk/index.html">Yüzük</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>Marka</h4>
           <ul>
@@ -145,7 +122,6 @@
             <li><a href="#">İletişim</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>Yardım</h4>
           <ul>
@@ -154,7 +130,6 @@
             <li><a href="#">SSS</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>Yasal</h4>
           <ul>
@@ -164,31 +139,17 @@
           </ul>
         </div>
       </div>
-
       <div class="footer-bottom">
         <span>© 2026 Parla By Aslı · Tüm hakları saklıdır</span>
         <span>Türkiye'de tasarlandı</span>
       </div>
-
     </div>
   </footer>
 
-  <!-- ────────── Scripts ────────── -->
-  <script>window.PB_CATEGORY = 'obje';</script>
+  <script>window.PB_STUDIO_SLUG = 'isimli-anahtarlik';</script>
   <script src="../../assets/products.js"></script>
   <script src="../../assets/ui.js"></script>
   <script src="../../assets/studio.js"></script>
-  <script src="../../assets/catalog.js"></script>
-
-  <!-- Aktif kategori pill'i işaretle -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cat = window.PB_CATEGORY;
-      document.querySelectorAll('.catalog-cat-nav [data-cat]').forEach(link => {
-        if (link.dataset.cat === cat) link.setAttribute('aria-current', 'page');
-      });
-    });
-  </script>
 
 </body>
 </html>

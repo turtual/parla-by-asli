@@ -31,7 +31,7 @@
   <link rel="icon" type="image/svg+xml" href="../../assets/img/logo-pa-bakir.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400..500;1,9..144,400..500&family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400..500;1,9..144,400..500&family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Fredoka:wght@600;700&family=Baloo+2:wght@800&family=Sniglet:wght@800&family=Mali:wght@700&family=Caveat+Brush&family=Pacifico&display=swap">
   <link rel="stylesheet" href="../../assets/main.css">
 </head>
 <body>
@@ -54,14 +54,6 @@
             <path d="M10 17s-6-3.5-6-8.5A3.5 3.5 0 0 1 10 6a3.5 3.5 0 0 1 6 2.5C16 13.5 10 17 10 17z"/>
           </svg>
         </button>
-
-        <button class="header-icon-btn" aria-label="Hesabım" type="button" data-modal-open="login-modal">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
-            <circle cx="10" cy="7" r="3.2"/>
-            <path d="M3.5 17c1.2-3.2 3.7-5 6.5-5s5.3 1.8 6.5 5"/>
-          </svg>
-        </button>
-
         <a href="#" class="header-icon-btn" aria-label="Sepetim">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
             <path d="M4 6h12l-1 9.5a1.5 1.5 0 0 1-1.5 1.4h-7A1.5 1.5 0 0 1 5 15.5L4 6z"/>
@@ -180,51 +172,6 @@
 
     </div>
   </footer>
-
-  <!-- ────────── Login modal (anasayfayla aynı) ────────── -->
-  <div class="modal" id="login-modal" hidden role="dialog" aria-labelledby="login-title" aria-modal="true">
-    <div class="modal-card">
-
-      <button class="modal-close" data-modal-close aria-label="Kapat">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 2 L12 12 M12 2 L2 12"/>
-        </svg>
-      </button>
-
-      <div class="modal-logo">
-        <img src="../../assets/img/logo-pa-bakir.svg" alt="Parla By Aslı" width="60" height="60">
-      </div>
-
-      <h2 id="login-title" class="h2" style="text-align:center; margin-bottom: var(--space-md);">Hesabın</h2>
-
-      <div class="tabs">
-        <button class="tab is-active" data-tab="login">Giriş yap</button>
-        <button class="tab" data-tab="signup">Üye ol</button>
-      </div>
-
-      <form data-panel="login" class="form-stack">
-        <input type="email" class="input" placeholder="E-posta" required autocomplete="email">
-        <input type="password" class="input" placeholder="Şifre" required autocomplete="current-password">
-        <button type="submit" class="btn btn-primary btn-block">GİRİŞ YAP</button>
-        <p class="modal-helper"><a href="#">Şifremi unuttum</a></p>
-      </form>
-
-      <form data-panel="signup" class="form-stack" hidden>
-        <div class="form-row-split">
-          <input type="text" class="input" placeholder="Ad" required autocomplete="given-name">
-          <input type="text" class="input" placeholder="Soyad" required autocomplete="family-name">
-        </div>
-        <input type="tel" class="input" placeholder="Telefon" required autocomplete="tel">
-        <input type="email" class="input" placeholder="E-posta" required autocomplete="email">
-        <input type="password" class="input" placeholder="Şifre belirle" required autocomplete="new-password" minlength="6">
-        <button type="submit" class="btn btn-bakir btn-block">ÜYE OL</button>
-        <p class="modal-helper">
-          Üye olarak <a href="#">kullanım koşulları</a> ve <a href="#">gizlilik politikasını</a> kabul etmiş olursun.
-        </p>
-      </form>
-
-    </div>
-  </div>
 
   <!-- ────────── Scripts ────────── -->
   <script>window.PB_CATEGORY = 'kolye';</script>

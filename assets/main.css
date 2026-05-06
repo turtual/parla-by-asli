@@ -1027,41 +1027,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .modal-close:hover { background: rgba(20, 17, 14, 0.12); }
 .modal-close svg { width: 14px; height: 14px; }
 
-.modal-logo {
-  display: flex;
-  justify-content: center;
-  margin-bottom: var(--space-md);
-}
-
-.modal-logo svg { width: 60px; height: 60px; color: var(--c-bakir); }
-.modal-logo img { width: 60px; height: 60px; color: var(--c-bakir); }
-
-/* Tabs */
-.tabs {
-  display: flex;
-  border-bottom: 0.5px solid var(--c-line);
-  margin-bottom: var(--space-lg);
-}
-
-.tab {
-  flex: 1;
-  padding: 12px 8px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--c-toprak);
-  cursor: pointer;
-  font-family: inherit;
-  transition: color var(--t-fast), border-color var(--t-fast);
-}
-
-.tab.is-active {
-  color: var(--c-sicak-siyah);
-  border-bottom-color: var(--c-bakir);
-}
-
 /* Form */
 .form-stack { display: flex; flex-direction: column; gap: 12px; }
 .form-row-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -1131,16 +1096,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .btn-ghost:hover { background: var(--c-cream); }
 
 .btn-block { width: 100%; }
-
-.modal-helper {
-  font-size: 11.5px;
-  color: var(--c-toprak);
-  text-align: center;
-  line-height: 1.55;
-  margin-top: var(--space-md);
-}
-
-.modal-helper a { color: var(--c-bakir); border-bottom: 0.5px solid currentColor; }
 
 /* ──────────── Ürün detay modal (Koleksiyon) ──────────── */
 
