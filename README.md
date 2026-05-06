@@ -50,7 +50,9 @@ parla-by-asli/
     ├── studio.js              # Sana özel stüdyo (modal + standalone)
     ├── checkout.js            # Checkout formu + Formspree submit
     └── img/
-        ├── logo-seal.svg      # Daire mühür logo
+        ├── logo-seal-bakir.svg    # Daire mühür (hero, footer)
+        ├── logo-yatay-bakir.svg   # Yatay logo (header)
+        ├── logo-pa-bakir.svg      # PA monogram (favicon, modal)
         └── products/          # Ürün görselleri (placeholder)
             ├── kolye.svg
             ├── kupe.svg
