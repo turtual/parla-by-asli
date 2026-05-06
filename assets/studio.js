@@ -19,8 +19,8 @@ const PB_Studio = (function () {
 
   /* ──────────── Public API ──────────── */
 
-  function openModal(slug) {
-    const product = (typeof getProductBySlug === 'function') ? getProductBySlug(slug) : null;
+  async function openModal(slug) {
+    const product = (typeof getProductBySlug === 'function') ? await getProductBySlug(slug) : null;
     if (!product) {
       alert('Ürün bulunamadı.');
       return;
@@ -79,8 +79,8 @@ const PB_Studio = (function () {
     PB_Modal.open('studio-modal');
   }
 
-  function renderStandalone(slug) {
-    const product = (typeof getProductBySlug === 'function') ? getProductBySlug(slug) : null;
+  async function renderStandalone(slug) {
+    const product = (typeof getProductBySlug === 'function') ? await getProductBySlug(slug) : null;
     if (!product || !product.customizable || !product.customization) {
       showStandaloneNotFound();
       return;
