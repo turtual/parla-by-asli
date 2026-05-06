@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FAF6F1">
+  <title>Yönetim Paneli · Parla By Aslı</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-pa-bakir.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400..500&display=swap">
+
+  <style>
+    :root {
+      --c-cream: #FAF6F1;
+      --c-bej: #F0E8DA;
+      --c-bakir: #B07D5C;
+      --c-bakir-deep: #8E6147;
+      --c-sicak: #14110E;
+      --c-toprak: #756B5F;
+      --c-line: rgba(20, 17, 14, 0.1);
+      --c-line-strong: rgba(20, 17, 14, 0.18);
+      --c-success: #2E7D32;
+      --c-error: #C62828;
+      --c-warning: #E65100;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--c-cream);
+      color: var(--c-sicak);
+      min-height: 100vh;
+      font-size: 14px;
+    }
+
+    /* ───── Login ekranı ───── */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px 32px;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(20, 17, 14, 0.08);
+    }
+
+    .login-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .login-logo img {
+      width: 80px;
+      height: 80px;
+      color: var(--c-bakir);
+    }
+
+    .login-card h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .login-card .sub {
+      text-align: center;
+      color: var(--c-toprak);
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    /* ───── Layout ───── */
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      background: var(--c-sicak);
+      color: var(--c-cream);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar img {
+      width: 32px;
+      height: 32px;
+      color: var(--c-bakir);
+    }
+
+    .topbar h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    .topbar-user {
+      color: rgba(250, 246, 241, 0.7);
+    }
+
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--c-cream);
+      border: 0.5px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      font-family: inherit;
+    }
+
+    .btn-logout:hover { background: rgba(255, 255, 255, 0.2); }
+
+    /* ───── Sekme + içerik ───── */
+    .tabs-bar {
+      background: white;
+      border-bottom: 0.5px solid var(--c-line);
+      padding: 0 24px;
+      display: flex;
+      gap: 4px;
+    }
+
+    .tab {
+      padding: 14px 20px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--c-toprak);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+
+    .tab.is-active {
+      color: var(--c-sicak);
+      border-bottom-color: var(--c-bakir);
+      font-weight: 500;
+    }
+
+    .content {
+      padding: 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ───── Ürün listesi ───── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 14px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      background: white;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--c-bakir);
+      box-shadow: 0 0 0 3px rgba(176, 125, 92, 0.1);
+    }
+
+    .filter-select {
+      padding: 10px 12px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: var(--c-bakir);
+      color: white;
+    }
+
+    .btn-primary:hover { background: var(--c-bakir-deep); }
+
+    .btn-secondary {
+      background: var(--c-sicak);
+      color: white;
+    }
+
+    .btn-ghost {
+      background: white;
+      color: var(--c-sicak);
+      border: 0.5px solid var(--c-line-strong);
+    }
+
+    .btn-ghost:hover { background: var(--c-cream); }
+
+    .btn-danger {
+      background: var(--c-error);
+      color: white;
+    }
+
+    .btn-danger:hover { background: #8B1818; }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Tablo */
+    .product-table {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 0.5px solid var(--c-line);
+    }
+
+    .product-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .product-table th {
+      background: var(--c-bej);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-toprak);
+      font-weight: 500;
+      border-bottom: 0.5px solid var(--c-line);
+    }
+
+    .product-table td {
+      padding: 12px 16px;
+      border-bottom: 0.5px solid var(--c-line);
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    .product-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .product-table tr:hover {
+      background: var(--c-cream);
+    }
+
+    .row-img {
+      width: 48px;
+      height: 48px;
+      background: var(--c-cream);
+      border-radius: 6px;
+      border: 0.5px solid var(--c-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      overflow: hidden;
+    }
+
+    .row-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border: 0.5px solid var(--c-line);
+      background: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .icon-btn:hover {
+      background: var(--c-cream);
+      border-color: var(--c-bakir);
+    }
+
+    .icon-btn svg {
+      width: 16px;
+      height: 16px;
+      color: var(--c-toprak);
+    }
+
+    .icon-btn.is-danger:hover {
+      background: #FFE5E5;
+      border-color: var(--c-error);
+    }
+
+    .icon-btn.is-danger:hover svg {
+      color: var(--c-error);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .badge-kol { background: var(--c-bej); color: var(--c-sicak); }
+    .badge-ozl { background: var(--c-bakir); color: white; }
+    .badge-inactive { background: rgba(20, 17, 14, 0.1); color: var(--c-toprak); }
+
+    /* ───── Form modal ───── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 17, 14, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: white;
+      border-radius: 16px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(8px);
+      transition: transform 0.2s;
+    }
+
+    .modal-overlay.is-open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-head {
+      padding: 20px 24px;
+      border-bottom: 0.5px solid var(--c-line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 1;
+    }
+
+    .modal-head h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 20px;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--c-cream);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-foot {
+      padding: 16px 24px;
+      border-top: 0.5px solid var(--c-line);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      bottom: 0;
+      background: white;
+    }
+
+    .modal-foot .actions-right {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ───── Form ───── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-toprak);
+      font-weight: 500;
+    }
+
+    .field input[type="text"],
+    .field input[type="number"],
+    .field input[type="email"],
+    .field input[type="password"],
+    .field textarea,
+    .field select {
+      padding: 10px 12px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      background: var(--c-cream);
+      color: var(--c-sicak);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--c-bakir);
+      box-shadow: 0 0 0 3px rgba(176, 125, 92, 0.1);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+    }
+
+    .field-row-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      cursor: pointer;
+    }
+
+    .field-row-checkbox input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--c-bakir);
+      cursor: pointer;
+    }
+
+    /* Görsel yükleme */
+    .image-upload {
+      border: 2px dashed var(--c-line-strong);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .image-upload:hover {
+      border-color: var(--c-bakir);
+      background: var(--c-cream);
+    }
+
+    .image-upload.is-dragging {
+      border-color: var(--c-bakir);
+      background: var(--c-cream);
+    }
+
+    .image-upload input { display: none; }
+
+    .image-preview-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .image-preview {
+      width: 120px;
+      height: 120px;
+      background: var(--c-cream);
+      border-radius: 8px;
+      border: 0.5px solid var(--c-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      overflow: hidden;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .upload-text {
+      font-size: 12px;
+      color: var(--c-toprak);
+    }
+
+    .upload-text strong {
+      color: var(--c-bakir);
+    }
+
+    /* Status mesajı */
+    .status-msg {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .status-msg.is-success { background: #E8F5E9; color: var(--c-success); }
+    .status-msg.is-error { background: #FFEBEE; color: var(--c-error); }
+    .status-msg.is-info { background: var(--c-bej); color: var(--c-sicak); }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--c-toprak);
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--c-toprak);
+      font-size: 13px;
+    }
+
+    /* Sipariş listesi */
+    .order-card {
+      background: white;
+      border: 0.5px solid var(--c-line);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .order-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .order-code {
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c-bakir);
+    }
+
+    .order-time {
+      font-size: 11px;
+      color: var(--c-toprak);
+    }
+
+    .order-status {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .status-pending { background: #FFF3E0; color: var(--c-warning); }
+    .status-confirmed { background: #E3F2FD; color: #1565C0; }
+    .status-producing { background: var(--c-bej); color: var(--c-sicak); }
+    .status-shipped { background: #F3E5F5; color: #6A1B9A; }
+    .status-delivered { background: #E8F5E9; color: var(--c-success); }
+    .status-cancelled { background: #FFEBEE; color: var(--c-error); }
+
+    /* Mobile */
+    @media (max-width: 720px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .product-table {
+        overflow-x: auto;
+      }
+      .product-table table {
+        min-width: 600px;
+      }
+      .topbar h1 {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== LOGIN EKRANI ===== -->
+  <div class="login-wrap" id="login-screen">
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="../assets/img/logo-pa-bakir.svg" alt="Parla By Aslı" style="color: var(--c-bakir);">
+      </div>
+      <h1>Yönetim Paneli</h1>
+      <p class="sub">Giriş yapmak için bilgilerini gir</p>
+
+      <form id="login-form">
+        <div class="field" style="margin-bottom: 14px;">
+          <label>E-posta</label>
+          <input type="email" id="login-email" required autocomplete="email">
+        </div>
+        <div class="field" style="margin-bottom: 20px;">
+          <label>Şifre</label>
+          <input type="password" id="login-password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; justify-content: center;">GİRİŞ YAP</button>
+        <div id="login-error" class="status-msg is-error" style="display:none;"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== ANA UYGULAMA ===== -->
+  <div class="app" id="app" style="display:none;">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <img src="../assets/img/logo-pa-bakir.svg" alt="" style="color: var(--c-bakir);">
+        <h1>Parla By Aslı · Yönetim</h1>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-user" id="user-email">—</span>
+        <a href="../index.html" target="_blank" style="color: rgba(250,246,241,0.7); font-size: 11px; text-decoration: none;">Siteyi gör →</a>
+        <button class="btn-logout" id="btn-logout">ÇIKIŞ</button>
+      </div>
+    </header>
+
+    <nav class="tabs-bar">
+      <button class="tab is-active" data-tab="products">Ürünler</button>
+      <button class="tab" data-tab="orders">Siparişler</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- ÜRÜNLER SEKMESİ -->
+      <section class="tab-content" id="tab-products">
+
+        <div class="toolbar">
+          <input type="search" class="search-input" id="search-input" placeholder="Ürün ara…">
+          <select class="filter-select" id="filter-mode">
+            <option value="">Tüm modlar</option>
+            <option value="koleksiyon">Koleksiyon</option>
+            <option value="sana-ozel">Sana özel</option>
+          </select>
+          <select class="filter-select" id="filter-category">
+            <option value="">Tüm kategoriler</option>
+          </select>
+          <button class="btn btn-primary" id="btn-new-product">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+            YENİ ÜRÜN
+          </button>
+        </div>
+
+        <div class="product-table" id="product-table">
+          <div class="loading">Yükleniyor…</div>
+        </div>
+
+      </section>
+
+      <!-- SİPARİŞLER SEKMESİ -->
+      <section class="tab-content" id="tab-orders" style="display:none;">
+
+        <div class="toolbar">
+          <select class="filter-select" id="filter-order-status">
+            <option value="">Tüm durumlar</option>
+            <option value="pending">Bekleyen</option>
+            <option value="confirmed">Onaylanan</option>
+            <option value="producing">Üretimde</option>
+            <option value="shipped">Kargoda</option>
+            <option value="delivered">Teslim edildi</option>
+            <option value="cancelled">İptal</option>
+          </select>
+          <button class="btn btn-ghost" id="btn-refresh-orders">YENİLE</button>
+        </div>
+
+        <div id="orders-list">
+          <div class="loading">Yükleniyor…</div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===== ÜRÜN FORMU MODAL ===== -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-card">
+      <header class="modal-head">
+        <h2 id="product-modal-title">Yeni Ürün</h2>
+        <button class="modal-close" data-close>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 2 L12 12 M12 2 L2 12"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form id="product-form">
+
+          <!-- Görsel -->
+          <div class="field full" style="margin-bottom: 20px;">
+            <label>Görsel</label>
+            <div class="image-upload" id="image-upload-area">
+              <div class="image-preview-wrap">
+                <div class="image-preview" id="image-preview">
+                  <span style="color: var(--c-toprak); font-size: 28px;">＋</span>
+                </div>
+                <div class="upload-text">
+                  Görsel seçmek için <strong>tıkla</strong> veya buraya sürükle<br>
+                  <span style="font-size: 10px;">JPG, PNG, WEBP — max 5MB</span>
+                </div>
+              </div>
+              <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp,image/svg+xml">
+            </div>
+            <input type="hidden" id="product-image" value="">
+          </div>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>Ürün adı *</label>
+              <input type="text" id="product-name" required>
+            </div>
+
+            <div class="field">
+              <label>Fiyat (₺) *</label>
+              <input type="number" id="product-price" required min="0" step="1">
+            </div>
+
+            <div class="field">
+              <label>Kategori *</label>
+              <select id="product-category" required>
+                <option value="">Seç…</option>
+                <option value="kolye">Kolye</option>
+                <option value="kupe">Küpe</option>
+                <option value="bileklik">Bileklik</option>
+                <option value="yuzuk">Yüzük</option>
+                <option value="charm">Charm</option>
+                <option value="bros">Broş</option>
+                <option value="anahtarlik">Anahtarlık</option>
+                <option value="obje">Ev objeleri</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Mod *</label>
+              <select id="product-mode" required>
+                <option value="">Seç…</option>
+                <option value="koleksiyon">Koleksiyon</option>
+                <option value="sana-ozel">Sana özel</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label>Açıklama</label>
+              <textarea id="product-description" placeholder="Müşteri ürün sayfasında görecek..."></textarea>
+            </div>
+
+            <div class="field full">
+              <label>Malzemeler (her satıra bir tane)</label>
+              <textarea id="product-materials" placeholder="925 ayar gümüş&#10;altın kaplama&#10;hipoalerjenik" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Slug (URL parçası) *</label>
+              <input type="text" id="product-slug" required pattern="[a-z0-9-]+" placeholder="ornek-urun-slug">
+            </div>
+
+            <div class="field">
+              <label>ID (benzersiz)</label>
+              <input type="text" id="product-id" placeholder="kol-kolye-yeni" readonly style="background: rgba(0,0,0,0.05);">
+            </div>
+
+            <div class="field">
+              <label>Sıralama</label>
+              <input type="number" id="product-order" value="100" step="10">
+            </div>
+
+            <div class="field">
+              <label>&nbsp;</label>
+              <label class="field-row-checkbox">
+                <input type="checkbox" id="product-featured">
+                <span>Öne çıkan ürün</span>
+              </label>
+              <label class="field-row-checkbox">
+                <input type="checkbox" id="product-active" checked>
+                <span>Aktif (sitede görünsün)</span>
+              </label>
+            </div>
+
+            <div class="field full" id="customizable-warning" style="display:none;">
+              <div class="status-msg is-info">
+                <strong>⚠️ Sana özel ürün</strong><br>
+                Bu ürünü kişiselleştirilebilir yapmak için detaylı yapılandırma (font, renk, malzeme listesi) gerekir. Şu an temel bilgileri kaydet, kişiselleştirme detaylarını sonra ekleriz. Mevcut sana özel ürünlerin yapılandırması korunur.
+              </div>
+            </div>
+
+          </div>
+
+          <div id="form-status" class="status-msg" style="display:none;"></div>
+        </form>
+      </div>
+
+      <footer class="modal-foot">
+        <button class="btn btn-danger" id="btn-delete" style="display:none;">SİL</button>
+        <div class="actions-right">
+          <button class="btn btn-ghost" data-close>İPTAL</button>
+          <button class="btn btn-primary" id="btn-save">KAYDET</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../assets/data.js"></script>
+  <script src="admin.js"></script>
+
+</body>
+</html>
