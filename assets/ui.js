@@ -291,8 +291,15 @@ function PB_buildProductModalShell() {
 }
 
 function PB_fillProductModal(modal, p) {
-  // Görsel listesi: products.js'de images: [...] varsa onu kullan, yoksa tek image'i array'e koy
-  const images = (Array.isArray(p.images) && p.images.length > 0) ? p.images : [p.image];
+  // Görsel listesi: p.image her zaman birinci sırada, p.images varsa ek olarak eklenir
+  const images = [];
+  if (p.image) images.push(p.image);
+  if (Array.isArray(p.images)) {
+    p.images.forEach(img => {
+      if (img && !images.includes(img)) images.push(img);
+    });
+  }
+  if (images.length === 0) images.push('assets/img/products/kolye.svg');
 
   const media = modal.querySelector('[data-pm-media]');
   const thumbs = modal.querySelector('[data-pm-thumbs]');
