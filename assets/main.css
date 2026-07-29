@@ -12,10 +12,35 @@
   --c-warm-greige: #EDE7DC;
   --c-soft-bej-dark: #E8DEC8;
   --c-warm-taupe: #6B5D4F;
-  --c-bakir: #B07D5C;
+
+  /* ── Bakır: iki ayrı rol ──
+   *
+   * Markanın imza rengi #B07D5C açık bir bakır. İnce çizgide ve ikonda
+   * güzel duruyor ama METİN olarak okunmuyor: beyaz üzerinde 3.54,
+   * soft bej üzerinde 2.91 kontrast veriyordu (WCAG AA için 4.5 gerek).
+   * Aynı sorun dolgu zemin olarak da vardı — krem yazılı "SEPETE EKLE"
+   * butonu 3.29'da kalıyordu.
+   *
+   * Rengi topluca koyulaştırmak markanın hafifliğini bozardı. Onun
+   * yerine rol ayrıldı:
+   *
+   *   --c-bakir       → METİN ve metin taşıyan dolgu zeminleri.
+   *                     WCAG AA'yı geçen en açık ton (beyaz 5.60,
+   *                     krem 5.20, bej 4.60, greige 4.55).
+   *   --c-bakir-cizgi → Yalnızca DEKORATİF: kenarlık, ince çizgi, ikon,
+   *                     mühür, odak halkası. Orijinal ton korunur.
+   *
+   * Yeni bir yerde bakır kullanırken: metin ise --c-bakir, çizgi ise
+   * --c-bakir-cizgi. Emin değilsen --c-bakir seç; güvenli olan o.
+   */
+  --c-bakir: #875F45;
+  --c-bakir-cizgi: #B07D5C;
   --c-bakir-light: #C9926D;
-  --c-bakir-deep: #8E6147;
-  --c-toprak: #756B5F;
+  --c-bakir-deep: #7A5139;
+
+  /* Krem/bej zeminlerde 4.5'i geçsin diye bir tık koyulaştırıldı
+     (önce #756B5F → greige üzerinde 4.24 ile kalıyordu) */
+  --c-toprak: #6B6156;
   --c-sicak-siyah: #14110E;
   --c-warm-brown: #6B4D38;
 
@@ -186,7 +211,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   align-items: center;
   gap: var(--space-sm);
   text-decoration: none;
-  color: var(--c-bakir);
+  color: var(--c-bakir-cizgi);
 }
 
 .brand-link svg { width: 32px; height: 32px; color: var(--c-sicak-siyah); }
@@ -197,7 +222,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   height: 36px !important;
   width: auto !important;
   max-width: 180px !important;
-  color: var(--c-bakir);
+  color: var(--c-bakir-cizgi);
   display: block;
   object-fit: contain;
 }
@@ -270,7 +295,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   width: 130px;
   height: 130px;
   margin: 0 auto var(--space-sm);
-  color: var(--c-bakir);
+  color: var(--c-bakir-cizgi);
 }
 
 @media (min-width: 768px) {
@@ -427,7 +452,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   border-right: 0.5px solid var(--c-line);
   border-bottom: 0.5px solid var(--c-line);
 }
-.mode-btn-ozl.is-active::after { background: var(--c-bakir); }
+.mode-btn-ozl.is-active::after { background: var(--c-bakir); } /* buton zeminiyle aynı kalmalı */
 
 /* Sağ: Filtre alanı */
 .filter-area {
@@ -595,7 +620,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .filter-option input[type="checkbox"] {
-  accent-color: var(--c-bakir);
+  accent-color: var(--c-bakir-cizgi);
   width: 16px;
   height: 16px;
   cursor: pointer;
@@ -810,7 +835,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .product-card-fav svg { width: 14px; height: 14px; color: var(--c-sicak-siyah); opacity: 0.55; }
-.product-card-fav:hover svg { opacity: 1; color: var(--c-bakir); }
+.product-card-fav:hover svg { opacity: 1; color: var(--c-bakir-cizgi); }
 
 .product-card-badge {
   position: absolute;
@@ -899,7 +924,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .footer-brand-seal {
   width: 60px;
   height: 60px;
-  color: var(--c-bakir);
+  color: var(--c-bakir-cizgi);
   margin-bottom: var(--space-md);
 }
 
@@ -916,7 +941,9 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--c-bakir);
+  /* Footer zemini koyu — orada bakırın AÇIK tonu gerekiyor.
+     --c-bakir (açık zeminler için koyulaştırılmış) burada 3.36'da kalıyordu. */
+  color: var(--c-bakir-light);
   margin-bottom: var(--space-md);
 }
 
@@ -1044,7 +1071,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .input:focus {
-  border-color: var(--c-bakir);
+  border-color: var(--c-bakir-cizgi);
   box-shadow: 0 0 0 3px rgba(176, 125, 92, 0.15);
 }
 
@@ -1083,7 +1110,10 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .btn-bakir:hover {
-  background: var(--c-bakir-light);
+  /* Krem yazılı dolu buton üstüne gelince KOYULAŞMALI.
+     Önce --c-bakir-light'a (#C9926D) geçiyordu; açık zemin + krem yazı
+     kontrastı ~2.6'ya düşürüyor ve ana satın alma butonu okunmaz oluyordu. */
+  background: var(--c-bakir-deep);
   transform: translateY(-1px);
 }
 
@@ -1214,7 +1244,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .product-modal-thumb:hover {
-  border-color: var(--c-bakir);
+  border-color: var(--c-bakir-cizgi);
   transform: translateY(-1px);
 }
 
@@ -2653,7 +2683,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   width: 16px;
   height: 16px;
   margin-top: 2px;
-  accent-color: var(--c-bakir);
+  accent-color: var(--c-bakir-cizgi);
   cursor: pointer;
 }
 
