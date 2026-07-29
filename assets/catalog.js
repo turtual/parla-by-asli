@@ -55,17 +55,36 @@
     grid.innerHTML = '<div class="catalog-loading" style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
 
     const items = await getProducts({ mode: currentMode, category });
+    const loadError = window.PB_Data && window.PB_Data.getLastError
+      ? window.PB_Data.getLastError()
+      : null;
 
     // Ürün sayısı
     if (countEl) {
       const count = items.length;
       let label;
-      if (count === 0) label = 'Henüz ürün yok';
+      if (loadError) label = '';
+      else if (count === 0) label = 'Henüz ürün yok';
       else label = count + ' ürün';
       countEl.textContent = label;
     }
 
     grid.innerHTML = '';
+
+    // Veritabanına ulaşılamadıysa bunu "bu kategoride ürün yok" gibi göstermek
+    // ziyaretçiyi yanıltır — arızayı arıza olarak söyle.
+    if (loadError) {
+      const errBox = PB_h('div', { class: 'catalog-empty', role: 'alert' });
+      errBox.append(PB_h('p', {}, 'Ürünler şu anda yüklenemiyor. Bağlantı sorunu olabilir.'));
+      errBox.append(PB_h('button', {
+        class: 'btn btn-ghost',
+        type: 'button',
+        onclick: () => window.location.reload()
+      }, 'TEKRAR DENE'));
+      grid.append(errBox);
+      return;
+    }
+
     if (items.length === 0) {
       const modeLabels = { hep: '', kol: 'koleksiyon ', ozl: 'sana özel ' };
       const modePart = modeLabels[currentMode] || '';

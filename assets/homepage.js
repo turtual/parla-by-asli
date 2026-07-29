@@ -246,10 +246,7 @@
     // Render
     grid.innerHTML = '';
     if (items.length === 0) {
-      const msg = activeCategories.size > 0
-        ? 'Bu filtreye uyan ürün bulunamadı.'
-        : 'Henüz ürün yok.';
-      grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color: var(--c-toprak); font-size: 14px; padding: var(--space-xl) 0;">${msg}</p>`;
+      renderEmptyGridState(grid, { filtered: activeCategories.size > 0 });
       return;
     }
     items.forEach((p, i) => grid.append(renderProductCard(p, i)));

@@ -24,6 +24,11 @@
   let productsCacheTime = 0;
   const CACHE_TTL = 60 * 1000; // 1 dakika cache (admin panelden değişiklik olabileceği için kısa)
 
+  // Son ürün çekme denemesi başarısız olduysa buraya yazılır.
+  // Boş liste dönmek "ürün yok" ile "bağlanamadım"ı aynı gösteriyordu; sayfalar
+  // ikisini ayırt edebilsin diye tutuluyor. Başarılı her çekimde temizlenir.
+  let lastLoadError = null;
+
   /**
    * Supabase client'ı başlat. window.supabase global'i SDK CDN'inden gelir.
    */
@@ -76,19 +81,31 @@
     }
 
     if (!supabase) init();
-    if (!supabase) return [];
+    if (!supabase) {
+      lastLoadError = new Error('Supabase SDK yüklenemedi');
+      return [];
+    }
 
     let query = supabase.from('products').select('*').order('display_order', { ascending: true });
     if (!includeInactive) {
       query = query.eq('is_active', true);
     }
 
-    const { data, error } = await query;
+    let data, error;
+    try {
+      ({ data, error } = await query);
+    } catch (err) {
+      // Ağ tamamen kopuksa (proje duraklatılmış, DNS yok) SDK istisna fırlatabilir
+      error = err;
+    }
+
     if (error) {
       console.error('Ürünler çekilemedi:', error);
+      lastLoadError = error;
       return productsCache || [];
     }
 
+    lastLoadError = null;
     const products = data.map(rowToProduct);
 
     if (!includeInactive) {
@@ -134,6 +151,14 @@
   function invalidateCache() {
     productsCache = null;
     productsCacheTime = 0;
+  }
+
+  /**
+   * Son ürün çekme denemesi başarısız olduysa hatayı döner, başarılıysa null.
+   * Sayfalar "hiç ürün yok" ile "veritabanına ulaşılamadı"yı ayırmak için kullanır.
+   */
+  function getLastError() {
+    return lastLoadError;
   }
 
   /* ──────────── SİPARİŞ ──────────── */
@@ -305,6 +330,7 @@
     getProductBySlug,
     getProductById,
     invalidateCache,
+    getLastError,
     createOrder,
 
     // Admin

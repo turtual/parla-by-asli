@@ -64,6 +64,55 @@ function formatPrice(price) {
 }
 
 /**
+ * Ürün ızgarası boş kaldığında içine uygun mesajı basar.
+ *
+ * Üç ayrı durum var ve bunları karıştırmak pahalıya patlıyor:
+ *   - Veritabanına ulaşılamadı  → arıza. Ziyaretçiye söyle, tekrar deneme sun.
+ *   - Filtreye uyan ürün yok    → normal, filtreyi gevşetmesi gerek.
+ *   - Gerçekten hiç ürün yok    → normal.
+ *
+ * Önceden üçü de "Henüz ürün yok." diyordu; backend düştüğünde mağaza
+ * bomboş ama kasıtlı görünüyordu ve kimse durumu fark etmiyordu.
+ *
+ * @param {HTMLElement} grid - içi temizlenip mesajın basılacağı ızgara
+ * @param {Object} options
+ * @param {boolean} options.filtered - kullanıcının aktif bir filtresi var mı
+ */
+function renderEmptyGridState(grid, { filtered = false } = {}) {
+  const loadError = window.PB_Data && window.PB_Data.getLastError
+    ? window.PB_Data.getLastError()
+    : null;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'grid-empty-state';
+  wrap.style.cssText = 'grid-column: 1/-1; text-align: center; padding: var(--space-xl) 0; color: var(--c-toprak); font-size: 14px;';
+
+  if (loadError) {
+    wrap.setAttribute('role', 'alert');
+
+    const msg = document.createElement('p');
+    msg.textContent = 'Ürünler şu anda yüklenemiyor. Bağlantı sorunu olabilir.';
+    msg.style.marginBottom = '12px';
+
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'btn btn-ghost';
+    retry.textContent = 'TEKRAR DENE';
+    retry.addEventListener('click', () => window.location.reload());
+
+    wrap.append(msg, retry);
+  } else {
+    const msg = document.createElement('p');
+    msg.textContent = filtered
+      ? 'Bu filtreye uyan ürün bulunamadı.'
+      : 'Henüz ürün yok.';
+    wrap.append(msg);
+  }
+
+  grid.replaceChildren(wrap);
+}
+
+/**
  * Ürün görselinin tam URL'sini döner.
  * Supabase Storage URL'leri zaten tam URL, dokunulmaz.
  * Eski lokal yollar (assets/img/products/...) için PB_imgPath helper'ı kullanılır.
