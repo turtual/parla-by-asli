@@ -54,11 +54,12 @@
         imgSrc = '../' + item.image;
       }
 
+      // Kişiselleştirme metni kullanıcıdan geliyor — innerHTML'e girmeden kaçışlanır
       let metaParts = [];
       if (item.customization) {
-        if (item.customization.text) metaParts.push(`"${item.customization.text}"`);
-        if (item.customization.fontId) metaParts.push(`Font: ${item.customization.fontId}`);
-        if (item.customization.materialId) metaParts.push(`Renk: ${item.customization.materialId}`);
+        if (item.customization.text) metaParts.push(`"${PB_escape(item.customization.text)}"`);
+        if (item.customization.fontId) metaParts.push(`Font: ${PB_escape(item.customization.fontId)}`);
+        if (item.customization.materialId) metaParts.push(`Renk: ${PB_escape(item.customization.materialId)}`);
       }
       if ((item.quantity || 1) > 1) {
         metaParts.unshift(`${item.quantity} adet`);
@@ -68,10 +69,10 @@
       const row = PB_h('div', { class: 'checkout-summary-item' });
       row.innerHTML = `
         <div class="checkout-summary-item-img">
-          <img src="${imgSrc}" alt="${item.name}">
+          <img src="${PB_escape(imgSrc)}" alt="${PB_escape(item.name)}">
         </div>
         <div class="checkout-summary-item-info">
-          <div class="checkout-summary-item-name">${item.name}</div>
+          <div class="checkout-summary-item-name">${PB_escape(item.name)}</div>
           ${meta ? `<div class="checkout-summary-item-meta">${meta}</div>` : ''}
         </div>
         <div class="checkout-summary-item-price">${formatPrice(item.price * (item.quantity || 1))}</div>

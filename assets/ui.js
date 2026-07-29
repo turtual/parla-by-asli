@@ -130,6 +130,23 @@ const PB_Favs = {
 
 /* ──────────── Küçük helper'lar ──────────── */
 
+/**
+ * Metni HTML'e gömülmeye güvenli hâle getirir.
+ *
+ * PB_h metin düğümü kullandığı için zaten güvenli; bu yardımcı, elle
+ * innerHTML şablonu kuran yerler için. Hem metin içeriği hem de çift
+ * tırnaklı attribute değeri için yeterli.
+ */
+function PB_escape(value) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function PB_h(tag, attrs = {}, ...children) {
   // Hızlı element oluşturma
   const el = document.createElement(tag);
@@ -455,22 +472,23 @@ const PB_CartDrawer = {
       }
 
       // Kişiselleştirme özeti
+      // Kişiselleştirme özeti — metin kullanıcıdan geldiği için kaçışlanır
       let customSummary = '';
       if (item.customization) {
         const parts = [];
-        if (item.customization.text) parts.push(`"${item.customization.text}"`);
-        if (item.customization.fontId) parts.push(`Font: ${item.customization.fontId}`);
-        if (item.customization.materialId) parts.push(`Renk: ${item.customization.materialId}`);
+        if (item.customization.text) parts.push(`"${PB_escape(item.customization.text)}"`);
+        if (item.customization.fontId) parts.push(`Font: ${PB_escape(item.customization.fontId)}`);
+        if (item.customization.materialId) parts.push(`Renk: ${PB_escape(item.customization.materialId)}`);
         customSummary = parts.join(' · ');
       }
 
       li.innerHTML = `
         <div class="cart-item-img">
-          <img src="${imgSrc}" alt="${item.name}">
+          <img src="${PB_escape(imgSrc)}" alt="${PB_escape(item.name)}">
           ${item.customization ? '<span class="cart-item-badge">SANA ÖZEL</span>' : ''}
         </div>
         <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-name">${PB_escape(item.name)}</div>
           ${customSummary ? `<div class="cart-item-custom">${customSummary}</div>` : ''}
           <div class="cart-item-bottom">
             ${item.customization ? `

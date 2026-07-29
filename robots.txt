@@ -3,5 +3,6 @@ Allow: /
 
 Disallow: /odeme/
 Disallow: /tesekkurler/
+Disallow: /admin/
 
 Sitemap: https://parlabyasli.com/sitemap.xml
