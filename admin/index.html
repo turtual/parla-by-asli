@@ -86,7 +86,11 @@
     .app {
       min-height: 100vh;
       display: grid;
-      grid-template-rows: auto 1fr;
+      /* Üç çocuk var: topbar, tabs-bar, content.
+         Önceden iki satır tanımlıydı (auto 1fr); artan yükseklik ikinci
+         satıra, yani sekme çubuğuna düşüyor ve onu ~460px'e şişiriyordu.
+         İçerik de sayfanın en altına itiliyordu. */
+      grid-template-rows: auto auto 1fr;
     }
 
     .topbar {
