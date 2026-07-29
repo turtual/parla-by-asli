@@ -17,9 +17,80 @@
 const PB_Studio = (function () {
   'use strict';
 
+  /* ──────────── Gösterim fontları (talep üzerine yüklenir) ──────────── */
+
+  /*
+   * Bu altı font yalnızca stüdyodaki isim önizlemesinde kullanılıyor.
+   * Önceden her sayfanın <head>'inde, diğer dörtle birlikte tek bir
+   * render-bloklayan istekte yükleniyorlardı — yani ürünlere bakan ama
+   * stüdyoyu hiç açmayan ziyaretçi de bedelini ödüyordu.
+   * Artık ilk stüdyo açılışında yükleniyorlar.
+   */
+  const STUDIO_FONTS_URL =
+    'https://fonts.googleapis.com/css2' +
+    '?family=Fredoka:wght@600;700' +
+    '&family=Baloo+2:wght@800' +
+    '&family=Sniglet:wght@800' +
+    '&family=Mali:wght@700' +
+    '&family=Caveat+Brush' +
+    '&family=Pacifico' +
+    '&display=swap';
+
+  let studioFontsPromise = null;
+
+  /**
+   * Stüdyo font stylesheet'ini bir kez ekler; CSS indiğinde çözülür.
+   * Yükleme başarısız olursa da çözülür — font gelmese bile stüdyo
+   * çalışmaya devam etmeli, yedek fontla render edilir.
+   *
+   * Dikkat: bu yalnızca @font-face kurallarını getirir. Tarayıcı asıl
+   * font dosyalarını ancak o yazı tipi kullanıldığında indirir, bu yüzden
+   * warmStudioFonts() ile önden ısıtıyoruz.
+   */
+  function ensureStudioFonts() {
+    if (studioFontsPromise) return studioFontsPromise;
+
+    studioFontsPromise = new Promise(resolve => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = STUDIO_FONTS_URL;
+      link.addEventListener('load', resolve);
+      link.addEventListener('error', resolve);
+      document.head.appendChild(link);
+    });
+
+    return studioFontsPromise;
+  }
+
+  /**
+   * Ürünün sunduğu yazı tiplerini arka planda indirtir.
+   *
+   * Beklemeden döner: stüdyo hemen açılsın, fontlar kullanıcı seçim
+   * yapana kadar inmiş olsun. Böylece ne açılış gecikiyor ne de font
+   * seçilince yazı bir an yedek fontla görünüyor.
+   */
+  function warmStudioFonts(customization) {
+    if (!document.fonts || !customization || !Array.isArray(customization.fonts)) return;
+
+    customization.fonts.forEach(f => {
+      if (!f || !f.cssFont) return;
+      // cssFont "Pacifico, cursive" biçiminde — ilk aile adını al
+      const aile = f.cssFont.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+      const agirlik = f.weight || 400;
+      try {
+        document.fonts.load(`${agirlik} 32px "${aile}"`);
+      } catch (e) {
+        /* Desteklenmeyen tarayıcıda sessizce geç — yedek font devreye girer */
+      }
+    });
+  }
+
   /* ──────────── Public API ──────────── */
 
   async function openModal(slug) {
+    // Fontları ürün verisiyle paralel indir — böylece bekleme üst üste binmiyor
+    const fontsReady = ensureStudioFonts();
+
     const product = (typeof getProductBySlug === 'function') ? await getProductBySlug(slug) : null;
     if (!product) {
       alert('Ürün bulunamadı.');
@@ -34,6 +105,10 @@ const PB_Studio = (function () {
       alert('Bu ürün tipi desteklenmiyor: ' + product.customization.type);
       return;
     }
+
+    // @font-face kuralları gelsin, sonra fontları arka planda ısıt
+    await fontsReady;
+    warmStudioFonts(product.customization);
 
     // Modal shell oluştur (yoksa)
     let modal = document.getElementById('studio-modal');
@@ -80,6 +155,8 @@ const PB_Studio = (function () {
   }
 
   async function renderStandalone(slug) {
+    const fontsReady = ensureStudioFonts();
+
     const product = (typeof getProductBySlug === 'function') ? await getProductBySlug(slug) : null;
     if (!product || !product.customizable || !product.customization) {
       showStandaloneNotFound();
@@ -90,6 +167,9 @@ const PB_Studio = (function () {
       showStandaloneNotFound('Bu ürün tipi henüz desteklenmiyor.');
       return;
     }
+
+    await fontsReady;
+    warmStudioFonts(product.customization);
 
     document.title = product.name + ' — Tasarla · Parla By Aslı';
 
