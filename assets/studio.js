@@ -172,7 +172,10 @@ const PB_Studio = (function () {
               <button type="button" class="btn btn-bakir btn-block" data-studio-add>
                 SEPETE EKLE
               </button>
-              <p class="studio-meta">El emeği üretim · 7-10 iş günü teslim</p>
+              <p class="studio-meta">
+                El emeği üretim · 5-10 iş günü teslim<br>
+                <a href="${PB_imgPath('yasal/iade-iptal/')}" target="_blank" rel="noopener">Sana özel ürünlerde cayma hakkı yoktur</a>
+              </p>
             </div>
           </div>
         </div>

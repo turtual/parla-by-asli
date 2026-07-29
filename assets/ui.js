@@ -291,7 +291,10 @@ function PB_buildProductModalShell() {
           <button type="button" class="btn btn-primary btn-block product-modal-add" data-pm-add>
             SEPETE EKLE
           </button>
-          <p class="product-modal-meta">Türkiye'ye ücretsiz kargo · 14 gün iade hakkı</p>
+          <p class="product-modal-meta">
+            Türkiye'ye ücretsiz kargo ·
+            <a href="${PB_imgPath('yasal/iade-iptal/')}" target="_blank" rel="noopener">14 gün iade hakkı</a>
+          </p>
         </div>
       </div>
     </div>
