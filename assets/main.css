@@ -2543,6 +2543,93 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   font-variation-settings: 'opsz' 30, 'SOFT' 50;
 }
 
+/* ============================================================
+   19b. STÜDYO — fiyat dökümü, doğrulama, erişilebilirlik
+   ============================================================ */
+
+/* Fiyat dökümü: toplamın nereden geldiğini gösterir */
+
+.studio-breakdown {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 0.5px solid var(--c-line);
+  font-size: 13px;
+  color: var(--c-toprak);
+}
+
+.studio-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: 4px;
+}
+
+.studio-breakdown-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Eksik alan uyarısı — alert() yerine */
+
+.studio-validation {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--c-bakir-deep);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.studio-validation::before {
+  content: '';
+  flex: none;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Pasif sepete ekle butonu */
+
+.studio-summary .btn[disabled],
+.btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Seçim gruplarında görünür odak halkası.
+   Dolaşan tabindex ile gruba tek Tab'la giriliyor; kullanıcının nerede
+   olduğunu görebilmesi için odak göstergesi şart. */
+
+.studio-swatch:focus-visible,
+.studio-font-option:focus-visible {
+  outline: 2px solid var(--c-bakir);
+  outline-offset: 2px;
+}
+
+.studio-swatch[aria-checked='true'],
+.studio-font-option[aria-checked='true'] {
+  /* is-active zaten görsel durumu veriyor; burada yalnızca
+     yüksek kontrast modunda kaybolmaması için sınır bırakıyoruz */
+  forced-color-adjust: none;
+}
+
+/* Dokunma hedefleri — mobilde parmakla isabet edilebilir olmalı */
+
+@media (max-width: 640px) {
+  .studio-swatch {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .studio-font-option {
+    min-height: 44px;
+  }
+
+  .studio-slider {
+    height: 44px;
+  }
+}
+
 /* Checkout — sözleşme onay kutusu */
 
 .checkout-onay {

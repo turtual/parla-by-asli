@@ -124,15 +124,23 @@ const PB_Studio = (function () {
     const descEls = modal.querySelectorAll('[data-studio-desc]');
     const priceEl = modal.querySelector('[data-studio-price]');
     const addBtn = modal.querySelector('[data-studio-add]');
+    const breakdownEl = modal.querySelector('[data-studio-breakdown]');
+    const validationEl = modal.querySelector('[data-studio-validation]');
 
     titleEls.forEach(el => el.textContent = product.name);
     descEls.forEach(el => el.textContent = product.description || '');
+
+    // Diyaloğa isim ver — önceden isimsizdi, ekran okuyucu sadece
+    // "iletişim kutusu" diyordu
+    modal.setAttribute('aria-label', product.name + ' — tasarla');
 
     const state = renderer.initState(product);
 
     function refresh() {
       renderer.renderPreview(previewWrap, product, state);
       priceEl.textContent = formatPrice(getFinalPrice(product, state));
+      renderBreakdown(breakdownEl, product, state);
+      updateValidity(addBtn, validationEl, product, state);
     }
 
     renderer.renderControls(controlsWrap, product, state, refresh);
@@ -141,9 +149,12 @@ const PB_Studio = (function () {
     // Sepete ekle
     addBtn.onclick = () => {
       if (!validateState(product, state)) {
-        alert('Lütfen tüm alanları doldur.');
+        // Buton zaten pasif; buraya yalnızca beklenmedik bir durumda düşülür
+        updateValidity(addBtn, validationEl, product, state);
         return;
       }
+      addBtn.disabled = true;
+      addBtn.textContent = 'EKLENİYOR…';
       captureStudioPreview(modal).then(previewImageDataUrl => {
         addToCart(product, state, previewImageDataUrl);
       }).catch(() => {
@@ -183,9 +194,29 @@ const PB_Studio = (function () {
 
     const state = renderer.initState(product);
 
+    // Fiyat dökümü ve doğrulama mesajı için yer aç. Bağımsız sayfaların
+    // HTML'inde bu kutular yok; sekiz dosyayı ayrı ayrı düzenlemek yerine
+    // burada bir kez oluşturuluyorlar.
+    let breakdownEl = null;
+    let validationEl = null;
+
+    if (priceEl) {
+      priceEl.setAttribute('aria-live', 'polite');
+      breakdownEl = PB_h('div', { class: 'studio-breakdown', hidden: '' });
+      const fiyatSatiri = priceEl.closest('.studio-price-row') || priceEl;
+      fiyatSatiri.parentNode.insertBefore(breakdownEl, fiyatSatiri);
+    }
+
+    if (addBtn) {
+      validationEl = PB_h('p', { class: 'studio-validation', role: 'status', hidden: '' });
+      addBtn.parentNode.insertBefore(validationEl, addBtn);
+    }
+
     function refresh() {
       renderer.renderPreview(previewWrap, product, state);
       if (priceEl) priceEl.textContent = formatPrice(getFinalPrice(product, state));
+      renderBreakdown(breakdownEl, product, state);
+      if (addBtn) updateValidity(addBtn, validationEl, product, state);
     }
 
     renderer.renderControls(controlsWrap, product, state, refresh);
@@ -194,9 +225,11 @@ const PB_Studio = (function () {
     if (addBtn) {
       addBtn.addEventListener('click', () => {
         if (!validateState(product, state)) {
-          alert('Lütfen tüm alanları doldur.');
+          updateValidity(addBtn, validationEl, product, state);
           return;
         }
+        addBtn.disabled = true;
+        addBtn.textContent = 'EKLENİYOR…';
         captureStudioPreview(document).then(url => {
           addToCart(product, state, url);
         }).catch(() => {
@@ -245,10 +278,12 @@ const PB_Studio = (function () {
             <div data-studio-controls></div>
 
             <div class="studio-summary">
+              <div class="studio-breakdown" data-studio-breakdown></div>
               <div class="studio-price-row">
                 <span class="eyebrow">Toplam</span>
-                <span class="studio-price" data-studio-price>—</span>
+                <span class="studio-price" data-studio-price aria-live="polite">—</span>
               </div>
+              <p class="studio-validation" data-studio-validation role="status" hidden></p>
               <button type="button" class="btn btn-bakir btn-block" data-studio-add>
                 SEPETE EKLE
               </button>
@@ -308,27 +343,8 @@ const PB_Studio = (function () {
         wrap.append(textGroup);
 
         // 2. Font
-        const fontGroup = controlGroup('Yazı tipi');
-        const fontGrid = PB_h('div', { class: 'studio-font-grid' });
-        c.fonts.forEach(f => {
-          const btn = PB_h('button', {
-            type: 'button',
-            class: 'studio-font-option' + (state.fontId === f.id ? ' is-active' : ''),
-            onclick: () => {
-              state.fontId = f.id;
-              fontGrid.querySelectorAll('.studio-font-option').forEach(b => b.classList.remove('is-active'));
-              btn.classList.add('is-active');
-              onChange();
-            }
-          });
-          btn.innerHTML = `
-            <span class="studio-font-preview" style="font-family:${f.cssFont}; font-style:${f.style};">Aa</span>
-            <span class="studio-font-name">${f.name}</span>
-          `;
-          fontGrid.append(btn);
-        });
-        fontGroup.append(fontGrid);
-        wrap.append(fontGroup);
+        wrap.append(buildFontPicker(c.fonts, state, onChange, f =>
+          `font-family:${escapeXml(f.cssFont)}; font-style:${escapeXml(f.style || 'normal')};`));
 
         // 3. Materyal
         wrap.append(buildMaterialPicker(p, state, onChange));
@@ -443,27 +459,8 @@ const PB_Studio = (function () {
         wrap.append(textGroup);
 
         // 2. Font
-        const fontGroup = controlGroup('Yazı tipi');
-        const fontGrid = PB_h('div', { class: 'studio-font-grid' });
-        c.fonts.forEach(f => {
-          const btn = PB_h('button', {
-            type: 'button',
-            class: 'studio-font-option' + (state.fontId === f.id ? ' is-active' : ''),
-            onclick: () => {
-              state.fontId = f.id;
-              fontGrid.querySelectorAll('.studio-font-option').forEach(b => b.classList.remove('is-active'));
-              btn.classList.add('is-active');
-              onChange();
-            }
-          });
-          btn.innerHTML = `
-            <span class="studio-font-preview" style="font-family:${f.cssFont}; font-weight:${f.weight || 400};">Aa</span>
-            <span class="studio-font-name">${f.name}</span>
-          `;
-          fontGrid.append(btn);
-        });
-        fontGroup.append(fontGrid);
-        wrap.append(fontGroup);
+        wrap.append(buildFontPicker(c.fonts, state, onChange, f =>
+          `font-family:${escapeXml(f.cssFont)}; font-weight:${escapeXml(String(f.weight || 400))};`));
 
         // 3. Yazı boyutu slider'ı
         const sizeGroup = controlGroup('Yazı boyutu');
@@ -563,37 +560,144 @@ const PB_Studio = (function () {
     return group;
   }
 
-  function buildMaterialPicker(p, state, onChange) {
-    const group = controlGroup('Renk · Malzeme');
-    const swatchGrid = PB_h('div', { class: 'studio-swatch-grid' });
+  /**
+   * Erişilebilir tek-seçimli grup (renk, yazı tipi vb.).
+   *
+   * Neden düz buton değil: kullanıcı burada bir komut çalıştırmıyor,
+   * seçenekler arasından SEÇİM yapıyor. Önceden hepsi sıradan <button>
+   * olduğu için ekran okuyucu hangisinin seçili olduğunu söyleyemiyordu
+   * ve klavyeyle gezinmek her seçeneğe ayrı ayrı Tab basmayı gerektiriyordu.
+   *
+   * radiogroup semantiği ile: durum "seçili" olarak duyuruluyor, gruba tek
+   * Tab ile giriliyor ve ok tuşlarıyla geziliyor (dolaşan tabindex).
+   *
+   * @param {Object}   ayar
+   * @param {Array}    ayar.ogeler      - { id, ad, ekBilgi?, icerikHTML }
+   * @param {string}   ayar.seciliId
+   * @param {string}   ayar.gridSinifi
+   * @param {string}   ayar.ogeSinifi
+   * @param {Function} ayar.onSelect    - (id) => void
+   * @returns {{ grid: HTMLElement, secimiUygula: Function }}
+   */
+  function buildRadioGroup({ grupAdi, ogeler, seciliId, gridSinifi, ogeSinifi, onSelect }) {
+    const grid = PB_h('div', {
+      class: gridSinifi,
+      role: 'radiogroup',
+      'aria-label': grupAdi
+    });
 
-    p.customization.materials.forEach(m => {
+    const butonlar = [];
+
+    function secimiUygula(yeniId, odaklan) {
+      butonlar.forEach(b => {
+        const secili = b.dataset.ogeId === yeniId;
+        b.classList.toggle('is-active', secili);
+        b.setAttribute('aria-checked', secili ? 'true' : 'false');
+        // Dolaşan tabindex: gruba Tab ile girince seçili öğeye düşülür
+        b.tabIndex = secili ? 0 : -1;
+        if (secili && odaklan) b.focus();
+      });
+    }
+
+    ogeler.forEach((oge, i) => {
+      const secili = oge.id === seciliId;
       const btn = PB_h('button', {
         type: 'button',
-        class: 'studio-swatch' + (state.materialId === m.id ? ' is-active' : ''),
-        title: m.name,
+        class: ogeSinifi + (secili ? ' is-active' : ''),
+        role: 'radio',
+        'aria-checked': secili ? 'true' : 'false',
+        'aria-label': oge.ekBilgi ? `${oge.ad}, ${oge.ekBilgi}` : oge.ad,
+        tabindex: secili ? 0 : -1,
+        'data-oge-id': oge.id,
         onclick: () => {
-          state.materialId = m.id;
-          swatchGrid.querySelectorAll('.studio-swatch').forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          updateLabel();
-          onChange();
+          secimiUygula(oge.id, false);
+          onSelect(oge.id);
+        },
+        onkeydown: e => {
+          const yon = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+          let hedef = null;
+          if (yon) hedef = (i + yon + ogeler.length) % ogeler.length;
+          else if (e.key === 'Home') hedef = 0;
+          else if (e.key === 'End') hedef = ogeler.length - 1;
+          if (hedef === null) return;
+          e.preventDefault();
+          secimiUygula(ogeler[hedef].id, true);
+          onSelect(ogeler[hedef].id);
         }
       });
-      btn.innerHTML = `<span class="studio-swatch-color" style="background:${m.color}"></span>`;
-      swatchGrid.append(btn);
+      btn.innerHTML = oge.icerikHTML;
+      butonlar.push(btn);
+      grid.append(btn);
+    });
+
+    return { grid, secimiUygula };
+  }
+
+  /**
+   * Yazı tipi seçici. İki renderer da (name-text, keychain) aynı yapıyı
+   * kuruyordu; fark yalnızca önizleme harfine uygulanan stilde.
+   *
+   * @param {Function} stilUret - (font) => inline style dizgisi
+   */
+  function buildFontPicker(fonts, state, onChange, stilUret) {
+    const group = controlGroup('Yazı tipi');
+
+    const { grid } = buildRadioGroup({
+      grupAdi: 'Yazı tipi',
+      gridSinifi: 'studio-font-grid',
+      ogeSinifi: 'studio-font-option',
+      seciliId: state.fontId,
+      ogeler: fonts.map(f => ({
+        id: f.id,
+        ad: f.name,
+        icerikHTML:
+          `<span class="studio-font-preview" style="${stilUret(f)}" aria-hidden="true">Aa</span>` +
+          `<span class="studio-font-name">${escapeXml(f.name)}</span>`
+      })),
+      onSelect: id => {
+        state.fontId = id;
+        onChange();
+      }
+    });
+
+    group.append(grid);
+    return group;
+  }
+
+  function buildMaterialPicker(p, state, onChange) {
+    const group = controlGroup('Renk · Malzeme');
+    const materyaller = p.customization.materials;
+
+    const { grid } = buildRadioGroup({
+      grupAdi: 'Renk ve malzeme',
+      gridSinifi: 'studio-swatch-grid',
+      ogeSinifi: 'studio-swatch',
+      seciliId: state.materialId,
+      ogeler: materyaller.map(m => ({
+        id: m.id,
+        ad: m.name,
+        // Ek ücret erişilebilir ada giriyor: renk körü veya ekran okuyucu
+        // kullanan biri de fiyat farkını seçmeden önce duyabilsin
+        ekBilgi: m.priceModifier > 0 ? `${formatPrice(m.priceModifier)} ek ücret` : 'ek ücret yok',
+        icerikHTML: `<span class="studio-swatch-color" style="background:${escapeXml(m.color)}"></span>`
+      })),
+      onSelect: id => {
+        state.materialId = id;
+        updateLabel();
+        onChange();
+      }
     });
 
     const label = PB_h('div', { class: 'studio-swatch-label' });
 
     function updateLabel() {
-      const mat = p.customization.materials.find(x => x.id === state.materialId);
+      const mat = materyaller.find(x => x.id === state.materialId);
       const priceText = mat.priceModifier > 0 ? ` (+${formatPrice(mat.priceModifier)})` : '';
       label.textContent = mat.name + priceText;
     }
     updateLabel();
 
-    group.append(swatchGrid, label);
+    group.append(grid, label);
     return group;
   }
 
@@ -603,23 +707,22 @@ const PB_Studio = (function () {
    */
   function buildColorPicker(label, colors, state, stateKey, onChange) {
     const group = controlGroup(label);
-    const swatchGrid = PB_h('div', { class: 'studio-swatch-grid' });
 
-    colors.forEach(c => {
-      const btn = PB_h('button', {
-        type: 'button',
-        class: 'studio-swatch' + (state[stateKey] === c.id ? ' is-active' : ''),
-        title: c.name,
-        onclick: () => {
-          state[stateKey] = c.id;
-          swatchGrid.querySelectorAll('.studio-swatch').forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          updateLbl();
-          onChange();
-        }
-      });
-      btn.innerHTML = `<span class="studio-swatch-color" style="background:${c.color}"></span>`;
-      swatchGrid.append(btn);
+    const { grid } = buildRadioGroup({
+      grupAdi: label,
+      gridSinifi: 'studio-swatch-grid',
+      ogeSinifi: 'studio-swatch',
+      seciliId: state[stateKey],
+      ogeler: colors.map(c => ({
+        id: c.id,
+        ad: c.name,
+        icerikHTML: `<span class="studio-swatch-color" style="background:${escapeXml(c.color)}"></span>`
+      })),
+      onSelect: id => {
+        state[stateKey] = id;
+        updateLbl();
+        onChange();
+      }
     });
 
     const lbl = PB_h('div', { class: 'studio-swatch-label' });
@@ -629,7 +732,7 @@ const PB_Studio = (function () {
     }
     updateLbl();
 
-    group.append(swatchGrid, lbl);
+    group.append(grid, lbl);
     return group;
   }
 
@@ -659,6 +762,65 @@ const PB_Studio = (function () {
       return state.text.trim().length > 0 && state.fontId && state.plateColorId && state.textColorId;
     }
     return true;
+  }
+
+  /**
+   * Fiyatın nereden geldiğini satır satır gösterir.
+   *
+   * Önceden yalnızca "Toplam: 600 ₺" yazıyordu. Altın kaplamayı seçen
+   * müşteri fiyatın 480'den 600'e neden çıktığını göremiyordu; bu hem
+   * güven kırıyor hem de sepette sürprize dönüşüyordu.
+   */
+  function renderBreakdown(el, p, state) {
+    if (!el) return;
+    el.innerHTML = '';
+
+    const satirlar = [{ ad: 'Ürün', tutar: p.price }];
+
+    const mat = p.customization.materials?.find(m => m.id === state.materialId);
+    if (mat && mat.priceModifier > 0) {
+      satirlar.push({ ad: mat.name, tutar: mat.priceModifier, ek: true });
+    }
+
+    // Tek satır varsa döküm göstermenin bir faydası yok
+    if (satirlar.length < 2) { el.hidden = true; return; }
+    el.hidden = false;
+
+    satirlar.forEach(s => {
+      const satir = PB_h('div', { class: 'studio-breakdown-row' });
+      satir.append(
+        PB_h('span', {}, s.ek ? s.ad : s.ad),
+        PB_h('span', {}, (s.ek ? '+' : '') + formatPrice(s.tutar))
+      );
+      el.append(satir);
+    });
+  }
+
+  /**
+   * Sepete ekle butonunun durumunu ve eksik alan uyarısını günceller.
+   *
+   * Önceden buton her zaman aktifti ve eksik alanla tıklanınca tarayıcının
+   * alert() kutusu çıkıyordu: premium bir markada yabancı duran, ekranı
+   * kilitleyen bir çözüm. Artık buton eksikken pasif ve gerekçe alanın
+   * hemen üstünde yazılı duruyor.
+   */
+  function updateValidity(addBtn, mesajEl, p, state) {
+    const gecerli = validateState(p, state);
+    addBtn.disabled = !gecerli;
+
+    if (!mesajEl) return;
+    if (gecerli) {
+      mesajEl.hidden = true;
+      mesajEl.textContent = '';
+      return;
+    }
+
+    const type = p.customization.type;
+    const metinGerekli = (type === 'name-text' || type === 'keychain') && !state.text.trim();
+    mesajEl.textContent = metinGerekli
+      ? (p.customization.textLabel ? p.customization.textLabel + ' alanını doldur' : 'Yazdırılacak metni gir')
+      : 'Devam etmek için seçimlerini tamamla';
+    mesajEl.hidden = false;
   }
 
   function getFinalPrice(p, state) {

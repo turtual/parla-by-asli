@@ -7,12 +7,43 @@
 
 /* ──────────── Modal kontrolü ──────────── */
 
+/* Modal açılmadan önce odakta olan öğe — kapanınca oraya dönülür */
+const PB_ModalOncekiOdak = new WeakMap();
+
+const PB_ODAKLANABILIR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), ' +
+  'textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+function PB_odaklanabilirler(kok) {
+  return [...kok.querySelectorAll(PB_ODAKLANABILIR)]
+    .filter(el => el.offsetParent !== null || el === document.activeElement);
+}
+
 const PB_Modal = {
   open(id) {
     const m = document.getElementById(id);
     if (!m) return;
+
+    // Kapanışta geri dönmek için odağı hatırla
+    PB_ModalOncekiOdak.set(m, document.activeElement);
+
     m.removeAttribute('hidden');
-    requestAnimationFrame(() => m.classList.add('is-open'));
+
+    // Reflow'u zorla: geçişin başlangıç durumu sabitlensin, sonra sınıfı ekle.
+    // Önceden bu requestAnimationFrame içindeydi; sekme arka plandayken rAF
+    // çalışmadığı için modal görünmeden açık kalabiliyordu.
+    void m.offsetWidth;
+    m.classList.add('is-open');
+
+    // Odağı modalın içine al. Önce anlamlı bir kontrol (metin alanı),
+    // yoksa ilk odaklanabilir öğe, o da yoksa modalın kendisi.
+    const hedef =
+      m.querySelector('input:not([type=hidden]):not([disabled]), textarea') ||
+      PB_odaklanabilirler(m)[0] ||
+      m;
+    if (hedef === m) m.tabIndex = -1;
+    hedef.focus({ preventScroll: true });
+
     document.body.style.overflow = 'hidden';
   },
   close(id) {
@@ -21,6 +52,41 @@ const PB_Modal = {
     m.classList.remove('is-open');
     document.body.style.overflow = '';
     setTimeout(() => m.setAttribute('hidden', ''), 250);
+
+    // Odağı modalı açan öğeye geri ver — yoksa klavye kullanıcısı
+    // sayfanın en başına düşer ve yerini kaybeder
+    const onceki = PB_ModalOncekiOdak.get(m);
+    if (onceki && document.contains(onceki)) {
+      onceki.focus({ preventScroll: true });
+    }
+    PB_ModalOncekiOdak.delete(m);
+  },
+
+  /**
+   * Tab'ı modal içinde tutar. Aksi hâlde odak arkadaki sayfaya kaçıyor
+   * ve kullanıcı görmediği bağlantılar arasında geziniyordu.
+   */
+  odagiHapset(e) {
+    if (e.key !== 'Tab') return;
+    const acik = document.querySelector('.modal.is-open, .cart-drawer.is-open');
+    if (!acik) return;
+
+    const ogeler = PB_odaklanabilirler(acik);
+    if (ogeler.length === 0) return;
+
+    const ilk = ogeler[0];
+    const son = ogeler[ogeler.length - 1];
+
+    if (e.shiftKey && document.activeElement === ilk) {
+      e.preventDefault();
+      son.focus();
+    } else if (!e.shiftKey && document.activeElement === son) {
+      e.preventDefault();
+      ilk.focus();
+    } else if (!acik.contains(document.activeElement)) {
+      e.preventDefault();
+      ilk.focus();
+    }
   },
   bind() {
     // [data-modal-open="ID"] ile açılır
@@ -44,6 +110,9 @@ const PB_Modal = {
         document.querySelectorAll('.modal.is-open').forEach(m => PB_Modal.close(m.id));
       }
     });
+
+    // Tab açık modalın dışına çıkmasın
+    document.addEventListener('keydown', PB_Modal.odagiHapset);
   }
 };
 
@@ -426,8 +495,15 @@ const PB_CartDrawer = {
   open() {
     const drawer = PB_CartDrawer.build();
     PB_CartDrawer.render();
+    PB_ModalOncekiOdak.set(drawer, document.activeElement);
+
     drawer.removeAttribute('hidden');
-    requestAnimationFrame(() => drawer.classList.add('is-open'));
+    void drawer.offsetWidth;              // reflow — geçiş animasyonu için
+    drawer.classList.add('is-open');
+
+    const hedef = PB_odaklanabilirler(drawer)[0];
+    if (hedef) hedef.focus({ preventScroll: true });
+
     document.body.style.overflow = 'hidden';
   },
 
@@ -437,6 +513,10 @@ const PB_CartDrawer = {
     drawer.classList.remove('is-open');
     document.body.style.overflow = '';
     setTimeout(() => drawer.setAttribute('hidden', ''), 250);
+
+    const onceki = PB_ModalOncekiOdak.get(drawer);
+    if (onceki && document.contains(onceki)) onceki.focus({ preventScroll: true });
+    PB_ModalOncekiOdak.delete(drawer);
   },
 
   render() {
