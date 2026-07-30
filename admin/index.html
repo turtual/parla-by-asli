@@ -86,18 +86,18 @@
       margin-bottom: 24px;
     }
 
-    /* ───── Layout ───── */
+    /* ───── Layout ─────
+       Dashboard tarzı: üstte topbar (iki sütuna da yayılır), altında
+       solda dikey sidebar (sekmeler), sağda içerik. */
     .app {
       min-height: 100vh;
       display: grid;
-      /* Üç çocuk var: topbar, tabs-bar, content.
-         Önceden iki satır tanımlıydı (auto 1fr); artan yükseklik ikinci
-         satıra, yani sekme çubuğuna düşüyor ve onu ~460px'e şişiriyordu.
-         İçerik de sayfanın en altına itiliyordu. */
-      grid-template-rows: auto auto 1fr;
+      grid-template-columns: 220px 1fr;
+      grid-template-rows: auto 1fr;
     }
 
     .topbar {
+      grid-column: 1 / -1;
       background: var(--c-sicak);
       color: var(--c-cream);
       padding: 12px 24px;
@@ -150,22 +150,26 @@
 
     .btn-logout:hover { background: rgba(255, 255, 255, 0.2); }
 
-    /* ───── Sekme + içerik ───── */
-    .tabs-bar {
+    /* ───── Sidebar + içerik ───── */
+    .sidebar {
+      grid-row: 2;
+      grid-column: 1;
       background: white;
-      border-bottom: 0.5px solid var(--c-line);
-      padding: 0 24px;
+      border-right: 0.5px solid var(--c-line);
+      padding: 16px 0;
       display: flex;
-      gap: 4px;
+      flex-direction: column;
+      gap: 2px;
     }
 
     .tab {
-      padding: 14px 20px;
+      padding: 12px 24px;
       background: none;
       border: none;
-      border-bottom: 2px solid transparent;
+      border-left: 3px solid transparent;
       font-family: inherit;
       font-size: 13px;
+      text-align: left;
       color: var(--c-toprak);
       cursor: pointer;
       letter-spacing: 0.04em;
@@ -173,15 +177,17 @@
 
     .tab.is-active {
       color: var(--c-sicak);
-      border-bottom-color: var(--c-bakir);
+      background: var(--c-cream);
+      border-left-color: var(--c-bakir);
       font-weight: 500;
     }
 
     .content {
+      grid-row: 2;
+      grid-column: 2;
       padding: 24px;
-      max-width: 1280px;
-      margin: 0 auto;
       width: 100%;
+      overflow-x: auto;
     }
 
     /* ───── Ürün listesi ───── */
@@ -378,82 +384,6 @@
     .badge-kol { background: var(--c-bej); color: var(--c-sicak); }
     .badge-ozl { background: var(--c-bakir); color: white; }
     .badge-inactive { background: rgba(20, 17, 14, 0.1); color: var(--c-toprak); }
-
-    /* ───── Ürün listesi: Koleksiyon → Ürün Tipi ağacı ───── */
-    .product-tree {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .product-tree-collection {
-      background: white;
-      border-radius: 12px;
-      border: 0.5px solid var(--c-line);
-      overflow: hidden;
-    }
-
-    .product-tree-collection-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      background: var(--c-sicak);
-      color: var(--c-cream);
-      cursor: pointer;
-      font-family: 'Fraunces', serif;
-      font-size: 15px;
-      list-style: none;
-    }
-
-    .product-tree-collection-head::-webkit-details-marker { display: none; }
-
-    .product-tree-collection-head .product-tree-meta {
-      color: rgba(250, 246, 241, 0.7);
-    }
-
-    .product-tree-body {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .product-tree-group {
-      border: 0.5px solid var(--c-line);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .product-tree-group-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 14px;
-      background: var(--c-bej);
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      list-style: none;
-    }
-
-    .product-tree-group-head::-webkit-details-marker { display: none; }
-
-    .product-tree-meta {
-      font-size: 11px;
-      font-weight: 400;
-      color: var(--c-toprak);
-      letter-spacing: 0;
-      text-transform: none;
-    }
-
-    .product-tree-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
 
     .stock-badge {
       display: inline-block;
@@ -767,10 +697,37 @@
         overflow-x: auto;
       }
       .product-table table {
-        min-width: 600px;
+        min-width: 760px;
       }
       .topbar h1 {
         font-size: 14px;
+      }
+      /* Dar ekranda sidebar dikey yerine üstte yatay bir şerit olur */
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+      }
+      .sidebar {
+        grid-row: 2;
+        grid-column: 1;
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 0.5px solid var(--c-line);
+        padding: 4px 12px;
+      }
+      .tab {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+      }
+      .tab.is-active {
+        background: none;
+        border-bottom-color: var(--c-bakir);
+      }
+      .content {
+        grid-row: 3;
+        grid-column: 1;
       }
     }
   </style>
@@ -817,7 +774,7 @@
       </div>
     </header>
 
-    <nav class="tabs-bar">
+    <nav class="sidebar">
       <button class="tab is-active" data-tab="products">Ürünler</button>
       <button class="tab" data-tab="collections">Koleksiyonlar</button>
       <button class="tab" data-tab="product-types">Ürün Tipleri</button>

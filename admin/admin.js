@@ -288,10 +288,9 @@
   }
 
   /**
-   * Ürün listesi artık düz bir tablo değil, Koleksiyon → Ürün Tipi → Ürünler
-   * ağacı: her koleksiyon ve ürün tipi kendi grubunda, toplam ürün/stok
-   * özetiyle görünür. Arama ve filtreler ağacı daraltır (eşleşmeyen ürünler
-   * ve boş kalan gruplar gizlenir).
+   * Ürün listesi tek düz tablo. Her satırda Koleksiyon, Ürün Tipi'nin
+   * solunda ayrı bir sütun olarak görünür (ikisi de admin'den yönetilen
+   * ayrı kavramlar). Arama ve filtreler satırları daraltır.
    */
   function renderProductTable() {
     const search = (searchInput.value || '').toLowerCase().trim();
@@ -314,56 +313,25 @@
       return;
     }
 
-    const collectionsSorted = [...allCollections].sort((a, b) => a.displayOrder - b.displayOrder);
-    const typesSorted = [...allProductTypes].sort((a, b) => a.displayOrder - b.displayOrder);
+    const rows = filtered.map(p => renderProductRow(p)).join('');
 
-    const treeHtml = collectionsSorted.map(col => {
-      const colProducts = filtered.filter(p => p.collectionId === col.id);
-      if (colProducts.length === 0) return '';
-
-      const totalStock = colProducts.reduce((sum, p) => sum + (p.stockQuantity || 0), 0);
-
-      const typeGroupsHtml = typesSorted.map(type => {
-        const typeProducts = colProducts.filter(p => p.category === type.slug);
-        if (typeProducts.length === 0) return '';
-
-        const rows = typeProducts.map(p => renderProductRow(p, type.name)).join('');
-        const typeStock = typeProducts.reduce((sum, p) => sum + (p.stockQuantity || 0), 0);
-
-        return `
-          <details class="product-tree-group" open>
-            <summary class="product-tree-group-head">
-              <span>${escapeHtml(type.name)}</span>
-              <span class="product-tree-meta">${typeProducts.length} ürün · ${typeStock} adet stok</span>
-            </summary>
-            <table class="product-tree-table">
-              <thead>
-                <tr>
-                  <th style="width: 64px;"></th>
-                  <th>Ad</th>
-                  <th>Ürün tipi</th>
-                  <th>Stok</th>
-                  <th>Durum</th>
-                  <th>Fiyat</th>
-                  <th style="width: 100px;"></th>
-                </tr>
-              </thead>
-              <tbody>${rows}</tbody>
-            </table>
-          </details>`;
-      }).join('');
-
-      return `
-        <details class="product-tree-collection" open>
-          <summary class="product-tree-collection-head">
-            <span>${escapeHtml(col.name)}</span>
-            <span class="product-tree-meta">${colProducts.length} ürün · ${totalStock} adet stok</span>
-          </summary>
-          <div class="product-tree-body">${typeGroupsHtml}</div>
-        </details>`;
-    }).join('');
-
-    productTable.innerHTML = `<div class="product-tree">${treeHtml}</div>`;
+    productTable.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 64px;"></th>
+            <th>Ad</th>
+            <th>Koleksiyon</th>
+            <th>Ürün tipi</th>
+            <th>Stok</th>
+            <th>Durum</th>
+            <th>Fiyat</th>
+            <th style="width: 100px;"></th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
 
     // Row event listener'ları
     productTable.querySelectorAll('[data-action]').forEach(btn => {
@@ -389,7 +357,9 @@
     });
   }
 
-  function renderProductRow(p, typeName) {
+  function renderProductRow(p) {
+    const colName = (allCollections.find(c => c.id === p.collectionId) || {}).name || '—';
+    const typeName = (allProductTypes.find(t => t.slug === p.category) || {}).name || p.category;
     const inactiveBadge = !p.isActive
       ? '<span class="badge badge-inactive">Pasif</span>'
       : '';
@@ -407,6 +377,7 @@
           <div style="font-weight: 500;">${escapeHtml(p.name)}${featured}</div>
           <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">${escapeHtml(p.slug)}</div>
         </td>
+        <td>${escapeHtml(colName)}</td>
         <td>${escapeHtml(typeName)}</td>
         <td><span class="${stockClass}">${stock} adet</span></td>
         <td>${inactiveBadge}</td>
