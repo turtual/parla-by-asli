@@ -2660,6 +2660,103 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   }
 }
 
+/* Favoriler çekmecesi — sepet çekmecesinin görsel dilini paylaşır,
+   içerik olarak ürün kartı ızgarası kullanır */
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.fav-grid .product-card {
+  animation: none;   /* çekmecede kayarak girmesin, hemen görünsün */
+}
+
+.fav-count-badge {
+  position: absolute;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  border-radius: var(--r-pill);
+  background: var(--c-bakir);
+  color: var(--c-cream);
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 15px;
+  text-align: center;
+}
+
+/* ============================================================
+   19c. DOKUNMA HEDEFLERİ
+
+   Parmakla kullanılan her kontrol en az 44x44 olmalı. Görünen
+   boyutları büyütmek tasarımı değiştirirdi; bunun yerine tıklama
+   alanı şeffaf bir ::before ile genişletiliyor. Görsel aynı kalır,
+   isabet alanı büyür.
+   ============================================================ */
+
+/* Kart üzerindeki favori kalbi: görünen daire 26px, hedef 44px */
+
+.product-card-fav::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+/* Başlık ikonları: 20px ikon + padding = 44px */
+
+.header-icon-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Marka linki — logo yüksekliği sabit, dolgu ile hedefe çıkar */
+
+.brand-link {
+  min-height: 44px;
+}
+
+/* Filtre butonu */
+
+.filter-btn {
+  min-height: 44px;
+}
+
+/* Metin bağlantıları: satır yüksekliği düşük olduğu için
+   dikey dolguyla hedef alanı büyütülüyor */
+
+.story-link {
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 12px;
+}
+
+.footer-col ul a,
+.footer-col li a {
+  display: inline-block;
+  padding: 7px 0;
+}
+
+/* Footer listesinde dolgu eklendiği için satır arası boşluk azaltılıyor —
+   toplam ritim korunsun */
+.footer-col li {
+  margin-bottom: 0;
+}
+
+/* Sepet ve favori sayacı ikonun içinde konumlanıyor; hedef büyüdüğünde
+   rozet ikonla hizalı kalmalı */
+.header-icon-btn .cart-count-badge,
+.header-icon-btn .fav-count-badge {
+  top: 6px;
+  right: 6px;
+}
+
 /* Checkout — sözleşme onay kutusu */
 
 .checkout-onay {

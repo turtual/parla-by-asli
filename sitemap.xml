@@ -90,6 +90,18 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Yardım sayfaları -->
+  <url>
+    <loc>https://parlabyasli.com/iletisim/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://parlabyasli.com/sss/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Yasal metinler -->
   <url>
     <loc>https://parlabyasli.com/yasal/mesafeli-satis/</loc>

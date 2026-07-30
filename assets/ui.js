@@ -185,7 +185,10 @@ const PB_Favs = {
     try { return JSON.parse(localStorage.getItem(this.KEY)) || []; }
     catch { return []; }
   },
-  write(ids) { localStorage.setItem(this.KEY, JSON.stringify(ids)); },
+  write(ids) {
+    localStorage.setItem(this.KEY, JSON.stringify(ids));
+    this.refreshBadge();
+  },
   toggle(productId) {
     const ids = this.read();
     const idx = ids.indexOf(productId);
@@ -194,7 +197,16 @@ const PB_Favs = {
     this.write(ids);
     return idx === -1; // yeni eklendi mi
   },
-  has(productId) { return this.read().includes(productId); }
+  has(productId) { return this.read().includes(productId); },
+  count() { return this.read().length; },
+
+  refreshBadge() {
+    const c = this.count();
+    document.querySelectorAll('[data-fav-count]').forEach(b => {
+      b.textContent = c;
+      b.style.display = c > 0 ? '' : 'none';
+    });
+  }
 };
 
 /* ──────────── Küçük helper'lar ──────────── */
@@ -632,10 +644,134 @@ const PB_CartDrawer = {
   },
 
   bindHeaderTrigger() {
-    document.querySelectorAll('a[aria-label="Sepetim"]').forEach(link => {
-      link.addEventListener('click', e => {
+    // Seçici etikete bağlı değil: sepet ikonu <a href="#"> iken <button>'a
+    // çevrildi, bağlama bundan etkilenmemeli.
+    document.querySelectorAll('[aria-label="Sepetim"]').forEach(el => {
+      el.addEventListener('click', e => {
         e.preventDefault();
         PB_CartDrawer.open();
+      });
+    });
+  }
+};
+
+/* ──────────── Favoriler çekmecesi ────────────
+ *
+ * Başlıktaki kalp ikonu hiçbir şey yapmıyordu: kartlardaki kalplerle
+ * favori eklenebiliyor ama eklenenleri görecek bir yer yoktu. Tıklayıp
+ * hiçbir şey olmaması siteyi yarım gösteriyordu.
+ */
+
+const PB_FavDrawer = {
+  build() {
+    let drawer = document.getElementById('fav-drawer');
+    if (drawer) return drawer;
+
+    drawer = PB_h('div', {
+      class: 'cart-drawer',
+      id: 'fav-drawer',
+      role: 'dialog',
+      'aria-modal': 'true',
+      'aria-label': 'Favorilerim',
+      hidden: ''
+    });
+
+    drawer.innerHTML = `
+      <div class="cart-drawer-overlay" data-fav-close></div>
+      <aside class="cart-drawer-panel">
+        <header class="cart-drawer-head">
+          <h2 class="h2">Favorilerim</h2>
+          <button class="modal-close" data-fav-close aria-label="Kapat">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 2 L12 12 M12 2 L2 12"/>
+            </svg>
+          </button>
+        </header>
+        <div class="cart-drawer-body" data-fav-body></div>
+      </aside>
+    `;
+
+    drawer.querySelectorAll('[data-fav-close]').forEach(el => {
+      el.addEventListener('click', () => PB_FavDrawer.close());
+    });
+
+    document.body.appendChild(drawer);
+    return drawer;
+  },
+
+  async open() {
+    const drawer = PB_FavDrawer.build();
+    PB_ModalOncekiOdak.set(drawer, document.activeElement);
+
+    drawer.removeAttribute('hidden');
+    void drawer.offsetWidth;
+    drawer.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+
+    const ilk = PB_odaklanabilirler(drawer)[0];
+    if (ilk) ilk.focus({ preventScroll: true });
+
+    await PB_FavDrawer.render();
+  },
+
+  close() {
+    const drawer = document.getElementById('fav-drawer');
+    if (!drawer) return;
+    drawer.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(() => drawer.setAttribute('hidden', ''), 250);
+
+    const onceki = PB_ModalOncekiOdak.get(drawer);
+    if (onceki && document.contains(onceki)) onceki.focus({ preventScroll: true });
+    PB_ModalOncekiOdak.delete(drawer);
+  },
+
+  async render() {
+    const drawer = document.getElementById('fav-drawer');
+    if (!drawer) return;
+    const body = drawer.querySelector('[data-fav-body]');
+    const ids = PB_Favs.read();
+
+    if (ids.length === 0) {
+      body.replaceChildren(PB_h('div', { class: 'cart-empty' },
+        PB_h('p', {}, 'Henüz favorin yok.'),
+        PB_h('p', { style: 'font-size:12px; margin-top:6px;' },
+          'Beğendiğin ürünlerin sağ üst köşesindeki kalbe dokun.'),
+        PB_h('button', {
+          type: 'button', class: 'btn btn-ghost',
+          onclick: () => PB_FavDrawer.close()
+        }, 'Alışverişe başla')
+      ));
+      return;
+    }
+
+    body.replaceChildren(PB_h('div', { class: 'cart-loading' }, 'Yükleniyor…'));
+
+    const tumu = (typeof getProducts === 'function') ? await getProducts({}) : [];
+    const secilenler = ids.map(id => tumu.find(p => p.id === id)).filter(Boolean);
+
+    // Ürün silinmiş veya pasife alınmışsa favoriden de düşsün, yoksa
+    // liste sessizce eksik görünür
+    if (secilenler.length !== ids.length) {
+      PB_Favs.write(secilenler.map(p => p.id));
+    }
+
+    if (secilenler.length === 0) {
+      body.replaceChildren(PB_h('div', { class: 'cart-empty' },
+        PB_h('p', {}, 'Favorilerindeki ürünler artık mevcut değil.')));
+      return;
+    }
+
+    const liste = PB_h('div', { class: 'fav-grid' });
+    secilenler.forEach((p, i) => liste.append(renderProductCard(p, i)));
+    body.replaceChildren(liste);
+  },
+
+  bindHeaderTrigger() {
+    document.querySelectorAll('[aria-label="Favorilerim"]').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        PB_FavDrawer.open();
       });
     });
   }
@@ -646,7 +782,9 @@ const PB_CartDrawer = {
 document.addEventListener('DOMContentLoaded', () => {
   PB_Modal.bind();
   PB_Cart.refreshBadge();
+  PB_Favs.refreshBadge();
   PB_CartDrawer.bindHeaderTrigger();
+  PB_FavDrawer.bindHeaderTrigger();
 
   // Sepet'e ekleyince drawer'ı yenile (zaten açıksa güncellensin)
   const origAdd = PB_Cart.add.bind(PB_Cart);
@@ -657,13 +795,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // ESC ile sepet kapansın
+  // ESC ile sepet veya favoriler kapansın
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      const drawer = document.getElementById('cart-drawer');
-      if (drawer && drawer.classList.contains('is-open')) {
-        PB_CartDrawer.close();
-      }
-    }
+    if (e.key !== 'Escape') return;
+    const sepet = document.getElementById('cart-drawer');
+    if (sepet && sepet.classList.contains('is-open')) PB_CartDrawer.close();
+    const fav = document.getElementById('fav-drawer');
+    if (fav && fav.classList.contains('is-open')) PB_FavDrawer.close();
   });
+
+  // Kalp durumu değişince açık favori çekmecesi güncellensin
+  const origToggle = PB_Favs.toggle.bind(PB_Favs);
+  PB_Favs.toggle = function (id) {
+    const sonuc = origToggle(id);
+    const fav = document.getElementById('fav-drawer');
+    if (fav && fav.classList.contains('is-open')) PB_FavDrawer.render();
+    return sonuc;
+  };
 });

@@ -114,8 +114,24 @@ window.PB_SATICI = {
     sayfa.prepend(band);
   }
 
+  /**
+   * data-satici-mailto taşıyan bağlantıların href'ini e-posta adresinden kurar.
+   * Adres tek dosyada tutulduğu için HTML'e elle yazılmıyor.
+   */
+  function mailtoBagla() {
+    const eposta = deger('eposta');
+    document.querySelectorAll('[data-satici-mailto]').forEach(a => {
+      if (eposta) {
+        a.href = 'mailto:' + eposta;
+      } else {
+        a.removeAttribute('href');
+      }
+    });
+  }
+
   function calistir() {
     doldur(document);
+    mailtoBagla();
     uyariBandi();
   }
 
