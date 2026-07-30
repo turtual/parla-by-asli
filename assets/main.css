@@ -295,8 +295,10 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 @media (min-width: 768px) {
-  .hero { padding: var(--space-lg) var(--space-md) var(--space-xl); }
-  .hero-seal { width: 170px; height: 170px; }
+  /* Geniş ekranlarda mührün etrafındaki dikey boşluk aşırı büyüyüp
+     hero'yu "yarım kalmış" hissettiriyordu — üst/alt boşluk sıkılaştırıldı. */
+  .hero { padding: var(--space-md) var(--space-md) var(--space-lg); }
+  .hero-seal { width: 140px; height: 140px; }
 }
 
 .hero-title {
@@ -310,290 +312,12 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   letter-spacing: 0.06em;
 }
 
-/* ──────────── 8. Filtre alanı ──────────── */
+/* ──────────── 8. Koleksiyonlar alanı (anasayfa) ──────────── */
 
 .mode-area {
   background: var(--c-warm-greige);
   padding: var(--space-lg) 0;
   position: relative;
-}
-
-.mode-row {
-  display: flex;
-  align-items: stretch;
-  gap: var(--space-md);
-}
-
-/* Kişiye özel tasarım stüdyosu kaldırıldıktan sonra tek satırda
-   yalnızca filtre alanı kalıyor; sabit yükseklik gerekmiyor. */
-.mode-row-solo {
-  height: auto;
-}
-
-/* Filtre alanı */
-.filter-area {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  flex: 1;
-  min-width: 0;
-}
-
-.filter-btn {
-  background: var(--c-bakir);
-  color: var(--c-cream);
-  border: none;
-  padding: 10px 16px;
-  border-radius: var(--r-pill);
-  font-family: inherit;
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: background var(--t-fast);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.filter-btn:hover {
-  background: var(--c-bakir-deep);
-}
-
-.filter-btn[aria-expanded="true"] {
-  background: var(--c-bakir-deep);
-  box-shadow: 0 0 0 3px rgba(176, 125, 92, 0.2);
-}
-
-.filter-btn svg {
-  width: 13px;
-  height: 13px;
-}
-
-.filter-count {
-  background: rgba(255, 255, 255, 0.25);
-  padding: 1px 7px;
-  border-radius: var(--r-pill);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0;
-  margin-left: 2px;
-}
-
-.filter-chips {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.filter-empty {
-  font-size: 12px;
-  color: var(--c-toprak);
-  font-style: italic;
-  font-family: var(--font-serif);
-  font-variation-settings: 'opsz' 14;
-}
-
-.filter-chip {
-  background: var(--c-white);
-  padding: 6px 8px 6px 12px;
-  border-radius: var(--r-pill);
-  font-size: 11px;
-  border: 0.5px solid var(--c-line-strong);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  cursor: default;
-}
-
-.filter-chip-remove {
-  background: none;
-  border: none;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-  border-radius: var(--r-pill);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--c-toprak);
-  transition: background var(--t-fast), color var(--t-fast);
-  font-family: inherit;
-}
-
-.filter-chip-remove:hover {
-  background: var(--c-line-soft);
-  color: var(--c-bakir-deep);
-}
-
-/* Filtre dropdown paneli */
-.filter-panel {
-  position: absolute;
-  top: calc(var(--space-lg) + 110px + 16px);
-  background: var(--c-white);
-  border: 0.5px solid var(--c-line-strong);
-  border-radius: var(--r-lg);
-  padding: 14px;
-  min-width: 240px;
-  box-shadow: 0 8px 28px rgba(20, 17, 14, 0.1);
-  z-index: 50;
-}
-
-.filter-panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding: 0 4px;
-}
-
-.filter-panel-close {
-  background: none;
-  border: none;
-  padding: 6px;
-  border-radius: var(--r-pill);
-  cursor: pointer;
-  color: var(--c-toprak);
-  display: none;
-}
-
-.filter-panel-close:hover {
-  background: var(--c-line-soft);
-}
-
-.filter-panel-close svg {
-  width: 12px;
-  height: 12px;
-}
-
-.filter-panel-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-height: 320px;
-  overflow-y: auto;
-}
-
-.filter-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: var(--r-sm);
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--c-sicak-siyah);
-  transition: background var(--t-fast);
-}
-
-.filter-option:hover {
-  background: var(--c-cream);
-}
-
-.filter-option input[type="checkbox"] {
-  accent-color: var(--c-bakir-cizgi);
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  margin: 0;
-}
-
-.filter-panel-foot {
-  border-top: 0.5px solid var(--c-line);
-  margin-top: 10px;
-  padding-top: 10px;
-}
-
-.filter-clear {
-  background: none;
-  border: none;
-  color: var(--c-bakir);
-  font-size: 12px;
-  font-family: inherit;
-  cursor: pointer;
-  padding: 4px 8px;
-  letter-spacing: 0.05em;
-}
-
-.filter-clear:hover {
-  text-decoration: underline;
-}
-
-/* Filtre overlay (mobil için) */
-.filter-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(20, 17, 14, 0.4);
-  z-index: 49;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--t-base);
-}
-
-.filter-overlay.is-visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Mobil — drawer hâline geç */
-@media (max-width: 640px) {
-  .mode-row {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  /* Filtre alanı altta */
-  .filter-area {
-    width: 100%;
-    padding-top: 4px;
-  }
-
-  /* Mobilde filtre paneli sağdan kayan drawer */
-  .filter-panel {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: auto;
-    width: 85%;
-    max-width: 320px;
-    border-radius: 0;
-    box-shadow: -10px 0 40px rgba(20, 17, 14, 0.15);
-    transform: translateX(100%);
-    transition: transform var(--t-base);
-    padding: var(--space-lg);
-    margin: 0;
-    border: none;
-    z-index: 200;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .filter-panel:not([hidden]) {
-    display: flex;
-  }
-
-  .filter-panel.is-open {
-    transform: translateX(0);
-  }
-
-  .filter-panel-close {
-    display: flex;
-  }
-
-  .filter-panel-list {
-    max-height: none;
-    flex: 1;
-  }
-
-  .filter-overlay {
-    z-index: 199;
-  }
 }
 
 /* ──────────── 9. Featured products / Product grid ──────────── */
@@ -1793,6 +1517,14 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   font-variation-settings: 'opsz' 14;
 }
 
+.catalog-desc {
+  max-width: 560px;
+  margin: 0 auto var(--space-sm);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+}
+
 /* Kategoriler arası gezinme — yatay kaydırılabilir */
 /* Pill — kategori sayfalarındaki cat-nav için baz stil */
 .pill {
@@ -1814,7 +1546,11 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   border-color: var(--c-sicak-siyah);
 }
 
-.catalog-cat-nav {
+/* .home-collection-nav: anasayfadaki koleksiyon pilleri — aynı görsel
+   dili paylaşıyor (kategori sayfalarındaki koleksiyonlar-arası nav ile
+   tutarlı olsun diye aynı kurallara dahil edildi). */
+.catalog-cat-nav,
+.home-collection-nav {
   display: flex;
   gap: 8px;
   overflow-x: auto;
@@ -1825,9 +1561,11 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   -ms-overflow-style: none;
 }
 
-.catalog-cat-nav::-webkit-scrollbar { display: none; }
+.catalog-cat-nav::-webkit-scrollbar,
+.home-collection-nav::-webkit-scrollbar { display: none; }
 
-.catalog-cat-nav .pill {
+.catalog-cat-nav .pill,
+.home-collection-nav .pill {
   flex-shrink: 0;
   text-decoration: none;
   text-align: center;
@@ -1838,6 +1576,25 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   color: var(--c-cream);
   border-color: var(--c-sicak-siyah);
   pointer-events: none;
+}
+
+/* Ürün tipi (alt segment) filtresi — koleksiyon içinde ikinci, sayfa içi
+   filtre. .catalog-cat-nav ile aynı pill dilini paylaşır ama seçili durumu
+   aria-current değil aria-selected/is-active ile işaretlenir (link değil,
+   buton — URL değişmiyor). */
+.catalog-type-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xl);
+  padding-top: var(--space-sm);
+  border-top: 0.5px solid var(--c-line-soft);
+}
+
+.catalog-type-filter .pill.is-active {
+  background: var(--c-bakir);
+  color: var(--c-cream);
+  border-color: var(--c-bakir);
 }
 
 /* Boş durum */
@@ -1933,12 +1690,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 /* Marka linki — logo yüksekliği sabit, dolgu ile hedefe çıkar */
 
 .brand-link {
-  min-height: 44px;
-}
-
-/* Filtre butonu */
-
-.filter-btn {
   min-height: 44px;
 }
 

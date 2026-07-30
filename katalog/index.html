@@ -5,38 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#FAF6F1">
 
-  <title>Charm · Parla By Aslı</title>
-  <meta name="description" content="Parla By Aslı charm koleksiyonu. El emeği takı, doğal taşlarla hazırlanan koleksiyon.">
+  <!--
+    Bu, TÜM koleksiyon sayfaları için tek dinamik şablon (eski 8 statik
+    dosyanın yerini alıyor). URL'deki koleksiyon slug'ı assets/catalog.js
+    tarafından location.pathname'den okunup Supabase'den çekiliyor.
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Charm · Parla By Aslı">
-  <meta property="og:description" content="Parla By Aslı charm koleksiyonu — el emeği ve doğal taş işçiliği.">
+    Bilinen ödün: title/description/OG etiketleri burada GENEL kalıyor
+    (JS ile sayfa yüklendikten sonra güncelleniyor). Google JS render
+    ettiği için sorun değil, ama WhatsApp/Facebook gibi paylaşım botları
+    JS çalıştırmadığından bir koleksiyon linki paylaşıldığında kart genel
+    başlık gösterebilir. Bunu çözmek sunucu tarafı render gerektirir,
+    şu anki build-adımsız mimaride kapsam dışı.
+  -->
+  <title>Koleksiyon · Parla By Aslı</title>
+  <meta name="description" content="Parla By Aslı koleksiyonları — el emeği, doğal taş, kişiye özel üretim.">
+
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://parlabyasli.com/katalog/charm/">
-  <link rel="canonical" href="https://parlabyasli.com/katalog/charm/">
   <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="Parla By Aslı">
   <meta property="og:image" content="https://parlabyasli.com/assets/img/og-parla.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:alt" content="Parla By Aslı — el emeği, doğal taş, sana özel tasarım">
 
-  <!-- Twitter card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://parlabyasli.com/assets/img/og-parla.png">
-
-  <!-- Schema.org BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Anasayfa", "item": "https://parlabyasli.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Katalog", "item": "https://parlabyasli.com/katalog/"},
-      {"@type": "ListItem", "position": 3, "name": "Charm"}
-    ]
-  }
-  </script>
 
   <link rel="icon" type="image/svg+xml" href="../../assets/img/logo-pa-bakir.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,31 +77,26 @@
       <ol>
         <li><a href="../../index.html">Anasayfa</a></li>
         <li class="breadcrumb-sep" aria-hidden="true">›</li>
-        <li aria-current="page">Charm</li>
+        <li aria-current="page" id="breadcrumb-current">Koleksiyon</li>
       </ol>
     </nav>
 
-    <!-- ────────── Kategori sayfası ────────── -->
+    <!-- ────────── Koleksiyon sayfası ────────── -->
     <section class="catalog-page">
       <div class="container">
 
         <header class="catalog-head">
-          <span class="eyebrow">Kategori</span>
-          <h1 class="h-display">Charm</h1>
+          <span class="eyebrow">Koleksiyon</span>
+          <h1 class="h-display" id="catalog-title">Yükleniyor…</h1>
+          <p class="catalog-desc" id="catalog-desc" hidden></p>
           <p class="catalog-count" id="catalog-count">— ürün</p>
         </header>
 
-        <!-- Kategoriler arası gezinme -->
-        <nav class="catalog-cat-nav" aria-label="Kategoriler">
-          <a href="../kolye/index.html" class="pill" data-cat="kolye">Kolye</a>
-          <a href="../kupe/index.html" class="pill" data-cat="kupe">Küpe</a>
-          <a href="../bileklik/index.html" class="pill" data-cat="bileklik">Bileklik</a>
-          <a href="../yuzuk/index.html" class="pill" data-cat="yuzuk">Yüzük</a>
-          <a href="../charm/index.html" class="pill" data-cat="charm">Charm</a>
-          <a href="../bros/index.html" class="pill" data-cat="bros">Broş</a>
-          <a href="../anahtarlik/index.html" class="pill" data-cat="anahtarlik">Anahtarlık</a>
-          <a href="../obje/index.html" class="pill" data-cat="obje">Ev objeleri</a>
-        </nav>
+        <!-- Koleksiyonlar arası gezinme — assets/catalog.js dolduruyor -->
+        <nav class="catalog-cat-nav" id="catalog-collection-nav" aria-label="Koleksiyonlar"></nav>
+
+        <!-- Ürün tipine göre ikinci filtre — URL değişmez, sadece görünen liste daralır -->
+        <div class="catalog-type-filter" id="catalog-type-filter" role="tablist" aria-label="Ürün tipi filtresi" hidden></div>
 
         <!-- Ürün gridi -->
         <div class="product-grid" id="catalog-grid">
@@ -132,12 +121,9 @@
         </div>
 
         <div class="footer-col">
-          <h4>Kategoriler</h4>
-          <ul>
-            <li><a href="../kolye/index.html">Kolye</a></li>
-            <li><a href="../kupe/index.html">Küpe</a></li>
-            <li><a href="../bileklik/index.html">Bileklik</a></li>
-            <li><a href="../yuzuk/index.html">Yüzük</a></li>
+          <h4>Koleksiyonlar</h4>
+          <ul id="footer-collections">
+            <!-- catalog.js dolduruyor -->
           </ul>
         </div>
 
@@ -178,22 +164,11 @@
   </footer>
 
   <!-- ────────── Scripts ────────── -->
-  <script>window.PB_CATEGORY = 'charm';</script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../../assets/data.js"></script>
   <script src="../../assets/products.js"></script>
   <script src="../../assets/ui.js"></script>
   <script src="../../assets/catalog.js"></script>
-
-  <!-- Aktif kategori pill'i işaretle -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cat = window.PB_CATEGORY;
-      document.querySelectorAll('.catalog-cat-nav [data-cat]').forEach(link => {
-        if (link.dataset.cat === cat) link.setAttribute('aria-current', 'page');
-      });
-    });
-  </script>
 
 </body>
 </html>

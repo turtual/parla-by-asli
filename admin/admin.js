@@ -31,8 +31,38 @@
   // Products
   const searchInput = document.getElementById('search-input');
   const filterCategory = document.getElementById('filter-category');
+  const filterCollection = document.getElementById('filter-collection');
   const btnNewProduct = document.getElementById('btn-new-product');
   const productTable = document.getElementById('product-table');
+
+  // Collections
+  const btnNewCollection = document.getElementById('btn-new-collection');
+  const collectionTable = document.getElementById('collection-table');
+  const collectionModal = document.getElementById('collection-modal');
+  const collectionModalTitle = document.getElementById('collection-modal-title');
+  const collectionForm = document.getElementById('collection-form');
+  const collectionFormStatus = document.getElementById('collection-form-status');
+  const btnSaveCollection = document.getElementById('btn-save-collection');
+  const btnDeleteCollection = document.getElementById('btn-delete-collection');
+  const cName = document.getElementById('collection-name');
+  const cSlug = document.getElementById('collection-slug');
+  const cDescription = document.getElementById('collection-description');
+  const cOrder = document.getElementById('collection-order');
+  const cActive = document.getElementById('collection-active');
+
+  // Product types
+  const btnNewProductType = document.getElementById('btn-new-product-type');
+  const productTypeTable = document.getElementById('product-type-table');
+  const productTypeModal = document.getElementById('product-type-modal');
+  const productTypeModalTitle = document.getElementById('product-type-modal-title');
+  const productTypeForm = document.getElementById('product-type-form');
+  const productTypeFormStatus = document.getElementById('product-type-form-status');
+  const btnSaveProductType = document.getElementById('btn-save-product-type');
+  const btnDeleteProductType = document.getElementById('btn-delete-product-type');
+  const ptName = document.getElementById('product-type-name');
+  const ptSlug = document.getElementById('product-type-slug');
+  const ptOrder = document.getElementById('product-type-order');
+  const ptActive = document.getElementById('product-type-active');
 
   // Orders
   const filterOrderStatus = document.getElementById('filter-order-status');
@@ -57,6 +87,7 @@
   const fName = document.getElementById('product-name');
   const fPrice = document.getElementById('product-price');
   const fCategory = document.getElementById('product-category');
+  const fCollection = document.getElementById('product-collection');
   const fDescription = document.getElementById('product-description');
   const fMaterials = document.getElementById('product-materials');
   const fSlug = document.getElementById('product-slug');
@@ -70,28 +101,17 @@
   let currentUser = null;
   let allProducts = [];
   let allOrders = [];
+  let allCollections = [];
+  let allProductTypes = [];
   let editingProduct = null; // null = yeni, obj = düzenleme
+  let editingCollection = null;
+  let editingProductType = null;
 
-  /* ──────────── Categories ──────────── */
-
-  const CATEGORIES = [
-    { id: 'kolye', name: 'Kolye' },
-    { id: 'kupe', name: 'Küpe' },
-    { id: 'bileklik', name: 'Bileklik' },
-    { id: 'yuzuk', name: 'Yüzük' },
-    { id: 'charm', name: 'Charm' },
-    { id: 'bros', name: 'Broş' },
-    { id: 'anahtarlik', name: 'Anahtarlık' },
-    { id: 'obje', name: 'Ev objeleri' }
-  ];
-
-  // Filtre dropdown'ı doldur
-  CATEGORIES.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.id;
-    opt.textContent = c.name;
-    filterCategory.appendChild(opt);
-  });
+  /* ──────────── Kategoriler artık koddan değil Supabase'den ──────────── */
+  /* Eskiden burada sabit bir CATEGORIES dizisi vardı. Kişiye özel tasarım
+     modülü kaldırılınca kategori yapısı iki seviyeli hale geldi (koleksiyon
+     + ürün tipi) ve ikisi de admin'den yönetilebilmesi gerektiği için
+     Supabase'e taşındı: bkz. loadCategoryData(). */
 
   /* ──────────── Helpers ──────────── */
 
@@ -164,13 +184,52 @@
     app.style.display = 'none';
   }
 
-  function showApp() {
+  async function showApp() {
     loginScreen.style.display = 'none';
     app.style.display = 'grid';
     if (currentUser) {
       userEmail.textContent = currentUser.email;
     }
+    // Ürün tipi/koleksiyon dropdown'ları ürün listesinden önce dolu olmalı
+    await loadCategoryData();
     loadProducts();
+  }
+
+  /**
+   * Koleksiyon + ürün tipi listelerini çeker ve dört yeri aynı anda
+   * doldurur: ürün formundaki iki select, ürün listesindeki iki filtre.
+   * Admin panelinde her zaman inaktifler dahil tüm liste görünür
+   * (forceFresh: az sayıda kayıt olduğu için cache'e gerek yok).
+   */
+  async function loadCategoryData() {
+    const [collections, productTypes] = await Promise.all([
+      PB_Data.getCollections({ includeInactive: true, forceFresh: true }),
+      PB_Data.getProductTypes({ includeInactive: true, forceFresh: true })
+    ]);
+    allCollections = collections || [];
+    allProductTypes = productTypes || [];
+
+    fillSelect(fCategory, allProductTypes, 'slug', 'name', 'Seç…');
+    fillSelect(fCollection, allCollections, 'id', 'name', 'Seç…');
+    fillSelect(filterCategory, allProductTypes, 'slug', 'name', 'Tüm ürün tipleri');
+    fillSelect(filterCollection, allCollections, 'id', 'name', 'Tüm koleksiyonlar');
+  }
+
+  /** Bir <select>'i verilen kayıt listesiyle doldurur, ilk seçenek olarak placeholder bırakır. */
+  function fillSelect(selectEl, items, valueKey, labelKey, placeholder) {
+    if (!selectEl) return;
+    const oncekiDeger = selectEl.value;
+    selectEl.innerHTML = `<option value="">${escapeHtml(placeholder)}</option>`;
+    items.forEach(item => {
+      const opt = document.createElement('option');
+      opt.value = item[valueKey];
+      opt.textContent = item.name + (item.isActive === false ? ' (pasif)' : '');
+      selectEl.appendChild(opt);
+    });
+    // Formu doldururken (openProductModal) seçili değeri korumak için
+    if (oncekiDeger && [...selectEl.options].some(o => o.value === oncekiDeger)) {
+      selectEl.value = oncekiDeger;
+    }
   }
 
   loginForm.addEventListener('submit', async (e) => {
@@ -213,6 +272,8 @@
       if (target === 'orders' && allOrders.length === 0) {
         loadOrders();
       }
+      if (target === 'collections') renderCollectionTable();
+      if (target === 'product-types') renderProductTypeTable();
     });
   });
 
@@ -228,24 +289,26 @@
   function renderProductTable() {
     const search = (searchInput.value || '').toLowerCase().trim();
     const catF = filterCategory.value;
+    const colF = filterCollection.value;
 
     const filtered = allProducts.filter(p => {
       if (search && !p.name.toLowerCase().includes(search) && !p.slug.toLowerCase().includes(search)) return false;
       if (catF && p.category !== catF) return false;
+      if (colF && p.collectionId !== colF) return false;
       return true;
     });
 
     if (filtered.length === 0) {
       productTable.innerHTML = `
         <div class="empty-state">
-          <p>${search || catF ? 'Filtreye uyan ürün yok.' : 'Henüz ürün yok.'}</p>
-          ${!search && !catF ? '<button class="btn btn-primary" onclick="document.getElementById(\'btn-new-product\').click()">İlk ürünü ekle</button>' : ''}
+          <p>${search || catF || colF ? 'Filtreye uyan ürün yok.' : 'Henüz ürün yok.'}</p>
+          ${!search && !catF && !colF ? '<button class="btn btn-primary" onclick="document.getElementById(\'btn-new-product\').click()">İlk ürünü ekle</button>' : ''}
         </div>`;
       return;
     }
 
     const rows = filtered.map(p => {
-      const catName = (CATEGORIES.find(c => c.id === p.category) || {}).name || p.category;
+      const catName = (allProductTypes.find(c => c.slug === p.category) || {}).name || p.category;
       const inactiveBadge = !p.isActive
         ? '<span class="badge badge-inactive">Pasif</span>'
         : '';
@@ -325,6 +388,7 @@
   // Filtre event'leri
   searchInput.addEventListener('input', renderProductTable);
   filterCategory.addEventListener('change', renderProductTable);
+  filterCollection.addEventListener('change', renderProductTable);
 
   /* ──────────── PRODUCT MODAL ──────────── */
 
@@ -342,6 +406,7 @@
       fName.value = product.name || '';
       fPrice.value = product.price || 0;
       fCategory.value = product.category || '';
+      fCollection.value = product.collectionId || '';
       fDescription.value = product.description || '';
       fMaterials.value = (product.materials || []).join('\n');
       fSlug.value = product.slug || '';
@@ -475,6 +540,7 @@
       name: fName.value.trim(),
       price: parseInt(fPrice.value) || 0,
       category: fCategory.value,
+      collectionId: fCollection.value,
       // Kişiye özel tasarım stüdyosu kaldırıldı, katalogda artık tek tip
       // ürün var. 'mode' kolonu veritabanı şemasında duruyor, sabit değer
       // veriyoruz ki eski sorgular/raporlar bozulmasın.
@@ -533,6 +599,327 @@
 
     if (fromModal) closeProductModal();
     loadProducts();
+  }
+
+  /* ──────────── KOLEKSİYONLAR ────────────
+   * Ürün CRUD'unun (yukarıdaki bölüm) küçültülmüş kopyası — aynı
+   * kaydetme akışı: buton pasifleştir → PB_Data.adminX çağır →
+   * showStatus() → modalı kapatıp listeyi tazele.
+   */
+
+  function renderCollectionTable() {
+    if (allCollections.length === 0) {
+      collectionTable.innerHTML = `
+        <div class="empty-state">
+          <p>Henüz koleksiyon yok.</p>
+          <button class="btn btn-primary" onclick="document.getElementById('btn-new-collection').click()">İlk koleksiyonu ekle</button>
+        </div>`;
+      return;
+    }
+
+    const rows = allCollections.map(c => {
+      const inactiveBadge = !c.isActive ? '<span class="badge badge-inactive">Pasif</span>' : '';
+      const urunSayisi = allProducts.filter(p => p.collectionId === c.id).length;
+      return `
+        <tr data-id="${escapeHtml(c.id)}">
+          <td>
+            <div style="font-weight: 500;">${escapeHtml(c.name)}</div>
+            <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">/katalog/${escapeHtml(c.slug)}/</div>
+          </td>
+          <td>${inactiveBadge}</td>
+          <td>${urunSayisi} ürün</td>
+          <td>
+            <div class="row-actions">
+              <button class="icon-btn" data-action="edit" title="Düzenle">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <path d="M2 14 L4 10 L11 3 L13 5 L6 12 Z M11 3 L13 5"/>
+                </svg>
+              </button>
+              <button class="icon-btn is-danger" data-action="delete" title="Sil">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <path d="M3 4 L13 4 M5 4 L5 13 Q5 14 6 14 L10 14 Q11 14 11 13 L11 4 M6 4 L6 2 Q6 1 7 1 L9 1 Q10 1 10 2 L10 4 M7 7 L7 11 M9 7 L9 11"/>
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+
+    collectionTable.innerHTML = `
+      <table>
+        <thead>
+          <tr><th>Ad</th><th>Durum</th><th>Ürün sayısı</th><th style="width: 100px;"></th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+
+    collectionTable.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const id = btn.closest('tr').dataset.id;
+        const collection = allCollections.find(c => c.id === id);
+        if (!collection) return;
+        if (btn.dataset.action === 'edit') openCollectionModal(collection);
+        if (btn.dataset.action === 'delete') deleteCollection(collection);
+      });
+    });
+    collectionTable.querySelectorAll('tbody tr').forEach(tr => {
+      tr.style.cursor = 'pointer';
+      tr.addEventListener('click', () => {
+        const collection = allCollections.find(c => c.id === tr.dataset.id);
+        if (collection) openCollectionModal(collection);
+      });
+    });
+  }
+
+  btnNewCollection.addEventListener('click', () => openCollectionModal(null));
+
+  function openCollectionModal(collection) {
+    editingCollection = collection;
+    collectionForm.reset();
+    hideStatus(collectionFormStatus);
+
+    if (collection) {
+      collectionModalTitle.textContent = 'Koleksiyonu Düzenle';
+      btnDeleteCollection.style.display = '';
+      cName.value = collection.name || '';
+      cSlug.value = collection.slug || '';
+      cDescription.value = collection.description || '';
+      cOrder.value = collection.displayOrder || 100;
+      cActive.checked = collection.isActive !== false;
+    } else {
+      collectionModalTitle.textContent = 'Yeni Koleksiyon';
+      btnDeleteCollection.style.display = 'none';
+      cOrder.value = 100;
+      cActive.checked = true;
+    }
+    collectionModal.classList.add('is-open');
+  }
+
+  function closeCollectionModal() {
+    collectionModal.classList.remove('is-open');
+    editingCollection = null;
+  }
+
+  collectionModal.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeCollectionModal));
+  collectionModal.addEventListener('click', e => { if (e.target === collectionModal) closeCollectionModal(); });
+
+  // Ad girilirken slug otomatik üretilsin (yeni koleksiyon eklerken)
+  cName.addEventListener('input', () => {
+    if (editingCollection) return;
+    cSlug.value = generateSlug(cName.value);
+  });
+  cSlug.addEventListener('input', () => {
+    cSlug.value = cSlug.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+  });
+
+  btnSaveCollection.addEventListener('click', async () => {
+    if (!collectionForm.reportValidity()) return;
+    btnSaveCollection.disabled = true;
+    btnSaveCollection.textContent = 'KAYDEDİLİYOR…';
+
+    const data = {
+      name: cName.value.trim(),
+      slug: cSlug.value.trim(),
+      description: cDescription.value.trim(),
+      displayOrder: parseInt(cOrder.value) || 100,
+      isActive: cActive.checked
+    };
+
+    const result = editingCollection
+      ? await PB_Data.adminUpdateCollection(editingCollection.id, data)
+      : await PB_Data.adminCreateCollection(data);
+
+    btnSaveCollection.disabled = false;
+    btnSaveCollection.textContent = 'KAYDET';
+
+    if (result.error) {
+      showStatus(collectionFormStatus, 'Kaydedilemedi: ' + (result.error.message || result.error), 'error');
+      return;
+    }
+
+    showStatus(collectionFormStatus, 'Kaydedildi ✓', 'success');
+    setTimeout(async () => {
+      closeCollectionModal();
+      await loadCategoryData();
+      renderCollectionTable();
+    }, 600);
+  });
+
+  btnDeleteCollection.addEventListener('click', () => {
+    if (!editingCollection) return;
+    deleteCollection(editingCollection, true);
+  });
+
+  async function deleteCollection(collection, fromModal = false) {
+    if (!confirm(`"${collection.name}" koleksiyonunu silmek istediğine emin misin?`)) return;
+
+    const { error } = await PB_Data.adminDeleteCollection(collection.id);
+    if (error) {
+      // adminDeleteCollection, koleksiyonda hâlâ ürün varsa anlaşılır bir
+      // mesajla (kaç ürün, önce taşı) burada durur — ham FK hatası değil.
+      alert('Silinemedi: ' + (error.message || error));
+      return;
+    }
+    if (fromModal) closeCollectionModal();
+    await loadCategoryData();
+    renderCollectionTable();
+  }
+
+  /* ──────────── ÜRÜN TİPLERİ ──────────── */
+
+  function renderProductTypeTable() {
+    if (allProductTypes.length === 0) {
+      productTypeTable.innerHTML = `
+        <div class="empty-state">
+          <p>Henüz ürün tipi yok.</p>
+          <button class="btn btn-primary" onclick="document.getElementById('btn-new-product-type').click()">İlk ürün tipini ekle</button>
+        </div>`;
+      return;
+    }
+
+    const rows = allProductTypes.map(t => {
+      const inactiveBadge = !t.isActive ? '<span class="badge badge-inactive">Pasif</span>' : '';
+      const urunSayisi = allProducts.filter(p => p.category === t.slug).length;
+      return `
+        <tr data-id="${escapeHtml(t.id)}" data-slug="${escapeHtml(t.slug)}">
+          <td>
+            <div style="font-weight: 500;">${escapeHtml(t.name)}</div>
+            <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">${escapeHtml(t.slug)}</div>
+          </td>
+          <td>${inactiveBadge}</td>
+          <td>${urunSayisi} ürün</td>
+          <td>
+            <div class="row-actions">
+              <button class="icon-btn" data-action="edit" title="Düzenle">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <path d="M2 14 L4 10 L11 3 L13 5 L6 12 Z M11 3 L13 5"/>
+                </svg>
+              </button>
+              <button class="icon-btn is-danger" data-action="delete" title="Sil">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <path d="M3 4 L13 4 M5 4 L5 13 Q5 14 6 14 L10 14 Q11 14 11 13 L11 4 M6 4 L6 2 Q6 1 7 1 L9 1 Q10 1 10 2 L10 4 M7 7 L7 11 M9 7 L9 11"/>
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+
+    productTypeTable.innerHTML = `
+      <table>
+        <thead>
+          <tr><th>Ad</th><th>Durum</th><th>Ürün sayısı</th><th style="width: 100px;"></th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+
+    productTypeTable.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const tr = btn.closest('tr');
+        const productType = allProductTypes.find(t => t.id === tr.dataset.id);
+        if (!productType) return;
+        if (btn.dataset.action === 'edit') openProductTypeModal(productType);
+        if (btn.dataset.action === 'delete') deleteProductType(productType);
+      });
+    });
+    productTypeTable.querySelectorAll('tbody tr').forEach(tr => {
+      tr.style.cursor = 'pointer';
+      tr.addEventListener('click', () => {
+        const productType = allProductTypes.find(t => t.id === tr.dataset.id);
+        if (productType) openProductTypeModal(productType);
+      });
+    });
+  }
+
+  btnNewProductType.addEventListener('click', () => openProductTypeModal(null));
+
+  function openProductTypeModal(productType) {
+    editingProductType = productType;
+    productTypeForm.reset();
+    hideStatus(productTypeFormStatus);
+
+    if (productType) {
+      productTypeModalTitle.textContent = 'Ürün Tipini Düzenle';
+      btnDeleteProductType.style.display = '';
+      ptName.value = productType.name || '';
+      ptSlug.value = productType.slug || '';
+      ptOrder.value = productType.displayOrder || 100;
+      ptActive.checked = productType.isActive !== false;
+    } else {
+      productTypeModalTitle.textContent = 'Yeni Ürün Tipi';
+      btnDeleteProductType.style.display = 'none';
+      ptOrder.value = 100;
+      ptActive.checked = true;
+    }
+    productTypeModal.classList.add('is-open');
+  }
+
+  function closeProductTypeModal() {
+    productTypeModal.classList.remove('is-open');
+    editingProductType = null;
+  }
+
+  productTypeModal.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeProductTypeModal));
+  productTypeModal.addEventListener('click', e => { if (e.target === productTypeModal) closeProductTypeModal(); });
+
+  ptName.addEventListener('input', () => {
+    if (editingProductType) return;
+    ptSlug.value = generateSlug(ptName.value);
+  });
+  ptSlug.addEventListener('input', () => {
+    ptSlug.value = ptSlug.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+  });
+
+  btnSaveProductType.addEventListener('click', async () => {
+    if (!productTypeForm.reportValidity()) return;
+    btnSaveProductType.disabled = true;
+    btnSaveProductType.textContent = 'KAYDEDİLİYOR…';
+
+    const data = {
+      name: ptName.value.trim(),
+      slug: ptSlug.value.trim(),
+      displayOrder: parseInt(ptOrder.value) || 100,
+      isActive: ptActive.checked
+    };
+
+    const result = editingProductType
+      ? await PB_Data.adminUpdateProductType(editingProductType.id, data)
+      : await PB_Data.adminCreateProductType(data);
+
+    btnSaveProductType.disabled = false;
+    btnSaveProductType.textContent = 'KAYDET';
+
+    if (result.error) {
+      showStatus(productTypeFormStatus, 'Kaydedilemedi: ' + (result.error.message || result.error), 'error');
+      return;
+    }
+
+    showStatus(productTypeFormStatus, 'Kaydedildi ✓', 'success');
+    setTimeout(async () => {
+      closeProductTypeModal();
+      await loadCategoryData();
+      renderProductTypeTable();
+    }, 600);
+  });
+
+  btnDeleteProductType.addEventListener('click', () => {
+    if (!editingProductType) return;
+    deleteProductType(editingProductType, true);
+  });
+
+  async function deleteProductType(productType, fromModal = false) {
+    if (!confirm(`"${productType.name}" ürün tipini silmek istediğine emin misin?`)) return;
+
+    const { error } = await PB_Data.adminDeleteProductType(productType.id, productType.slug);
+    if (error) {
+      alert('Silinemedi: ' + (error.message || error));
+      return;
+    }
+    if (fromModal) closeProductTypeModal();
+    await loadCategoryData();
+    renderProductTypeTable();
   }
 
   /* ──────────── ORDERS ──────────── */

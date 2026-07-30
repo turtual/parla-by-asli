@@ -1,6 +1,16 @@
 {
   "cleanUrls": true,
   "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/katalog/:type(kolye|kupe|bileklik|yuzuk|charm|bros|anahtarlik|obje)/",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    { "source": "/katalog/:slug/", "destination": "/katalog/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

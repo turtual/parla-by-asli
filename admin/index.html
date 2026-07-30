@@ -728,6 +728,8 @@
 
     <nav class="tabs-bar">
       <button class="tab is-active" data-tab="products">Ürünler</button>
+      <button class="tab" data-tab="collections">Koleksiyonlar</button>
+      <button class="tab" data-tab="product-types">Ürün Tipleri</button>
       <button class="tab" data-tab="orders">Siparişler</button>
     </nav>
 
@@ -739,7 +741,10 @@
         <div class="toolbar">
           <input type="search" class="search-input" id="search-input" placeholder="Ürün ara…">
           <select class="filter-select" id="filter-category">
-            <option value="">Tüm kategoriler</option>
+            <option value="">Tüm ürün tipleri</option>
+          </select>
+          <select class="filter-select" id="filter-collection">
+            <option value="">Tüm koleksiyonlar</option>
           </select>
           <button class="btn btn-primary" id="btn-new-product">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
@@ -751,6 +756,32 @@
           <div class="loading">Yükleniyor…</div>
         </div>
 
+      </section>
+
+      <!-- KOLEKSİYONLAR SEKMESİ -->
+      <section class="tab-content" id="tab-collections" style="display:none;">
+        <div class="toolbar">
+          <button class="btn btn-primary" id="btn-new-collection">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+            YENİ KOLEKSİYON
+          </button>
+        </div>
+        <div class="product-table" id="collection-table">
+          <div class="loading">Yükleniyor…</div>
+        </div>
+      </section>
+
+      <!-- ÜRÜN TİPLERİ SEKMESİ -->
+      <section class="tab-content" id="tab-product-types" style="display:none;">
+        <div class="toolbar">
+          <button class="btn btn-primary" id="btn-new-product-type">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+            YENİ ÜRÜN TİPİ
+          </button>
+        </div>
+        <div class="product-table" id="product-type-table">
+          <div class="loading">Yükleniyor…</div>
+        </div>
       </section>
 
       <!-- SİPARİŞLER SEKMESİ -->
@@ -824,17 +855,18 @@
             </div>
 
             <div class="field">
-              <label>Kategori *</label>
+              <label>Ürün tipi *</label>
               <select id="product-category" required>
                 <option value="">Seç…</option>
-                <option value="kolye">Kolye</option>
-                <option value="kupe">Küpe</option>
-                <option value="bileklik">Bileklik</option>
-                <option value="yuzuk">Yüzük</option>
-                <option value="charm">Charm</option>
-                <option value="bros">Broş</option>
-                <option value="anahtarlik">Anahtarlık</option>
-                <option value="obje">Ev objeleri</option>
+                <!-- admin.js dolduruyor: getProductTypes() -->
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Koleksiyon *</label>
+              <select id="product-collection" required>
+                <option value="">Seç…</option>
+                <!-- admin.js dolduruyor: getCollections() -->
               </select>
             </div>
 
@@ -886,6 +918,108 @@
         <div class="actions-right">
           <button class="btn btn-ghost" data-close>İPTAL</button>
           <button class="btn btn-primary" id="btn-save">KAYDET</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===== KOLEKSİYON FORMU MODAL ===== -->
+  <div class="modal-overlay" id="collection-modal">
+    <div class="modal-card">
+      <header class="modal-head">
+        <h2 id="collection-modal-title">Yeni Koleksiyon</h2>
+        <button class="modal-close" data-close>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 2 L12 12 M12 2 L2 12"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form id="collection-form">
+          <div class="form-grid">
+            <div class="field full">
+              <label>Ad *</label>
+              <input type="text" id="collection-name" required placeholder="Örn. Doğal Taş">
+            </div>
+            <div class="field">
+              <label>Slug (URL parçası) *</label>
+              <input type="text" id="collection-slug" required pattern="[a-z0-9-]+" placeholder="dogal-tas">
+            </div>
+            <div class="field">
+              <label>Sıralama</label>
+              <input type="number" id="collection-order" value="100" step="10">
+            </div>
+            <div class="field full">
+              <label>Açıklama (opsiyonel)</label>
+              <textarea id="collection-description" placeholder="Koleksiyon sayfasında başlığın altında görünür"></textarea>
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <label class="field-row-checkbox">
+                <input type="checkbox" id="collection-active" checked>
+                <span>Aktif (sitede görünsün)</span>
+              </label>
+            </div>
+          </div>
+          <div id="collection-form-status" class="status-msg" style="display:none;"></div>
+        </form>
+      </div>
+
+      <footer class="modal-foot">
+        <button class="btn btn-danger" id="btn-delete-collection" style="display:none;">SİL</button>
+        <div class="actions-right">
+          <button class="btn btn-ghost" data-close>İPTAL</button>
+          <button class="btn btn-primary" id="btn-save-collection">KAYDET</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===== ÜRÜN TİPİ FORMU MODAL ===== -->
+  <div class="modal-overlay" id="product-type-modal">
+    <div class="modal-card">
+      <header class="modal-head">
+        <h2 id="product-type-modal-title">Yeni Ürün Tipi</h2>
+        <button class="modal-close" data-close>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 2 L12 12 M12 2 L2 12"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form id="product-type-form">
+          <div class="form-grid">
+            <div class="field full">
+              <label>Ad *</label>
+              <input type="text" id="product-type-name" required placeholder="Örn. Kolye">
+            </div>
+            <div class="field">
+              <label>Slug (URL parçası) *</label>
+              <input type="text" id="product-type-slug" required pattern="[a-z0-9-]+" placeholder="kolye">
+            </div>
+            <div class="field">
+              <label>Sıralama</label>
+              <input type="number" id="product-type-order" value="100" step="10">
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <label class="field-row-checkbox">
+                <input type="checkbox" id="product-type-active" checked>
+                <span>Aktif (sitede görünsün)</span>
+              </label>
+            </div>
+          </div>
+          <div id="product-type-form-status" class="status-msg" style="display:none;"></div>
+        </form>
+      </div>
+
+      <footer class="modal-foot">
+        <button class="btn btn-danger" id="btn-delete-product-type" style="display:none;">SİL</button>
+        <div class="actions-right">
+          <button class="btn btn-ghost" data-close>İPTAL</button>
+          <button class="btn btn-primary" id="btn-save-product-type">KAYDET</button>
         </div>
       </footer>
     </div>

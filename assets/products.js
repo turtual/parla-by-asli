@@ -4,34 +4,28 @@
  * Eskiden: Sabit PRODUCTS array'i + senkron filtreleme
  * Şimdi:   Supabase'den async çekme, in-memory cache
  *
- * Geriye uyumlu API:
- *   await getProducts({ mode, category, featuredOnly })
- *   await getProductBySlug(slug)
- *   formatPrice(price)
- *   CATEGORIES dizisi (sabit, değişmiyor)
+ * Kategoriler de artık kodda sabit değil: koleksiyon (üst, malzeme bazlı)
+ * ve ürün tipi (alt segment) ikisi de admin panelinden yönetiliyor ve
+ * Supabase'den çekiliyor. Eski sabit `CATEGORIES` dizisi kaldırıldı —
+ * yerine await getProductTypes() kullan.
  *
- * Eski sabit PRODUCTS array'i artık YOK. Kullandığın yerde await ekle.
+ * Geriye uyumlu API:
+ *   await getProducts({ category, collectionId, featuredOnly })
+ *   await getProductBySlug(slug)
+ *   await getProductTypes()
+ *   await getCollections()
+ *   formatPrice(price)
  */
-
-const CATEGORIES = [
-  { id: 'kolye', name: 'Kolye' },
-  { id: 'kupe', name: 'Küpe' },
-  { id: 'bileklik', name: 'Bileklik' },
-  { id: 'yuzuk', name: 'Yüzük' },
-  { id: 'charm', name: 'Charm' },
-  { id: 'bros', name: 'Broş' },
-  { id: 'anahtarlik', name: 'Anahtarlık' },
-  { id: 'obje', name: 'Ev objeleri' }
-];
 
 /**
  * Filtreli ürün listesi getir (async).
  *
  * @param {Object} options
- * @param {string|null} options.category - kategori id'si
+ * @param {string|null} options.category - ürün tipi slug'ı (alt segment)
+ * @param {string|null} options.collectionId - koleksiyon id'si (üst kategori)
  * @param {boolean} options.featuredOnly - sadece featured ürünler
  */
-async function getProducts({ category = null, featuredOnly = false } = {}) {
+async function getProducts({ category = null, collectionId = null, featuredOnly = false } = {}) {
   if (!window.PB_Data) {
     console.warn('PB_Data hazır değil');
     return [];
@@ -41,9 +35,28 @@ async function getProducts({ category = null, featuredOnly = false } = {}) {
 
   return all.filter(p => {
     if (category && p.category !== category) return false;
+    if (collectionId && p.collectionId !== collectionId) return false;
     if (featuredOnly && !p.featured) return false;
     return true;
   });
+}
+
+/** Ürün tipi listesini getir (async) — eski sabit CATEGORIES'in yerine geçti. */
+async function getProductTypes() {
+  if (!window.PB_Data) return [];
+  return await window.PB_Data.getProductTypes();
+}
+
+/** Koleksiyon listesini getir (async). */
+async function getCollections() {
+  if (!window.PB_Data) return [];
+  return await window.PB_Data.getCollections();
+}
+
+/** Slug'a göre tek bir koleksiyon getir (async). */
+async function getCollectionBySlug(slug) {
+  if (!window.PB_Data) return null;
+  return await window.PB_Data.getCollectionBySlug(slug);
 }
 
 async function getProductBySlug(slug) {
