@@ -47,29 +47,12 @@
     // Ürün listesi
     listEl.innerHTML = '';
     items.forEach(item => {
-      let imgSrc;
-      if (item.customization?.previewImage) {
-        imgSrc = item.customization.previewImage;
-      } else {
-        imgSrc = '../' + item.image;
-      }
-
-      // Kişiselleştirme metni kullanıcıdan geliyor — innerHTML'e girmeden kaçışlanır
-      let metaParts = [];
-      if (item.customization) {
-        if (item.customization.text) metaParts.push(`"${PB_escape(item.customization.text)}"`);
-        if (item.customization.fontId) metaParts.push(`Font: ${PB_escape(item.customization.fontId)}`);
-        if (item.customization.materialId) metaParts.push(`Renk: ${PB_escape(item.customization.materialId)}`);
-      }
-      if ((item.quantity || 1) > 1) {
-        metaParts.unshift(`${item.quantity} adet`);
-      }
-      const meta = metaParts.join(' · ');
+      const meta = (item.quantity || 1) > 1 ? `${item.quantity} adet` : '';
 
       const row = PB_h('div', { class: 'checkout-summary-item' });
       row.innerHTML = `
         <div class="checkout-summary-item-img">
-          <img src="${PB_escape(imgSrc)}" alt="${PB_escape(item.name)}">
+          <img src="${PB_escape('../' + item.image)}" alt="${PB_escape(item.name)}">
         </div>
         <div class="checkout-summary-item-info">
           <div class="checkout-summary-item-name">${PB_escape(item.name)}</div>
@@ -139,14 +122,6 @@
       // Sipariş özetini insan-okunabilir formatta hazırla
       const orderSummary = buildOrderSummary(items, subtotal, shipping, total);
 
-      // Sana özel önizleme görsellerini topla (data URL'ler)
-      const previewImages = items
-        .filter(i => i.customization?.previewImage)
-        .map((i, idx) => ({
-          name: `${i.name.replace(/[^a-zA-Z0-9]/g, '_')}_${idx + 1}.png`,
-          dataUrl: i.customization.previewImage
-        }));
-
       const payload = {
         order_id: orderId,
         // Müşteri
@@ -163,11 +138,7 @@
         toplam: formatPrice(total),
         urun_sayisi: items.length,
         // İnsan-okunur özet (mailde net görünmesi için)
-        siparis_ozeti: orderSummary,
-        // Önizleme görselleri (data URL listesi)
-        // Formspree dosya yükleme limiti var, bu data URL'leri body içinde kalır
-        // İdeal: ayrı bir image hosting'e yükle, link gönder. Şimdilik data URL.
-        onizleme_sayisi: previewImages.length
+        siparis_ozeti: orderSummary
       };
 
       // Formspree'ye gönder (varsa)
@@ -223,14 +194,6 @@
       lines.push(`${i + 1}. ${item.name}`);
       lines.push(`   Adet: ${item.quantity || 1}`);
       lines.push(`   Fiyat: ${formatPrice(item.price)} (birim) — ${formatPrice(item.price * (item.quantity || 1))} (toplam)`);
-
-      if (item.customization) {
-        lines.push(`   ── KİŞİSELLEŞTİRME ──`);
-        if (item.customization.text) lines.push(`   Metin: "${item.customization.text}"`);
-        if (item.customization.fontId) lines.push(`   Yazı tipi: ${item.customization.fontId}`);
-        if (item.customization.materialId) lines.push(`   Renk/Malzeme: ${item.customization.materialId}`);
-        if (item.customization.previewImage) lines.push(`   Önizleme: (görsel ekte)`);
-      }
       lines.push('');
     });
 

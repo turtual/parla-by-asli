@@ -6,10 +6,11 @@
  *
  * Bu dosya:
  *   - URL kategorisini okur
- *   - Mod filtresi (Tümü / Koleksiyon / Sana özel) yönetir
- *   - Body data-mode'u set eder (utility bar ve aktif pill rengi için)
  *   - Ürün gridini render eder
  *   - Ürün sayısını günceller
+ *
+ * Not: Hepsi/Koleksiyon/Sana özel mod filtresi kaldırıldı — kişiye özel
+ * tasarım stüdyosu artık yok, katalogda tek tip ürün var.
  */
 
 (function () {
@@ -21,30 +22,8 @@
     return;
   }
 
-  let currentMode = 'hep';
-
-  const modeButtons = document.querySelectorAll('.catalog-mode-filter [data-mode]');
   const grid = document.getElementById('catalog-grid');
   const countEl = document.getElementById('catalog-count');
-
-  /* ──────────── Mod filtre ──────────── */
-
-  function setMode(mode) {
-    currentMode = mode;
-    document.body.dataset.mode = mode;
-
-    modeButtons.forEach(b => {
-      const active = b.dataset.mode === mode;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-
-    rerender();
-  }
-
-  modeButtons.forEach(btn => {
-    btn.addEventListener('click', () => setMode(btn.dataset.mode));
-  });
 
   /* ──────────── Render ──────────── */
 
@@ -54,18 +33,17 @@
     // Yükleniyor göstergesi
     grid.innerHTML = '<div class="catalog-loading" style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
 
-    const items = await getProducts({ mode: currentMode, category });
+    const items = await getProducts({ category });
     const loadError = window.PB_Data && window.PB_Data.getLastError
       ? window.PB_Data.getLastError()
       : null;
 
     // Ürün sayısı
     if (countEl) {
-      const count = items.length;
       let label;
       if (loadError) label = '';
-      else if (count === 0) label = 'Henüz ürün yok';
-      else label = count + ' ürün';
+      else if (items.length === 0) label = 'Henüz ürün yok';
+      else label = items.length + ' ürün';
       countEl.textContent = label;
     }
 
@@ -86,22 +64,8 @@
     }
 
     if (items.length === 0) {
-      const modeLabels = { hep: '', kol: 'koleksiyon ', ozl: 'sana özel ' };
-      const modePart = modeLabels[currentMode] || '';
-      const msg = `Bu kategoride henüz ${modePart}ürün yok.`;
-
       const empty = PB_h('div', { class: 'catalog-empty' });
-      empty.append(PB_h('p', {}, msg));
-
-      if (currentMode !== 'hep') {
-        const resetBtn = PB_h('button', {
-          class: 'btn btn-ghost',
-          type: 'button',
-          onclick: () => setMode('hep')
-        }, 'Tümünü göster');
-        empty.append(resetBtn);
-      }
-
+      empty.append(PB_h('p', {}, 'Bu kategoride henüz ürün yok.'));
       grid.append(empty);
       return;
     }
@@ -109,9 +73,5 @@
     items.forEach((p, i) => grid.append(renderProductCard(p, i)));
   }
 
-  /* ──────────── Başlangıç ──────────── */
-
-  document.addEventListener('DOMContentLoaded', () => {
-    setMode('hep');
-  });
+  document.addEventListener('DOMContentLoaded', rerender);
 })();

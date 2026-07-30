@@ -738,11 +738,6 @@
 
         <div class="toolbar">
           <input type="search" class="search-input" id="search-input" placeholder="Ürün ara…">
-          <select class="filter-select" id="filter-mode">
-            <option value="">Tüm modlar</option>
-            <option value="koleksiyon">Koleksiyon</option>
-            <option value="sana-ozel">Sana özel</option>
-          </select>
           <select class="filter-select" id="filter-category">
             <option value="">Tüm kategoriler</option>
           </select>
@@ -843,15 +838,6 @@
               </select>
             </div>
 
-            <div class="field">
-              <label>Mod *</label>
-              <select id="product-mode" required>
-                <option value="">Seç…</option>
-                <option value="koleksiyon">Koleksiyon</option>
-                <option value="sana-ozel">Sana özel</option>
-              </select>
-            </div>
-
             <div class="field full">
               <label>Açıklama</label>
               <textarea id="product-description" placeholder="Müşteri ürün sayfasında görecek..."></textarea>
@@ -887,13 +873,6 @@
                 <input type="checkbox" id="product-active" checked>
                 <span>Aktif (sitede görünsün)</span>
               </label>
-            </div>
-
-            <div class="field full" id="customizable-warning" style="display:none;">
-              <div class="status-msg is-info">
-                <strong>⚠️ Sana özel ürün</strong><br>
-                Bu ürünü kişiselleştirilebilir yapmak için detaylı yapılandırma (font, renk, malzeme listesi) gerekir. Şu an temel bilgileri kaydet, kişiselleştirme detaylarını sonra ekleriz. Mevcut sana özel ürünlerin yapılandırması korunur.
-              </div>
             </div>
 
           </div>

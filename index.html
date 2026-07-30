@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" data-mode="hep">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -99,36 +99,13 @@
       </div>
     </section>
 
-    <!-- ────────── Mode toggle + filtre ────────── -->
+    <!-- ────────── Filtre ────────── -->
     <section class="mode-area" aria-label="Ürün kategorileri">
       <div class="container">
 
-        <div class="mode-row">
+        <div class="mode-row mode-row-solo">
 
-          <!-- Sol: Hepsi kare buton -->
-          <button type="button" class="mode-btn mode-btn-hep is-active" data-mode="hep" role="tab" aria-selected="true">
-            <span class="mode-name">Hepsi</span>
-          </button>
-
-          <!-- Dikey ayraç -->
-          <div class="mode-divider" aria-hidden="true"></div>
-
-          <!-- Orta: Koleksiyon + Sana özel istifi -->
-          <div class="mode-stack" role="tablist">
-            <button type="button" class="mode-btn mode-btn-kol" data-mode="kol" role="tab" aria-selected="false">
-              <div class="mode-num">01</div>
-              <div class="mode-name">Koleksiyon</div>
-            </button>
-            <button type="button" class="mode-btn mode-btn-ozl" data-mode="ozl" role="tab" aria-selected="false">
-              <div class="mode-num">02</div>
-              <div class="mode-name">Sana özel</div>
-            </button>
-          </div>
-
-          <!-- Dikey ayraç -->
-          <div class="mode-divider" aria-hidden="true"></div>
-
-          <!-- Sağ: Filtre butonu + seçilen chip'ler -->
+          <!-- Filtre butonu + seçilen chip'ler -->
           <div class="filter-area">
             <button type="button" class="filter-btn" id="filter-btn" aria-haspopup="true" aria-expanded="false">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -259,7 +236,6 @@
   <script src="assets/data.js"></script>
   <script src="assets/products.js"></script>
   <script src="assets/ui.js"></script>
-  <script src="assets/studio.js"></script>
   <script src="assets/homepage.js"></script>
 </body>
 </html>

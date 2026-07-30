@@ -28,11 +28,10 @@ const CATEGORIES = [
  * Filtreli ürün listesi getir (async).
  *
  * @param {Object} options
- * @param {string|null} options.mode - 'hep' | 'kol' | 'ozl' | null (hepsi)
  * @param {string|null} options.category - kategori id'si
  * @param {boolean} options.featuredOnly - sadece featured ürünler
  */
-async function getProducts({ mode = null, category = null, featuredOnly = false } = {}) {
+async function getProducts({ category = null, featuredOnly = false } = {}) {
   if (!window.PB_Data) {
     console.warn('PB_Data hazır değil');
     return [];
@@ -41,8 +40,6 @@ async function getProducts({ mode = null, category = null, featuredOnly = false 
   const all = await window.PB_Data.getProducts();
 
   return all.filter(p => {
-    if (mode === 'kol' && p.mode !== 'koleksiyon') return false;
-    if (mode === 'ozl' && p.mode !== 'sana-ozel') return false;
     if (category && p.category !== category) return false;
     if (featuredOnly && !p.featured) return false;
     return true;

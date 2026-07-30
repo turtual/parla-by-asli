@@ -119,7 +119,13 @@ const PB_Modal = {
 /* ──────────── Sepet state (localStorage) ──────────── */
 
 const PB_Cart = {
-  KEY: 'pb_cart_v1',
+  /*
+   * v2: kişiye özel tasarım stüdyosu kaldırıldı. v1 sepetlerinde artık
+   * üretilmeyen kişiselleştirilmiş kalemler olabilir; anahtarı yükseltmek
+   * onları düşürüyor. Sipariş edilemeyecek bir kalemi sepette tutmak,
+   * müşteriyi ödeme adımında çıkmaz sokağa sokardı.
+   */
+  KEY: 'pb_cart_v2',
 
   read() {
     try { return JSON.parse(localStorage.getItem(this.KEY)) || []; }
@@ -132,17 +138,11 @@ const PB_Cart = {
   },
 
   add(item) {
-    // item: { productId, slug, name, price, quantity, image, customization? }
+    // item: { productId, slug, name, price, quantity, image }
     const items = this.read();
-    if (item.customization) {
-      // Sana özel ürünler her zaman yeni satır
-      items.push({ ...item, lineId: 'L_' + Date.now() });
-    } else {
-      // Koleksiyon ürünleri varsa adet artır
-      const existing = items.find(i => i.productId === item.productId && !i.customization);
-      if (existing) existing.quantity = (existing.quantity || 1) + (item.quantity || 1);
-      else items.push({ ...item, lineId: 'L_' + Date.now() });
-    }
+    const existing = items.find(i => i.productId === item.productId);
+    if (existing) existing.quantity = (existing.quantity || 1) + (item.quantity || 1);
+    else items.push({ ...item, lineId: 'L_' + Date.now() });
     this.write(items);
   },
 
@@ -257,7 +257,7 @@ function PB_imgPath(relPath) {
   }
   // Lokal yol — sayfa derinliğine göre prefix
   const path = window.location.pathname;
-  const isInSubpage = path.includes('/katalog/') || path.includes('/sana-ozel/');
+  const isInSubpage = path.includes('/katalog/');
   return isInSubpage ? '../../' + relPath : relPath;
 }
 
@@ -273,8 +273,6 @@ function PB_imgPath(relPath) {
  * <button>, favori butonu ise onun kardeşi.
  */
 function renderProductCard(p, animDelay = 0) {
-  const isOzl = p.mode === 'sana-ozel';
-
   const card = PB_h('article', {
     class: 'product-card anim-fade-up',
     'data-slug': p.slug,
@@ -285,24 +283,17 @@ function renderProductCard(p, animDelay = 0) {
   const openBtn = PB_h('button', {
     type: 'button',
     class: 'product-card-open',
-    onclick: () => {
-      if (isOzl) {
-        PB_openStudioModal(p.slug);
-      } else {
-        PB_openProductModal(p.slug);
-      }
-    }
+    onclick: () => PB_openProductModal(p.slug)
   });
 
   const imgWrap = PB_h('div', { class: 'product-card-img' });
-  const badge = PB_h('span', { class: 'product-card-badge ' + (isOzl ? 'ozl' : 'kol') }, isOzl ? 'SANA ÖZEL' : 'KOLEKSİYON');
   const img = PB_h('img', { src: PB_imgPath(p.image), alt: p.name, loading: 'lazy' });
-  imgWrap.append(badge, img);
+  imgWrap.append(img);
 
   const info = PB_h('div', { class: 'product-card-info' });
   info.append(
     PB_h('div', { class: 'product-card-name' }, p.name),
-    PB_h('div', { class: 'product-card-price' }, isOzl ? formatPrice(p.price) + ' başlangıç' : formatPrice(p.price))
+    PB_h('div', { class: 'product-card-price' }, formatPrice(p.price))
   );
 
   openBtn.append(imgWrap, info);
@@ -576,66 +567,36 @@ const PB_CartDrawer = {
     items.forEach(item => {
       const li = PB_h('li', { class: 'cart-item' });
 
-      // Görsel: sana özel ürünün önizlemesi varsa onu göster, yoksa ürün görseli
-      let imgSrc;
-      if (item.customization?.previewImage) {
-        imgSrc = item.customization.previewImage;
-      } else {
-        imgSrc = PB_imgPath(item.image);
-      }
-
-      // Kişiselleştirme özeti
-      // Kişiselleştirme özeti — metin kullanıcıdan geldiği için kaçışlanır
-      let customSummary = '';
-      if (item.customization) {
-        const parts = [];
-        if (item.customization.text) parts.push(`"${PB_escape(item.customization.text)}"`);
-        if (item.customization.fontId) parts.push(`Font: ${PB_escape(item.customization.fontId)}`);
-        if (item.customization.materialId) parts.push(`Renk: ${PB_escape(item.customization.materialId)}`);
-        customSummary = parts.join(' · ');
-      }
-
       li.innerHTML = `
         <div class="cart-item-img">
-          <img src="${PB_escape(imgSrc)}" alt="${PB_escape(item.name)}">
-          ${item.customization ? '<span class="cart-item-badge">SANA ÖZEL</span>' : ''}
+          <img src="${PB_escape(PB_imgPath(item.image))}" alt="${PB_escape(item.name)}">
         </div>
         <div class="cart-item-info">
           <div class="cart-item-name">${PB_escape(item.name)}</div>
-          ${customSummary ? `<div class="cart-item-custom">${customSummary}</div>` : ''}
           <div class="cart-item-bottom">
-            ${item.customization ? `
-              <span class="cart-item-qty-static">${item.quantity || 1} adet</span>
-            ` : `
-              <div class="qty-control qty-control-sm">
-                <button type="button" data-qty-down aria-label="Azalt">−</button>
-                <span data-qty>${item.quantity || 1}</span>
-                <button type="button" data-qty-up aria-label="Artır">+</button>
-              </div>
-            `}
+            <div class="qty-control qty-control-sm">
+              <button type="button" data-qty-down aria-label="Azalt">−</button>
+              <span data-qty>${item.quantity || 1}</span>
+              <button type="button" data-qty-up aria-label="Artır">+</button>
+            </div>
             <span class="cart-item-price">${formatPrice(item.price * (item.quantity || 1))}</span>
           </div>
         </div>
-        <button type="button" class="cart-item-remove" data-remove aria-label="Kaldır">
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <button type="button" class="cart-item-remove" data-remove aria-label="${PB_escape(item.name)} — sepetten kaldır">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M2 2 L12 12 M12 2 L2 12"/>
           </svg>
         </button>
       `;
 
-      // Adet kontrolü (sadece koleksiyon)
-      if (!item.customization) {
-        li.querySelector('[data-qty-down]').addEventListener('click', () => {
-          const newQty = Math.max(1, (item.quantity || 1) - 1);
-          PB_Cart.updateQty(item.lineId, newQty);
-          PB_CartDrawer.render();
-        });
-        li.querySelector('[data-qty-up]').addEventListener('click', () => {
-          const newQty = Math.min(99, (item.quantity || 1) + 1);
-          PB_Cart.updateQty(item.lineId, newQty);
-          PB_CartDrawer.render();
-        });
-      }
+      li.querySelector('[data-qty-down]').addEventListener('click', () => {
+        PB_Cart.updateQty(item.lineId, Math.max(1, (item.quantity || 1) - 1));
+        PB_CartDrawer.render();
+      });
+      li.querySelector('[data-qty-up]').addEventListener('click', () => {
+        PB_Cart.updateQty(item.lineId, Math.min(99, (item.quantity || 1) + 1));
+        PB_CartDrawer.render();
+      });
 
       // Kaldırma
       li.querySelector('[data-remove]').addEventListener('click', () => {

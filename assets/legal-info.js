@@ -34,22 +34,21 @@ window.PB_SATICI = {
   telefon: '',
   eposta: 'parlabyasli@outlook.com',
 
-  /* ── Operasyon ── */
+  /* ── Operasyon ──
+   * Kişiye özel tasarım stüdyosu kaldırıldı (Temmuz 2026) — katalogda
+   * artık tek tip ürün var, hepsi standart teslimat ve cayma hakkına tabi.
+   */
   kargoFirmasi: '',
   ucretsizKargoEsigi: 500,        // ₺
   kargoUcreti: 35,                // ₺ — eşiğin altında
-  teslimatKoleksiyon: '1-3 iş günü',
-  teslimatSanaOzel: '5-10 iş günü',
+  teslimatSuresi: '1-3 iş günü',
 
   /* ── İade politikası ──
-   * Mesafeli Sözleşmeler Yönetmeliği m.15/1-(b) uyarınca tüketicinin
-   * istekleri doğrultusunda kişiselleştirilerek üretilen ürünlerde
-   * cayma hakkı bulunmuyor. Aşağıdaki ayar bu muafiyeti kullanır:
-   * koleksiyon ürünlerinde 14 gün, sana özel ürünlerde cayma hakkı yok
-   * (ayıplı mal sorumluluğu her hâlükârda devam eder).
+   * Mesafeli Sözleşmeler Yönetmeliği'nin 14 günlük genel cayma hakkı
+   * tüm ürünlerde geçerli; kişiselleştirilmiş ürün istisnası artık
+   * gerekmiyor.
    */
   caymaSuresiGun: 14,
-  sanaOzelCaymaHakki: false,
 
   /* ── Metin sürümü ── */
   yururlukTarihi: '29.07.2026'

@@ -30,7 +30,6 @@
 
   // Products
   const searchInput = document.getElementById('search-input');
-  const filterMode = document.getElementById('filter-mode');
   const filterCategory = document.getElementById('filter-category');
   const btnNewProduct = document.getElementById('btn-new-product');
   const productTable = document.getElementById('product-table');
@@ -47,7 +46,6 @@
   const formStatus = document.getElementById('form-status');
   const btnSave = document.getElementById('btn-save');
   const btnDelete = document.getElementById('btn-delete');
-  const customizableWarning = document.getElementById('customizable-warning');
 
   // Image upload
   const imageUploadArea = document.getElementById('image-upload-area');
@@ -59,7 +57,6 @@
   const fName = document.getElementById('product-name');
   const fPrice = document.getElementById('product-price');
   const fCategory = document.getElementById('product-category');
-  const fMode = document.getElementById('product-mode');
   const fDescription = document.getElementById('product-description');
   const fMaterials = document.getElementById('product-materials');
   const fSlug = document.getElementById('product-slug');
@@ -129,9 +126,8 @@
 
   function generateId(category, slug) {
     if (!category || !slug) return '';
-    const prefix = (fMode.value === 'sana-ozel') ? 'ozl' : 'kol';
     const catShort = category.substring(0, Math.min(7, category.length));
-    return `${prefix}-${catShort}-${slug.substring(0, 20)}`;
+    return `kol-${catShort}-${slug.substring(0, 20)}`;
   }
 
   function formatPrice(p) {
@@ -231,12 +227,10 @@
 
   function renderProductTable() {
     const search = (searchInput.value || '').toLowerCase().trim();
-    const modeF = filterMode.value;
     const catF = filterCategory.value;
 
     const filtered = allProducts.filter(p => {
       if (search && !p.name.toLowerCase().includes(search) && !p.slug.toLowerCase().includes(search)) return false;
-      if (modeF && p.mode !== modeF) return false;
       if (catF && p.category !== catF) return false;
       return true;
     });
@@ -244,19 +238,16 @@
     if (filtered.length === 0) {
       productTable.innerHTML = `
         <div class="empty-state">
-          <p>${search || modeF || catF ? 'Filtreye uyan ürün yok.' : 'Henüz ürün yok.'}</p>
-          ${!search && !modeF && !catF ? '<button class="btn btn-primary" onclick="document.getElementById(\'btn-new-product\').click()">İlk ürünü ekle</button>' : ''}
+          <p>${search || catF ? 'Filtreye uyan ürün yok.' : 'Henüz ürün yok.'}</p>
+          ${!search && !catF ? '<button class="btn btn-primary" onclick="document.getElementById(\'btn-new-product\').click()">İlk ürünü ekle</button>' : ''}
         </div>`;
       return;
     }
 
     const rows = filtered.map(p => {
       const catName = (CATEGORIES.find(c => c.id === p.category) || {}).name || p.category;
-      const modeBadge = p.mode === 'sana-ozel'
-        ? '<span class="badge badge-ozl">Sana özel</span>'
-        : '<span class="badge badge-kol">Koleksiyon</span>';
       const inactiveBadge = !p.isActive
-        ? '<span class="badge badge-inactive" style="margin-left:6px;">Pasif</span>'
+        ? '<span class="badge badge-inactive">Pasif</span>'
         : '';
       const featured = p.featured ? ' ⭐' : '';
       const imgSrc = p.image && p.image.startsWith('http')
@@ -271,7 +262,7 @@
             <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">${escapeHtml(p.slug)}</div>
           </td>
           <td>${escapeHtml(catName)}</td>
-          <td>${modeBadge}${inactiveBadge}</td>
+          <td>${inactiveBadge}</td>
           <td style="font-weight: 500;">${formatPrice(p.price)}</td>
           <td>
             <div class="row-actions">
@@ -298,7 +289,7 @@
             <th style="width: 64px;"></th>
             <th>Ad</th>
             <th>Kategori</th>
-            <th>Mod</th>
+            <th>Durum</th>
             <th>Fiyat</th>
             <th style="width: 100px;"></th>
           </tr>
@@ -333,7 +324,6 @@
 
   // Filtre event'leri
   searchInput.addEventListener('input', renderProductTable);
-  filterMode.addEventListener('change', renderProductTable);
   filterCategory.addEventListener('change', renderProductTable);
 
   /* ──────────── PRODUCT MODAL ──────────── */
@@ -352,7 +342,6 @@
       fName.value = product.name || '';
       fPrice.value = product.price || 0;
       fCategory.value = product.category || '';
-      fMode.value = product.mode || '';
       fDescription.value = product.description || '';
       fMaterials.value = (product.materials || []).join('\n');
       fSlug.value = product.slug || '';
@@ -371,9 +360,6 @@
         productImageInput.value = '';
       }
 
-      // Customizable uyarısı
-      customizableWarning.style.display = product.customizable ? '' : 'none';
-
     } else {
       productModalTitle.textContent = 'Yeni Ürün';
       btnDelete.style.display = 'none';
@@ -381,7 +367,6 @@
       fActive.checked = true;
       imagePreview.innerHTML = '<span style="color: var(--c-toprak); font-size: 28px;">＋</span>';
       productImageInput.value = '';
-      customizableWarning.style.display = 'none';
     }
 
     productModal.classList.add('is-open');
@@ -416,12 +401,6 @@
   fCategory.addEventListener('change', () => {
     if (editingProduct) return;
     fId.value = generateId(fCategory.value, fSlug.value);
-  });
-
-  fMode.addEventListener('change', () => {
-    if (editingProduct) return;
-    fId.value = generateId(fCategory.value, fSlug.value);
-    customizableWarning.style.display = (fMode.value === 'sana-ozel') ? '' : 'none';
   });
 
   /* ──────────── IMAGE UPLOAD ──────────── */
@@ -496,16 +475,18 @@
       name: fName.value.trim(),
       price: parseInt(fPrice.value) || 0,
       category: fCategory.value,
-      mode: fMode.value,
+      // Kişiye özel tasarım stüdyosu kaldırıldı, katalogda artık tek tip
+      // ürün var. 'mode' kolonu veritabanı şemasında duruyor, sabit değer
+      // veriyoruz ki eski sorgular/raporlar bozulmasın.
+      mode: 'koleksiyon',
       description: fDescription.value.trim(),
       materials,
       image: productImageInput.value || null,
       featured: fFeatured.checked,
       isActive: fActive.checked,
       displayOrder: parseInt(fOrder.value) || 100,
-      customizable: editingProduct ? editingProduct.customizable : false,
-      // Customization JSON'u koru (admin panelden değiştirmiyoruz)
-      customization: editingProduct ? editingProduct.customization : null
+      customizable: false,
+      customization: null
     };
 
     let result;

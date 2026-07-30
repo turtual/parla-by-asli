@@ -1,11 +1,13 @@
 /**
  * Parla By Aslı — Anasayfa interactivity
  *
- * - Mode toggle (Hepsi / Koleksiyon / Sana özel)
  * - Çoklu kategori filtresi (filtre butonu + dropdown panel + chip'ler)
  * - Öne çıkan ürünlerin render'ı
  *
- * Yeni filtre akışı:
+ * Not: Hepsi/Koleksiyon/Sana özel mod ayrımı kaldırıldı — kişiye özel
+ * tasarım stüdyosu artık yok, katalogda tek tip ürün var.
+ *
+ * Filtre akışı:
  *   - Filtre butonuna tıklayınca dropdown (mobilde drawer) açılır
  *   - Kullanıcı 1+ kategori checkbox işaretler
  *   - Her seçili kategori chip olarak butonun yanında görünür
@@ -18,10 +20,7 @@
 
   /* ──────────── State ──────────── */
 
-  let currentMode = 'hep';
   let activeCategories = new Set(); // çoklu seçim
-
-  const modeButtons = document.querySelectorAll('.mode-btn');
 
   /* ──────────── DOM refs ──────────── */
 
@@ -33,23 +32,6 @@
   const filterClear = document.getElementById('filter-clear');
   const filterOverlay = document.getElementById('filter-overlay');
   const filterOptions = document.querySelectorAll('.filter-option input[type="checkbox"]');
-
-  /* ──────────── Mode toggle ──────────── */
-
-  function setMode(mode) {
-    currentMode = mode;
-    document.body.dataset.mode = mode;
-    modeButtons.forEach(b => {
-      const active = b.dataset.mode === mode;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-    rerender();
-  }
-
-  modeButtons.forEach(btn => {
-    btn.addEventListener('click', () => setMode(btn.dataset.mode));
-  });
 
   /* ──────────── Filtre dropdown/drawer ──────────── */
 
@@ -208,8 +190,7 @@
       grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
     }
 
-    // Mod filtresi tüm ürünleri belirler
-    const allItems = await getProducts({ mode: currentMode });
+    const allItems = await getProducts({});
     const items = allItems.filter(p => {
       // Eğer hiç kategori seçilmemişse → hepsini göster
       if (activeCategories.size === 0) return true;
@@ -226,8 +207,7 @@
     } else if (activeCategories.size > 1) {
       title = `Seçili kategoriler (${activeCategories.size})`;
     } else {
-      const modeLabels = { hep: 'Tüm ürünler', kol: 'Koleksiyon', ozl: 'Sana özel' };
-      title = modeLabels[currentMode] || 'Ürünler';
+      title = 'Tüm ürünler';
     }
     if (titleEl) titleEl.textContent = title;
 
@@ -255,8 +235,8 @@
   /* ──────────── Başlangıç ──────────── */
 
   document.addEventListener('DOMContentLoaded', () => {
-    setMode('hep');
     updateChips();
     updateFilterCount();
+    rerender();
   });
 })();
