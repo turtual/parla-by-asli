@@ -122,6 +122,28 @@
       // Sipariş özetini insan-okunabilir formatta hazırla
       const orderSummary = buildOrderSummary(items, subtotal, shipping, total);
 
+      // Supabase'e de yaz (admin panelde "Siparişler" sekmesinde görünsün ve
+      // stok takibi buradan beslensin). Formspree zaten müşteri/işletme sahibine
+      // mail attığı için bu başarısız olsa da checkout akışını durdurmuyoruz,
+      // sadece loglanıyor.
+      if (window.PB_Data && typeof window.PB_Data.createOrder === 'function') {
+        window.PB_Data.createOrder({
+          orderCode: orderId,
+          name: `${customer.ad || ''} ${customer.soyad || ''}`.trim(),
+          email: customer.email,
+          phone: customer.telefon,
+          address: customer.adres,
+          city: customer.sehir,
+          note: customer.not,
+          items,
+          subtotal,
+          shippingFee: shipping,
+          total
+        }).then(({ error }) => {
+          if (error) console.error('Sipariş Supabase\'e kaydedilemedi:', error);
+        });
+      }
+
       const payload = {
         order_id: orderId,
         // Müşteri

@@ -379,6 +379,97 @@
     .badge-ozl { background: var(--c-bakir); color: white; }
     .badge-inactive { background: rgba(20, 17, 14, 0.1); color: var(--c-toprak); }
 
+    /* ───── Ürün listesi: Koleksiyon → Ürün Tipi ağacı ───── */
+    .product-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .product-tree-collection {
+      background: white;
+      border-radius: 12px;
+      border: 0.5px solid var(--c-line);
+      overflow: hidden;
+    }
+
+    .product-tree-collection-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--c-sicak);
+      color: var(--c-cream);
+      cursor: pointer;
+      font-family: 'Fraunces', serif;
+      font-size: 15px;
+      list-style: none;
+    }
+
+    .product-tree-collection-head::-webkit-details-marker { display: none; }
+
+    .product-tree-collection-head .product-tree-meta {
+      color: rgba(250, 246, 241, 0.7);
+    }
+
+    .product-tree-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-tree-group {
+      border: 0.5px solid var(--c-line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .product-tree-group-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--c-bej);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      list-style: none;
+    }
+
+    .product-tree-group-head::-webkit-details-marker { display: none; }
+
+    .product-tree-meta {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--c-toprak);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .product-tree-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .stock-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(46, 125, 50, 0.12);
+      color: var(--c-success);
+    }
+
+    .stock-badge.is-empty {
+      background: rgba(198, 40, 40, 0.1);
+      color: var(--c-error);
+    }
+
     /* ───── Form modal ───── */
     .modal-overlay {
       position: fixed;
@@ -893,6 +984,11 @@
             <div class="field">
               <label>Sıralama</label>
               <input type="number" id="product-order" value="100" step="10">
+            </div>
+
+            <div class="field">
+              <label>Stok adedi *</label>
+              <input type="number" id="product-stock" required min="0" step="1" value="0">
             </div>
 
             <div class="field">

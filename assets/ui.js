@@ -290,6 +290,10 @@ function renderProductCard(p, animDelay = 0) {
   const img = PB_h('img', { src: PB_imgPath(p.image), alt: p.name, loading: 'lazy' });
   imgWrap.append(img);
 
+  if ((p.stockQuantity || 0) <= 0) {
+    imgWrap.append(PB_h('span', { class: 'product-card-badge' }, 'TÜKENDİ'));
+  }
+
   const info = PB_h('div', { class: 'product-card-info' });
   info.append(
     PB_h('div', { class: 'product-card-name' }, p.name),
@@ -454,23 +458,37 @@ function PB_fillProductModal(modal, p) {
 
   // Sepete ekle
   const addBtn = modal.querySelector('[data-pm-add]');
-  addBtn.textContent = 'SEPETE EKLE';
-  addBtn.disabled = false;
-  addBtn.onclick = () => {
-    PB_Cart.add({
-      productId: p.id,
-      slug: p.slug,
-      name: p.name,
-      price: p.price,
-      quantity: qty,
-      image: p.image
-    });
-    addBtn.textContent = '✓ SEPETE EKLENDİ';
+  const qtyDownBtn = modal.querySelector('[data-pm-qty-down]');
+  const qtyUpBtn = modal.querySelector('[data-pm-qty-up]');
+  const outOfStock = (p.stockQuantity || 0) <= 0;
+
+  addBtn.classList.toggle('is-out-of-stock', outOfStock);
+  qtyDownBtn.disabled = outOfStock;
+  qtyUpBtn.disabled = outOfStock;
+
+  if (outOfStock) {
+    addBtn.textContent = 'TÜKENDİ';
     addBtn.disabled = true;
-    setTimeout(() => {
-      PB_Modal.close('product-modal');
-    }, 900);
-  };
+    addBtn.onclick = null;
+  } else {
+    addBtn.textContent = 'SEPETE EKLE';
+    addBtn.disabled = false;
+    addBtn.onclick = () => {
+      PB_Cart.add({
+        productId: p.id,
+        slug: p.slug,
+        name: p.name,
+        price: p.price,
+        quantity: qty,
+        image: p.image
+      });
+      addBtn.textContent = '✓ SEPETE EKLENDİ';
+      addBtn.disabled = true;
+      setTimeout(() => {
+        PB_Modal.close('product-modal');
+      }, 900);
+    };
+  }
 }
 
 /* ──────────── Sepet drawer ──────────── */

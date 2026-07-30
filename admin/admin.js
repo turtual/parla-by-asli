@@ -93,6 +93,7 @@
   const fSlug = document.getElementById('product-slug');
   const fId = document.getElementById('product-id');
   const fOrder = document.getElementById('product-order');
+  const fStock = document.getElementById('product-stock');
   const fFeatured = document.getElementById('product-featured');
   const fActive = document.getElementById('product-active');
 
@@ -286,6 +287,12 @@
     renderProductTable();
   }
 
+  /**
+   * Ürün listesi artık düz bir tablo değil, Koleksiyon → Ürün Tipi → Ürünler
+   * ağacı: her koleksiyon ve ürün tipi kendi grubunda, toplam ürün/stok
+   * özetiyle görünür. Arama ve filtreler ağacı daraltır (eşleşmeyen ürünler
+   * ve boş kalan gruplar gizlenir).
+   */
   function renderProductTable() {
     const search = (searchInput.value || '').toLowerCase().trim();
     const catF = filterCategory.value;
@@ -307,59 +314,56 @@
       return;
     }
 
-    const rows = filtered.map(p => {
-      const catName = (allProductTypes.find(c => c.slug === p.category) || {}).name || p.category;
-      const inactiveBadge = !p.isActive
-        ? '<span class="badge badge-inactive">Pasif</span>'
-        : '';
-      const featured = p.featured ? ' ⭐' : '';
-      const imgSrc = p.image && p.image.startsWith('http')
-        ? p.image
-        : '../' + (p.image || 'assets/img/products/kolye.svg');
+    const collectionsSorted = [...allCollections].sort((a, b) => a.displayOrder - b.displayOrder);
+    const typesSorted = [...allProductTypes].sort((a, b) => a.displayOrder - b.displayOrder);
+
+    const treeHtml = collectionsSorted.map(col => {
+      const colProducts = filtered.filter(p => p.collectionId === col.id);
+      if (colProducts.length === 0) return '';
+
+      const totalStock = colProducts.reduce((sum, p) => sum + (p.stockQuantity || 0), 0);
+
+      const typeGroupsHtml = typesSorted.map(type => {
+        const typeProducts = colProducts.filter(p => p.category === type.slug);
+        if (typeProducts.length === 0) return '';
+
+        const rows = typeProducts.map(p => renderProductRow(p, type.name)).join('');
+        const typeStock = typeProducts.reduce((sum, p) => sum + (p.stockQuantity || 0), 0);
+
+        return `
+          <details class="product-tree-group" open>
+            <summary class="product-tree-group-head">
+              <span>${escapeHtml(type.name)}</span>
+              <span class="product-tree-meta">${typeProducts.length} ürün · ${typeStock} adet stok</span>
+            </summary>
+            <table class="product-tree-table">
+              <thead>
+                <tr>
+                  <th style="width: 64px;"></th>
+                  <th>Ad</th>
+                  <th>Ürün tipi</th>
+                  <th>Stok</th>
+                  <th>Durum</th>
+                  <th>Fiyat</th>
+                  <th style="width: 100px;"></th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </details>`;
+      }).join('');
 
       return `
-        <tr data-id="${escapeHtml(p.id)}">
-          <td><div class="row-img"><img src="${escapeHtml(imgSrc)}" alt=""></div></td>
-          <td>
-            <div style="font-weight: 500;">${escapeHtml(p.name)}${featured}</div>
-            <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">${escapeHtml(p.slug)}</div>
-          </td>
-          <td>${escapeHtml(catName)}</td>
-          <td>${inactiveBadge}</td>
-          <td style="font-weight: 500;">${formatPrice(p.price)}</td>
-          <td>
-            <div class="row-actions">
-              <button class="icon-btn" data-action="edit" title="Düzenle">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
-                  <path d="M2 14 L4 10 L11 3 L13 5 L6 12 Z M11 3 L13 5"/>
-                </svg>
-              </button>
-              <button class="icon-btn is-danger" data-action="delete" title="Sil">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
-                  <path d="M3 4 L13 4 M5 4 L5 13 Q5 14 6 14 L10 14 Q11 14 11 13 L11 4 M6 4 L6 2 Q6 1 7 1 L9 1 Q10 1 10 2 L10 4 M7 7 L7 11 M9 7 L9 11"/>
-                </svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-      `;
+        <details class="product-tree-collection" open>
+          <summary class="product-tree-collection-head">
+            <span>${escapeHtml(col.name)}</span>
+            <span class="product-tree-meta">${colProducts.length} ürün · ${totalStock} adet stok</span>
+          </summary>
+          <div class="product-tree-body">${typeGroupsHtml}</div>
+        </details>`;
     }).join('');
 
-    productTable.innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 64px;"></th>
-            <th>Ad</th>
-            <th>Kategori</th>
-            <th>Durum</th>
-            <th>Fiyat</th>
-            <th style="width: 100px;"></th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    `;
+    productTable.innerHTML = `<div class="product-tree">${treeHtml}</div>`;
 
     // Row event listener'ları
     productTable.querySelectorAll('[data-action]').forEach(btn => {
@@ -383,6 +387,45 @@
       });
       tr.style.cursor = 'pointer';
     });
+  }
+
+  function renderProductRow(p, typeName) {
+    const inactiveBadge = !p.isActive
+      ? '<span class="badge badge-inactive">Pasif</span>'
+      : '';
+    const featured = p.featured ? ' ⭐' : '';
+    const imgSrc = p.image && p.image.startsWith('http')
+      ? p.image
+      : '../' + (p.image || 'assets/img/products/kolye.svg');
+    const stock = p.stockQuantity || 0;
+    const stockClass = 'stock-badge' + (stock <= 0 ? ' is-empty' : '');
+
+    return `
+      <tr data-id="${escapeHtml(p.id)}">
+        <td><div class="row-img"><img src="${escapeHtml(imgSrc)}" alt=""></div></td>
+        <td>
+          <div style="font-weight: 500;">${escapeHtml(p.name)}${featured}</div>
+          <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">${escapeHtml(p.slug)}</div>
+        </td>
+        <td>${escapeHtml(typeName)}</td>
+        <td><span class="${stockClass}">${stock} adet</span></td>
+        <td>${inactiveBadge}</td>
+        <td style="font-weight: 500;">${formatPrice(p.price)}</td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn" data-action="edit" title="Düzenle">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M2 14 L4 10 L11 3 L13 5 L6 12 Z M11 3 L13 5"/>
+              </svg>
+            </button>
+            <button class="icon-btn is-danger" data-action="delete" title="Sil">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M3 4 L13 4 M5 4 L5 13 Q5 14 6 14 L10 14 Q11 14 11 13 L11 4 M6 4 L6 2 Q6 1 7 1 L9 1 Q10 1 10 2 L10 4 M7 7 L7 11 M9 7 L9 11"/>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>`;
   }
 
   // Filtre event'leri
@@ -412,6 +455,7 @@
       fSlug.value = product.slug || '';
       fId.value = product.id || '';
       fOrder.value = product.displayOrder || 100;
+      fStock.value = product.stockQuantity ?? 0;
       fFeatured.checked = !!product.featured;
       fActive.checked = product.isActive !== false;
 
@@ -429,6 +473,7 @@
       productModalTitle.textContent = 'Yeni Ürün';
       btnDelete.style.display = 'none';
       fOrder.value = 100;
+      fStock.value = 0;
       fActive.checked = true;
       imagePreview.innerHTML = '<span style="color: var(--c-toprak); font-size: 28px;">＋</span>';
       productImageInput.value = '';
@@ -551,6 +596,7 @@
       featured: fFeatured.checked,
       isActive: fActive.checked,
       displayOrder: parseInt(fOrder.value) || 100,
+      stockQuantity: parseInt(fStock.value) || 0,
       customizable: false,
       customization: null
     };
@@ -992,16 +1038,45 @@
       sel.addEventListener('change', async () => {
         const orderId = sel.dataset.orderId;
         const newStatus = sel.value;
+        const order = allOrders.find(o => o.id === orderId);
+
         const { error } = await PB_Data.adminUpdateOrderStatus(orderId, newStatus);
         if (error) {
           alert('Durum güncellenemedi: ' + (error.message || error));
-        } else {
-          // Local state güncelle
-          const order = allOrders.find(o => o.id === orderId);
-          if (order) order.status = newStatus;
+          return;
+        }
+
+        if (order) {
+          order.status = newStatus;
+          await applyStockForStatusChange(order, newStatus);
         }
       });
     });
+  }
+
+  /**
+   * Sipariş "Onaylandı" olunca ilgili ürünlerin stokundan düşer, "İptal"
+   * olunca geri ekler. `stock_applied` bayrağı durum ileri-geri değiştirilse
+   * (Onaylandı → Bekleyen → Onaylandı gibi) bile çift düşümü/iadeyi önler.
+   */
+  async function applyStockForStatusChange(order, newStatus) {
+    const items = order.items || [];
+
+    if (newStatus === 'confirmed' && !order.stock_applied) {
+      for (const item of items) {
+        if (item.productId) await PB_Data.adminAdjustStock(item.productId, -(item.quantity || 1));
+      }
+      await PB_Data.adminSetOrderStockApplied(order.id, true);
+      order.stock_applied = true;
+      loadProducts();
+    } else if (newStatus === 'cancelled' && order.stock_applied) {
+      for (const item of items) {
+        if (item.productId) await PB_Data.adminAdjustStock(item.productId, item.quantity || 1);
+      }
+      await PB_Data.adminSetOrderStockApplied(order.id, false);
+      order.stock_applied = false;
+      loadProducts();
+    }
   }
 
   filterOrderStatus.addEventListener('change', renderOrders);

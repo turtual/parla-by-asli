@@ -423,6 +423,21 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .product-card-fav svg { width: 14px; height: 14px; color: var(--c-sicak-siyah); opacity: 0.55; }
 .product-card-fav:hover svg { opacity: 1; color: var(--c-bakir-cizgi); }
 
+.product-card-badge {
+  position: absolute;
+  z-index: 2;
+  top: 9px;
+  left: 9px;
+  background: var(--c-sicak-siyah);
+  color: var(--c-cream);
+  padding: 4px 9px;
+  border-radius: var(--r-pill);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
 .product-card-info { padding: 12px 14px 16px; }
 
 .product-card-name {
@@ -965,6 +980,10 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .product-modal-add:disabled {
   background: var(--c-bakir);
   cursor: default;
+}
+
+.product-modal-add.is-out-of-stock:disabled {
+  background: var(--c-toprak);
 }
 
 .product-modal-meta {

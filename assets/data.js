@@ -67,7 +67,8 @@
       customizable: !!row.customizable,
       customization: row.customization || null,
       isActive: row.is_active !== false,
-      displayOrder: row.display_order || 0
+      displayOrder: row.display_order || 0,
+      stockQuantity: row.stock_quantity ?? 0
     };
   }
 
@@ -341,6 +342,7 @@
     if ('isActive' in updates) dbUpdates.is_active = updates.isActive;
     if ('displayOrder' in updates) dbUpdates.display_order = updates.displayOrder;
     if ('collectionId' in updates) dbUpdates.collection_id = updates.collectionId;
+    if ('stockQuantity' in updates) dbUpdates.stock_quantity = updates.stockQuantity;
     // Diğerleri direkt eşleşiyor
     const directKeys = ['slug', 'name', 'category', 'mode', 'price', 'description',
                         'materials', 'image', 'images', 'featured', 'customizable', 'customization'];
@@ -377,7 +379,8 @@
       customizable: !!product.customizable,
       customization: product.customization || null,
       is_active: product.isActive !== false,
-      display_order: product.displayOrder || 0
+      display_order: product.displayOrder || 0,
+      stock_quantity: product.stockQuantity || 0
     };
 
     const { data, error } = await supabase
@@ -425,6 +428,45 @@
       .from('orders')
       .select('*')
       .order('created_at', { ascending: false });
+    return { data, error };
+  }
+
+  /**
+   * Bir ürünün stok adedini `delta` kadar değiştirir (negatif = düş, pozitif = iade et).
+   * Sipariş "Onaylandı" olunca düşmek, "İptal" olunca geri eklemek için kullanılır
+   * (bkz. admin/admin.js status-select handler). Negatife düşmesin diye clamp'lenir.
+   */
+  async function adminAdjustStock(productId, delta) {
+    if (!supabase) init();
+    const { data: current, error: fetchError } = await supabase
+      .from('products')
+      .select('stock_quantity')
+      .eq('id', productId)
+      .single();
+
+    if (fetchError) return { error: fetchError };
+
+    const newQuantity = Math.max(0, (current.stock_quantity || 0) + delta);
+    const { data, error } = await supabase
+      .from('products')
+      .update({ stock_quantity: newQuantity })
+      .eq('id', productId)
+      .select()
+      .single();
+
+    invalidateCache();
+    return { data, error };
+  }
+
+  /** Bir siparişin stok düşümü/iadesinin uygulanıp uygulanmadığını işaretler. */
+  async function adminSetOrderStockApplied(orderId, applied) {
+    if (!supabase) init();
+    const { data, error } = await supabase
+      .from('orders')
+      .update({ stock_applied: applied })
+      .eq('id', orderId)
+      .select()
+      .single();
     return { data, error };
   }
 
@@ -568,6 +610,8 @@
     adminUploadImage,
     adminGetOrders,
     adminUpdateOrderStatus,
+    adminAdjustStock,
+    adminSetOrderStockApplied,
     adminCreateCollection,
     adminUpdateCollection,
     adminDeleteCollection,
