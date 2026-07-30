@@ -263,32 +263,41 @@ function PB_imgPath(relPath) {
 
 /* ──────────── Ürün kartı render (paylaşılan) ──────────── */
 
+/*
+ * Ürün kartı.
+ *
+ * Yapı neden böyle: önceden kartın kendisi <button> idi ve favori butonu
+ * onun İÇİNDE duruyordu. İç içe buton geçersiz HTML; tarayıcılar bunu
+ * tahmin edilemez şekilde ele alır ve ekran okuyucular iç butonu hiç
+ * duyurmayabilir. Şimdi kart bir <article>, tıklanabilir alan ayrı bir
+ * <button>, favori butonu ise onun kardeşi.
+ */
 function renderProductCard(p, animDelay = 0) {
   const isOzl = p.mode === 'sana-ozel';
-  const card = PB_h('button', { class: 'product-card anim-fade-up', 'data-slug': p.slug, style: `animation-delay: ${0.05 * animDelay}s` });
 
-  const imgWrap = PB_h('div', { class: 'product-card-img' });
+  const card = PB_h('article', {
+    class: 'product-card anim-fade-up',
+    'data-slug': p.slug,
+    style: `animation-delay: ${0.05 * animDelay}s`
+  });
 
-  // Mod rozeti
-  const badge = PB_h('span', { class: 'product-card-badge ' + (isOzl ? 'ozl' : 'kol') }, isOzl ? 'SANA ÖZEL' : 'KOLEKSİYON');
-
-  // Favori butonu
-  const favBtn = PB_h('button', {
-    class: 'product-card-fav',
-    'aria-label': 'Favorilere ekle',
-    onclick: e => {
-      e.stopPropagation();
-      PB_Favs.toggle(p.id);
-      favBtn.querySelector('svg').setAttribute('fill', PB_Favs.has(p.id) ? 'currentColor' : 'none');
+  // Asıl tıklanabilir alan: görsel + bilgi
+  const openBtn = PB_h('button', {
+    type: 'button',
+    class: 'product-card-open',
+    onclick: () => {
+      if (isOzl) {
+        PB_openStudioModal(p.slug);
+      } else {
+        PB_openProductModal(p.slug);
+      }
     }
   });
-  const heartFill = PB_Favs.has(p.id) ? 'currentColor' : 'none';
-  favBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="${heartFill}" stroke="currentColor" stroke-width="1.2"><path d="M8 13.5s-5-3-5-7a3 3 0 0 1 5-2 3 3 0 0 1 5 2c0 4-5 7-5 7z"/></svg>`;
 
-  // Ürün görseli
+  const imgWrap = PB_h('div', { class: 'product-card-img' });
+  const badge = PB_h('span', { class: 'product-card-badge ' + (isOzl ? 'ozl' : 'kol') }, isOzl ? 'SANA ÖZEL' : 'KOLEKSİYON');
   const img = PB_h('img', { src: PB_imgPath(p.image), alt: p.name, loading: 'lazy' });
-
-  imgWrap.append(badge, favBtn, img);
+  imgWrap.append(badge, img);
 
   const info = PB_h('div', { class: 'product-card-info' });
   info.append(
@@ -296,16 +305,25 @@ function renderProductCard(p, animDelay = 0) {
     PB_h('div', { class: 'product-card-price' }, isOzl ? formatPrice(p.price) + ' başlangıç' : formatPrice(p.price))
   );
 
-  card.append(imgWrap, info);
+  openBtn.append(imgWrap, info);
 
-  // Tıklama: Koleksiyon → detay modal, Sana özel → stüdyo modal
-  card.addEventListener('click', () => {
-    if (isOzl) {
-      PB_openStudioModal(p.slug);
-    } else {
-      PB_openProductModal(p.slug);
+  // Favori butonu — kartın kardeşi, görselin üstüne konumlanır
+  const favBtn = PB_h('button', {
+    type: 'button',
+    class: 'product-card-fav',
+    'aria-pressed': PB_Favs.has(p.id) ? 'true' : 'false',
+    'aria-label': p.name + ' — favorilere ekle',
+    onclick: () => {
+      PB_Favs.toggle(p.id);
+      const secili = PB_Favs.has(p.id);
+      favBtn.setAttribute('aria-pressed', secili ? 'true' : 'false');
+      favBtn.querySelector('svg').setAttribute('fill', secili ? 'currentColor' : 'none');
     }
   });
+  const heartFill = PB_Favs.has(p.id) ? 'currentColor' : 'none';
+  favBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="${heartFill}" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M8 13.5s-5-3-5-7a3 3 0 0 1 5-2 3 3 0 0 1 5 2c0 4-5 7-5 7z"/></svg>`;
+
+  card.append(openBtn, favBtn);
 
   return card;
 }

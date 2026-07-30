@@ -791,24 +791,43 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   .product-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
+/* Kart artık <article>; tıklanabilir alan içindeki .product-card-open
+   butonu. Favori butonu bu kartın kardeşi olduğu için konumlandırma
+   bağlamı buraya taşındı (position: relative). */
 .product-card {
+  position: relative;
   background: var(--c-white);
   border: 0.5px solid var(--c-line);
   border-radius: var(--r-lg);
   overflow: hidden;
-  cursor: pointer;
   transition: transform var(--t-base), border-color var(--t-base);
   display: flex;
   flex-direction: column;
-  text-align: left;
-  font-family: inherit;
-  padding: 0;
-  color: inherit;
 }
 
 .product-card:hover {
   transform: translateY(-2px);
   border-color: rgba(176, 125, 92, 0.4);
+}
+
+/* Kartın tıklanabilir gövdesi */
+.product-card-open {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.product-card-open:focus-visible {
+  outline: 2px solid var(--c-bakir);
+  outline-offset: -2px;
 }
 
 .product-card-img {
@@ -824,6 +843,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .product-card-fav {
   position: absolute;
+  z-index: 2;             /* tıklanabilir kart gövdesinin üstünde kalmalı */
   top: 9px;
   right: 9px;
   background: rgba(255, 255, 255, 0.85);
