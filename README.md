@@ -1,6 +1,6 @@
 # Parla By Aslı
 
-Premium feminen e-ticaret sitesi. El emeği takı + 3D üretim + kişiye özel tasarım.
+Premium feminen e-ticaret sitesi. El emeği takı + doğal taş + kişiye özel üretim.
 
 ## Teknoloji
 
