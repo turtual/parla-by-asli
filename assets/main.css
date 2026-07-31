@@ -220,7 +220,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 /* Dar ekranlarda ortalanmış logo ikonlarla çakışıyor — sola yaslı kalır. */
 @media (max-width: 499px) {
-  .header-inner { justify-content: space-between; }
+  .header-inner { justify-content: space-between; gap: var(--space-sm); }
   .brand-link { position: static; transform: none; }
 }
 
@@ -242,6 +242,17 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   .brand-logo {
     height: 80px !important;
     max-width: 440px !important;
+  }
+}
+
+/* Büyütülmüş logo (72px) ikonlarla birlikte dar telefona sığmayıp sayfayı
+   yatay kaydırtıyordu — bu genişlikte küçültülür. Kural, yukarıdaki temel
+   .brand-logo tanımından SONRA gelmeli: aynı özgüllükte iki !important
+   çakıştığında kaynakta son yazılan kazanıyor. */
+@media (max-width: 499px) {
+  .brand-logo {
+    height: 52px !important;
+    max-width: 200px !important;
   }
 }
 
@@ -297,17 +308,68 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 /* ──────────── 8. Koleksiyonlar alanı (anasayfa) ──────────── */
 
+/* Piller artık filtre değil, koleksiyon bölümlerine kaydıran kısayol.
+   Header'ın hemen altına yapışır ki uzun sayfada erişilebilir kalsın. */
 .mode-area {
   background: var(--c-warm-greige);
   /* Üst/alt eşit — piller şeridin içinde dikey olarak ortalanmış görünsün */
   padding: var(--space-md) 0;
-  position: relative;
+  position: sticky;
+  top: var(--header-h);
+  z-index: 40;              /* header (50) altında, ürün kartları üstünde */
+  border-bottom: 0.5px solid var(--c-line-soft);
 }
 
-/* ──────────── 9. Featured products / Product grid ──────────── */
+/* ──────────── 9. Koleksiyon bölümleri / Product grid ──────────── */
 
 .featured {
-  padding: var(--space-lg) 0 var(--space-2xl);
+  padding: var(--space-2xl) 0;
+}
+
+.collection-section + .collection-section {
+  margin-top: var(--space-3xl);
+}
+
+/* Sticky header + pil şeridinin altına denk gelsin diye kaydırma payı */
+.collection-section {
+  scroll-margin-top: calc(var(--header-h) + 80px);
+}
+
+.collection-section-head {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto var(--space-xl);
+}
+
+.collection-section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--c-sicak-siyah);
+}
+
+/* Başlığın altında ince bakır çizgi — bölümleri görsel olarak ayırır */
+.collection-section-title::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 1px;
+  margin: var(--space-md) auto 0;
+  background: var(--c-bakir-cizgi);
+}
+
+.collection-section-desc {
+  margin-top: var(--space-md);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--c-toprak);
+}
+
+.collection-loading {
+  text-align: center;
+  padding: var(--space-2xl) 0;
+  color: var(--c-toprak);
 }
 
 .section-head {
@@ -397,6 +459,21 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   height: 100%;
   object-fit: contain;
   display: block;
+}
+
+/* Üzerine gelince beliren 2. fotoğraf — yalnız ek görseli olan üründe var */
+.product-card-img-hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--t-base);
+}
+
+.product-card:hover .product-card-img-hover { opacity: 1; }
+
+@media (hover: none) {
+  /* Dokunmatik cihazda "hover" takılı kalıyor — ikinci görsel hiç girmesin */
+  .product-card-img-hover { display: none; }
 }
 
 .product-card-fav {
