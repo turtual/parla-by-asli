@@ -284,21 +284,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .hero {
   text-align: center;
-  padding: var(--space-md) var(--space-md) var(--space-lg);
-}
-
-.hero-seal {
-  width: 130px;
-  height: 130px;
-  margin: 0 auto var(--space-sm);
-  color: var(--c-bakir-cizgi);
-}
-
-@media (min-width: 768px) {
-  /* Geniş ekranlarda mührün etrafındaki dikey boşluk aşırı büyüyüp
-     hero'yu "yarım kalmış" hissettiriyordu — üst/alt boşluk sıkılaştırıldı. */
-  .hero { padding: var(--space-md) var(--space-md) var(--space-lg); }
-  .hero-seal { width: 140px; height: 140px; }
+  padding: var(--space-sm) var(--space-md) 0;
 }
 
 .hero-title {
@@ -316,7 +302,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .mode-area {
   background: var(--c-warm-greige);
-  padding: var(--space-sm) 0;
+  padding: 0 0 var(--space-sm);
   position: relative;
 }
 
@@ -468,6 +454,24 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .story {
   background: var(--c-soft-bej);
   padding: var(--space-2xl) 0;
+}
+
+.story-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+}
+
+.story-seal {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  color: var(--c-bakir-cizgi);
+}
+
+@media (max-width: 767px) {
+  .story-seal { display: none; }
 }
 
 .story-inner {
