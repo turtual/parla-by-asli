@@ -488,6 +488,41 @@
       gap: 10px;
     }
 
+    /* ───── Görsel tutan site metinleri (kapak görseli vb.) ───── */
+    .text-field-image {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .text-field-preview {
+      width: 132px;
+      height: 74px;          /* kapak görseli geniş kadrajlı, 16:9'a yakın */
+      flex-shrink: 0;
+      border-radius: 8px;
+      border: 0.5px solid var(--c-line);
+      background: var(--c-cream);
+      overflow: hidden;
+    }
+
+    .text-field-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .text-field-preview[hidden] { display: none; }
+
+    .text-field-upload {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .text-field-upload .btn[hidden] { display: none; }
+
     /* ───── Sayfa içeriği blok editörü ───── */
     .cp-blocks-section {
       margin-top: 20px;

@@ -1257,22 +1257,45 @@
     renderSiteTextsList(texts);
   }
 
+  /* Değeri bir görsel URL'si olan site metinleri — bu alanlarda düz metin
+     kutusunun yanına önizleme + yükleme kontrolü çıkar. Yeni bir görsel
+     alanı eklenirse anahtarını buraya yazmak yeterli. */
+  const GORSEL_METIN_ANAHTARLARI = new Set(['hero_gorsel']);
+
   function renderSiteTextsList(texts) {
     if (!texts.length) {
       siteTextsList.innerHTML = '<div class="empty-state"><p>Henüz site metni yok.</p></div>';
       return;
     }
 
-    siteTextsList.innerHTML = texts.map(t => `
-      <div class="text-field-card" data-key="${escapeHtml(t.key)}">
-        <label>${escapeHtml(t.label)}</label>
-        <textarea class="text-field-input" rows="2">${escapeHtml(t.value)}</textarea>
-        <div class="text-field-actions">
-          <button type="button" class="btn btn-ghost" data-action="save">KAYDET</button>
-          <span class="status-msg" style="display:none;"></span>
+    siteTextsList.innerHTML = texts.map(t => {
+      // Görsel tutan alanlarda URL'yi elle yapıştırmak yerine doğrudan
+      // yükleyebilmek için önizleme + yükle butonu eklenir.
+      const gorselAlani = GORSEL_METIN_ANAHTARLARI.has(t.key) ? `
+        <div class="text-field-image">
+          <div class="text-field-preview" data-preview ${t.value ? '' : 'hidden'}>
+            <img src="${escapeHtml(t.value)}" alt="">
+          </div>
+          <div class="text-field-upload">
+            <button type="button" class="btn btn-ghost" data-action="upload">GÖRSEL YÜKLE</button>
+            <button type="button" class="btn btn-ghost" data-action="clear" ${t.value ? '' : 'hidden'}>KALDIR</button>
+            <input type="file" accept="image/*" hidden data-file>
+          </div>
         </div>
-      </div>
-    `).join('');
+      ` : '';
+
+      return `
+        <div class="text-field-card" data-key="${escapeHtml(t.key)}">
+          <label>${escapeHtml(t.label)}</label>
+          ${gorselAlani}
+          <textarea class="text-field-input" rows="2">${escapeHtml(t.value)}</textarea>
+          <div class="text-field-actions">
+            <button type="button" class="btn btn-ghost" data-action="save">KAYDET</button>
+            <span class="status-msg" style="display:none;"></span>
+          </div>
+        </div>
+      `;
+    }).join('');
 
     siteTextsList.querySelectorAll('.text-field-card').forEach(card => {
       const key = card.dataset.key;
@@ -1280,13 +1303,65 @@
       const saveBtn = card.querySelector('[data-action="save"]');
       const status = card.querySelector('.status-msg');
 
+      async function kaydet(deger) {
+        const { error } = await PB_Data.adminUpdateSiteText(key, deger);
+        showStatus(status, error ? 'Kaydedilemedi: ' + (error.message || error) : 'Kaydedildi ✓', error ? 'error' : 'success');
+        return !error;
+      }
+
       saveBtn.addEventListener('click', async () => {
         saveBtn.disabled = true;
         saveBtn.textContent = 'KAYDEDİLİYOR…';
-        const { error } = await PB_Data.adminUpdateSiteText(key, textarea.value.trim());
+        await kaydet(textarea.value.trim());
         saveBtn.disabled = false;
         saveBtn.textContent = 'KAYDET';
-        showStatus(status, error ? 'Kaydedilemedi: ' + (error.message || error) : 'Kaydedildi ✓', error ? 'error' : 'success');
+      });
+
+      // ── Görsel alanları ──
+      const uploadBtn = card.querySelector('[data-action="upload"]');
+      if (!uploadBtn) return;
+
+      const fileInput = card.querySelector('[data-file]');
+      const clearBtn = card.querySelector('[data-action="clear"]');
+      const preview = card.querySelector('[data-preview]');
+
+      function onizlemeyiTazele(url) {
+        preview.querySelector('img').src = url || '';
+        preview.hidden = !url;
+        clearBtn.hidden = !url;
+      }
+
+      uploadBtn.addEventListener('click', () => fileInput.click());
+
+      fileInput.addEventListener('change', async () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = 'YÜKLENİYOR…';
+
+        // adminUploadImage dosya adını bu ön ekle üretiyor; ürün id'si
+        // yerine sabit bir etiket veriyoruz (site geneli görsel).
+        const { data, error } = await PB_Data.adminUploadImage(file, 'site-' + key);
+
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'GÖRSEL YÜKLE';
+        fileInput.value = '';
+
+        if (error) {
+          showStatus(status, 'Yüklenemedi: ' + (error.message || error), 'error');
+          return;
+        }
+
+        // Yükleme başarılı olsa da kayıt başarısızsa önizlemeyi güncelleme —
+        // aksi hâlde kaydedilmemiş bir görsel kaydedilmiş gibi görünür.
+        textarea.value = data.publicUrl;
+        if (await kaydet(data.publicUrl)) onizlemeyiTazele(data.publicUrl);
+      });
+
+      clearBtn.addEventListener('click', async () => {
+        textarea.value = '';
+        if (await kaydet('')) onizlemeyiTazele('');
       });
     });
   }
