@@ -63,10 +63,11 @@
     if (typeof PB_Data === 'undefined' || typeof pbFormatInline !== 'function') return;
     const texts = await PB_Data.getSiteTexts();
 
+    // Not: hero_subtitle artık sitede hiçbir yerde gösterilmiyor (başlık
+    // header'a taşınırken alt satır kaldırıldı), o yüzden eşleşmesi yok.
     const map = {
       'utility-bar-text': 'utility_bar',
       'hero-title-text': 'hero_title',
-      'hero-subtitle-text': 'hero_subtitle',
       'hikaye-baslik-text': 'hikaye_baslik',
       'hikaye-metin-text': 'hikaye_metin',
       'hikaye-link-text': 'hikaye_link_metni',

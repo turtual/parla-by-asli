@@ -197,17 +197,31 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: var(--header-h);
   gap: var(--space-lg);
+  position: relative;
 }
 
+/* Logo sayfanın tam ortasında, ikonlar sağda. Absolute konumlandırma
+   sayesinde header'ı paylaşan diğer 12 sayfaya boşluk elemanı eklemeye
+   gerek kalmıyor — hepsinde aynı hizalama geçerli oluyor. */
 .brand-link {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   text-decoration: none;
   color: var(--c-bakir-cizgi);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Dar ekranlarda ortalanmış logo ikonlarla çakışıyor — sola yaslı kalır. */
+@media (max-width: 499px) {
+  .header-inner { justify-content: space-between; }
+  .brand-link { position: static; transform: none; }
 }
 
 .brand-link svg { width: 32px; height: 32px; color: var(--c-sicak-siyah); }
@@ -224,6 +238,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 @media (min-width: 900px) {
+  :root { --header-h: 128px; }
   .brand-logo {
     height: 80px !important;
     max-width: 440px !important;
@@ -278,58 +293,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   align-items: center;
   justify-content: center;
   padding: 0 4px;
-}
-
-/* ──────────── 7. Header etiketi (eski hero başlığı) ──────────── */
-
-/* Ayrı bir hero bölümü yerine başlık artık header satırının kendisine
-   entegre — logo solda, bu ortada, sepet/favori ikonları sağda. */
-.header-tagline {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  text-align: center;
-  line-height: 1.25;
-  flex: 1;
-  min-width: 0;
-  padding: 0 var(--space-md);
-}
-
-.header-tagline-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--c-sicak-siyah);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.header-tagline-title em { color: var(--c-bakir); font-style: italic; }
-
-.header-tagline-sub {
-  font-size: 11px;
-  color: var(--c-toprak);
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-@media (min-width: 900px) {
-  :root { --header-h: 128px; }
-  .header-tagline-title { font-size: 24px; }
-  .header-tagline-sub { font-size: 12.5px; }
-}
-
-/* Büyütülmüş logo + başlık dar ekranlarda yan yana sığmıyor —
-   kesilmiş/üst üste binen metin yerine sadece logo+ikonlar gösterilir. */
-@media (max-width: 659px) {
-  .header-tagline { display: none; }
 }
 
 /* ──────────── 8. Koleksiyonlar alanı (anasayfa) ──────────── */
