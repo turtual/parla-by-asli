@@ -266,10 +266,7 @@ function PB_imgPath(relPath) {
   if (/^https?:\/\//i.test(relPath) || relPath.startsWith('data:')) {
     return relPath;
   }
-  // Lokal yol — sayfa derinliğine göre prefix
-  const path = window.location.pathname;
-  const isInSubpage = path.includes('/katalog/');
-  return isInSubpage ? '../../' + relPath : relPath;
+  return relPath;
 }
 
 /* ──────────── Ürün kartı render (paylaşılan) ──────────── */

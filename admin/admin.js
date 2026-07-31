@@ -834,7 +834,6 @@
         <tr data-id="${escapeHtml(c.id)}">
           <td>
             <div style="font-weight: 500;">${escapeHtml(c.name)}</div>
-            <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">/katalog/${escapeHtml(c.slug)}/</div>
           </td>
           <td>${inactiveBadge}</td>
           <td>${urunSayisi} ürün</td>

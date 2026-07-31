@@ -3,13 +3,10 @@
   "trailingSlash": true,
   "redirects": [
     {
-      "source": "/katalog/:type(kolye|kupe|bileklik|yuzuk|charm|bros|anahtarlik|obje)/",
+      "source": "/katalog/:slug/",
       "destination": "/",
       "permanent": true
     }
-  ],
-  "rewrites": [
-    { "source": "/katalog/:slug/", "destination": "/katalog-sablon.html" }
   ],
   "headers": [
     {

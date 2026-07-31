@@ -1687,6 +1687,12 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   border-color: var(--c-bakir);
 }
 
+.home-collection-nav .pill.is-active {
+  background: var(--c-sicak-siyah);
+  color: var(--c-cream);
+  border-color: var(--c-sicak-siyah);
+}
+
 /* Boş durum */
 .catalog-empty {
   grid-column: 1 / -1;

@@ -1,16 +1,16 @@
 /**
  * Parla By Aslı — Anasayfa interactivity
  *
- * - Koleksiyon (üst kategori) pill listesi — her zaman görünür, gizli
- *   dropdown yok. Tıklayınca ilgili /katalog/[slug]/ sayfasına gider.
- * - Tüm ürünlerin ızgarası (anasayfada filtre yok; koleksiyona göre
- *   daraltma artık kendi sayfasında yapılıyor).
+ * - Koleksiyon pill listesi — her zaman görünür, sayfa değiştirmez.
+ *   Tıklanınca aynı sayfada ürün ızgarasını o koleksiyona daraltır
+ *   (URL değişmez, tam sayfa yenilenmez).
+ * - "Tümü" pili filtreyi temizler.
  *
- * Not: Eskiden burada çoklu-seçim checkbox+dropdown filtre paneli vardı
- * (Hepsi/Koleksiyon/Sana özel mod ayrımının kalıntısıydı). Koleksiyonlar
- * artık admin panelinden dinamik ekleniyor ve her biri kendi indexlenebilir
- * sayfasına sahip; bu yüzden anasayfada gizli bir filtre yerine doğrudan
- * gezinme linkleri gösteriliyor (bkz. assets/catalog.js, katalog/index.html).
+ * Not: Koleksiyonlar önceden her biri kendi /katalog/[slug]/ sayfasına
+ * sahipti (SEO amaçlı). Bu, tek bir dinamik şablonun (katalog/index.html)
+ * Vercel'de dizin/rewrite çakışması yüzünden 404 vermesine yol açtı ve
+ * kullanıcı deneyimi olarak da gereksiz bir sayfa geçişiydi; koleksiyon
+ * gezinmesi anasayfadaki bu sayfa-içi filtreye taşındı.
  */
 
 (function () {
@@ -19,18 +19,38 @@
   const collectionNavEl = document.getElementById('home-collection-nav');
   const grid = document.getElementById('featured-grid');
 
+  let activeCollectionId = null; // null = Tümü
+
   async function renderCollectionNav() {
     if (!collectionNavEl || typeof getCollections !== 'function') return;
     const collections = await getCollections();
+
     collectionNavEl.innerHTML = '';
+
+    const tumuBtn = PB_h('button', {
+      type: 'button',
+      class: 'pill' + (activeCollectionId === null ? ' is-active' : ''),
+      'aria-pressed': activeCollectionId === null ? 'true' : 'false',
+      onclick: () => secFiltre(null)
+    }, 'Tümü');
+    collectionNavEl.append(tumuBtn);
+
     collections.forEach(c => {
-      const link = PB_h('a', {
-        href: 'katalog/' + c.slug + '/',
-        class: 'pill',
-        'data-collection': c.slug
+      const btn = PB_h('button', {
+        type: 'button',
+        class: 'pill' + (activeCollectionId === c.id ? ' is-active' : ''),
+        'aria-pressed': activeCollectionId === c.id ? 'true' : 'false',
+        'data-collection': c.slug,
+        onclick: () => secFiltre(c.id)
       }, c.name);
-      collectionNavEl.append(link);
+      collectionNavEl.append(btn);
     });
+  }
+
+  function secFiltre(collectionId) {
+    activeCollectionId = collectionId;
+    renderCollectionNav();
+    renderProducts();
   }
 
   /**
@@ -68,11 +88,11 @@
       grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
     }
 
-    const items = await getProducts({});
+    const items = await getProducts(activeCollectionId ? { collectionId: activeCollectionId } : {});
 
     grid.innerHTML = '';
     if (items.length === 0) {
-      renderEmptyGridState(grid, { filtered: false });
+      renderEmptyGridState(grid, { filtered: activeCollectionId !== null });
       return;
     }
     items.forEach((p, i) => grid.append(renderProductCard(p, i)));

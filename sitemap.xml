@@ -6,20 +6,6 @@
     <priority>1.0</priority>
   </url>
 
-  <!--
-    Koleksiyon sayfaları — artık admin panelinden dinamik ekleniyor
-    (bkz. katalog/index.html, tek şablon). Bu sitemap statik bir dosya
-    olduğu için yeni bir koleksiyon eklendiğinde buraya elle yeni bir
-    giriş eklenmesi gerekir; aksi hâlde sayfa çalışır ama Google'a
-    sitemap üzerinden bildirilmez (kendiliğinden de keşfedilebilir,
-    sadece daha yavaş indexlenir).
-  -->
-  <url>
-    <loc>https://parlabyasli.com/katalog/genel/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
   <!-- Yardım sayfaları -->
   <url>
     <loc>https://parlabyasli.com/iletisim/</loc>
