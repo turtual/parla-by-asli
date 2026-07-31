@@ -84,6 +84,21 @@
   }
 
   /**
+   * Hero'nun ekranı tam kaplaması için üst şerit + header yüksekliğini
+   * ölçüp --hero-offset'e yazar. Sabit sayı yerine ölçüm kullanılıyor:
+   * üst şerit metni dar ekranda iki satıra sarabiliyor ve header
+   * yüksekliği kırılma noktasına göre değişiyor.
+   */
+  function heroYuksekligiAyarla() {
+    const serit = document.querySelector('.utility-bar');
+    const header = document.querySelector('.site-header');
+    const toplam = (serit ? serit.offsetHeight : 0) + (header ? header.offsetHeight : 0);
+    if (toplam > 0) {
+      document.documentElement.style.setProperty('--hero-offset', toplam + 'px');
+    }
+  }
+
+  /**
    * Kapak görselini bağlar. Boşsa hiçbir şey yapılmaz — CSS'teki marka
    * zemini (degrade + mühür filigranı) görünür kalır. Görsel gerçekten
    * yüklenene kadar .has-image eklenmiyor ki kırık URL'de açık zemin
@@ -169,8 +184,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    heroYuksekligiAyarla();
     renderSiteTexts();
     renderCollectionNav();
     renderProducts();
   });
+
+  // Ekran döndürme / pencere boyutu değişiminde yeniden ölç
+  window.addEventListener('resize', heroYuksekligiAyarla, { passive: true });
 })();

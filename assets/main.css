@@ -308,13 +308,22 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 /* ──────────── 7. Karşılama ekranı (hero) ──────────── */
 
+/* Karşılama ekranı ilk bakışta tek başına dursun: üst şerit + header'ın
+   altında kalan ekranın TAMAMINI kaplar, böylece ürünler ancak aşağı
+   kaydırınca görünür. Çıkarılacak yüksekliği homepage.js ölçüp
+   --hero-offset olarak yazıyor (üst şeridin metni sarabildiği için sabit
+   sayı güvenilir değil); değişken gelmezse makul bir varsayılan kullanılır.
+
+   Yan fayda: hero uzadıkça kapak görselinin dikey kırpılması azalıyor —
+   kısa bir kutuda geniş kadrajlı fotoğrafın büyük kısmı kesiliyordu. */
 .hero {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: min(72vh, 620px);
+  min-height: calc(100vh - var(--hero-offset, 160px));
+  min-height: calc(100dvh - var(--hero-offset, 160px));
   padding: var(--space-2xl) 0 var(--space-3xl);
   overflow: hidden;
 }
