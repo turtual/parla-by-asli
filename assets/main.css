@@ -365,7 +365,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   color: var(--c-cream);
   text-shadow: 0 1px 12px rgba(20, 17, 14, 0.55);
 }
-.hero.has-image .hero-eyebrow { color: var(--c-bakir-light); }
 .hero.has-image .hero-title em { color: var(--c-bakir-light); }
 .hero.has-image .hero-scroll { color: var(--c-cream); }
 
@@ -374,8 +373,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   z-index: 2;
   max-width: 680px;
 }
-
-.hero-eyebrow { margin-bottom: var(--space-md); }
 
 .hero-title {
   font-family: var(--font-serif);
