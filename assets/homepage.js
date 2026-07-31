@@ -1,121 +1,56 @@
 /**
  * Parla By Aslı — Anasayfa interactivity
  *
- * Anasayfa artık tek düz ürün ızgarası değil: her koleksiyon kendi
- * başlıklı bölümü olarak alt alta akıyor (önce koleksiyon adı, altında
- * o koleksiyonun ürünleri). Üstteki pil listesi sayfa değiştirmiyor,
- * ilgili bölüme yumuşak kaydırma yapıyor ve sayfa kaydırıldıkça
- * hangi bölümde olunduğunu işaretliyor (scrollspy).
+ * - Koleksiyon pill listesi — her zaman görünür, sayfa değiştirmez.
+ *   Tıklanınca aynı sayfada ürün ızgarasını o koleksiyona daraltır
+ *   (URL değişmez, tam sayfa yenilenmez).
+ * - "Tümü" pili filtreyi temizler.
  *
- * Not: Koleksiyonlar bir ara her biri kendi /katalog/[slug]/ sayfasına
- * sahipti; Vercel'de dizin/rewrite çakışması yüzünden 404 veriyordu ve
- * gereksiz bir sayfa geçişiydi. Sonra sayfa-içi filtreye çevrildi, şimdi
- * de bölümlere — böylece ziyaretçi tüm koleksiyonları tek akışta görüyor.
+ * Not: Koleksiyonlar önceden her biri kendi /katalog/[slug]/ sayfasına
+ * sahipti (SEO amaçlı). Bu, tek bir dinamik şablonun (katalog/index.html)
+ * Vercel'de dizin/rewrite çakışması yüzünden 404 vermesine yol açtı ve
+ * kullanıcı deneyimi olarak da gereksiz bir sayfa geçişiydi; koleksiyon
+ * gezinmesi anasayfadaki bu sayfa-içi filtreye taşındı.
  */
 
 (function () {
   'use strict';
 
   const collectionNavEl = document.getElementById('home-collection-nav');
-  const sectionsEl = document.getElementById('collection-sections');
+  const grid = document.getElementById('featured-grid');
 
-  let spyHandler = null;
+  let activeCollectionId = null; // null = Tümü
 
-  /** Bir koleksiyon bölümünün DOM id'si — pil ile bölüm bu id üzerinden eşleşir. */
-  function sectionId(slug) {
-    return 'koleksiyon-' + slug;
-  }
+  async function renderCollectionNav() {
+    if (!collectionNavEl || typeof getCollections !== 'function') return;
+    const collections = await getCollections();
 
-  function renderCollectionNav(bolumler) {
-    if (!collectionNavEl) return;
     collectionNavEl.innerHTML = '';
 
-    bolumler.forEach((b, i) => {
+    const tumuBtn = PB_h('button', {
+      type: 'button',
+      class: 'pill' + (activeCollectionId === null ? ' is-active' : ''),
+      'aria-pressed': activeCollectionId === null ? 'true' : 'false',
+      onclick: () => secFiltre(null)
+    }, 'Tümü');
+    collectionNavEl.append(tumuBtn);
+
+    collections.forEach(c => {
       const btn = PB_h('button', {
         type: 'button',
-        class: 'pill' + (i === 0 ? ' is-active' : ''),
-        'data-target': sectionId(b.slug),
-        onclick: () => {
-          const hedef = document.getElementById(sectionId(b.slug));
-          if (hedef) hedef.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, b.name);
+        class: 'pill' + (activeCollectionId === c.id ? ' is-active' : ''),
+        'aria-pressed': activeCollectionId === c.id ? 'true' : 'false',
+        'data-collection': c.slug,
+        onclick: () => secFiltre(c.id)
+      }, c.name);
       collectionNavEl.append(btn);
     });
   }
 
-  /**
-   * Sayfa kaydırıldıkça o an bakılan bölümün pilini işaretler.
-   *
-   * IntersectionObserver yerine ölçüm kullanılıyor: bölümler ekrandan uzun
-   * olduğu için aynı anda birden fazlası "görünür" oluyor ve hangisinin
-   * aktif sayılacağı IO'nun kendi sırasından okunamıyor. Burada eşiği
-   * (sticky header + pil şeridi) geçmiş EN SON bölüm aktif kabul ediliyor.
-   */
-  function setupScrollSpy(bolumler) {
-    if (!collectionNavEl) return;
-    if (spyHandler) window.removeEventListener('scroll', spyHandler);
-
-    const idler = bolumler.map(b => sectionId(b.slug));
-    let sonCalisma = 0;
-
-    function guncelle() {
-      const header = document.querySelector('.site-header');
-      const serit = document.querySelector('.mode-area');
-      const esik = (header ? header.offsetHeight : 0) + (serit ? serit.offsetHeight : 0) + 8;
-
-      let aktif = idler[0];
-      idler.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= esik) aktif = id;
-      });
-
-      collectionNavEl.querySelectorAll('.pill').forEach(p => {
-        p.classList.toggle('is-active', p.dataset.target === aktif);
-      });
-    }
-
-    // Basit zaman damgalı kısıtlama — bir avuç bölümün rect'ini okumak ucuz,
-    // requestAnimationFrame'e gerek yok (arka plandaki sekmede o durabiliyor).
-    spyHandler = () => {
-      const simdi = Date.now();
-      if (simdi - sonCalisma < 60) return;
-      sonCalisma = simdi;
-      guncelle();
-    };
-
-    window.addEventListener('scroll', spyHandler, { passive: true });
-    guncelle();
-  }
-
-  function renderSections(bolumler) {
-    sectionsEl.innerHTML = '';
-
-    bolumler.forEach(b => {
-      const section = PB_h('section', {
-        class: 'collection-section',
-        id: sectionId(b.slug),
-        'aria-labelledby': sectionId(b.slug) + '-baslik'
-      });
-
-      const container = PB_h('div', { class: 'container' });
-      const head = PB_h('div', { class: 'collection-section-head' });
-      head.append(PB_h('h2', {
-        class: 'collection-section-title',
-        id: sectionId(b.slug) + '-baslik'
-      }, b.name));
-
-      if (b.description) {
-        head.append(PB_h('p', { class: 'collection-section-desc' }, b.description));
-      }
-
-      const grid = PB_h('div', { class: 'product-grid' });
-      b.products.forEach((p, i) => grid.append(renderProductCard(p, i)));
-
-      container.append(head, grid);
-      section.append(container);
-      sectionsEl.append(section);
-    });
+  function secFiltre(collectionId) {
+    activeCollectionId = collectionId;
+    renderCollectionNav();
+    renderProducts();
   }
 
   /**
@@ -146,51 +81,27 @@
     });
   }
 
-  async function render() {
-    if (!sectionsEl || typeof getProducts !== 'function') return;
+  async function renderProducts() {
+    if (!grid || typeof getProducts !== 'function') return;
 
-    sectionsEl.innerHTML = '<div class="collection-loading">Yükleniyor…</div>';
-
-    const [collections, products] = await Promise.all([
-      typeof getCollections === 'function' ? getCollections() : [],
-      getProducts({})
-    ]);
-
-    // Koleksiyon sırasına göre grupla; ürünü olmayan koleksiyon gösterilmez
-    const bolumler = collections
-      .map(c => ({
-        slug: c.slug,
-        name: c.name,
-        description: c.description || '',
-        products: products.filter(p => p.collectionId === c.id)
-      }))
-      .filter(b => b.products.length > 0);
-
-    // Hiçbir koleksiyona atanmamış ürünler kaybolmasın
-    const atanmis = new Set(collections.map(c => c.id));
-    const bosta = products.filter(p => !p.collectionId || !atanmis.has(p.collectionId));
-    if (bosta.length) {
-      bolumler.push({ slug: 'diger', name: 'Diğer Ürünler', description: '', products: bosta });
+    // Yükleniyor göstergesi (cache miss durumunda görünür)
+    if (!grid.children.length) {
+      grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
     }
 
-    if (!bolumler.length) {
-      sectionsEl.innerHTML = '';
-      const bos = PB_h('div', { class: 'container' });
-      const grid = PB_h('div', { class: 'product-grid' });
-      renderEmptyGridState(grid, { filtered: false });
-      bos.append(grid);
-      sectionsEl.append(bos);
-      if (collectionNavEl) collectionNavEl.innerHTML = '';
+    const items = await getProducts(activeCollectionId ? { collectionId: activeCollectionId } : {});
+
+    grid.innerHTML = '';
+    if (items.length === 0) {
+      renderEmptyGridState(grid, { filtered: activeCollectionId !== null });
       return;
     }
-
-    renderSections(bolumler);
-    renderCollectionNav(bolumler);
-    setupScrollSpy(bolumler);
+    items.forEach((p, i) => grid.append(renderProductCard(p, i)));
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     renderSiteTexts();
-    render();
+    renderCollectionNav();
+    renderProducts();
   });
 })();

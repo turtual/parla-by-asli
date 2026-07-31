@@ -298,19 +298,6 @@ function renderProductCard(p, animDelay = 0) {
   const img = PB_h('img', { src: PB_imgPath(p.image), alt: p.name, loading: 'lazy' });
   imgWrap.append(img);
 
-  // Üzerine gelince 2. fotoğrafa geçiş — ürünün zaten yüklü olan ek
-  // görsellerinden ilki kullanılır, yoksa bu adım atlanır.
-  const ikinciGorsel = (p.images || []).filter(Boolean)[0];
-  if (ikinciGorsel) {
-    imgWrap.append(PB_h('img', {
-      src: PB_imgPath(ikinciGorsel),
-      alt: '',
-      'aria-hidden': 'true',
-      loading: 'lazy',
-      class: 'product-card-img-hover'
-    }));
-  }
-
   if ((p.stockQuantity || 0) <= 0) {
     imgWrap.append(PB_h('span', { class: 'product-card-badge' }, 'TÜKENDİ'));
   }
