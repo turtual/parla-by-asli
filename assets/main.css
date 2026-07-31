@@ -220,7 +220,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 /* Dar ekranlarda ortalanmış logo ikonlarla çakışıyor — sola yaslı kalır. */
 @media (max-width: 499px) {
-  .header-inner { justify-content: space-between; }
+  .header-inner { justify-content: space-between; gap: var(--space-sm); }
   .brand-link { position: static; transform: none; }
 }
 
@@ -242,6 +242,17 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   .brand-logo {
     height: 80px !important;
     max-width: 440px !important;
+  }
+}
+
+/* Büyütülmüş logo (72px) ikonlarla birlikte dar telefona sığmayıp sayfayı
+   yatay kaydırtıyordu — bu genişlikte küçültülür. Kural, yukarıdaki temel
+   .brand-logo tanımından SONRA gelmeli: aynı özgüllükte iki !important
+   çakıştığında kaynakta son yazılan kazanıyor. */
+@media (max-width: 499px) {
+  .brand-logo {
+    height: 52px !important;
+    max-width: 200px !important;
   }
 }
 
@@ -293,6 +304,182 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   align-items: center;
   justify-content: center;
   padding: 0 4px;
+}
+
+/* ──────────── 7. Karşılama ekranı (hero) ──────────── */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: min(72vh, 620px);
+  padding: var(--space-2xl) 0 var(--space-3xl);
+  overflow: hidden;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Görsel yüklenmediğinde/boş bırakıldığında gösterilen marka zemini —
+     yer tutucu gibi değil, bilinçli bir kapak gibi dursun diye degrade
+     + mühür filigranı kullanılıyor. */
+  background:
+    url('img/logo-seal-bakir.svg') center / 320px no-repeat,
+    linear-gradient(150deg, var(--c-cream) 0%, var(--c-soft-bej) 45%, var(--c-soft-bej-dark) 100%);
+  background-blend-mode: luminosity;
+  opacity: 1;
+}
+
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Kapak görseli varken metnin okunması için koyu perde + açık yazı.
+   Perde bilinçli olarak koyu: yüklenecek fotoğrafı önceden bilmiyoruz ve
+   açık/parlak bir kare gelirse krem yazı okunmaz kalıyor. Gölge de ikinci
+   güvence — perdenin yetmediği parlak bölgelerde harfleri ayırıyor. */
+.hero.has-image .hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,17,14,0.48) 0%, rgba(20,17,14,0.68) 100%);
+}
+
+.hero.has-image .hero-title,
+.hero.has-image .hero-sub {
+  color: var(--c-cream);
+  text-shadow: 0 1px 12px rgba(20, 17, 14, 0.55);
+}
+.hero.has-image .hero-eyebrow { color: var(--c-bakir-light); }
+.hero.has-image .hero-title em { color: var(--c-bakir-light); }
+.hero.has-image .hero-scroll { color: var(--c-cream); }
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+}
+
+.hero-eyebrow { margin-bottom: var(--space-md); }
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(34px, 6vw, 62px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  color: var(--c-sicak-siyah);
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--c-bakir);
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+}
+
+.hero-sub {
+  margin: var(--space-md) auto 0;
+  max-width: 460px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--c-toprak);
+}
+
+.btn-hero {
+  margin-top: var(--space-xl);
+  background: var(--c-sicak-siyah);
+  color: var(--c-cream);
+}
+
+.btn-hero:hover { background: #2A2520; transform: translateY(-1px); }
+
+.hero.has-image .btn-hero {
+  background: var(--c-cream);
+  color: var(--c-sicak-siyah);
+}
+
+.hero.has-image .btn-hero:hover { background: var(--c-white); }
+
+/* Aşağı ok — "kaydırınca ürünler var" ipucu */
+.hero-scroll {
+  position: absolute;
+  z-index: 2;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--c-toprak);
+  padding: 8px;
+  animation: hero-scroll-bob 2.2s ease-in-out infinite;
+}
+
+.hero-scroll svg { width: 22px; height: 22px; }
+
+@keyframes hero-scroll-bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll { animation: none; }
+}
+
+/* ──────────── 7b. Kampanya bandı + geri sayım ──────────── */
+
+.promo-band {
+  background: var(--c-warm-brown);
+  color: var(--c-cream);
+  padding: var(--space-md) 0;
+}
+
+.promo-band-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-xl);
+}
+
+.promo-band-text {
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 2.2vw, 22px);
+  letter-spacing: 0.02em;
+}
+
+.countdown {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.countdown-unit {
+  min-width: 58px;
+  padding: 6px 8px;
+  border: 0.5px solid rgba(250, 246, 241, 0.3);
+  border-radius: var(--r-sm);
+  text-align: center;
+}
+
+.countdown-unit span {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.15;
+  /* Rakam değişirken kutu genişliği zıplamasın */
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-unit small {
+  display: block;
+  margin-top: 2px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  opacity: 0.75;
 }
 
 /* ──────────── 8. Koleksiyonlar alanı (anasayfa) ──────────── */
@@ -854,6 +1041,18 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   object-fit: cover;
   border-radius: 4px;
 }
+
+/* Yapay zekâ bildirimi — galerinin altında, sessiz bir dipnot */
+.product-modal-ai-note {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--c-toprak);
+  opacity: 0.75;
+}
+
+.product-modal-ai-note[hidden] { display: none; }
 
 /* Sağ içerik */
 .product-modal-info {

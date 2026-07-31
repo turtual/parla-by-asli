@@ -68,10 +68,6 @@
         <img src="assets/img/logo-yatay-bakir.svg" alt="Parla By Aslı" class="brand-logo">
       </a>
 
-      <!-- Görsel olarak gizli ama sayfanın SEO h1'i — admin panelindeki
-           "Anasayfa başlığı" alanı bu metni beslemeye devam ediyor. -->
-      <h1 class="sr-only" id="hero-title-text">Senin için, sana özel</h1>
-
       <nav class="header-icons" aria-label="Ana navigasyon">
         <button class="header-icon-btn" aria-label="Favorilerim" type="button">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
@@ -92,8 +88,47 @@
 
   <main>
 
+    <!-- ────────── Karşılama ekranı ──────────
+         Arka plan görseli admin'deki "Anasayfa kapak görseli" alanından
+         gelir; boşsa markanın mühür deseni + bakır degrade görünür. -->
+    <section class="hero" id="hero">
+      <div class="hero-media" aria-hidden="true">
+        <img id="hero-image" alt="" hidden>
+      </div>
+
+      <div class="hero-content container">
+        <p class="eyebrow hero-eyebrow">El emeği · Doğal taş</p>
+        <h1 class="hero-title" id="hero-title-text">Senin için, <em>sana özel</em></h1>
+        <p class="hero-sub" id="hero-subtitle-text">
+          Her taş kendine özgü, her parça siparişle tek tek üretiliyor.
+        </p>
+        <a href="#urunler" class="btn btn-hero">ÜRÜNLERİ KEŞFET</a>
+      </div>
+
+      <a href="#urunler" class="hero-scroll" aria-label="Ürünlere in">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M12 5v14M6 13l6 6 6-6"/>
+        </svg>
+      </a>
+    </section>
+
+    <!-- ────────── Kampanya bandı + geri sayım ──────────
+         Tamamen admin'den yönetilir: "Kampanya metni" boşsa bu bant hiç
+         görünmez, "Kampanya bitiş" boşsa sayaç gizlenir (metin kalır). -->
+    <section class="promo-band" id="promo-band" hidden>
+      <div class="container promo-band-inner">
+        <p class="promo-band-text" id="kampanya-metni-text"></p>
+        <div class="countdown" id="promo-countdown" hidden role="timer" aria-live="off">
+          <div class="countdown-unit"><span data-cd="gun">00</span><small>GÜN</small></div>
+          <div class="countdown-unit"><span data-cd="saat">00</span><small>SAAT</small></div>
+          <div class="countdown-unit"><span data-cd="dakika">00</span><small>DAKİKA</small></div>
+          <div class="countdown-unit"><span data-cd="saniye">00</span><small>SANİYE</small></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ────────── Koleksiyonlar ────────── -->
-    <section class="mode-area" aria-label="Koleksiyonlar">
+    <section class="mode-area" id="urunler" aria-label="Koleksiyonlar">
       <div class="container">
         <nav class="home-collection-nav" id="home-collection-nav" aria-label="Koleksiyonlar">
           <!-- homepage.js dolduruyor -->

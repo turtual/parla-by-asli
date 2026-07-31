@@ -63,11 +63,10 @@
     if (typeof PB_Data === 'undefined' || typeof pbFormatInline !== 'function') return;
     const texts = await PB_Data.getSiteTexts();
 
-    // Not: hero_subtitle artık sitede hiçbir yerde gösterilmiyor (başlık
-    // header'a taşınırken alt satır kaldırıldı), o yüzden eşleşmesi yok.
     const map = {
       'utility-bar-text': 'utility_bar',
       'hero-title-text': 'hero_title',
+      'hero-subtitle-text': 'hero_subtitle',
       'hikaye-baslik-text': 'hikaye_baslik',
       'hikaye-metin-text': 'hikaye_metin',
       'hikaye-link-text': 'hikaye_link_metni',
@@ -79,6 +78,76 @@
       const value = texts[key];
       if (el && value) el.innerHTML = pbFormatInline(value);
     });
+
+    renderHeroImage(texts.hero_gorsel);
+    renderPromoBand(texts.kampanya_metni, texts.kampanya_bitis);
+  }
+
+  /**
+   * Kapak görselini bağlar. Boşsa hiçbir şey yapılmaz — CSS'teki marka
+   * zemini (degrade + mühür filigranı) görünür kalır. Görsel gerçekten
+   * yüklenene kadar .has-image eklenmiyor ki kırık URL'de açık zemin
+   * üstünde koyu yazı yerine okunmaz beyaz yazı kalmasın.
+   */
+  function renderHeroImage(url) {
+    const hero = document.getElementById('hero');
+    const img = document.getElementById('hero-image');
+    if (!hero || !img || !url) return;
+
+    img.addEventListener('load', () => {
+      img.hidden = false;
+      hero.classList.add('has-image');
+    });
+    img.addEventListener('error', () => {
+      img.hidden = true;
+      hero.classList.remove('has-image');
+    });
+    img.src = url;
+  }
+
+  /**
+   * Kampanya bandı ve geri sayım.
+   * - Metin boşsa bant hiç görünmez (uydurma kampanya yayına çıkmasın).
+   * - Bitiş tarihi boş/geçersiz/geçmişse yalnız sayaç gizlenir, metin kalır.
+   */
+  function renderPromoBand(metin, bitisMetni) {
+    const band = document.getElementById('promo-band');
+    const textEl = document.getElementById('kampanya-metni-text');
+    const countdown = document.getElementById('promo-countdown');
+    if (!band || !textEl || !countdown) return;
+
+    if (!metin || !metin.trim()) return;   // hidden kalır
+    textEl.innerHTML = pbFormatInline(metin);
+    band.hidden = false;
+
+    const bitis = bitisMetni ? new Date(bitisMetni) : null;
+    if (!bitis || isNaN(bitis.getTime())) return;
+
+    const alanlar = {
+      gun: countdown.querySelector('[data-cd="gun"]'),
+      saat: countdown.querySelector('[data-cd="saat"]'),
+      dakika: countdown.querySelector('[data-cd="dakika"]'),
+      saniye: countdown.querySelector('[data-cd="saniye"]')
+    };
+    const ikiHane = n => String(n).padStart(2, '0');
+
+    function tik() {
+      const kalan = bitis.getTime() - Date.now();
+      if (kalan <= 0) {
+        countdown.hidden = true;
+        clearInterval(sayac);
+        return;
+      }
+      const sn = Math.floor(kalan / 1000);
+      alanlar.gun.textContent = ikiHane(Math.floor(sn / 86400));
+      alanlar.saat.textContent = ikiHane(Math.floor(sn / 3600) % 24);
+      alanlar.dakika.textContent = ikiHane(Math.floor(sn / 60) % 60);
+      alanlar.saniye.textContent = ikiHane(sn % 60);
+      countdown.hidden = false;
+    }
+
+    tik();
+    const sayac = setInterval(tik, 1000);
   }
 
   async function renderProducts() {

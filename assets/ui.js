@@ -372,6 +372,9 @@ function PB_buildProductModalShell() {
         <div class="product-modal-gallery">
           <div class="product-modal-media" data-pm-media></div>
           <div class="product-modal-thumbs" data-pm-thumbs></div>
+          <p class="product-modal-ai-note" data-pm-ai-note hidden>
+            Görseldeki model yapay zekâ ile oluşturulmuştur. Ürün fotoğrafı gerçektir.
+          </p>
         </div>
         <div class="product-modal-info">
           <span class="product-modal-badge" data-pm-badge>KOLEKSİYON</span>
@@ -447,6 +450,13 @@ async function PB_fillProductModal(modal, p) {
     thumb.appendChild(PB_h('img', { src: PB_imgPath(src), alt: '' }));
     thumbs.appendChild(thumb);
   });
+
+  // Yapay zekâ bildirimi — sadece ürünün ek görseli varsa.
+  // Konvansiyon: ana görsel (p.image) gerçek ürün fotoğrafı, p.images ise AI
+  // model çekimleri. Ek görseli olmayan üründe bu notu göstermek yanıltıcı
+  // olur, o yüzden gizli kalıyor.
+  const aiNote = modal.querySelector('[data-pm-ai-note]');
+  aiNote.hidden = !(Array.isArray(p.images) && p.images.some(Boolean));
 
   // Doldur
   modal.querySelector('[data-pm-title]').textContent = p.name;
