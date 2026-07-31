@@ -299,7 +299,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .header-tagline-title {
   font-family: var(--font-serif);
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 400;
   color: var(--c-sicak-siyah);
   white-space: nowrap;
@@ -311,7 +311,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .header-tagline-title em { color: var(--c-bakir); font-style: italic; }
 
 .header-tagline-sub {
-  font-size: 18px;
+  font-size: 11px;
   color: var(--c-toprak);
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -322,13 +322,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 @media (min-width: 900px) {
   :root { --header-h: 128px; }
-  .header-tagline-title { font-size: 36px; }
-  .header-tagline-sub { font-size: 21px; }
+  .header-tagline-title { font-size: 24px; }
+  .header-tagline-sub { font-size: 12.5px; }
 }
 
 /* Büyütülmüş logo + başlık dar ekranlarda yan yana sığmıyor —
    kesilmiş/üst üste binen metin yerine sadece logo+ikonlar gösterilir. */
-@media (max-width: 739px) {
+@media (max-width: 659px) {
   .header-tagline { display: none; }
 }
 
@@ -336,7 +336,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .mode-area {
   background: var(--c-warm-greige);
-  padding: 0 0 var(--space-sm);
+  /* Üst/alt eşit — piller şeridin içinde dikey olarak ortalanmış görünsün */
+  padding: var(--space-md) 0;
   position: relative;
 }
 
