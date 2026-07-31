@@ -9,7 +9,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/katalog/:slug/", "destination": "/katalog/index.html" }
+    { "source": "/katalog/:slug/", "destination": "/katalog-sablon.html" }
   ],
   "headers": [
     {
