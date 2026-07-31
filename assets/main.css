@@ -280,22 +280,55 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   padding: 0 4px;
 }
 
-/* ──────────── 7. Hero ──────────── */
+/* ──────────── 7. Header etiketi (eski hero başlığı) ──────────── */
 
-.hero {
+/* Ayrı bir hero bölümü yerine başlık artık header satırının kendisine
+   entegre — logo solda, bu ortada, sepet/favori ikonları sağda. */
+.header-tagline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: var(--space-sm) var(--space-md) 0;
+  line-height: 1.2;
+  flex: 1;
+  min-width: 0;
+  padding: 0 var(--space-sm);
 }
 
-.hero-title {
-  margin-bottom: 6px;
-  font-size: clamp(30px, 4.5vw, 46px);
+.header-tagline-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--c-sicak-siyah);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
-.hero-sub {
-  font-size: 12px;
+.header-tagline-title em { color: var(--c-bakir); font-style: italic; }
+
+.header-tagline-sub {
+  font-size: 9px;
   color: var(--c-toprak);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .header-tagline-title { font-size: 18px; }
+  .header-tagline-sub { font-size: 10.5px; }
+}
+
+@media (max-width: 480px) {
+  .header-tagline-sub { display: none; }
+}
+
+@media (max-width: 360px) {
+  .header-tagline { display: none; }
 }
 
 /* ──────────── 8. Koleksiyonlar alanı (anasayfa) ──────────── */
@@ -464,8 +497,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .story-seal {
-  width: 90px;
-  height: 90px;
+  width: 135px;
+  height: 135px;
   flex-shrink: 0;
   color: var(--c-bakir-cizgi);
 }
