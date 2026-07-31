@@ -316,14 +316,14 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .mode-area {
   background: var(--c-warm-greige);
-  padding: var(--space-lg) 0;
+  padding: var(--space-sm) 0;
   position: relative;
 }
 
 /* ──────────── 9. Featured products / Product grid ──────────── */
 
 .featured {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-lg) 0 var(--space-2xl);
 }
 
 .section-head {
@@ -1643,6 +1643,16 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .catalog-cat-nav::-webkit-scrollbar,
 .home-collection-nav::-webkit-scrollbar { display: none; }
+
+/* Anasayfadaki pil listesi: sola yaslı kaydırma şeridi değil, her zaman
+   ortalanmış — taşarsa (çok sayıda koleksiyon eklenirse) alt satıra sarar. */
+.home-collection-nav {
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow-x: visible;
+  margin-bottom: 0;
+  padding: 0;
+}
 
 .catalog-cat-nav .pill,
 .home-collection-nav .pill {
