@@ -138,11 +138,19 @@ const PB_Cart = {
   },
 
   add(item) {
-    // item: { productId, slug, name, price, quantity, image }
+    // item: { productId, slug, name, price, quantity, image, stockQuantity }
+    // stockQuantity, sepete eklendiği andaki stok anlık görüntüsüdür (fiyat
+    // gibi) — miktarın bu sınırı aşmasını önlemek için saklanır.
     const items = this.read();
     const existing = items.find(i => i.productId === item.productId);
-    if (existing) existing.quantity = (existing.quantity || 1) + (item.quantity || 1);
-    else items.push({ ...item, lineId: 'L_' + Date.now() });
+    const stok = item.stockQuantity ?? existing?.stockQuantity;
+    if (existing) {
+      existing.quantity = (existing.quantity || 1) + (item.quantity || 1);
+      if (stok != null) { existing.quantity = Math.min(existing.quantity, stok); existing.stockQuantity = stok; }
+    } else {
+      const yeniAdet = stok != null ? Math.min(item.quantity || 1, stok) : (item.quantity || 1);
+      items.push({ ...item, quantity: yeniAdet, lineId: 'L_' + Date.now() });
+    }
     this.write(items);
   },
 
@@ -153,7 +161,10 @@ const PB_Cart = {
   updateQty(lineId, qty) {
     const items = this.read();
     const item = items.find(i => i.lineId === lineId);
-    if (item) item.quantity = Math.max(1, qty);
+    if (item) {
+      const ust = item.stockQuantity ?? 99;
+      item.quantity = Math.min(ust, Math.max(1, qty));
+    }
     this.write(items);
   },
 
@@ -449,22 +460,28 @@ function PB_fillProductModal(modal, p) {
   matsList.innerHTML = '';
   (p.materials || []).forEach(m => matsList.appendChild(PB_h('li', {}, m)));
 
-  // Adet kontrol
+  // Adet kontrol — stok adedini aşamaz
+  const stok = p.stockQuantity || 0;
   let qty = 1;
   const qtyEl = modal.querySelector('[data-pm-qty]');
-  qtyEl.textContent = qty;
-  modal.querySelector('[data-pm-qty-down]').onclick = () => { qty = Math.max(1, qty - 1); qtyEl.textContent = qty; };
-  modal.querySelector('[data-pm-qty-up]').onclick = () => { qty = Math.min(99, qty + 1); qtyEl.textContent = qty; };
+  const qtyDownBtn = modal.querySelector('[data-pm-qty-down]');
+  const qtyUpBtn = modal.querySelector('[data-pm-qty-up]');
+
+  function qtyGoster() {
+    qtyEl.textContent = qty;
+    qtyUpBtn.disabled = qty >= stok;
+  }
+  qtyDownBtn.onclick = () => { qty = Math.max(1, qty - 1); qtyGoster(); };
+  qtyUpBtn.onclick = () => { qty = Math.min(stok, qty + 1); qtyGoster(); };
+  qtyGoster();
 
   // Sepete ekle
   const addBtn = modal.querySelector('[data-pm-add]');
-  const qtyDownBtn = modal.querySelector('[data-pm-qty-down]');
-  const qtyUpBtn = modal.querySelector('[data-pm-qty-up]');
-  const outOfStock = (p.stockQuantity || 0) <= 0;
+  const outOfStock = stok <= 0;
 
   addBtn.classList.toggle('is-out-of-stock', outOfStock);
   qtyDownBtn.disabled = outOfStock;
-  qtyUpBtn.disabled = outOfStock;
+  qtyUpBtn.disabled = outOfStock || qty >= stok;
 
   if (outOfStock) {
     addBtn.textContent = 'TÜKENDİ';
@@ -480,7 +497,8 @@ function PB_fillProductModal(modal, p) {
         name: p.name,
         price: p.price,
         quantity: qty,
-        image: p.image
+        image: p.image,
+        stockQuantity: stok
       });
       addBtn.textContent = '✓ SEPETE EKLENDİ';
       addBtn.disabled = true;
@@ -585,6 +603,8 @@ const PB_CartDrawer = {
     items.forEach(item => {
       const li = PB_h('li', { class: 'cart-item' });
 
+      const stokDoldu = item.stockQuantity != null && (item.quantity || 1) >= item.stockQuantity;
+
       li.innerHTML = `
         <div class="cart-item-img">
           <img src="${PB_escape(PB_imgPath(item.image))}" alt="${PB_escape(item.name)}">
@@ -595,7 +615,7 @@ const PB_CartDrawer = {
             <div class="qty-control qty-control-sm">
               <button type="button" data-qty-down aria-label="Azalt">−</button>
               <span data-qty>${item.quantity || 1}</span>
-              <button type="button" data-qty-up aria-label="Artır">+</button>
+              <button type="button" data-qty-up aria-label="Artır" ${stokDoldu ? 'disabled' : ''}>+</button>
             </div>
             <span class="cart-item-price">${formatPrice(item.price * (item.quantity || 1))}</span>
           </div>
@@ -608,11 +628,11 @@ const PB_CartDrawer = {
       `;
 
       li.querySelector('[data-qty-down]').addEventListener('click', () => {
-        PB_Cart.updateQty(item.lineId, Math.max(1, (item.quantity || 1) - 1));
+        PB_Cart.updateQty(item.lineId, (item.quantity || 1) - 1);
         PB_CartDrawer.render();
       });
       li.querySelector('[data-qty-up]').addEventListener('click', () => {
-        PB_Cart.updateQty(item.lineId, Math.min(99, (item.quantity || 1) + 1));
+        PB_Cart.updateQty(item.lineId, (item.quantity || 1) + 1);
         PB_CartDrawer.render();
       });
 
