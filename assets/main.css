@@ -75,7 +75,7 @@
 
   /* Layout */
   --container: 1280px;
-  --header-h: 70px;
+  --header-h: 112px;
 
   /* Geçişler */
   --t-fast: 0.15s ease;
@@ -199,7 +199,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   align-items: center;
   justify-content: space-between;
   height: var(--header-h);
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
 .brand-link {
@@ -215,18 +215,18 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 /* Yeni yatay logo header'da */
 /* !important kullanımı: global "img { height: auto }" reset kuralını override etmek için zorunlu */
 .brand-logo {
-  height: 36px !important;
+  height: 72px !important;
   width: auto !important;
-  max-width: 180px !important;
+  max-width: 360px !important;
   color: var(--c-bakir-cizgi);
   display: block;
   object-fit: contain;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .brand-logo {
-    height: 40px !important;
-    max-width: 220px !important;
+    height: 80px !important;
+    max-width: 440px !important;
   }
 }
 
@@ -288,16 +288,18 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 4px;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.25;
   flex: 1;
   min-width: 0;
-  padding: 0 var(--space-sm);
+  padding: 0 var(--space-md);
 }
 
 .header-tagline-title {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 400;
   color: var(--c-sicak-siyah);
   white-space: nowrap;
@@ -309,7 +311,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .header-tagline-title em { color: var(--c-bakir); font-style: italic; }
 
 .header-tagline-sub {
-  font-size: 9px;
+  font-size: 18px;
   color: var(--c-toprak);
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -318,16 +320,15 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   max-width: 100%;
 }
 
-@media (min-width: 768px) {
-  .header-tagline-title { font-size: 18px; }
-  .header-tagline-sub { font-size: 10.5px; }
+@media (min-width: 900px) {
+  :root { --header-h: 128px; }
+  .header-tagline-title { font-size: 36px; }
+  .header-tagline-sub { font-size: 21px; }
 }
 
-@media (max-width: 480px) {
-  .header-tagline-sub { display: none; }
-}
-
-@media (max-width: 360px) {
+/* Büyütülmüş logo + başlık dar ekranlarda yan yana sığmıyor —
+   kesilmiş/üst üste binen metin yerine sadece logo+ikonlar gösterilir. */
+@media (max-width: 739px) {
   .header-tagline { display: none; }
 }
 
@@ -1645,7 +1646,11 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 /* Kategoriler arası gezinme — yatay kaydırılabilir */
 /* Pill — kategori sayfalarındaki cat-nav için baz stil */
 .pill {
-  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 16px;
+  line-height: 1;
   border: 0.5px solid var(--c-line-strong);
   border-radius: var(--r-pill);
   background: var(--c-white);
