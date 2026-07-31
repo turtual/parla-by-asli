@@ -107,15 +107,21 @@
   function renderHeroImage(url) {
     const hero = document.getElementById('hero');
     const img = document.getElementById('hero-image');
-    if (!hero || !img || !url) return;
+    if (!hero || !img) return;
+
+    // Görsel yok/URL kırık → mühür filigranlı marka zemini
+    if (!url) {
+      hero.classList.add('no-image');
+      return;
+    }
 
     img.addEventListener('load', () => {
-      img.hidden = false;
+      hero.classList.remove('no-image');
       hero.classList.add('has-image');
     });
     img.addEventListener('error', () => {
-      img.hidden = true;
       hero.classList.remove('has-image');
+      hero.classList.add('no-image');
     });
     img.src = url;
   }

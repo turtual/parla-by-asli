@@ -328,26 +328,39 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   overflow: hidden;
 }
 
+/* Açılış zemini bilinçli olarak sade: kapak görseli Supabase'den JS ile
+   geldiği için arada kısa bir boşluk var. Buraya mühür filigranı koyunca
+   logo bir belirip fotoğraf gelince kayboluyor ve kirli duruyordu — o
+   yüzden filigran yalnızca .no-image durumunda (gerçekten görsel yokken)
+   ekleniyor. */
 .hero-media {
   position: absolute;
   inset: 0;
   z-index: 0;
-  /* Görsel yüklenmediğinde/boş bırakıldığında gösterilen marka zemini —
-     yer tutucu gibi değil, bilinçli bir kapak gibi dursun diye degrade
-     + mühür filigranı kullanılıyor. */
-  background:
-    url('img/logo-seal-bakir.svg') center / 320px no-repeat,
-    linear-gradient(150deg, var(--c-cream) 0%, var(--c-soft-bej) 45%, var(--c-soft-bej-dark) 100%);
-  background-blend-mode: luminosity;
-  opacity: 1;
+  background: linear-gradient(150deg, var(--c-cream) 0%, var(--c-soft-bej) 45%, var(--c-soft-bej-dark) 100%);
 }
 
+.hero.no-image .hero-media {
+  background-image:
+    url('img/logo-seal-bakir.svg'),
+    linear-gradient(150deg, var(--c-cream) 0%, var(--c-soft-bej) 45%, var(--c-soft-bej-dark) 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 320px, auto;
+  background-blend-mode: luminosity;
+}
+
+/* Fotoğraf hazır olunca sertçe "patlamasın", yumuşak geçsin */
 .hero-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity var(--t-slow);
 }
+
+.hero.has-image .hero-media img { opacity: 1; }
 
 /* Kapak görseli varken metnin okunması için koyu perde + açık yazı.
    Perde bilinçli olarak koyu: yüklenecek fotoğrafı önceden bilmiyoruz ve
@@ -382,6 +395,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   letter-spacing: -0.015em;
   font-variation-settings: 'opsz' 144, 'SOFT' 50;
   color: var(--c-sicak-siyah);
+  /* Fotoğraf gelince yazı koyudan kreme dönüyor — ani atlamasın */
+  transition: color var(--t-slow);
 }
 
 .hero-title em {
@@ -396,6 +411,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   font-size: 15px;
   line-height: 1.7;
   color: var(--c-toprak);
+  transition: color var(--t-slow);
 }
 
 .btn-hero {
