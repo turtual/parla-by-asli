@@ -1013,14 +1013,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   background: var(--c-toprak);
 }
 
-.product-modal-meta {
-  font-size: 11.5px;
-  color: var(--c-toprak);
-  text-align: center;
-  margin: 0;
-  padding-top: 4px;
-}
-
 .product-modal-accordion {
   display: flex;
   flex-direction: column;
