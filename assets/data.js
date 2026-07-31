@@ -83,7 +83,9 @@
       description: row.description || '',
       image: row.image || null,
       isActive: row.is_active !== false,
-      displayOrder: row.display_order || 0
+      displayOrder: row.display_order || 0,
+      careInstructions: row.care_instructions || '',
+      returnTerms: row.return_terms || ''
     };
   }
 
@@ -576,7 +578,9 @@
       description: collection.description || '',
       image: collection.image || null,
       is_active: collection.isActive !== false,
-      display_order: collection.displayOrder || 0
+      display_order: collection.displayOrder || 0,
+      care_instructions: collection.careInstructions || '',
+      return_terms: collection.returnTerms || ''
     };
     const { data, error } = await supabase.from('collections').insert([dbRow]).select().single();
     invalidateCollectionsCache();
@@ -588,6 +592,8 @@
     const dbUpdates = {};
     if ('isActive' in updates) dbUpdates.is_active = updates.isActive;
     if ('displayOrder' in updates) dbUpdates.display_order = updates.displayOrder;
+    if ('careInstructions' in updates) dbUpdates.care_instructions = updates.careInstructions;
+    if ('returnTerms' in updates) dbUpdates.return_terms = updates.returnTerms;
     ['slug', 'name', 'description', 'image'].forEach(k => {
       if (k in updates) dbUpdates[k] = updates[k];
     });

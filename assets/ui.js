@@ -348,7 +348,7 @@ async function PB_openProductModal(slug) {
   }
 
   // Modal içeriğini doldur
-  PB_fillProductModal(modal, product);
+  await PB_fillProductModal(modal, product);
 
   // Aç
   PB_Modal.open('product-modal');
@@ -387,10 +387,13 @@ function PB_buildProductModalShell() {
           </div>
           <div class="product-modal-qty">
             <label class="eyebrow">Adet</label>
-            <div class="qty-control">
-              <button type="button" data-pm-qty-down aria-label="Azalt">−</button>
-              <span data-pm-qty>1</span>
-              <button type="button" data-pm-qty-up aria-label="Artır">+</button>
+            <div class="product-modal-qty-row">
+              <div class="qty-control">
+                <button type="button" data-pm-qty-down aria-label="Azalt">−</button>
+                <span data-pm-qty>1</span>
+                <button type="button" data-pm-qty-up aria-label="Artır">+</button>
+              </div>
+              <span class="product-modal-stock" data-pm-stock></span>
             </div>
           </div>
           <button type="button" class="btn btn-primary btn-block product-modal-add" data-pm-add>
@@ -400,6 +403,7 @@ function PB_buildProductModalShell() {
             Türkiye'ye ücretsiz kargo ·
             <a href="${PB_imgPath('yasal/iade-iptal/')}" target="_blank" rel="noopener">14 gün iade hakkı</a>
           </p>
+          <div class="product-modal-accordion" data-pm-accordion></div>
         </div>
       </div>
     </div>
@@ -415,7 +419,7 @@ function PB_buildProductModalShell() {
   return modal;
 }
 
-function PB_fillProductModal(modal, p) {
+async function PB_fillProductModal(modal, p) {
   // Görsel listesi: p.image her zaman birinci sırada, p.images varsa ek olarak eklenir
   const images = [];
   if (p.image) images.push(p.image);
@@ -467,6 +471,7 @@ function PB_fillProductModal(modal, p) {
   const qtyDownBtn = modal.querySelector('[data-pm-qty-down]');
   const qtyUpBtn = modal.querySelector('[data-pm-qty-up]');
 
+  const stockEl = modal.querySelector('[data-pm-stock]');
   function qtyGoster() {
     qtyEl.textContent = qty;
     qtyUpBtn.disabled = qty >= stok;
@@ -474,6 +479,13 @@ function PB_fillProductModal(modal, p) {
   qtyDownBtn.onclick = () => { qty = Math.max(1, qty - 1); qtyGoster(); };
   qtyUpBtn.onclick = () => { qty = Math.min(stok, qty + 1); qtyGoster(); };
   qtyGoster();
+
+  if (stok > 0) {
+    stockEl.textContent = stok <= 2 ? `Son ${stok} adet` : `Stokta ${stok} adet`;
+    stockEl.classList.toggle('is-low', stok <= 2);
+  } else {
+    stockEl.textContent = '';
+  }
 
   // Sepete ekle
   const addBtn = modal.querySelector('[data-pm-add]');
@@ -506,6 +518,29 @@ function PB_fillProductModal(modal, p) {
         PB_Modal.close('product-modal');
       }, 900);
     };
+  }
+
+  // Bakım/iade metinleri — ürünün koleksiyonuna göre değişir, admin
+  // panelinden koleksiyon bazlı yönetilir (bkz. assets/data.js rowToCollection).
+  const accordion = modal.querySelector('[data-pm-accordion]');
+  accordion.innerHTML = '';
+  if (typeof getCollections === 'function' && p.collectionId) {
+    const collections = await getCollections();
+    const collection = collections.find(c => c.id === p.collectionId);
+    const bolumler = [
+      { baslik: 'Bakım ve Kullanım Talimatları', metin: collection?.careInstructions },
+      { baslik: 'İptal ve İade Koşulları', metin: collection?.returnTerms }
+    ];
+    bolumler.forEach(({ baslik, metin }) => {
+      if (!metin) return;
+      const details = PB_h('details', { class: 'product-modal-detail' });
+      details.innerHTML = `
+        <summary>${PB_escape(baslik)}</summary>
+        <div class="product-modal-detail-body"></div>
+      `;
+      details.querySelector('.product-modal-detail-body').textContent = metin;
+      accordion.appendChild(details);
+    });
   }
 }
 

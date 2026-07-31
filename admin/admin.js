@@ -47,6 +47,8 @@
   const cName = document.getElementById('collection-name');
   const cSlug = document.getElementById('collection-slug');
   const cDescription = document.getElementById('collection-description');
+  const cCare = document.getElementById('collection-care');
+  const cReturn = document.getElementById('collection-return');
   const cOrder = document.getElementById('collection-order');
   const cActive = document.getElementById('collection-active');
 
@@ -893,6 +895,8 @@
       cName.value = collection.name || '';
       cSlug.value = collection.slug || '';
       cDescription.value = collection.description || '';
+      cCare.value = collection.careInstructions || '';
+      cReturn.value = collection.returnTerms || '';
       cOrder.value = collection.displayOrder || 100;
       cActive.checked = collection.isActive !== false;
     } else {
@@ -930,6 +934,8 @@
       name: cName.value.trim(),
       slug: cSlug.value.trim(),
       description: cDescription.value.trim(),
+      careInstructions: cCare.value.trim(),
+      returnTerms: cReturn.value.trim(),
       displayOrder: parseInt(cOrder.value) || 100,
       isActive: cActive.checked
     };

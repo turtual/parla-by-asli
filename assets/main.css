@@ -950,6 +950,24 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   margin: 0;
 }
 
+.product-modal-qty-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.product-modal-stock {
+  font-size: 12px;
+  color: var(--c-toprak);
+}
+
+.product-modal-stock.is-low {
+  color: var(--c-bakir-cizgi);
+  font-weight: 500;
+}
+
 .qty-control {
   display: inline-flex;
   align-items: center;
@@ -1001,6 +1019,48 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   text-align: center;
   margin: 0;
   padding-top: 4px;
+}
+
+.product-modal-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-modal-detail {
+  border-top: 0.5px solid var(--c-line);
+  padding-top: var(--space-sm);
+}
+
+.product-modal-detail summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--c-sicak-siyah);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-modal-detail summary::-webkit-details-marker { display: none; }
+
+.product-modal-detail summary::after {
+  content: '+';
+  font-size: 15px;
+  color: var(--c-toprak);
+}
+
+.product-modal-detail[open] summary::after {
+  content: '−';
+}
+
+.product-modal-detail-body {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+  white-space: pre-line;
+  padding-top: 8px;
 }
 
 /* ──────────── 18. Sepet drawer ──────────── */
