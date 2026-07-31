@@ -26,7 +26,7 @@
   </header>
 
   <main>
-    <section class="legal-page">
+    <section class="legal-page" data-content-slug="mesafeli-satis">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -34,12 +34,12 @@
         </nav>
 
         <div class="legal-head">
-          <span class="eyebrow">Yasal</span>
-          <h1 class="h1">Mesafeli Satış Sözleşmesi</h1>
-          <p class="legal-meta">Yürürlük tarihi: 29.07.2026</p>
+          <span class="eyebrow" data-cp-eyebrow>Yasal</span>
+          <h1 class="h1" data-cp-title>Mesafeli Satış Sözleşmesi</h1>
+          <p class="legal-meta" data-cp-meta>Yürürlük tarihi: 29.07.2026</p>
         </div>
 
-        <div class="legal-body">
+        <div class="legal-body" id="legal-body">
 
           <h2>1. Taraflar</h2>
 
@@ -193,6 +193,10 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../../assets/data.js"></script>
+  <script src="../../assets/content.js"></script>
+  <script src="../../assets/content-page-init.js"></script>
   <script src="../../assets/legal-info.js"></script>
 </body>
 </html>

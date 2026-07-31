@@ -26,6 +26,9 @@
   let collectionsCacheTime = 0;
   let productTypesCache = null;
   let productTypesCacheTime = 0;
+  let siteTextsCache = null;
+  let siteTextsCacheTime = 0;
+  let contentPagesCache = {}; // slug -> { data, time }
   const CACHE_TTL = 60 * 1000; // 1 dakika cache (admin panelden değişiklik olabileceği için kısa)
 
   // Son ürün çekme denemesi başarısız olduysa buraya yazılır.
@@ -91,6 +94,16 @@
       name: row.name,
       isActive: row.is_active !== false,
       displayOrder: row.display_order || 0
+    };
+  }
+
+  function rowToContentPage(row) {
+    return {
+      slug: row.slug,
+      title: row.title,
+      eyebrow: row.eyebrow || '',
+      metaText: row.meta_text || '',
+      blocks: row.blocks || []
     };
   }
 
@@ -278,6 +291,89 @@
    */
   function getLastError() {
     return lastLoadError;
+  }
+
+  /* ──────────── SİTE METİNLERİ (anasayfa hero/hikâye/footer vb.) ──────────── */
+
+  /** Tüm site metinlerini {key: value} sözlüğü olarak döner (cache'li). */
+  async function getSiteTexts() {
+    if (siteTextsCache && (Date.now() - siteTextsCacheTime) < CACHE_TTL) {
+      return siteTextsCache;
+    }
+
+    if (!supabase) init();
+    if (!supabase) return siteTextsCache || {};
+
+    const { data, error } = await supabase.from('site_texts').select('*');
+    if (error) {
+      console.error('Site metinleri çekilemedi:', error);
+      return siteTextsCache || {};
+    }
+
+    const map = {};
+    data.forEach(row => { map[row.key] = row.value; });
+    siteTextsCache = map;
+    siteTextsCacheTime = Date.now();
+    return map;
+  }
+
+  async function getSiteText(key) {
+    const texts = await getSiteTexts();
+    return texts[key] || '';
+  }
+
+  /* ──────────── SAYFA İÇERİKLERİ (SSS, İletişim, yasal metinler) ──────────── */
+
+  /** Tek bir içerik sayfasını slug'a göre çeker (cache'li). */
+  async function getContentPage(slug) {
+    const cached = contentPagesCache[slug];
+    if (cached && (Date.now() - cached.time) < CACHE_TTL) {
+      return cached.data;
+    }
+
+    if (!supabase) init();
+    if (!supabase) return cached?.data || null;
+
+    const { data, error } = await supabase
+      .from('content_pages')
+      .select('*')
+      .eq('slug', slug)
+      .maybeSingle();
+
+    if (error || !data) {
+      console.error('İçerik sayfası çekilemedi:', slug, error);
+      return cached?.data || null;
+    }
+
+    const page = rowToContentPage(data);
+    contentPagesCache[slug] = { data: page, time: Date.now() };
+    return page;
+  }
+
+  /** Admin "Metinler" listesi için tüm sayfaları tek seferde çeker (cache'siz — az sayıda kayıt). */
+  async function getAllContentPages() {
+    if (!supabase) init();
+    if (!supabase) return [];
+
+    const { data, error } = await supabase.from('content_pages').select('*').order('slug');
+    if (error) {
+      console.error('İçerik sayfaları çekilemedi:', error);
+      return [];
+    }
+    return data.map(rowToContentPage);
+  }
+
+  /** Admin "Metinler" listesi için site metinlerini label'larıyla birlikte döner. */
+  async function adminGetSiteTexts() {
+    if (!supabase) init();
+    if (!supabase) return [];
+
+    const { data, error } = await supabase.from('site_texts').select('*').order('key');
+    if (error) {
+      console.error('Site metinleri çekilemedi:', error);
+      return [];
+    }
+    return data;
   }
 
   /* ──────────── SİPARİŞ ──────────── */
@@ -583,6 +679,40 @@
     return { data, error };
   }
 
+  /* ──────────── ADMIN: METİNLER ──────────── */
+
+  async function adminUpdateSiteText(key, value) {
+    if (!supabase) init();
+    const { data, error } = await supabase
+      .from('site_texts')
+      .update({ value })
+      .eq('key', key)
+      .select()
+      .single();
+
+    siteTextsCache = null; // yeniden çekilsin
+    return { data, error };
+  }
+
+  async function adminUpdateContentPage(slug, updates) {
+    if (!supabase) init();
+    const dbUpdates = {};
+    if ('title' in updates) dbUpdates.title = updates.title;
+    if ('eyebrow' in updates) dbUpdates.eyebrow = updates.eyebrow;
+    if ('metaText' in updates) dbUpdates.meta_text = updates.metaText;
+    if ('blocks' in updates) dbUpdates.blocks = updates.blocks;
+
+    const { data, error } = await supabase
+      .from('content_pages')
+      .update(dbUpdates)
+      .eq('slug', slug)
+      .select()
+      .single();
+
+    delete contentPagesCache[slug]; // yeniden çekilsin
+    return { data, error };
+  }
+
   /* ──────────── EXPORT ──────────── */
 
   window.PB_Data = {
@@ -599,6 +729,10 @@
     getCollections,
     getCollectionBySlug,
     getProductTypes,
+    getSiteTexts,
+    getSiteText,
+    getContentPage,
+    getAllContentPages,
 
     // Admin
     adminLogin,
@@ -617,7 +751,10 @@
     adminDeleteCollection,
     adminCreateProductType,
     adminUpdateProductType,
-    adminDeleteProductType
+    adminDeleteProductType,
+    adminGetSiteTexts,
+    adminUpdateSiteText,
+    adminUpdateContentPage
   };
 
   // Otomatik init (Supabase SDK yüklendiğinde)

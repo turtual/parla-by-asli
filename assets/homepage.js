@@ -33,6 +33,33 @@
     });
   }
 
+  /**
+   * Admin panelinden düzenlenebilen site metinlerini (hero, hikâye, footer,
+   * üst şerit) bağlar. HTML'deki statik metin ilk anda görünür kalır —
+   * PB_Data/content.js yüklenemezse veya satır boşsa sayfa bozulmaz
+   * (progressive enhancement).
+   */
+  async function renderSiteTexts() {
+    if (typeof PB_Data === 'undefined' || typeof pbFormatInline !== 'function') return;
+    const texts = await PB_Data.getSiteTexts();
+
+    const map = {
+      'utility-bar-text': 'utility_bar',
+      'hero-title-text': 'hero_title',
+      'hero-subtitle-text': 'hero_subtitle',
+      'hikaye-baslik-text': 'hikaye_baslik',
+      'hikaye-metin-text': 'hikaye_metin',
+      'hikaye-link-text': 'hikaye_link_metni',
+      'footer-marka-text': 'footer_marka_metni'
+    };
+
+    Object.entries(map).forEach(([elId, key]) => {
+      const el = document.getElementById(elId);
+      const value = texts[key];
+      if (el && value) el.innerHTML = pbFormatInline(value);
+    });
+  }
+
   async function renderProducts() {
     if (!grid || typeof getProducts !== 'function') return;
 
@@ -52,6 +79,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    renderSiteTexts();
     renderCollectionNav();
     renderProducts();
   });

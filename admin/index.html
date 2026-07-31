@@ -400,6 +400,141 @@
       color: var(--c-error);
     }
 
+    /* ───── Metinler sekmesi ───── */
+    .texts-section-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .texts-section-hint {
+      font-size: 12px;
+      color: var(--c-toprak);
+      margin-bottom: 14px;
+    }
+
+    .texts-section-hint code {
+      background: var(--c-bej);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .text-field-card {
+      background: white;
+      border: 0.5px solid var(--c-line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .text-field-card label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-toprak);
+      margin-bottom: 8px;
+    }
+
+    .text-field-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      resize: vertical;
+      margin-bottom: 10px;
+    }
+
+    .text-field-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ───── Sayfa içeriği blok editörü ───── */
+    .cp-blocks-section {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 0.5px solid var(--c-line);
+    }
+
+    .cp-blocks-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-toprak);
+      margin-bottom: 10px;
+    }
+
+    .block-card {
+      background: var(--c-cream);
+      border: 0.5px solid var(--c-line);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .block-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .block-type-badge {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--c-bakir);
+    }
+
+    .block-card-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .block-card-actions button {
+      width: 26px;
+      height: 26px;
+      border: 0.5px solid var(--c-line);
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .block-card-body textarea,
+    .block-card-body input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      background: white;
+    }
+
+    .block-table-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .block-table-row button {
+      width: 30px;
+      border: 0.5px solid var(--c-line);
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     /* ───── Form modal ───── */
     .modal-overlay {
       position: fixed;
@@ -779,6 +914,7 @@
       <button class="tab" data-tab="collections">Koleksiyonlar</button>
       <button class="tab" data-tab="product-types">Ürün Tipleri</button>
       <button class="tab" data-tab="orders">Siparişler</button>
+      <button class="tab" data-tab="texts">Metinler</button>
     </nav>
 
     <main class="content">
@@ -849,6 +985,23 @@
         </div>
 
         <div id="orders-list">
+          <div class="loading">Yükleniyor…</div>
+        </div>
+
+      </section>
+
+      <!-- METİNLER SEKMESİ -->
+      <section class="tab-content" id="tab-texts" style="display:none;">
+
+        <h3 class="texts-section-title">Site metinleri</h3>
+        <p class="texts-section-hint">Anasayfadaki sabit metinler — başlık, hikâye, footer.</p>
+        <div id="site-texts-list">
+          <div class="loading">Yükleniyor…</div>
+        </div>
+
+        <h3 class="texts-section-title" style="margin-top: 32px;">Sayfa içerikleri</h3>
+        <p class="texts-section-hint">İletişim, SSS ve yasal metinler — her biri kendi düzeninde (başlık, paragraf, liste, tablo) bloklardan oluşur.</p>
+        <div class="product-table" id="content-pages-list">
           <div class="loading">Yükleniyor…</div>
         </div>
 
@@ -1073,6 +1226,69 @@
         <div class="actions-right">
           <button class="btn btn-ghost" data-close>İPTAL</button>
           <button class="btn btn-primary" id="btn-save-product-type">KAYDET</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===== SAYFA İÇERİĞİ MODAL ===== -->
+  <div class="modal-overlay" id="content-page-modal">
+    <div class="modal-card" style="max-width: 820px;">
+      <header class="modal-head">
+        <h2 id="content-page-modal-title">Sayfayı Düzenle</h2>
+        <button class="modal-close" data-close>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 2 L12 12 M12 2 L2 12"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form id="content-page-form">
+          <div class="form-grid">
+            <div class="field">
+              <label>Üst etiket</label>
+              <input type="text" id="cp-eyebrow" placeholder="Örn. Yardım">
+            </div>
+            <div class="field">
+              <label>Başlık *</label>
+              <input type="text" id="cp-title" required>
+            </div>
+            <div class="field full">
+              <label>Alt bilgi (opsiyonel)</label>
+              <input type="text" id="cp-meta-text" placeholder="Örn. Yürürlük tarihi: 29.07.2026">
+            </div>
+          </div>
+
+          <div class="cp-blocks-section">
+            <label class="cp-blocks-label">İçerik blokları</label>
+            <div id="cp-blocks-list"></div>
+            <div class="toolbar" style="margin-top: 12px;">
+              <select class="filter-select" id="cp-add-block-type">
+                <option value="heading">Başlık</option>
+                <option value="subheading">Alt başlık</option>
+                <option value="paragraph">Paragraf</option>
+                <option value="list">Liste</option>
+                <option value="table">Tablo (etiket / değer)</option>
+                <option value="note">Uyarı kutusu</option>
+              </select>
+              <button type="button" class="btn btn-ghost" id="btn-add-block">+ BLOK EKLE</button>
+            </div>
+            <p class="texts-section-hint" style="margin-top: 10px;">
+              Metinlerde <code>**kalın**</code>, <code>*italik*</code>, <code>[bağlantı metni](/yol/)</code> ve
+              <code>[[eposta]]</code>/<code>[[telefon]]</code>/<code>[[adres]]</code> gibi satıcı bilgisi
+              yer tutucuları kullanabilirsin.
+            </p>
+          </div>
+
+          <div id="content-page-form-status" class="status-msg" style="display:none;"></div>
+        </form>
+      </div>
+
+      <footer class="modal-foot">
+        <div class="actions-right">
+          <button class="btn btn-ghost" data-close>İPTAL</button>
+          <button class="btn btn-primary" id="btn-save-content-page">KAYDET</button>
         </div>
       </footer>
     </div>

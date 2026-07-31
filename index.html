@@ -57,7 +57,7 @@
 <body>
 
   <!-- ────────── Üst utility çubuğu ────────── -->
-  <div class="utility-bar">
+  <div class="utility-bar" id="utility-bar-text">
     Türkiye'ye ücretsiz kargo · 500 ₺ üzeri siparişlerde
   </div>
 
@@ -92,10 +92,10 @@
     <section class="hero">
       <div class="container">
         <img src="assets/img/logo-seal-bakir.svg" alt="Parla By Aslı mührü" class="hero-seal anim-fade-up">
-        <h1 class="h-display hero-title anim-fade-up anim-delay-1">
+        <h1 class="h-display hero-title anim-fade-up anim-delay-1" id="hero-title-text">
           Senin için, <em>sana özel</em>
         </h1>
-        <p class="hero-sub anim-fade-up anim-delay-2">El emeği · Doğal taş · Kadın girişim</p>
+        <p class="hero-sub anim-fade-up anim-delay-2" id="hero-subtitle-text">El emeği · Doğal taş · Kadın girişim</p>
       </div>
     </section>
 
@@ -125,11 +125,11 @@
       <div class="container">
         <div class="story-inner">
           <span class="eyebrow">Hikâyemiz</span>
-          <h2 class="h1" style="margin-top: 12px;">Parla, Aslı'nın kızı.</h2>
-          <p>
+          <h2 class="h1" style="margin-top: 12px;" id="hikaye-baslik-text">Parla, Aslı'nın kızı.</h2>
+          <p id="hikaye-metin-text">
             Bu marka anne-kız hikâyesinden doğdu. El emeği takı geleneğini doğal taşlarla buluşturduk; her taş kendine özgü, her ürün siparişle tek tek üretiliyor. Üretim Türkiye'de, tasarım hep beraber.
           </p>
-          <a href="iletisim/" class="story-link">Bize yaz</a>
+          <a href="iletisim/" class="story-link" id="hikaye-link-text">Bize yaz</a>
         </div>
       </div>
     </section>
@@ -143,7 +143,7 @@
       <div class="footer-grid">
         <div>
           <img src="assets/img/logo-seal-bakir.svg" alt="" class="footer-brand-seal" aria-hidden="true">
-          <p class="footer-brand-text">
+          <p class="footer-brand-text" id="footer-marka-text">
             El emeği takı, doğal taş, kişiye özel üretim. Türkiye'de tasarlandı, Türkiye'de üretildi.
           </p>
         </div>
@@ -187,6 +187,7 @@
   <!-- ────────── Scripts ────────── -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/data.js"></script>
+  <script src="assets/content.js"></script>
   <script src="assets/products.js"></script>
   <script src="assets/ui.js"></script>
   <script src="assets/homepage.js"></script>

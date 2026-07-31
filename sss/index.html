@@ -42,7 +42,7 @@
   </header>
 
   <main>
-    <section class="legal-page">
+    <section class="legal-page" data-content-slug="sss">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -50,11 +50,11 @@
         </nav>
 
         <div class="legal-head">
-          <span class="eyebrow">Yardım</span>
-          <h1 class="h1">Sıkça Sorulan Sorular</h1>
+          <span class="eyebrow" data-cp-eyebrow>Yardım</span>
+          <h1 class="h1" data-cp-title>Sıkça Sorulan Sorular</h1>
         </div>
 
-        <div class="legal-body">
+        <div class="legal-body" id="legal-body">
 
           <h2>Sipariş ve ödeme</h2>
 
@@ -197,6 +197,10 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../assets/data.js"></script>
+  <script src="../assets/content.js"></script>
+  <script src="../assets/content-page-init.js"></script>
   <script src="../assets/legal-info.js"></script>
 </body>
 </html>

@@ -69,6 +69,21 @@
   const btnRefreshOrders = document.getElementById('btn-refresh-orders');
   const ordersList = document.getElementById('orders-list');
 
+  // Texts (site metinleri + sayfa içerikleri)
+  const siteTextsList = document.getElementById('site-texts-list');
+  const contentPagesList = document.getElementById('content-pages-list');
+  const contentPageModal = document.getElementById('content-page-modal');
+  const contentPageModalTitle = document.getElementById('content-page-modal-title');
+  const contentPageForm = document.getElementById('content-page-form');
+  const contentPageFormStatus = document.getElementById('content-page-form-status');
+  const btnSaveContentPage = document.getElementById('btn-save-content-page');
+  const cpEyebrow = document.getElementById('cp-eyebrow');
+  const cpTitle = document.getElementById('cp-title');
+  const cpMetaText = document.getElementById('cp-meta-text');
+  const cpBlocksList = document.getElementById('cp-blocks-list');
+  const cpAddBlockType = document.getElementById('cp-add-block-type');
+  const btnAddBlock = document.getElementById('btn-add-block');
+
   // Product modal
   const productModal = document.getElementById('product-modal');
   const productModalTitle = document.getElementById('product-modal-title');
@@ -107,6 +122,8 @@
   let editingProduct = null; // null = yeni, obj = düzenleme
   let editingCollection = null;
   let editingProductType = null;
+  let editingContentPageSlug = null;
+  let editingBlocks = []; // blok editörünün üzerinde çalıştığı geçici kopya
 
   /* ──────────── Kategoriler artık koddan değil Supabase'den ──────────── */
   /* Eskiden burada sabit bir CATEGORIES dizisi vardı. Kişiye özel tasarım
@@ -275,6 +292,7 @@
       }
       if (target === 'collections') renderCollectionTable();
       if (target === 'product-types') renderProductTypeTable();
+      if (target === 'texts') { loadSiteTexts(); loadContentPages(); }
     });
   });
 
@@ -1052,6 +1070,263 @@
 
   filterOrderStatus.addEventListener('change', renderOrders);
   btnRefreshOrders.addEventListener('click', loadOrders);
+
+  /* ──────────── METİNLER: SİTE METİNLERİ ──────────── */
+
+  async function loadSiteTexts() {
+    siteTextsList.innerHTML = '<div class="loading">Yükleniyor…</div>';
+    const texts = await PB_Data.adminGetSiteTexts();
+    renderSiteTextsList(texts);
+  }
+
+  function renderSiteTextsList(texts) {
+    if (!texts.length) {
+      siteTextsList.innerHTML = '<div class="empty-state"><p>Henüz site metni yok.</p></div>';
+      return;
+    }
+
+    siteTextsList.innerHTML = texts.map(t => `
+      <div class="text-field-card" data-key="${escapeHtml(t.key)}">
+        <label>${escapeHtml(t.label)}</label>
+        <textarea class="text-field-input" rows="2">${escapeHtml(t.value)}</textarea>
+        <div class="text-field-actions">
+          <button type="button" class="btn btn-ghost" data-action="save">KAYDET</button>
+          <span class="status-msg" style="display:none;"></span>
+        </div>
+      </div>
+    `).join('');
+
+    siteTextsList.querySelectorAll('.text-field-card').forEach(card => {
+      const key = card.dataset.key;
+      const textarea = card.querySelector('textarea');
+      const saveBtn = card.querySelector('[data-action="save"]');
+      const status = card.querySelector('.status-msg');
+
+      saveBtn.addEventListener('click', async () => {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'KAYDEDİLİYOR…';
+        const { error } = await PB_Data.adminUpdateSiteText(key, textarea.value.trim());
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'KAYDET';
+        showStatus(status, error ? 'Kaydedilemedi: ' + (error.message || error) : 'Kaydedildi ✓', error ? 'error' : 'success');
+      });
+    });
+  }
+
+  /* ──────────── METİNLER: SAYFA İÇERİKLERİ ──────────── */
+
+  async function loadContentPages() {
+    contentPagesList.innerHTML = '<div class="loading">Yükleniyor…</div>';
+    const pages = await PB_Data.getAllContentPages();
+    renderContentPagesTable(pages);
+  }
+
+  function renderContentPagesTable(pages) {
+    if (!pages.length) {
+      contentPagesList.innerHTML = '<div class="empty-state"><p>Henüz sayfa içeriği yok.</p></div>';
+      return;
+    }
+
+    const rows = pages.map(p => `
+      <tr data-slug="${escapeHtml(p.slug)}">
+        <td>
+          <div style="font-weight: 500;">${escapeHtml(p.title)}</div>
+          <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">${escapeHtml(p.slug)}</div>
+        </td>
+        <td>${p.blocks.length} blok</td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn" data-action="edit" title="Düzenle">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M2 14 L4 10 L11 3 L13 5 L6 12 Z M11 3 L13 5"/>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>`).join('');
+
+    contentPagesList.innerHTML = `
+      <table>
+        <thead><tr><th>Sayfa</th><th>İçerik</th><th style="width: 60px;"></th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+
+    contentPagesList.querySelectorAll('tbody tr').forEach(tr => {
+      tr.style.cursor = 'pointer';
+      const open = () => {
+        const page = pages.find(p => p.slug === tr.dataset.slug);
+        if (page) openContentPageModal(page);
+      };
+      tr.addEventListener('click', open);
+    });
+  }
+
+  const BLOCK_TYPE_LABELS = {
+    heading: 'Başlık', subheading: 'Alt başlık', paragraph: 'Paragraf',
+    list: 'Liste', table: 'Tablo', note: 'Uyarı kutusu'
+  };
+
+  function openContentPageModal(page) {
+    editingContentPageSlug = page.slug;
+    editingBlocks = JSON.parse(JSON.stringify(page.blocks || []));
+    hideStatus(contentPageFormStatus);
+
+    contentPageModalTitle.textContent = page.title;
+    cpEyebrow.value = page.eyebrow || '';
+    cpTitle.value = page.title || '';
+    cpMetaText.value = page.metaText || '';
+
+    renderBlocksEditor();
+    contentPageModal.classList.add('is-open');
+  }
+
+  function closeContentPageModal() {
+    contentPageModal.classList.remove('is-open');
+    editingContentPageSlug = null;
+    editingBlocks = [];
+  }
+
+  contentPageModal.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeContentPageModal));
+  contentPageModal.addEventListener('click', e => { if (e.target === contentPageModal) closeContentPageModal(); });
+
+  function renderBlocksEditor() {
+    if (editingBlocks.length === 0) {
+      cpBlocksList.innerHTML = '<p style="font-size: 12px; color: var(--c-toprak);">Henüz blok yok — aşağıdan ekle.</p>';
+      return;
+    }
+
+    cpBlocksList.innerHTML = editingBlocks.map((b, i) => {
+      let bodyHtml = '';
+
+      if (b.type === 'heading' || b.type === 'subheading' || b.type === 'paragraph' || b.type === 'note') {
+        bodyHtml = `<textarea rows="2" data-field="text">${escapeHtml(b.text || '')}</textarea>`;
+      } else if (b.type === 'list') {
+        bodyHtml = `
+          <label style="font-size:10px; color:var(--c-toprak); display:block; margin-bottom:4px;">Her satır bir madde</label>
+          <textarea rows="4" data-field="items">${escapeHtml((b.items || []).join('\n'))}</textarea>
+          <label class="field-row-checkbox" style="margin-top:8px;">
+            <input type="checkbox" data-field="ordered" ${b.ordered ? 'checked' : ''}>
+            <span>Numaralı liste</span>
+          </label>`;
+      } else if (b.type === 'table') {
+        const rowsHtml = (b.rows || []).map((r, ri) => `
+          <div class="block-table-row" data-row="${ri}">
+            <input type="text" data-field="row-label" placeholder="Etiket" value="${escapeHtml(r[0] || '')}">
+            <input type="text" data-field="row-value" placeholder="Değer" value="${escapeHtml(r[1] || '')}">
+            <button type="button" data-action="delete-row" title="Satırı sil">✕</button>
+          </div>`).join('');
+        bodyHtml = `<div data-table-rows>${rowsHtml}</div>
+          <button type="button" class="btn btn-ghost" data-action="add-row" style="margin-top:4px; padding: 6px 10px; font-size: 11px;">+ SATIR EKLE</button>`;
+      }
+
+      return `
+        <div class="block-card" data-index="${i}">
+          <div class="block-card-head">
+            <span class="block-type-badge">${BLOCK_TYPE_LABELS[b.type] || b.type}</span>
+            <div class="block-card-actions">
+              <button type="button" data-action="up" title="Yukarı taşı">↑</button>
+              <button type="button" data-action="down" title="Aşağı taşı">↓</button>
+              <button type="button" data-action="delete" title="Bloğu sil">🗑</button>
+            </div>
+          </div>
+          <div class="block-card-body">${bodyHtml}</div>
+        </div>`;
+    }).join('');
+
+    // Metin/checkbox alanları — yeniden render tetiklemeden diziyi güncelle
+    cpBlocksList.querySelectorAll('.block-card').forEach(card => {
+      const i = parseInt(card.dataset.index);
+      const block = editingBlocks[i];
+
+      card.querySelectorAll('[data-field="text"]').forEach(el => {
+        el.addEventListener('input', () => { block.text = el.value; });
+      });
+      card.querySelectorAll('[data-field="items"]').forEach(el => {
+        el.addEventListener('input', () => {
+          block.items = el.value.split('\n').map(s => s.trim()).filter(Boolean);
+        });
+      });
+      card.querySelectorAll('[data-field="ordered"]').forEach(el => {
+        el.addEventListener('change', () => { block.ordered = el.checked; });
+      });
+      card.querySelectorAll('[data-field="row-label"], [data-field="row-value"]').forEach(el => {
+        const rowEl = el.closest('[data-row]');
+        const ri = parseInt(rowEl.dataset.row);
+        const col = el.dataset.field === 'row-label' ? 0 : 1;
+        el.addEventListener('input', () => { block.rows[ri][col] = el.value; });
+      });
+
+      // Yapısal değişiklikler (taşıma/silme/satır ekle-sil) tüm listeyi yeniden çizer
+      card.querySelector('[data-action="up"]').addEventListener('click', () => {
+        if (i === 0) return;
+        [editingBlocks[i - 1], editingBlocks[i]] = [editingBlocks[i], editingBlocks[i - 1]];
+        renderBlocksEditor();
+      });
+      card.querySelector('[data-action="down"]').addEventListener('click', () => {
+        if (i === editingBlocks.length - 1) return;
+        [editingBlocks[i], editingBlocks[i + 1]] = [editingBlocks[i + 1], editingBlocks[i]];
+        renderBlocksEditor();
+      });
+      card.querySelector('[data-action="delete"]').addEventListener('click', () => {
+        if (!confirm('Bu bloğu silmek istediğine emin misin?')) return;
+        editingBlocks.splice(i, 1);
+        renderBlocksEditor();
+      });
+
+      const addRowBtn = card.querySelector('[data-action="add-row"]');
+      if (addRowBtn) {
+        addRowBtn.addEventListener('click', () => {
+          block.rows = block.rows || [];
+          block.rows.push(['', '']);
+          renderBlocksEditor();
+        });
+      }
+      card.querySelectorAll('[data-action="delete-row"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const ri = parseInt(btn.closest('[data-row]').dataset.row);
+          block.rows.splice(ri, 1);
+          renderBlocksEditor();
+        });
+      });
+    });
+  }
+
+  btnAddBlock.addEventListener('click', () => {
+    const type = cpAddBlockType.value;
+    const newBlock = { type };
+    if (type === 'list') { newBlock.items = []; newBlock.ordered = false; }
+    else if (type === 'table') { newBlock.rows = [['', '']]; }
+    else { newBlock.text = ''; }
+    editingBlocks.push(newBlock);
+    renderBlocksEditor();
+  });
+
+  btnSaveContentPage.addEventListener('click', async () => {
+    if (!contentPageForm.reportValidity()) return;
+    btnSaveContentPage.disabled = true;
+    btnSaveContentPage.textContent = 'KAYDEDİLİYOR…';
+
+    const { error } = await PB_Data.adminUpdateContentPage(editingContentPageSlug, {
+      title: cpTitle.value.trim(),
+      eyebrow: cpEyebrow.value.trim(),
+      metaText: cpMetaText.value.trim(),
+      blocks: editingBlocks
+    });
+
+    btnSaveContentPage.disabled = false;
+    btnSaveContentPage.textContent = 'KAYDET';
+
+    if (error) {
+      showStatus(contentPageFormStatus, 'Kaydedilemedi: ' + (error.message || error), 'error');
+      return;
+    }
+
+    showStatus(contentPageFormStatus, 'Kaydedildi ✓', 'success');
+    setTimeout(() => {
+      closeContentPageModal();
+      loadContentPages();
+    }, 600);
+  });
 
   /* ──────────── INIT ──────────── */
 

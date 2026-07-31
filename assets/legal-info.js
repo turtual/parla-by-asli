@@ -140,6 +140,7 @@ window.PB_SATICI = {
     calistir();
   }
 
-  // Diğer scriptler kullanabilsin
-  window.PB_SaticiBilgi = { deger, doldur };
+  // Diğer scriptler kullanabilsin (örn. assets/content.js dinamik içerik
+  // bastıktan sonra hem doldur hem mailtoBagla'yı tekrar çağırır)
+  window.PB_SaticiBilgi = { deger, doldur, mailtoBagla };
 })(window, document);
