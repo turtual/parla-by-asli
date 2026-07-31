@@ -95,8 +95,7 @@
   // Image upload
   const imageUploadArea = document.getElementById('image-upload-area');
   const imageInput = document.getElementById('image-input');
-  const imagePreview = document.getElementById('image-preview');
-  const productImageInput = document.getElementById('product-image');
+  const imageList = document.getElementById('image-list');
 
   // Form fields
   const fName = document.getElementById('product-name');
@@ -120,6 +119,7 @@
   let allCollections = [];
   let allProductTypes = [];
   let editingProduct = null; // null = yeni, obj = düzenleme
+  let productImages = []; // sıralı görsel URL listesi — ilk eleman ana fotoğraf
   let editingCollection = null;
   let editingProductType = null;
   let editingContentPageSlug = null;
@@ -448,15 +448,10 @@
       fFeatured.checked = !!product.featured;
       fActive.checked = product.isActive !== false;
 
-      // Görsel preview
-      if (product.image) {
-        const src = product.image.startsWith('http') ? product.image : '../' + product.image;
-        imagePreview.innerHTML = `<img src="${escapeHtml(src)}" alt="">`;
-        productImageInput.value = product.image;
-      } else {
-        imagePreview.innerHTML = '<span style="color: var(--c-toprak); font-size: 28px;">＋</span>';
-        productImageInput.value = '';
-      }
+      // Görseller — image alanı her zaman ilk sırada, images[] onu izler
+      productImages = product.image
+        ? [product.image, ...(product.images || []).filter(Boolean)]
+        : [...(product.images || []).filter(Boolean)];
 
     } else {
       productModalTitle.textContent = 'Yeni Ürün';
@@ -464,9 +459,9 @@
       fOrder.value = 100;
       fStock.value = 0;
       fActive.checked = true;
-      imagePreview.innerHTML = '<span style="color: var(--c-toprak); font-size: 28px;">＋</span>';
-      productImageInput.value = '';
+      productImages = [];
     }
+    renderImageList();
 
     productModal.classList.add('is-open');
   }
@@ -502,7 +497,7 @@
     fId.value = generateId(fCategory.value, fSlug.value);
   });
 
-  /* ──────────── IMAGE UPLOAD ──────────── */
+  /* ──────────── IMAGE UPLOAD (çoklu) ──────────── */
 
   imageUploadArea.addEventListener('click', () => imageInput.click());
 
@@ -518,41 +513,83 @@
   imageUploadArea.addEventListener('drop', (e) => {
     e.preventDefault();
     imageUploadArea.classList.remove('is-dragging');
-    if (e.dataTransfer.files.length) {
-      handleImageFile(e.dataTransfer.files[0]);
-    }
+    if (e.dataTransfer.files.length) handleImageFiles([...e.dataTransfer.files]);
   });
 
   imageInput.addEventListener('change', (e) => {
-    if (e.target.files.length) handleImageFile(e.target.files[0]);
+    if (e.target.files.length) handleImageFiles([...e.target.files]);
+    imageInput.value = ''; // aynı dosya tekrar seçilebilsin diye
   });
 
-  async function handleImageFile(file) {
-    if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      showStatus(formStatus, 'Dosya çok büyük (max 5MB)', 'error');
+  /** Bir veya birden çok dosyayı sırayla yükler, her biri bitince listeye ekler. */
+  async function handleImageFiles(files) {
+    let basarili = 0;
+    for (const file of files) {
+      if (file.size > 5 * 1024 * 1024) {
+        showStatus(formStatus, `${file.name}: dosya çok büyük (max 5MB)`, 'error');
+        continue;
+      }
+
+      showStatus(formStatus, `Yükleniyor… (${file.name})`, 'info');
+      const productId = fId.value || 'temp-' + Date.now();
+      const { data, error } = await PB_Data.adminUploadImage(file, productId);
+
+      if (error) {
+        showStatus(formStatus, `${file.name} yüklenemedi: ` + (error.message || error), 'error');
+        continue;
+      }
+
+      productImages.push(data.publicUrl);
+      renderImageList();
+      basarili++;
+    }
+    if (basarili > 0) showStatus(formStatus, 'Görseller yüklendi ✓', 'success');
+  }
+
+  /** Görsel listesini (küçük resimler + ana/sırala/kaldır aksiyonları) çizer. */
+  function renderImageList() {
+    if (productImages.length === 0) {
+      imageList.innerHTML = '';
       return;
     }
 
-    // Geçici preview
-    const reader = new FileReader();
-    reader.onload = e => {
-      imagePreview.innerHTML = `<img src="${e.target.result}" alt="">`;
-    };
-    reader.readAsDataURL(file);
+    imageList.innerHTML = productImages.map((url, i) => {
+      const src = url.startsWith('http') ? url : '../' + url;
+      return `
+        <div class="image-tile" data-index="${i}">
+          <img src="${escapeHtml(src)}" alt="">
+          ${i === 0 ? '<span class="image-tile-badge">★ Ana</span>' : ''}
+          <div class="image-tile-actions">
+            <button type="button" data-action="primary" title="Ana fotoğraf yap" ${i === 0 ? 'disabled' : ''}>★</button>
+            <button type="button" data-action="left" title="Sola taşı" ${i === 0 ? 'disabled' : ''}>←</button>
+            <button type="button" data-action="right" title="Sağa taşı" ${i === productImages.length - 1 ? 'disabled' : ''}>→</button>
+            <button type="button" data-action="remove" title="Kaldır">✕</button>
+          </div>
+        </div>`;
+    }).join('');
 
-    // Yükle
-    showStatus(formStatus, 'Görsel yükleniyor…', 'info');
-    const productId = fId.value || 'temp-' + Date.now();
-    const { data, error } = await PB_Data.adminUploadImage(file, productId);
-
-    if (error) {
-      showStatus(formStatus, 'Görsel yüklenemedi: ' + (error.message || error), 'error');
-      return;
-    }
-
-    productImageInput.value = data.publicUrl;
-    showStatus(formStatus, 'Görsel yüklendi ✓', 'success');
+    imageList.querySelectorAll('.image-tile').forEach(tile => {
+      const i = parseInt(tile.dataset.index);
+      tile.querySelector('[data-action="primary"]').addEventListener('click', () => {
+        const [item] = productImages.splice(i, 1);
+        productImages.unshift(item);
+        renderImageList();
+      });
+      tile.querySelector('[data-action="left"]').addEventListener('click', () => {
+        if (i === 0) return;
+        [productImages[i - 1], productImages[i]] = [productImages[i], productImages[i - 1]];
+        renderImageList();
+      });
+      tile.querySelector('[data-action="right"]').addEventListener('click', () => {
+        if (i === productImages.length - 1) return;
+        [productImages[i], productImages[i + 1]] = [productImages[i + 1], productImages[i]];
+        renderImageList();
+      });
+      tile.querySelector('[data-action="remove"]').addEventListener('click', () => {
+        productImages.splice(i, 1);
+        renderImageList();
+      });
+    });
   }
 
   /* ──────────── SAVE PRODUCT ──────────── */
@@ -581,7 +618,8 @@
       mode: 'koleksiyon',
       description: fDescription.value.trim(),
       materials,
-      image: productImageInput.value || null,
+      image: productImages[0] || null,
+      images: productImages.slice(1),
       featured: fFeatured.checked,
       isActive: fActive.checked,
       displayOrder: parseInt(fOrder.value) || 100,
