@@ -338,6 +338,39 @@
       justify-content: flex-end;
     }
 
+    /* ───── Sürükle-bırak sıralama ───── */
+    .drag-handle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 32px;
+      cursor: grab;
+      color: var(--c-line-strong);
+      touch-action: none;
+    }
+
+    .drag-handle:hover { color: var(--c-toprak); }
+    .drag-handle[draggable="false"] { cursor: not-allowed; opacity: 0.35; }
+
+    #product-table tbody tr.is-dragging {
+      opacity: 0.4;
+    }
+
+    #product-table tbody tr.drag-over-top {
+      box-shadow: inset 0 2px 0 0 var(--c-bakir);
+    }
+
+    #product-table tbody tr.drag-over-bottom {
+      box-shadow: inset 0 -2px 0 0 var(--c-bakir);
+    }
+
+    .sort-hint {
+      font-size: 11px;
+      color: var(--c-toprak);
+      margin: -6px 0 12px;
+    }
+
     .icon-btn {
       width: 32px;
       height: 32px;
@@ -1020,6 +1053,8 @@
           </button>
         </div>
 
+        <p class="sort-hint" id="sort-hint">⠿ tutup sürükleyerek sırala — sıralamayı değiştirmek için önce arama/filtreleri temizle.</p>
+
         <div class="product-table" id="product-table">
           <div class="loading">Yükleniyor…</div>
         </div>
@@ -1172,11 +1207,6 @@
             <div class="field">
               <label>ID (benzersiz)</label>
               <input type="text" id="product-id" placeholder="kol-kolye-yeni" readonly style="background: rgba(0,0,0,0.05);">
-            </div>
-
-            <div class="field">
-              <label>Sıralama</label>
-              <input type="number" id="product-order" value="100" step="10">
             </div>
 
             <div class="field">

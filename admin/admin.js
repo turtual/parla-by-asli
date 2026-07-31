@@ -106,7 +106,6 @@
   const fMaterials = document.getElementById('product-materials');
   const fSlug = document.getElementById('product-slug');
   const fId = document.getElementById('product-id');
-  const fOrder = document.getElementById('product-order');
   const fStock = document.getElementById('product-stock');
   const fFeatured = document.getElementById('product-featured');
   const fActive = document.getElementById('product-active');
@@ -331,12 +330,24 @@
       return;
     }
 
-    const rows = filtered.map(p => renderProductRow(p)).join('');
+    // Sürükle-bırak sıralama yalnız filtresiz/aramasız tam listede güvenli —
+    // aksi hâlde gizli satırların sırası bozulmadan yeniden numaralanamaz.
+    const dragEnabled = !search && !catF && !colF;
+    const sortHint = document.getElementById('sort-hint');
+    if (sortHint) {
+      sortHint.style.display = filtered.length > 1 ? '' : 'none';
+      sortHint.textContent = dragEnabled
+        ? '⠿ tutup sürükleyerek sırala.'
+        : '⠿ tutup sürükleyerek sırala — sıralamayı değiştirmek için önce arama/filtreleri temizle.';
+    }
+
+    const rows = filtered.map(p => renderProductRow(p, dragEnabled)).join('');
 
     productTable.innerHTML = `
       <table>
         <thead>
           <tr>
+            <th style="width: 28px;"></th>
             <th style="width: 64px;"></th>
             <th>Ad</th>
             <th>Koleksiyon</th>
@@ -373,9 +384,11 @@
       });
       tr.style.cursor = 'pointer';
     });
+
+    if (dragEnabled) bindProductDrag();
   }
 
-  function renderProductRow(p) {
+  function renderProductRow(p, dragEnabled) {
     const colName = (allCollections.find(c => c.id === p.collectionId) || {}).name || '—';
     const typeName = (allProductTypes.find(t => t.slug === p.category) || {}).name || p.category;
     const inactiveBadge = !p.isActive
@@ -390,6 +403,9 @@
 
     return `
       <tr data-id="${escapeHtml(p.id)}">
+        <td>
+          <div class="drag-handle" draggable="${dragEnabled ? 'true' : 'false'}" title="${dragEnabled ? 'Sürükle, sıralamayı değiştir' : 'Sıralamak için filtreleri temizle'}">⠿</div>
+        </td>
         <td><div class="row-img"><img src="${escapeHtml(imgSrc)}" alt=""></div></td>
         <td>
           <div style="font-weight: 500;">${escapeHtml(p.name)}${featured}</div>
@@ -415,6 +431,121 @@
           </div>
         </td>
       </tr>`;
+  }
+
+  /* ──────────── ÜRÜN SIRALAMA (sürükle-bırak) ──────────── */
+
+  let dragKaynakTr = null;
+  let autoScrollTimer = null;
+  let autoScrollYon = 0;
+
+  function bindProductDrag() {
+    const handles = productTable.querySelectorAll('.drag-handle[draggable="true"]');
+
+    handles.forEach(handle => {
+      handle.addEventListener('dragstart', (e) => {
+        dragKaynakTr = handle.closest('tr');
+        dragKaynakTr.classList.add('is-dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', dragKaynakTr.dataset.id);
+      });
+
+      handle.addEventListener('dragend', () => {
+        dragKaynakTr?.classList.remove('is-dragging');
+        dragKaynakTr = null;
+        stopAutoScroll();
+        productTable.querySelectorAll('.drag-over-top, .drag-over-bottom')
+          .forEach(el => el.classList.remove('drag-over-top', 'drag-over-bottom'));
+      });
+    });
+
+    const tbody = productTable.querySelector('tbody');
+
+    tbody.addEventListener('dragover', (e) => {
+      if (!dragKaynakTr) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+
+      autoScrollPencereyeGoreKontrolEt(e.clientY);
+
+      const hedefTr = e.target.closest('tr');
+      tbody.querySelectorAll('.drag-over-top, .drag-over-bottom')
+        .forEach(el => el.classList.remove('drag-over-top', 'drag-over-bottom'));
+      if (!hedefTr || hedefTr === dragKaynakTr) return;
+
+      const rect = hedefTr.getBoundingClientRect();
+      const ustYariMi = e.clientY < rect.top + rect.height / 2;
+      hedefTr.classList.add(ustYariMi ? 'drag-over-top' : 'drag-over-bottom');
+    });
+
+    tbody.addEventListener('drop', (e) => {
+      if (!dragKaynakTr) return;
+      e.preventDefault();
+
+      const hedefTr = e.target.closest('tr');
+      if (hedefTr && hedefTr !== dragKaynakTr) {
+        const rect = hedefTr.getBoundingClientRect();
+        const ustYariMi = e.clientY < rect.top + rect.height / 2;
+        hedefTr.insertAdjacentElement(ustYariMi ? 'beforebegin' : 'afterend', dragKaynakTr);
+        persistNewOrder();
+      }
+
+      tbody.querySelectorAll('.drag-over-top, .drag-over-bottom')
+        .forEach(el => el.classList.remove('drag-over-top', 'drag-over-bottom'));
+    });
+  }
+
+  /**
+   * Sürükleme sırasında pencere üst/alt kenarına yaklaşınca otomatik kaydırır.
+   * requestAnimationFrame yerine setInterval kullanılıyor — sekme pasif/arka
+   * planda bile (rAF duraklatılabiliyor) güvenilir çalışsın diye.
+   */
+  function autoScrollPencereyeGoreKontrolEt(clientY) {
+    const ESIK = 70;
+    const HIZ = 14;
+
+    let yon = 0;
+    if (clientY < ESIK) yon = -1;
+    else if (clientY > window.innerHeight - ESIK) yon = 1;
+
+    if (yon === autoScrollYon) return; // yön değişmedi, mevcut zamanlayıcı sürsün
+    stopAutoScroll();
+    if (yon === 0) return;
+
+    autoScrollYon = yon;
+    autoScrollTimer = setInterval(() => window.scrollBy(0, yon * HIZ), 16);
+  }
+
+  function stopAutoScroll() {
+    if (autoScrollTimer) clearInterval(autoScrollTimer);
+    autoScrollTimer = null;
+    autoScrollYon = 0;
+  }
+
+  /** DOM'daki yeni satır sırasını 10'ar artan display_order değerlerine çevirip kaydeder. */
+  async function persistNewOrder() {
+    const idSirasi = [...productTable.querySelectorAll('tbody tr')].map(tr => tr.dataset.id);
+
+    const guncellenecekler = [];
+    idSirasi.forEach((id, i) => {
+      const yeniSira = (i + 1) * 10;
+      const urun = allProducts.find(p => p.id === id);
+      if (urun && urun.displayOrder !== yeniSira) {
+        urun.displayOrder = yeniSira;
+        guncellenecekler.push({ id, displayOrder: yeniSira });
+      }
+    });
+    allProducts.sort((a, b) => a.displayOrder - b.displayOrder);
+
+    if (guncellenecekler.length === 0) return;
+
+    productTable.style.opacity = '0.6';
+    productTable.style.pointerEvents = 'none';
+
+    await Promise.all(guncellenecekler.map(g => PB_Data.adminUpdateProduct(g.id, { displayOrder: g.displayOrder })));
+
+    productTable.style.opacity = '';
+    productTable.style.pointerEvents = '';
   }
 
   // Filtre event'leri
@@ -443,7 +574,6 @@
       fMaterials.value = (product.materials || []).join('\n');
       fSlug.value = product.slug || '';
       fId.value = product.id || '';
-      fOrder.value = product.displayOrder || 100;
       fStock.value = product.stockQuantity ?? 0;
       fFeatured.checked = !!product.featured;
       fActive.checked = product.isActive !== false;
@@ -456,7 +586,6 @@
     } else {
       productModalTitle.textContent = 'Yeni Ürün';
       btnDelete.style.display = 'none';
-      fOrder.value = 100;
       fStock.value = 0;
       fActive.checked = true;
       productImages = [];
@@ -622,11 +751,17 @@
       images: productImages.slice(1),
       featured: fFeatured.checked,
       isActive: fActive.checked,
-      displayOrder: parseInt(fOrder.value) || 100,
       stockQuantity: parseInt(fStock.value) || 0,
       customizable: false,
       customization: null
     };
+
+    // Sıralama artık sürükle-bırak ile yönetiliyor (bkz. persistNewOrder).
+    // Düzenlemede dokunmuyoruz; yeni ürün listenin sonuna ekleniyor.
+    if (!editingProduct) {
+      const maxSira = allProducts.reduce((m, p) => Math.max(m, p.displayOrder || 0), 0);
+      productData.displayOrder = maxSira + 10;
+    }
 
     let result;
     if (editingProduct) {
