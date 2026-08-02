@@ -186,6 +186,30 @@
     }[c]));
   }
 
+  /**
+   * "Karartıya tıklayınca modalı kapat" davranışını GÜVENLİ biçimde bağlar.
+   *
+   * Neden ayrı bir yardımcı: sadece `click` dinlemek veri kaybettiriyordu.
+   * Kullanıcı bir metin kutusunun içinden sürükleyerek metin seçip fareyi
+   * kutunun dışında bıraktığında tarayıcı, click olayının hedefini basılan
+   * ve bırakılan noktaların ortak atası — yani karartı katmanı — yapıyor.
+   * Böylece "dışarı tıklandı" sanılıp modal kapanıyor ve kaydedilmemiş her
+   * şey siliniyordu.
+   *
+   * Çözüm: tıklamanın hem BAŞLADIĞI hem BİTTİĞİ yer karartı olmalı.
+   */
+  function disariTiklaminaKapat(modal, kapat) {
+    let basladigiYer = null;
+
+    modal.addEventListener('mousedown', e => { basladigiYer = e.target; });
+
+    modal.addEventListener('click', e => {
+      const gercektenDisari = e.target === modal && basladigiYer === modal;
+      basladigiYer = null;
+      if (gercektenDisari) kapat();
+    });
+  }
+
   /* ──────────── AUTH ──────────── */
 
   async function checkAuth() {
@@ -606,9 +630,7 @@
     btn.addEventListener('click', closeProductModal);
   });
 
-  productModal.addEventListener('click', (e) => {
-    if (e.target === productModal) closeProductModal();
-  });
+  disariTiklaminaKapat(productModal, closeProductModal);
 
   // Slug ve ID otomatik üret
   fName.addEventListener('input', () => {
@@ -913,7 +935,7 @@
   }
 
   collectionModal.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeCollectionModal));
-  collectionModal.addEventListener('click', e => { if (e.target === collectionModal) closeCollectionModal(); });
+  disariTiklaminaKapat(collectionModal, closeCollectionModal);
 
   // Ad girilirken slug otomatik üretilsin (yeni koleksiyon eklerken)
   cName.addEventListener('input', () => {
@@ -1075,7 +1097,7 @@
   }
 
   productTypeModal.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeProductTypeModal));
-  productTypeModal.addEventListener('click', e => { if (e.target === productTypeModal) closeProductTypeModal(); });
+  disariTiklaminaKapat(productTypeModal, closeProductTypeModal);
 
   ptName.addEventListener('input', () => {
     if (editingProductType) return;
@@ -1440,7 +1462,7 @@
   }
 
   contentPageModal.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeContentPageModal));
-  contentPageModal.addEventListener('click', e => { if (e.target === contentPageModal) closeContentPageModal(); });
+  disariTiklaminaKapat(contentPageModal, closeContentPageModal);
 
   function renderBlocksEditor() {
     if (editingBlocks.length === 0) {
