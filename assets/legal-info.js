@@ -66,9 +66,25 @@ window.PB_SATICI = {
    * Bir alanın gösterilecek değerini döner.
    * Boşsa null döner — çağıran taraf uyarı işaretini basar.
    */
+  // Tutar alanları: yasal metinde "49.5 ₺" değil "49,50 ₺" görünsün diye
+  // Türkçe biçimle yazılır. Tam sayılarda kuruş gösterilmez (35 ₺).
+  const TUTAR_ALANLARI = new Set(['ucretsizKargoEsigi', 'kargoUcreti']);
+
   function deger(alan) {
     const v = S[alan];
     if (v === null || v === undefined || v === '') return null;
+
+    if (TUTAR_ALANLARI.has(alan)) {
+      const n = Number(v);
+      if (Number.isFinite(n)) {
+        const kurusVar = !Number.isInteger(n);
+        return n.toLocaleString('tr-TR', {
+          minimumFractionDigits: kurusVar ? 2 : 0,
+          maximumFractionDigits: 2
+        });
+      }
+    }
+
     return String(v);
   }
 
