@@ -694,6 +694,10 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   line-height: 1.75;
   color: var(--c-sicak-siyah);
   margin-bottom: var(--space-lg);
+  /* Admin'de alt alta yazılan paragraflar tek bloğa yapışmasın —
+     tarayıcı normalde ardışık satır sonlarını tek boşluğa indiriyor.
+     Ürün açıklamasında (.product-modal-desc) da aynı çözüm kullanılıyor. */
+  white-space: pre-line;
 }
 
 .story-link {

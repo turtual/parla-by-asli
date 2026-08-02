@@ -29,9 +29,31 @@
     bindOrderId();
   }
 
+  /* ──────────── Kargo ──────────── */
+
+  /**
+   * Kargo eşiği ve ücreti admin panelinden yönetiliyor; tek kaynağı
+   * assets/legal-info.js (o da site_texts'ten okuyor). Buradaki yedek
+   * değerler yalnızca legal-info.js hiç yüklenmediyse devreye girer.
+   *
+   * ÖNEMLİ: bu sayıları buraya tekrar gömmeyin. Yasal metinler (mesafeli
+   * satış, ön bilgilendirme, kargo-teslimat) aynı kaynaktan besleniyor;
+   * ayrışırlarsa metinde yazan tutarla tahsil edilen tutar farklı olur.
+   */
+  async function kargoBilgisi() {
+    if (window.PB_SaticiBilgi && typeof window.PB_SaticiBilgi.kargo === 'function') {
+      return await window.PB_SaticiBilgi.kargo();
+    }
+    return { esik: 500, ucret: 35 };
+  }
+
+  function kargoUcretiHesapla(subtotal, k) {
+    return subtotal >= k.esik ? 0 : k.ucret;
+  }
+
   /* ──────────── Sipariş özeti ──────────── */
 
-  function renderSummary() {
+  async function renderSummary() {
     const items = PB_Cart.read();
     const listEl = document.getElementById('checkout-summary-list');
     const subtotalEl = document.getElementById('summary-subtotal');
@@ -65,7 +87,7 @@
 
     // Toplam
     const subtotal = PB_Cart.total();
-    const shipping = subtotal >= 500 ? 0 : 35;
+    const shipping = kargoUcretiHesapla(subtotal, await kargoBilgisi());
     const total = subtotal + shipping;
 
     subtotalEl.textContent = formatPrice(subtotal);
@@ -116,7 +138,7 @@
       const orderId = generateOrderId();
 
       const subtotal = PB_Cart.total();
-      const shipping = subtotal >= 500 ? 0 : 35;
+      const shipping = kargoUcretiHesapla(subtotal, await kargoBilgisi());
       const total = subtotal + shipping;
 
       // Sipariş özetini insan-okunabilir formatta hazırla

@@ -70,22 +70,26 @@
           <p>
             Site <strong>takip çerezi kullanmaz.</strong> Reklam ağı, piksel veya analitik
             izleyici yoktur. Sadece sitenin çalışması için tarayıcının kendi depolama alanında
-            (localStorage) şunlar tutulur:
+            şunlar tutulur:
           </p>
           <div class="legal-table-wrap">
             <table class="legal-table">
               <tbody>
                 <tr>
-                  <th><code>pb_cart_v1</code></th>
-                  <td>Sepetindeki ürünler. Sayfayı kapatsan da sepetin kaybolmasın diye.</td>
+                  <th><code>pb_cart_v2</code></th>
+                  <td>Sepetindeki ürünler. Sayfayı kapatsan da sepetin kaybolmasın diye. (Kalıcı — localStorage)</td>
                 </tr>
                 <tr>
-                  <th><code>pb_favs</code></th>
-                  <td>Favorilediğin ürünlerin listesi.</td>
+                  <th><code>pb_favs_v1</code></th>
+                  <td>Favorilediğin ürünlerin listesi. (Kalıcı — localStorage)</td>
                 </tr>
                 <tr>
                   <th><code>pb_order_id</code></th>
-                  <td>Sipariş numarası (oturum süresince). Sayfayı yenilersen numaranın değişmemesi için.</td>
+                  <td>Sipariş numarası. Sayfayı yenilersen numaranın değişmemesi için. (Sekmeyi kapatınca silinir — sessionStorage)</td>
+                </tr>
+                <tr>
+                  <th><code>pb_last_order</code></th>
+                  <td>Son siparişinin numarası, e-posta adresi, tutarı ve ürün adedi. Teşekkür sayfasında gösterebilmek için. (Sekmeyi kapatınca silinir — sessionStorage)</td>
                 </tr>
               </tbody>
             </table>

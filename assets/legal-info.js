@@ -128,10 +128,44 @@ window.PB_SATICI = {
     });
   }
 
+  /**
+   * Kargo eşiği ve ücreti admin panelinden yönetiliyor (site_texts).
+   * Buradaki değerler yalnızca varsayılan/yedek: veritabanı okunamazsa
+   * sayfa boş kalmasın diye duruyorlar.
+   *
+   * Tek giriş noktası olmasının önemi: bu iki sayı hem yasal metinlerde
+   * (mesafeli satış, ön bilgilendirme, kargo-teslimat, SSS) hem de kasadaki
+   * hesapta geçiyor. Ayrı ayrı tutulursa yasal metin bir tutar yazarken
+   * müşteriden başka tutar tahsil edilebilir.
+   */
+  const kargoHazir = (async function kargoyuYukle() {
+    try {
+      if (typeof PB_Data === 'undefined' || !PB_Data.getSiteTexts) return;
+      const texts = await PB_Data.getSiteTexts();
+
+      const sayi = (deger, yedek) => {
+        const n = parseFloat(String(deger).replace(',', '.'));
+        return Number.isFinite(n) && n >= 0 ? n : yedek;
+      };
+
+      if (texts.kargo_ucretsiz_esigi != null && texts.kargo_ucretsiz_esigi !== '') {
+        S.ucretsizKargoEsigi = sayi(texts.kargo_ucretsiz_esigi, S.ucretsizKargoEsigi);
+      }
+      if (texts.kargo_ucreti != null && texts.kargo_ucreti !== '') {
+        S.kargoUcreti = sayi(texts.kargo_ucreti, S.kargoUcreti);
+      }
+    } catch (e) {
+      // Sessizce varsayılanlarda kal — yasal sayfa yine de dolu görünür
+      console.warn('Kargo bilgisi çekilemedi, varsayılanlar kullanılıyor:', e);
+    }
+  })();
+
   function calistir() {
     doldur(document);
     mailtoBagla();
     uyariBandi();
+    // DB'den gelen kargo değerleri geldiğinde ilgili span'ları tazele
+    kargoHazir.then(() => doldur(document));
   }
 
   if (document.readyState === 'loading') {
@@ -140,7 +174,13 @@ window.PB_SATICI = {
     calistir();
   }
 
+  /** Kasadaki hesap için: DB değerleri yüklendikten sonraki kargo bilgisi. */
+  async function kargo() {
+    await kargoHazir;
+    return { esik: S.ucretsizKargoEsigi, ucret: S.kargoUcreti };
+  }
+
   // Diğer scriptler kullanabilsin (örn. assets/content.js dinamik içerik
   // bastıktan sonra hem doldur hem mailtoBagla'yı tekrar çağırır)
-  window.PB_SaticiBilgi = { deger, doldur, mailtoBagla };
+  window.PB_SaticiBilgi = { deger, doldur, mailtoBagla, kargo, kargoHazir };
 })(window, document);
