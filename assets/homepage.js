@@ -146,18 +146,43 @@
     // Slayt (kaydırma) ile görsel (kadraj) ayrı katmanlar: dış div yalnız
     // translateX ile kayar, içteki img kırpma/kaydırma/yakınlaştırmayı
     // taşır. Tek elemanda toplansaydı iki transform birbirini ezerdi.
+    // Telefon ve bilgisayar kadrajı AYRI tutuluyor. Kapak ekranı tamamen
+    // kapladığı için bu iki oran (geniş / dar-uzun) çok farklı kırpıyor;
+    // tek değer paylaşılınca birini düzeltmek diğerini bozuyordu.
+    const darEkran = window.matchMedia('(max-width: 767px)');
+
+    function kadrajUygula(im, g) {
+      const mobil = darEkran.matches;
+      const pos = (mobil && g.posM) ? g.posM : g.pos;
+      const zoom = (mobil && g.zoomM) ? g.zoomM : g.zoom;
+      im.style.objectPosition = pos || 'center';
+      im.style.transform = (zoom && zoom > 1) ? 'scale(' + zoom + ')' : '';
+    }
+
     const slaytlar = liste.map((g, i) => {
       const s = PB_h('div', { class: 'hero-slide' + (i === 0 ? ' is-active' : '') });
       const im = PB_h('img', { alt: '', 'aria-hidden': 'true' });
       im.src = g.url;
       // object-fit:cover + object-position + scale üçlüsü, admin'deki
       // önizlemede de birebir aynı uygulanıyor: gördüğün kadraj bu.
-      if (g.pos) im.style.objectPosition = g.pos;
-      if (g.zoom && g.zoom > 1) im.style.transform = 'scale(' + g.zoom + ')';
+      kadrajUygula(im, g);
       s.appendChild(im);
       media.appendChild(s);
       return s;
     });
+
+    // Ekran döndürülünce / pencere yeniden boyutlandırılınca doğru kadraja geç.
+    // Hem matchMedia 'change' hem window 'resize' dinleniyor: bazı ortamlarda
+    // sorgunun kendisi güncellenirken change olayı gelmiyor ve kadraj eski
+    // ekranın değerlerinde takılı kalıyordu.
+    let sonDurum = darEkran.matches;
+    function kadrajTazele() {
+      if (darEkran.matches === sonDurum) return;   // gereksiz iş yapma
+      sonDurum = darEkran.matches;
+      slaytlar.forEach((s, i) => kadrajUygula(s.querySelector('img'), liste[i]));
+    }
+    darEkran.addEventListener('change', kadrajTazele);
+    window.addEventListener('resize', kadrajTazele, { passive: true });
 
     // İlk görsel gerçekten yüklenmeden .has-image eklemiyoruz: kırık URL'de
     // açık zemin üstünde krem yazı okunmaz kalırdı.

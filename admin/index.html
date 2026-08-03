@@ -611,8 +611,12 @@
       pointer-events: none;    /* sürükleme kutuya gitsin */
     }
 
-    .cerceve-masaustu { flex: 1 1 auto; aspect-ratio: 2 / 1; }
-    .cerceve-telefon  { flex: 0 0 108px; aspect-ratio: 3 / 5; }
+    .cerceve-sutun { display: flex; flex-direction: column; gap: 8px; }
+    .cerceve-sutun:first-child { flex: 1 1 auto; min-width: 0; }
+    .cerceve-sutun:last-child  { flex: 0 0 108px; }
+
+    .cerceve-masaustu { width: 100%; aspect-ratio: 2 / 1; }
+    .cerceve-telefon  { width: 108px; aspect-ratio: 3 / 5; }
 
     .cerceve-sahne:active { cursor: grabbing; }
 

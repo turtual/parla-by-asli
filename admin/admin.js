@@ -1396,18 +1396,31 @@
    * kalabiliyordu. Burada yayına almadan önce hangi bölgenin görüneceği
    * sürükleyerek ve yakınlaştırarak ayarlanıyor.
    *
-   * Üretilen değerler doğrudan CSS'e karşılık geliyor:
-   *   pos  -> background-position
-   *   zoom -> background-size (yüzde)
-   * Yani sitede ek bir hesap yapılmıyor, aynı değerler uygulanıyor.
+   * Bilgisayar ve telefon kadrajı AYRI tutuluyor (pos/zoom ve posM/zoomM).
+   * Tek değer paylaşıldığında birini düzeltmek diğerini bozuyordu; iki
+   * oran (geniş / dar-uzun) birbirinden fazla uzak.
+   *
+   * Üretilen değerler doğrudan CSS karşılığı:
+   *   pos  -> object-position
+   *   zoom -> transform: scale()
+   * Sitede ek hesap yok, aynı değerler uygulanıyor.
    */
   function cerceveleAc(gorsel, kaydet) {
-    let x = 50, y = 50, zoom = 1;
-    if (gorsel.pos) {
-      const p = String(gorsel.pos).match(/(-?[\d.]+)%\s+(-?[\d.]+)%/);
-      if (p) { x = parseFloat(p[1]); y = parseFloat(p[2]); }
+    function coz(pos, zoomDeger) {
+      const d = { x: 50, y: 50, zoom: 1 };
+      if (pos) {
+        const p = String(pos).match(/(-?[\d.]+)%\s+(-?[\d.]+)%/);
+        if (p) { d.x = parseFloat(p[1]); d.y = parseFloat(p[2]); }
+      }
+      if (zoomDeger) d.zoom = Math.max(1, Math.min(3, Number(zoomDeger) || 1));
+      return d;
     }
-    if (gorsel.zoom) zoom = Math.max(1, Math.min(3, Number(gorsel.zoom) || 1));
+
+    // Telefon değeri hiç ayarlanmamışsa bilgisayarınkinden başlıyor
+    const durum = {
+      masaustu: coz(gorsel.pos, gorsel.zoom),
+      telefon: coz(gorsel.posM || gorsel.pos, gorsel.zoomM || gorsel.zoom)
+    };
 
     const kat = document.createElement('div');
     kat.className = 'cerceve-kat';
@@ -1415,27 +1428,29 @@
       <div class="cerceve-kart">
         <h3>Kapak çerçevesi</h3>
         <p class="texts-section-hint">
-          Görseli sürükleyerek kaydır, yakınlaştırmayı aşağıdan ayarla.
-          Kapak ekranı tamamen kapladığı için bilgisayarda geniş, telefonda
-          dar bir alan oluyor — ikisi çok farklı kırpıyor, bu yüzden ikisi de
-          gösteriliyor. Burada gördüğün kadraj sitede birebir aynı çıkar.
+          Her iki kadraj <strong>ayrı ayrı</strong> ayarlanır: birini
+          değiştirmek diğerini etkilemez. Görseli sürükleyerek kaydır,
+          altındaki çubukla yakınlaştır. Burada gördüğün kadraj sitede
+          birebir aynı çıkar.
         </p>
         <div class="cerceve-sahneler">
-          <div>
+          <div class="cerceve-sutun">
             <span class="cerceve-etiket">Bilgisayar</span>
-            <div class="cerceve-sahne cerceve-masaustu" data-sahne>
-              <img alt="" data-onizleme>
+            <div class="cerceve-sahne cerceve-masaustu" data-hedef="masaustu">
+              <img alt="" data-onizleme="masaustu">
             </div>
+            <input type="range" min="100" max="300" step="5"
+                   class="cerceve-zoom" data-zoom="masaustu">
           </div>
-          <div>
+          <div class="cerceve-sutun">
             <span class="cerceve-etiket">Telefon</span>
-            <div class="cerceve-sahne cerceve-telefon" data-sahne>
-              <img alt="" data-onizleme>
+            <div class="cerceve-sahne cerceve-telefon" data-hedef="telefon">
+              <img alt="" data-onizleme="telefon">
             </div>
+            <input type="range" min="100" max="300" step="5"
+                   class="cerceve-zoom" data-zoom="telefon">
           </div>
         </div>
-        <label class="cerceve-etiket">Yakınlaştırma</label>
-        <input type="range" min="100" max="300" step="5" class="cerceve-zoom" data-zoom>
         <div class="cerceve-islem">
           <button type="button" class="btn btn-ghost" data-iptal>VAZGEÇ</button>
           <button type="button" class="btn btn-primary" data-kaydet>KAYDET</button>
@@ -1443,43 +1458,49 @@
       </div>
     `;
 
-    const sahneler = [...kat.querySelectorAll('[data-sahne]')];
-    const onizlemeler = [...kat.querySelectorAll('[data-onizleme]')];
-    const zoomGirdi = kat.querySelector('[data-zoom]');
-    onizlemeler.forEach(im => { im.src = gorsel.url; });
-    zoomGirdi.value = String(Math.round(zoom * 100));
+    const sahneler = [...kat.querySelectorAll('[data-hedef]')];
 
     // Sitedekiyle BİREBİR aynı üç özellik: object-fit (CSS'te cover),
-    // object-position ve scale. Başka bir hesap yok, o yüzden önizleme
-    // yanıltmıyor.
-    function uygula() {
-      onizlemeler.forEach(im => {
-        im.style.objectPosition = x + '% ' + y + '%';
-        im.style.transform = zoom > 1 ? 'scale(' + zoom + ')' : '';
-      });
+    // object-position ve scale. Arada hesap yok, önizleme yanıltmıyor.
+    function uygula(hedef) {
+      const d = durum[hedef];
+      const im = kat.querySelector('[data-onizleme="' + hedef + '"]');
+      im.style.objectPosition = d.x + '% ' + d.y + '%';
+      im.style.transform = d.zoom > 1 ? 'scale(' + d.zoom + ')' : '';
     }
-    uygula();
 
-    zoomGirdi.addEventListener('input', () => {
-      zoom = Number(zoomGirdi.value) / 100;
-      uygula();
+    ['masaustu', 'telefon'].forEach(hedef => {
+      const im = kat.querySelector('[data-onizleme="' + hedef + '"]');
+      im.src = gorsel.url;
+      const zg = kat.querySelector('[data-zoom="' + hedef + '"]');
+      zg.value = String(Math.round(durum[hedef].zoom * 100));
+      zg.addEventListener('input', () => {
+        durum[hedef].zoom = Number(zg.value) / 100;
+        uygula(hedef);
+      });
+      uygula(hedef);
     });
 
     // Sürükleyerek kaydırma. Yüzde adımı kutu boyutuna göre ölçekleniyor
-    // ki büyük ekranda da küçük ekranda da benzer hızda hareket etsin.
+    // ki iki farklı boyuttaki kutuda da benzer hızda hareket etsin.
     let suruk = null;
     function basla(e) {
       const n = e.touches ? e.touches[0] : e;
-      // Hangi kutudan başlandıysa hız hesabı ona göre yapılsın
-      suruk = { ex: n.clientX, ey: n.clientY, bx: x, by: y, kutu: e.currentTarget };
+      const hedef = e.currentTarget.dataset.hedef;
+      suruk = {
+        ex: n.clientX, ey: n.clientY,
+        bx: durum[hedef].x, by: durum[hedef].y,
+        kutu: e.currentTarget, hedef
+      };
     }
     function hareket(e) {
       if (!suruk) return;
       const n = e.touches ? e.touches[0] : e;
       const r = suruk.kutu.getBoundingClientRect();
-      x = Math.max(0, Math.min(100, suruk.bx - (n.clientX - suruk.ex) / r.width * 100));
-      y = Math.max(0, Math.min(100, suruk.by - (n.clientY - suruk.ey) / r.height * 100));
-      uygula();
+      const d = durum[suruk.hedef];
+      d.x = Math.max(0, Math.min(100, suruk.bx - (n.clientX - suruk.ex) / r.width * 100));
+      d.y = Math.max(0, Math.min(100, suruk.by - (n.clientY - suruk.ey) / r.height * 100));
+      uygula(suruk.hedef);
       if (e.cancelable) e.preventDefault();
     }
     function bitir() { suruk = null; }
@@ -1501,7 +1522,12 @@
 
     kat.querySelector('[data-iptal]').addEventListener('click', kapat);
     kat.querySelector('[data-kaydet]').addEventListener('click', () => {
-      kaydet({ url: gorsel.url, pos: x + '% ' + y + '%', zoom });
+      const m = durum.masaustu, t = durum.telefon;
+      kaydet({
+        url: gorsel.url,
+        pos: m.x + '% ' + m.y + '%', zoom: m.zoom,
+        posM: t.x + '% ' + t.y + '%', zoomM: t.zoom
+      });
       kapat();
     });
 
