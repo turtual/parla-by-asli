@@ -457,9 +457,27 @@ async function PB_fillProductModal(modal, p) {
   media.innerHTML = '';
   thumbs.innerHTML = '';
 
-  // Ana görsel
+  // Ana görsel — tıklanınca tam ekran açılır
+  let aktifIndex = 0;
   const mainImg = PB_h('img', { src: PB_imgPath(images[0]), alt: p.name });
-  media.appendChild(mainImg);
+
+  const mediaBtn = PB_h('button', {
+    type: 'button',
+    class: 'product-modal-media-btn',
+    'aria-label': 'Fotoğrafı tam ekran aç',
+    onclick: () => PB_openLightbox(images, aktifIndex, p.name)
+  });
+  mediaBtn.appendChild(mainImg);
+  mediaBtn.appendChild(PB_h('span', { class: 'product-modal-zoom', 'aria-hidden': 'true' }, '⤢'));
+  media.appendChild(mediaBtn);
+
+  function gorseliSec(i) {
+    aktifIndex = i;
+    mainImg.src = PB_imgPath(images[i]);
+    thumbs.querySelectorAll('.product-modal-thumb').forEach((t, ti) => {
+      t.classList.toggle('is-active', ti === i);
+    });
+  }
 
   // Thumbnail strip — her zaman göster (tek görsel olsa bile o görseli işaretler)
   images.forEach((src, i) => {
@@ -467,11 +485,7 @@ async function PB_fillProductModal(modal, p) {
       type: 'button',
       class: 'product-modal-thumb' + (i === 0 ? ' is-active' : ''),
       'aria-label': `Görsel ${i + 1}`,
-      onclick: () => {
-        mainImg.src = PB_imgPath(src);
-        thumbs.querySelectorAll('.product-modal-thumb').forEach(t => t.classList.remove('is-active'));
-        thumb.classList.add('is-active');
-      }
+      onclick: () => gorseliSec(i)
     });
     thumb.appendChild(PB_h('img', { src: PB_imgPath(src), alt: '' }));
     thumbs.appendChild(thumb);
@@ -574,6 +588,129 @@ async function PB_fillProductModal(modal, p) {
 
   // Değerlendirmeler — beklemesi gerekmesin diye ayrı çiziliyor
   PB_renderReviews(modal.querySelector('[data-pm-reviews]'), p);
+}
+
+/* ──────────── Tam ekran fotoğraf görüntüleyici ──────────── */
+
+/**
+ * Ürün fotoğraflarını tam ekranda gösterir.
+ *
+ * Ürün penceresindeki galeri kare bir kutuya sığdırıldığı için fotoğrafın
+ * ayrıntısı kayboluyordu. Burada görsel ekranın tamamını kullanıyor;
+ * kullanıcı pencereye dönmeden diğer fotoğraflara geçebiliyor.
+ *
+ * Kapatma davranışı: yalnız tıklama HEM zeminde başlayıp HEM zeminde
+ * bitince kapanıyor. Sadece 'click' dinlemek, fotoğrafın üstünden
+ * sürükleyip dışarıda bırakan kullanıcıda pencereyi kapatıyordu.
+ */
+function PB_openLightbox(images, baslangic, baslik) {
+  if (!images || !images.length) return;
+
+  let index = Math.max(0, Math.min(baslangic || 0, images.length - 1));
+
+  const kat = PB_h('div', {
+    class: 'lightbox',
+    role: 'dialog',
+    'aria-modal': 'true',
+    'aria-label': (baslik || 'Ürün') + ' fotoğrafları'
+  });
+
+  const gorsel = PB_h('img', { class: 'lightbox-img', src: PB_imgPath(images[index]), alt: baslik || '' });
+  const sayac = PB_h('span', { class: 'lightbox-sayac' });
+  const seritKap = PB_h('div', { class: 'lightbox-serit' });
+
+  function tazele() {
+    gorsel.src = PB_imgPath(images[index]);
+    sayac.textContent = (index + 1) + ' / ' + images.length;
+    seritKap.querySelectorAll('.lightbox-thumb').forEach((t, i) => {
+      t.classList.toggle('is-active', i === index);
+      if (i === index) t.scrollIntoView({ block: 'nearest', inline: 'center' });
+    });
+  }
+
+  function git(fark) {
+    // Başa/sona gelince döngü yapıyor — tek fotoğrafta zaten yerinde kalır
+    index = (index + fark + images.length) % images.length;
+    tazele();
+  }
+
+  function kapat() {
+    document.removeEventListener('keydown', tusBasildi);
+    kat.remove();
+    document.body.style.overflow = '';
+  }
+
+  function tusBasildi(e) {
+    if (e.key === 'Escape') kapat();
+    else if (e.key === 'ArrowRight') git(1);
+    else if (e.key === 'ArrowLeft') git(-1);
+  }
+
+  const kapatBtn = PB_h('button', {
+    type: 'button', class: 'lightbox-kapat', 'aria-label': 'Kapat', onclick: kapat
+  }, '×');
+
+  const sol = PB_h('button', {
+    type: 'button', class: 'lightbox-ok lightbox-ok-sol', 'aria-label': 'Önceki fotoğraf',
+    onclick: () => git(-1)
+  });
+  sol.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+
+  const sag = PB_h('button', {
+    type: 'button', class: 'lightbox-ok lightbox-ok-sag', 'aria-label': 'Sonraki fotoğraf',
+    onclick: () => git(1)
+  });
+  sag.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+
+  // Tek fotoğrafta ok ve sayaç gereksiz
+  if (images.length < 2) {
+    sol.hidden = true;
+    sag.hidden = true;
+    sayac.hidden = true;
+  }
+
+  images.forEach((src, i) => {
+    const t = PB_h('button', {
+      type: 'button',
+      class: 'lightbox-thumb' + (i === index ? ' is-active' : ''),
+      'aria-label': 'Görsel ' + (i + 1),
+      onclick: () => { index = i; tazele(); }
+    });
+    t.appendChild(PB_h('img', { src: PB_imgPath(src), alt: '' }));
+    seritKap.appendChild(t);
+  });
+
+  const sahne = PB_h('div', { class: 'lightbox-sahne' });
+  sahne.append(gorsel);
+
+  kat.append(kapatBtn, sayac, sol, sahne, sag);
+  if (images.length > 1) kat.append(seritKap);
+
+  // Zemine tıklayınca kapat — sürükleyerek seçim yapanı yanlışlıkla çıkarmasın
+  let basladigiYer = null;
+  kat.addEventListener('mousedown', e => { basladigiYer = e.target; });
+  kat.addEventListener('click', e => {
+    const zeminde = (e.target === kat || e.target === sahne);
+    const zemindeBasladi = (basladigiYer === kat || basladigiYer === sahne);
+    basladigiYer = null;
+    if (zeminde && zemindeBasladi) kapat();
+  });
+
+  // Telefonda parmakla kaydırma
+  let dokunusX = null;
+  kat.addEventListener('touchstart', e => { dokunusX = e.changedTouches[0].clientX; }, { passive: true });
+  kat.addEventListener('touchend', e => {
+    if (dokunusX === null) return;
+    const fark = e.changedTouches[0].clientX - dokunusX;
+    dokunusX = null;
+    if (Math.abs(fark) > 50) git(fark < 0 ? 1 : -1);
+  }, { passive: true });
+
+  document.addEventListener('keydown', tusBasildi);
+  document.body.style.overflow = 'hidden';   // arka plan kaymasın
+  document.body.appendChild(kat);
+  tazele();
+  kapatBtn.focus();
 }
 
 /* ──────────── Değerlendirme bölümü (ürün penceresi) ──────────── */
