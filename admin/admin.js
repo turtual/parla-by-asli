@@ -212,14 +212,30 @@
 
   /* ──────────── AUTH ──────────── */
 
+  /**
+   * Oturum VE yönetici yetkisi birlikte aranır.
+   *
+   * Müşteri üyeliği açıldıktan sonra "giriş yapmış olmak" tek başına
+   * yönetici olmak anlamına gelmiyor; yetki admin_users tablosundan
+   * geliyor (bkz. PB_Data.isAdmin). Yetkisi olmayan biri giriş yapmışsa
+   * paneli göstermeyip oturumunu kapatıyoruz ki panelde asılı kalmasın.
+   */
   async function checkAuth() {
     const user = await PB_Data.getAdminUser();
-    if (user) {
-      currentUser = user;
-      showApp();
-    } else {
+    if (!user) {
       showLogin();
+      return;
     }
+
+    if (!(await PB_Data.isAdmin())) {
+      await PB_Data.adminLogout();
+      showLogin();
+      showStatus(loginError, 'Bu hesabın yönetim paneli yetkisi yok.', 'error');
+      return;
+    }
+
+    currentUser = user;
+    showApp();
   }
 
   function showLogin() {
@@ -289,6 +305,14 @@
 
     if (error) {
       showStatus(loginError, 'Giriş yapılamadı: ' + (error.message || 'Bilinmeyen hata'), 'error');
+      return;
+    }
+
+    // Giriş başarılı olsa da yönetici yetkisi ayrıca aranır — müşteri
+    // hesabıyla panele girilememeli.
+    if (!(await PB_Data.isAdmin())) {
+      await PB_Data.adminLogout();
+      showStatus(loginError, 'Bu hesabın yönetim paneli yetkisi yok.', 'error');
       return;
     }
 

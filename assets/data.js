@@ -433,6 +433,35 @@
     return user;
   }
 
+  /**
+   * Oturum sahibinin YÖNETİCİ olup olmadığını söyler.
+   *
+   * Neden ayrı bir kontrol: müşteri üyeliği açıldığında herkes Supabase'de
+   * "authenticated" oluyor. "Giriş yapmış = yönetici" varsayımı o noktada
+   * her müşteriye yönetim paneli açardı. Yetki artık admin_users tablosuna
+   * üyelikle belirleniyor.
+   *
+   * Bu yalnızca ARAYÜZ için: asıl koruma veritabanındaki RLS politikaları
+   * (is_admin()). Burası atlatılsa bile yazma işlemleri veritabanında durur.
+   */
+  async function isAdmin() {
+    if (!supabase) init();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return false;
+
+    const { data, error } = await supabase
+      .from('admin_users')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Yönetici yetkisi doğrulanamadı:', error);
+      return false;   // şüphede kal: yetki verme
+    }
+    return !!data;
+  }
+
   async function adminUpdateProduct(id, updates) {
     if (!supabase) init();
     const dbUpdates = {};
@@ -744,6 +773,7 @@
     adminLogin,
     adminLogout,
     getAdminUser,
+    isAdmin,
     adminUpdateProduct,
     adminCreateProduct,
     adminDeleteProduct,
