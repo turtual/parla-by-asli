@@ -550,6 +550,29 @@
     return { data: { path: data.path, publicUrl: urlData.publicUrl } };
   }
 
+  /* ── Değerlendirmeler (admin) ──
+   * Okuma/yazma yetkisi RLS'te is_admin() ile korunuyor; burada ek bir
+   * kontrol yok, olsa da veritabanı asıl kararı veren taraf.
+   */
+  async function adminGetReviews(status) {
+    if (!supabase) init();
+    let q = supabase.from('reviews').select('*').order('created_at', { ascending: false });
+    if (status && status !== 'all') q = q.eq('status', status);
+    const { data, error } = await q;
+    if (error) { console.error('Yorumlar alınamadı:', error); return []; }
+    return data || [];
+  }
+
+  async function adminSetReviewStatus(id, status) {
+    if (!supabase) init();
+    return await supabase.from('reviews').update({ status }).eq('id', id);
+  }
+
+  async function adminDeleteReview(id) {
+    if (!supabase) init();
+    return await supabase.from('reviews').delete().eq('id', id);
+  }
+
   async function adminGetOrders() {
     if (!supabase) init();
     const { data, error } = await supabase
@@ -785,6 +808,9 @@
     adminLogout,
     getAdminUser,
     isAdmin,
+    adminGetReviews,
+    adminSetReviewStatus,
+    adminDeleteReview,
     adminUpdateProduct,
     adminCreateProduct,
     adminDeleteProduct,

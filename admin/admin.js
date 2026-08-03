@@ -342,8 +342,78 @@
       if (target === 'collections') renderCollectionTable();
       if (target === 'product-types') renderProductTypeTable();
       if (target === 'texts') { loadSiteTexts(); loadContentPages(); }
+      if (target === 'reviews') loadReviews();
     });
   });
+
+  /* ──────────── DEĞERLENDİRMELER ──────────── */
+
+  const reviewsList = document.getElementById('reviews-list');
+  const filterReviewStatus = document.getElementById('filter-review-status');
+
+  async function loadReviews() {
+    reviewsList.innerHTML = '<div class="loading">Yükleniyor…</div>';
+    const yorumlar = await PB_Data.adminGetReviews(filterReviewStatus.value);
+    renderReviewsList(yorumlar);
+  }
+
+  function renderReviewsList(yorumlar) {
+    if (!yorumlar.length) {
+      reviewsList.innerHTML = '<div class="empty-state"><p>Bu durumda yorum yok.</p></div>';
+      return;
+    }
+
+    const durumAdi = { pending: 'Bekliyor', approved: 'Yayında', rejected: 'Reddedildi' };
+
+    reviewsList.innerHTML = yorumlar.map(y => `
+      <div class="text-field-card" data-id="${escapeHtml(y.id)}">
+        <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:6px;">
+          <div>
+            <strong>${escapeHtml(y.display_name || 'Parla müşterisi')}</strong>
+            <span style="color:var(--c-bakir);">${'★'.repeat(y.rating)}${'☆'.repeat(5 - y.rating)}</span>
+          </div>
+          <span class="badge">${escapeHtml(durumAdi[y.status] || y.status)}</span>
+        </div>
+        <div style="font-size:11px; color:var(--c-toprak); margin-bottom:8px;">
+          ${escapeHtml(y.product_id)} · ${new Date(y.created_at).toLocaleDateString('tr-TR')}
+        </div>
+        <p style="font-size:14px; line-height:1.6; white-space:pre-line; margin-bottom:10px;">${escapeHtml(y.comment)}</p>
+        <div class="text-field-actions">
+          ${y.status !== 'approved' ? '<button type="button" class="btn btn-ghost" data-action="approve">ONAYLA</button>' : ''}
+          ${y.status !== 'rejected' ? '<button type="button" class="btn btn-ghost" data-action="reject">REDDET</button>' : ''}
+          <button type="button" class="btn btn-ghost" data-action="delete">SİL</button>
+          <span class="status-msg" style="display:none;"></span>
+        </div>
+      </div>
+    `).join('');
+
+    reviewsList.querySelectorAll('.text-field-card').forEach(kart => {
+      const id = kart.dataset.id;
+      const status = kart.querySelector('.status-msg');
+
+      kart.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const eylem = btn.dataset.action;
+
+          if (eylem === 'delete' && !confirm('Bu yorum kalıcı olarak silinsin mi?')) return;
+
+          btn.disabled = true;
+          const { error } = eylem === 'delete'
+            ? await PB_Data.adminDeleteReview(id)
+            : await PB_Data.adminSetReviewStatus(id, eylem === 'approve' ? 'approved' : 'rejected');
+          btn.disabled = false;
+
+          if (error) {
+            showStatus(status, 'İşlem başarısız: ' + (error.message || error), 'error');
+            return;
+          }
+          loadReviews();
+        });
+      });
+    });
+  }
+
+  filterReviewStatus.addEventListener('change', loadReviews);
 
   /* ──────────── PRODUCTS ──────────── */
 

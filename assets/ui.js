@@ -318,6 +318,21 @@ function renderProductCard(p, animDelay = 0) {
     PB_h('div', { class: 'product-card-price' }, formatPrice(p.price))
   );
 
+  // Yıldız özeti — özet tek sorguda çekilip cache'lendiği için her kart
+  // ayrı istek atmıyor. Yorumu olmayan üründe hiç yer kaplamıyor.
+  if (typeof PB_Reviews !== 'undefined') {
+    PB_Reviews.ozetler().then(harita => {
+      const o = harita[p.id];
+      if (!o || !o.adet) return;
+      const satir = PB_h('div', { class: 'product-card-rating' });
+      satir.append(
+        PB_Reviews.yildizlar(o.ortalama, 'kucuk'),
+        PB_h('span', {}, '(' + o.adet + ')')
+      );
+      info.append(satir);
+    });
+  }
+
   openBtn.append(imgWrap, info);
 
   // Favori butonu — kartın kardeşi, görselin üstüne konumlanır
@@ -412,6 +427,7 @@ function PB_buildProductModalShell() {
           <div class="product-modal-accordion" data-pm-accordion></div>
         </div>
       </div>
+      <div class="product-modal-reviews" data-pm-reviews></div>
     </div>
   `;
 
@@ -555,6 +571,125 @@ async function PB_fillProductModal(modal, p) {
       accordion.appendChild(details);
     });
   }
+
+  // Değerlendirmeler — beklemesi gerekmesin diye ayrı çiziliyor
+  PB_renderReviews(modal.querySelector('[data-pm-reviews]'), p);
+}
+
+/* ──────────── Değerlendirme bölümü (ürün penceresi) ──────────── */
+
+async function PB_renderReviews(kap, p) {
+  if (!kap || typeof PB_Reviews === 'undefined') return;
+  kap.innerHTML = '<p class="pm-reviews-bos">Değerlendirmeler yükleniyor…</p>';
+
+  const yorumlar = await PB_Reviews.urunYorumlari(p.id);
+  const onayli = yorumlar.filter(y => y.status === 'approved');
+
+  kap.innerHTML = '';
+
+  const baslikSatiri = PB_h('div', { class: 'pm-reviews-head' });
+  baslikSatiri.append(PB_h('h3', { class: 'h3' }, 'Değerlendirmeler'));
+
+  if (onayli.length) {
+    const ort = onayli.reduce((t, y) => t + y.rating, 0) / onayli.length;
+    const ozet = PB_h('div', { class: 'pm-reviews-ozet' });
+    ozet.append(
+      PB_Reviews.yildizlar(ort),
+      PB_h('span', { class: 'pm-reviews-sayi' },
+        ort.toFixed(1).replace('.', ',') + ' · ' + onayli.length + ' değerlendirme')
+    );
+    baslikSatiri.append(ozet);
+  }
+  kap.append(baslikSatiri);
+
+  if (!onayli.length) {
+    kap.append(PB_h('p', { class: 'pm-reviews-bos' },
+      'Bu ürün için henüz değerlendirme yok.'));
+  } else {
+    const liste = PB_h('div', { class: 'pm-reviews-liste' });
+    onayli.forEach(y => {
+      const kart = PB_h('div', { class: 'pm-review' });
+      const ust = PB_h('div', { class: 'pm-review-ust' });
+      ust.append(
+        PB_Reviews.yildizlar(y.rating, 'kucuk'),
+        PB_h('span', { class: 'pm-review-ad' }, y.display_name || 'Parla müşterisi')
+      );
+      kart.append(ust, PB_h('p', { class: 'pm-review-metin' }, y.comment));
+      liste.append(kart);
+    });
+    kap.append(liste);
+  }
+
+  await PB_renderReviewForm(kap, p, yorumlar);
+}
+
+/**
+ * Yorum formu — yalnızca yazma hakkı olana gösterilir. Hak yoksa sebebe
+ * göre kısa bir açıklama basılır ki kullanıcı neden yazamadığını bilsin.
+ */
+async function PB_renderReviewForm(kap, p, yorumlar) {
+  const izin = await PB_Reviews.yazabilirMi(p.id);
+
+  if (!izin.olur) {
+    const notlar = {
+      giris_yok: 'Değerlendirme yazmak için giriş yapmalısın.',
+      satin_alinmadi: 'Yalnızca bu ürünü satın alıp teslim almış müşteriler değerlendirme yazabilir.',
+      zaten_var: izin.durum === 'pending'
+        ? 'Yorumun alındı, onaylandıktan sonra burada görünecek.'
+        : 'Bu ürünü zaten değerlendirdin.',
+      baglanti: ''
+    };
+    const metin = notlar[izin.sebep];
+    if (metin) kap.append(PB_h('p', { class: 'pm-reviews-not' }, metin));
+    return;
+  }
+
+  const form = PB_h('form', { class: 'pm-review-form' });
+  form.innerHTML = `
+    <h4 class="pm-review-form-baslik">Bu ürünü değerlendir</h4>
+    <div class="pm-yildiz-sec" role="radiogroup" aria-label="Puan"></div>
+    <textarea class="pm-review-input" rows="3" maxlength="2000"
+      placeholder="Ürünle ilgili deneyimini yaz (en az 10 karakter)"></textarea>
+    <button type="submit" class="btn btn-bakir">GÖNDER</button>
+    <p class="pm-review-mesaj" hidden></p>
+  `;
+
+  let secilenPuan = 0;
+  const secKap = form.querySelector('.pm-yildiz-sec');
+  for (let i = 1; i <= 5; i++) {
+    const btn = PB_h('button', {
+      type: 'button', class: 'pm-yildiz-btn',
+      'aria-label': i + ' yıldız', 'aria-checked': 'false', role: 'radio'
+    }, '★');
+    btn.addEventListener('click', () => {
+      secilenPuan = i;
+      [...secKap.children].forEach((b, idx) => {
+        b.classList.toggle('is-dolu', idx < i);
+        b.setAttribute('aria-checked', idx === i - 1 ? 'true' : 'false');
+      });
+    });
+    secKap.append(btn);
+  }
+
+  const mesaj = form.querySelector('.pm-review-mesaj');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'GÖNDERİLİYOR…';
+
+    const sonuc = await PB_Reviews.yorumGonder(
+      p.id, secilenPuan, form.querySelector('.pm-review-input').value);
+
+    btn.disabled = false;
+    btn.textContent = 'GÖNDER';
+    mesaj.hidden = false;
+    mesaj.textContent = sonuc.hata || sonuc.mesaj;
+    mesaj.className = 'pm-review-mesaj ' + (sonuc.hata ? 'is-hata' : 'is-basari');
+    if (!sonuc.hata) form.querySelector('.pm-review-input').value = '';
+  });
+
+  kap.append(form);
 }
 
 /* ──────────── Sepet drawer ──────────── */

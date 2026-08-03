@@ -1066,6 +1066,7 @@
       <button class="tab" data-tab="collections">Koleksiyonlar</button>
       <button class="tab" data-tab="product-types">Ürün Tipleri</button>
       <button class="tab" data-tab="orders">Siparişler</button>
+      <button class="tab" data-tab="reviews">Değerlendirmeler</button>
       <button class="tab" data-tab="texts">Metinler</button>
     </nav>
 
@@ -1145,6 +1146,23 @@
       </section>
 
       <!-- METİNLER SEKMESİ -->
+      <section class="tab-content" id="tab-reviews" style="display:none;">
+        <h3 class="texts-section-title">Değerlendirmeler</h3>
+        <p class="texts-section-hint">
+          Yorumlar yayına çıkmadan önce burada onaylanır. Yalnızca ürünü satın alıp
+          teslim almış müşteriler yorum yazabilir; bu kural veritabanında uygulanıyor.
+        </p>
+        <div style="margin-bottom: 14px;">
+          <select class="filter-select" id="filter-review-status">
+            <option value="pending">Onay bekleyenler</option>
+            <option value="approved">Yayında</option>
+            <option value="rejected">Reddedilenler</option>
+            <option value="all">Tümü</option>
+          </select>
+        </div>
+        <div id="reviews-list"><div class="loading">Yükleniyor…</div></div>
+      </section>
+
       <section class="tab-content" id="tab-texts" style="display:none;">
 
         <h3 class="texts-section-title">Site metinleri</h3>
