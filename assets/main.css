@@ -1053,6 +1053,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   justify-content: center;
   padding: var(--space-xl);
   border: 0.5px solid var(--c-line-soft);
+  position: relative;   /* içindeki buton buna göre konumlanıyor */
 }
 
 .product-modal-media img {
@@ -2022,10 +2023,21 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 /* ──────────── Tam ekran fotoğraf görüntüleyici ──────────── */
 
-/* Galerideki ana görsel artık tıklanabilir bir buton */
+/* Galerideki ana görsel artık tıklanabilir bir buton.
+   Boyutu kutunun dolgu alanına SABİTLENİYOR (absolute + inset), yüzdeyle
+   değil: yüzde yükseklik içeriğe göre çözülebildiği için, fotoğraf
+   yüklenene kadar buton küçük kalıyor, fotoğraf gelince açılıyordu.
+   Hızlı bağlantıda göz kırpması kadardı, yavaş bağlantıda 1-2 saniye
+   süren bir büyüme olarak görünüyordu. */
 .product-modal-media-btn {
-  width: 100%;
-  height: 100%;
+  /* Esnek kutu çocuğu olarak esniyor: yüksekliği İÇERİĞİNDEN değil
+     kapsayıcıdan geliyor, dolgu değerine de bağlı değil. Böylece hem
+     yükleme sırasında boyut oynamıyor hem de mobil/masaüstü dolgu
+     farkı için ayrı kural gerekmiyor. */
+  flex: 1 1 auto;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
   padding: 0;
   border: none;
   background: none;
