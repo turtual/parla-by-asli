@@ -98,8 +98,11 @@
     if (!temizEposta) {
       return { hata: 'Önce e-posta adresini girip yeni bir kod iste.' };
     }
-    if (!/^\d{6}$/.test(temizKod)) {
-      return { hata: 'Kod 6 haneli olmalı.' };
+    // Kod uzunluğu Supabase'den ayarlanıyor (4-10 arası olabilir); burada
+    // sabit bir uzunluk beklemiyoruz, yoksa ayar değişince geçerli kod bile
+    // reddedilir. Uzunluk denetimini asıl yapan taraf zaten sunucu.
+    if (!/^\d{4,10}$/.test(temizKod)) {
+      return { hata: 'Kod yalnızca rakamlardan oluşmalı.' };
     }
 
     const { error } = await c.auth.verifyOtp({

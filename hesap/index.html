@@ -62,14 +62,14 @@
              oturumu O cihazda açar. Kod, oturumu bu cihaza bağlar. -->
         <form id="kod-form" hidden novalidate>
           <hr class="hesap-ayrac">
-          <label class="hesap-label" for="kod-input">Maildeki 6 haneli kod</label>
+          <label class="hesap-label" for="kod-input">Maildeki giriş kodu</label>
           <p class="hesap-ipucu">
-            Maili telefonundan açtıysan linke tıklamak yerine koddaki 6 rakamı buraya yaz —
+            Maili telefonundan açtıysan linke tıklamak yerine koddaki rakamları buraya yaz —
             böylece bu cihazda giriş yapmış olursun.
           </p>
           <input class="hesap-input hesap-kod" type="text" id="kod-input"
-                 inputmode="numeric" autocomplete="one-time-code" maxlength="6"
-                 placeholder="123456" required>
+                 inputmode="numeric" autocomplete="one-time-code" maxlength="10"
+                 placeholder="••••" required>
           <button type="submit" class="btn btn-primary btn-block" id="kod-btn">GİRİŞ YAP</button>
           <p class="hesap-mesaj" id="kod-mesaj" hidden></p>
         </form>
