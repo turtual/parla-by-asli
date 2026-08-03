@@ -54,11 +54,21 @@
 
     if (error) {
       console.error('Giriş linki gönderilemedi:', error);
-      // Sınır aşımı en olası hata — kullanıcıya anlaşılır dille söyle
-      if (String(error.message || '').toLowerCase().includes('rate')) {
+      const m = String(error.message || '').toLowerCase();
+
+      // Geçici hata: beklemek işe yarar
+      if (m.includes('rate') || m.includes('too many')) {
         return { hata: 'Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar deneyin.' };
       }
-      return { hata: 'Giriş linki şu anda gönderilemedi. Biraz sonra tekrar deneyin.' };
+
+      // Kalıcı hata: yapılandırma sorunu, beklemek bir şey değiştirmez.
+      // Kullanıcıya "sonra dene" demek yanlış yönlendirme olur; ayrıca
+      // "kayıt kapalı" gibi iç ayrıntıları da dışarı yazmıyoruz.
+      if (m.includes('signups not allowed') || m.includes('disabled')) {
+        return { hata: 'Giriş şu anda yapılamıyor. Lütfen bizimle iletişime geçin.' };
+      }
+
+      return { hata: 'Giriş linki gönderilemedi. Sorun devam ederse bize yazın.' };
     }
 
     return { mesaj: temiz + ' adresine bir giriş linki gönderdik. Gelen kutunu kontrol et (spam klasörüne de bak).' };
