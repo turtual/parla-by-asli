@@ -994,28 +994,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   }
 }
 
-/* Mobilde galeri kompakt */
-@media (max-width: 767px) {
-  .product-modal-gallery {
-    padding: var(--space-md);
-    gap: 8px;
-  }
-  .product-modal-media {
-    padding: var(--space-md);
-  }
-  .product-modal-media img {
-    max-width: 160px;
-  }
-  .product-modal-thumb {
-    width: 48px;
-    height: 48px;
-    padding: 6px;
-  }
-  .product-modal-thumb.is-active {
-    padding: 5px;
-  }
-}
-
 .product-modal-media {
   background: var(--c-white);
   border-radius: var(--r-md);
@@ -1076,6 +1054,30 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   height: 100%;
   object-fit: cover;
   border-radius: 4px;
+}
+
+/* Mobilde galeri kompakt.
+   Bu blok bilerek temel kuralların ALTINDA duruyor. Önceden üstteydi ve
+   yarısı işe yaramıyordu: padding'i sonraki temel kural eziyor, ama
+   görsele konan max-width hayatta kalıyordu. Sonuç, kare fotoğrafın dar
+   ve uzun bir kutuya oturup üstünde altında boşluk bırakmasıydı.
+   Genişlik sınırı da kaldırıldı — görsel kutuyu tam kullanmalı. */
+@media (max-width: 767px) {
+  .product-modal-gallery {
+    padding: var(--space-md);
+    gap: 8px;
+  }
+  .product-modal-media {
+    padding: var(--space-md);
+  }
+  .product-modal-thumb {
+    width: 48px;
+    height: 48px;
+    padding: 6px;
+  }
+  .product-modal-thumb.is-active {
+    padding: 5px;
+  }
 }
 
 /* Yapay zekâ bildirimi — galerinin altında, sessiz bir dipnot */
