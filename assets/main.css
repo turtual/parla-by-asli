@@ -2127,6 +2127,27 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .hesap-mesaj.is-basari { background: var(--c-soft-bej); color: var(--c-sicak-siyah); }
 .hesap-mesaj.is-hata   { background: #F6E4E0; color: #7A2E1D; }
 
+.hesap-ayrac {
+  border: none;
+  border-top: 0.5px solid var(--c-line);
+  margin: var(--space-lg) 0;
+}
+
+.hesap-ipucu {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+  margin-bottom: var(--space-sm);
+}
+
+/* Kod alanı: rakamlar tek tek okunabilsin */
+.hesap-kod {
+  letter-spacing: 0.4em;
+  font-size: 20px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 .hesap-baslik-2 { margin: var(--space-2xl) 0 var(--space-md); }
 
 .hesap-liste { display: flex; flex-direction: column; gap: var(--space-sm); }

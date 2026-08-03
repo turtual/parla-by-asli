@@ -71,7 +71,51 @@
       return { hata: 'Giriş linki gönderilemedi. Sorun devam ederse bize yazın.' };
     }
 
-    return { mesaj: temiz + ' adresine bir giriş linki gönderdik. Gelen kutunu kontrol et (spam klasörüne de bak).' };
+    return {
+      mesaj: temiz + ' adresine giriş bilgilerini gönderdik. Gelen kutunu kontrol et (spam klasörüne de bak).',
+      eposta: temiz
+    };
+  }
+
+  /**
+   * Maildeki 6 haneli kodu doğrulayıp oturumu BU cihazda açar.
+   *
+   * Neden gerekli: e-posta linki, tıklandığı cihazda oturum açar. Müşteri
+   * bilgisayarda giriş isteyip maili telefonundan okuyunca oturum telefonda
+   * açılıyor, bilgisayar giriş yapmamış kalıyordu. Kod, oturumu isteğin
+   * başlatıldığı cihaza bağlıyor.
+   */
+  async function kodDogrula(email, kod) {
+    const c = istemci();
+    if (!c) return { hata: 'Bağlantı kurulamadı.' };
+
+    const temizEposta = String(email || '').trim();
+    const temizKod = String(kod || '').replace(/\s/g, '');
+
+    // Adres olmadan doğrulama yapılamaz. Bunu ayrı yakalıyoruz: aksi hâlde
+    // sunucu "yalnızca e-posta veya telefon verilmeli" diye dönüyor ve
+    // kullanıcıya "kod hatalı" deniyordu — sorun kodda değilken.
+    if (!temizEposta) {
+      return { hata: 'Önce e-posta adresini girip yeni bir kod iste.' };
+    }
+    if (!/^\d{6}$/.test(temizKod)) {
+      return { hata: 'Kod 6 haneli olmalı.' };
+    }
+
+    const { error } = await c.auth.verifyOtp({
+      email: temizEposta,
+      token: temizKod,
+      type: 'email'
+    });
+
+    if (error) {
+      console.error('Kod doğrulanamadı:', error);
+      const m = String(error.message || '').toLowerCase();
+      if (m.includes('expired')) return { hata: 'Kodun süresi dolmuş. Yeni bir kod iste.' };
+      return { hata: 'Kod hatalı. Maildeki 6 haneli kodu kontrol et.' };
+    }
+
+    return { mesaj: 'Giriş yapıldı.' };
   }
 
   async function cikis() {
@@ -170,6 +214,7 @@
   window.PB_Account = {
     kullanici,
     girisLinkiGonder,
+    kodDogrula,
     cikis,
     onDegisim,
     siparislerim,

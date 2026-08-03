@@ -49,6 +49,14 @@
 
   /* ──────────── Giriş ──────────── */
 
+  const kodForm = document.getElementById('kod-form');
+  const kodInput = document.getElementById('kod-input');
+  const kodBtn = document.getElementById('kod-btn');
+  const kodMesaj = document.getElementById('kod-mesaj');
+
+  // Kodu doğrularken hangi adrese gönderildiğini bilmemiz gerekiyor
+  let bekleyenEposta = '';
+
   girisForm.addEventListener('submit', async e => {
     e.preventDefault();
     girisBtn.disabled = true;
@@ -60,8 +68,37 @@
     girisBtn.disabled = false;
     girisBtn.textContent = 'GİRİŞ LİNKİ GÖNDER';
 
-    if (sonuc.hata) mesajGoster(girisMesaj, sonuc.hata, 'hata');
-    else mesajGoster(girisMesaj, sonuc.mesaj, 'basari');
+    if (sonuc.hata) {
+      mesajGoster(girisMesaj, sonuc.hata, 'hata');
+      return;
+    }
+
+    mesajGoster(girisMesaj, sonuc.mesaj, 'basari');
+    bekleyenEposta = sonuc.eposta;
+    kodForm.hidden = false;
+    kodInput.focus();
+  });
+
+  kodForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    kodBtn.disabled = true;
+    kodBtn.textContent = 'KONTROL EDİLİYOR…';
+    kodMesaj.hidden = true;
+
+    // Kutudaki adres yedek: sayfa yenilenip bekleyenEposta kaybolursa
+    // kullanıcı kodu boşuna girmiş olmasın.
+    const adres = bekleyenEposta || girisEmail.value;
+    const sonuc = await PB_Account.kodDogrula(adres, kodInput.value);
+
+    kodBtn.disabled = false;
+    kodBtn.textContent = 'GİRİŞ YAP';
+
+    if (sonuc.hata) {
+      mesajGoster(kodMesaj, sonuc.hata, 'hata');
+      return;
+    }
+    // Oturum açıldı; onDegisim ekranı kendisi tazeleyecek
+    mesajGoster(kodMesaj, sonuc.mesaj, 'basari');
   });
 
   cikisBtn.addEventListener('click', async () => {
