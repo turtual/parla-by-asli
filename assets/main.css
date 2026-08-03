@@ -379,13 +379,26 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .hero-slide {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
   opacity: 0;
   transform: translateX(100%);
   pointer-events: none;
   transition: transform 0.9s ease, opacity 0.9s ease;
+}
+
+/* Kadraj burada belirleniyor. Yakınlaştırma için background-size yüzdesi
+   DEĞİL scale kullanılıyor: yüzde, genişliğe göre ölçekleyip yüksekliği
+   oransal bıraktığı için dar/uzun telefon ekranında görsel alanı
+   dolduramıyor ve alt yarıda kalıyordu. object-fit:cover her oranda
+   dolduruyor, scale de onun üzerine biniyor. */
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  opacity: 1;
+  transition: none;
 }
 
 .hero.has-image .hero-slide.is-active {

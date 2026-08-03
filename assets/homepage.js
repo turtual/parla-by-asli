@@ -143,11 +143,18 @@
       return;
     }
 
+    // Slayt (kaydırma) ile görsel (kadraj) ayrı katmanlar: dış div yalnız
+    // translateX ile kayar, içteki img kırpma/kaydırma/yakınlaştırmayı
+    // taşır. Tek elemanda toplansaydı iki transform birbirini ezerdi.
     const slaytlar = liste.map((g, i) => {
       const s = PB_h('div', { class: 'hero-slide' + (i === 0 ? ' is-active' : '') });
-      s.style.backgroundImage = 'url("' + String(g.url).replace(/"/g, '%22') + '")';
-      if (g.pos) s.style.backgroundPosition = g.pos;
-      if (g.zoom && g.zoom > 1) s.style.backgroundSize = (g.zoom * 100) + '%';
+      const im = PB_h('img', { alt: '', 'aria-hidden': 'true' });
+      im.src = g.url;
+      // object-fit:cover + object-position + scale üçlüsü, admin'deki
+      // önizlemede de birebir aynı uygulanıyor: gördüğün kadraj bu.
+      if (g.pos) im.style.objectPosition = g.pos;
+      if (g.zoom && g.zoom > 1) im.style.transform = 'scale(' + g.zoom + ')';
+      s.appendChild(im);
       media.appendChild(s);
       return s;
     });

@@ -1416,9 +1416,24 @@
         <h3>Kapak çerçevesi</h3>
         <p class="texts-section-hint">
           Görseli sürükleyerek kaydır, yakınlaştırmayı aşağıdan ayarla.
-          Kutu, anasayfadaki kapağın oranını taklit ediyor.
+          Kapak ekranı tamamen kapladığı için bilgisayarda geniş, telefonda
+          dar bir alan oluyor — ikisi çok farklı kırpıyor, bu yüzden ikisi de
+          gösteriliyor. Burada gördüğün kadraj sitede birebir aynı çıkar.
         </p>
-        <div class="cerceve-sahne" data-sahne></div>
+        <div class="cerceve-sahneler">
+          <div>
+            <span class="cerceve-etiket">Bilgisayar</span>
+            <div class="cerceve-sahne cerceve-masaustu" data-sahne>
+              <img alt="" data-onizleme>
+            </div>
+          </div>
+          <div>
+            <span class="cerceve-etiket">Telefon</span>
+            <div class="cerceve-sahne cerceve-telefon" data-sahne>
+              <img alt="" data-onizleme>
+            </div>
+          </div>
+        </div>
         <label class="cerceve-etiket">Yakınlaştırma</label>
         <input type="range" min="100" max="300" step="5" class="cerceve-zoom" data-zoom>
         <div class="cerceve-islem">
@@ -1428,14 +1443,20 @@
       </div>
     `;
 
-    const sahne = kat.querySelector('[data-sahne]');
+    const sahneler = [...kat.querySelectorAll('[data-sahne]')];
+    const onizlemeler = [...kat.querySelectorAll('[data-onizleme]')];
     const zoomGirdi = kat.querySelector('[data-zoom]');
-    sahne.style.backgroundImage = 'url("' + gorsel.url.replace(/"/g, '%22') + '")';
+    onizlemeler.forEach(im => { im.src = gorsel.url; });
     zoomGirdi.value = String(Math.round(zoom * 100));
 
+    // Sitedekiyle BİREBİR aynı üç özellik: object-fit (CSS'te cover),
+    // object-position ve scale. Başka bir hesap yok, o yüzden önizleme
+    // yanıltmıyor.
     function uygula() {
-      sahne.style.backgroundPosition = x + '% ' + y + '%';
-      sahne.style.backgroundSize = (zoom * 100) + '%';
+      onizlemeler.forEach(im => {
+        im.style.objectPosition = x + '% ' + y + '%';
+        im.style.transform = zoom > 1 ? 'scale(' + zoom + ')' : '';
+      });
     }
     uygula();
 
@@ -1449,12 +1470,13 @@
     let suruk = null;
     function basla(e) {
       const n = e.touches ? e.touches[0] : e;
-      suruk = { ex: n.clientX, ey: n.clientY, bx: x, by: y };
+      // Hangi kutudan başlandıysa hız hesabı ona göre yapılsın
+      suruk = { ex: n.clientX, ey: n.clientY, bx: x, by: y, kutu: e.currentTarget };
     }
     function hareket(e) {
       if (!suruk) return;
       const n = e.touches ? e.touches[0] : e;
-      const r = sahne.getBoundingClientRect();
+      const r = suruk.kutu.getBoundingClientRect();
       x = Math.max(0, Math.min(100, suruk.bx - (n.clientX - suruk.ex) / r.width * 100));
       y = Math.max(0, Math.min(100, suruk.by - (n.clientY - suruk.ey) / r.height * 100));
       uygula();
@@ -1462,12 +1484,14 @@
     }
     function bitir() { suruk = null; }
 
-    sahne.addEventListener('mousedown', basla);
+    sahneler.forEach(s => {
+      s.addEventListener('mousedown', basla);
+      s.addEventListener('touchstart', basla, { passive: true });
+      s.addEventListener('touchmove', hareket, { passive: false });
+      s.addEventListener('touchend', bitir);
+    });
     window.addEventListener('mousemove', hareket);
     window.addEventListener('mouseup', bitir);
-    sahne.addEventListener('touchstart', basla, { passive: true });
-    sahne.addEventListener('touchmove', hareket, { passive: false });
-    sahne.addEventListener('touchend', bitir);
 
     function kapat() {
       window.removeEventListener('mousemove', hareket);
