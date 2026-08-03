@@ -79,7 +79,7 @@
       if (el && value) el.innerHTML = pbFormatInline(value);
     });
 
-    renderHeroImage(texts.hero_gorsel);
+    renderHeroImages(texts.hero_gorseller, texts.hero_gorsel);
     renderPromoBand(texts.kampanya_metni, texts.kampanya_bitis);
   }
 
@@ -104,26 +104,96 @@
    * yüklenene kadar .has-image eklenmiyor ki kırık URL'de açık zemin
    * üstünde koyu yazı yerine okunmaz beyaz yazı kalmasın.
    */
-  function renderHeroImage(url) {
+  /**
+   * Kapak görsellerini bağlar ve birden fazlaysa otomatik döndürür.
+   *
+   * Veri biçimi (site_texts.hero_gorseller): JSON dizisi, en fazla 5 öğe
+   *   [{ "url": "...", "pos": "50% 40%", "zoom": 1.2 }, ...]
+   * "pos" ve "zoom" admin'deki çerçeveleme aracından geliyor: fotoğrafın
+   * hangi bölgesinin görüneceğini belirliyorlar.
+   *
+   * Eski tek görselli alan (hero_gorsel) hâlâ destekleniyor — yeni alan
+   * boşsa ona düşülüyor, böylece bu değişiklik mevcut kapağı bozmuyor.
+   *
+   * Slaytlar tıklanabilir DEĞİL: kapak bir dekor, gezinme öğesi değil.
+   */
+  function renderHeroImages(jsonMetin, tekUrl) {
     const hero = document.getElementById('hero');
-    const img = document.getElementById('hero-image');
-    if (!hero || !img) return;
+    const media = hero ? hero.querySelector('.hero-media') : null;
+    if (!hero || !media) return;
 
-    // Görsel yok/URL kırık → mühür filigranlı marka zemini
-    if (!url) {
+    let liste = [];
+    try {
+      const cozulen = jsonMetin ? JSON.parse(jsonMetin) : null;
+      if (Array.isArray(cozulen)) {
+        liste = cozulen.filter(g => g && g.url).slice(0, 5);
+      }
+    } catch (e) {
+      console.warn('Kapak görselleri okunamadı, tek görsele düşülüyor:', e);
+    }
+    if (!liste.length && tekUrl) liste = [{ url: tekUrl }];
+
+    // Eski tek <img> yerine slayt katmanları kuruluyor
+    const eskiImg = document.getElementById('hero-image');
+    if (eskiImg) eskiImg.remove();
+    media.querySelectorAll('.hero-slide').forEach(s => s.remove());
+
+    if (!liste.length) {
       hero.classList.add('no-image');
       return;
     }
 
-    img.addEventListener('load', () => {
+    const slaytlar = liste.map((g, i) => {
+      const s = PB_h('div', { class: 'hero-slide' + (i === 0 ? ' is-active' : '') });
+      s.style.backgroundImage = 'url("' + String(g.url).replace(/"/g, '%22') + '")';
+      if (g.pos) s.style.backgroundPosition = g.pos;
+      if (g.zoom && g.zoom > 1) s.style.backgroundSize = (g.zoom * 100) + '%';
+      media.appendChild(s);
+      return s;
+    });
+
+    // İlk görsel gerçekten yüklenmeden .has-image eklemiyoruz: kırık URL'de
+    // açık zemin üstünde krem yazı okunmaz kalırdı.
+    const kontrol = new Image();
+    kontrol.onload = () => {
       hero.classList.remove('no-image');
       hero.classList.add('has-image');
-    });
-    img.addEventListener('error', () => {
+    };
+    kontrol.onerror = () => {
       hero.classList.remove('has-image');
       hero.classList.add('no-image');
+    };
+    kontrol.src = liste[0].url;
+
+    if (slaytlar.length < 2) return;
+
+    // Otomatik geçiş — hareket azaltma tercihine saygı duyuluyor
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let aktif = 0;
+    let sayac = setInterval(ilerle, 4000);
+
+    function ilerle() {
+      const onceki = slaytlar[aktif];
+      aktif = (aktif + 1) % slaytlar.length;
+      const yeni = slaytlar[aktif];
+
+      // Yeni slayt sağdan gelir, eski sola çıkar
+      yeni.classList.add('is-giriyor');
+      // reflow: sınıf eklenip hemen kaldırılınca geçiş çalışmıyor
+      void yeni.offsetWidth;
+      yeni.classList.add('is-active');
+      yeni.classList.remove('is-giriyor');
+      onceki.classList.remove('is-active');
+      onceki.classList.add('is-cikiyor');
+      setTimeout(() => onceki.classList.remove('is-cikiyor'), 900);
+    }
+
+    // Sekme arka plandayken döndürmenin anlamı yok; pil ve işlemci boşa gider
+    document.addEventListener('visibilitychange', () => {
+      clearInterval(sayac);
+      if (!document.hidden) sayac = setInterval(ilerle, 4000);
     });
-    img.src = url;
   }
 
   /**

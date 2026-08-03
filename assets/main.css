@@ -372,6 +372,43 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .hero.has-image .hero-media img { opacity: 1; }
 
+/* ── Kapak slaytları ──
+   Birden fazla kapak görseli varsa sola kayarak dönüyorlar. Slaytlar
+   tıklanabilir değil (pointer-events:none): kapak dekoratif, altındaki
+   metin ve butonun tıklanabilirliğini engellememeli. */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: translateX(100%);
+  pointer-events: none;
+  transition: transform 0.9s ease, opacity 0.9s ease;
+}
+
+.hero.has-image .hero-slide.is-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Sağdan girmeye hazırlanan slayt: geçiş kapalı ki sıçrama olmasın */
+.hero-slide.is-giriyor {
+  transition: none;
+  transform: translateX(100%);
+}
+
+/* Çıkan slayt sola kayar */
+.hero-slide.is-cikiyor {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide { transition: none; }
+}
+
 /* Kapak görseli varken metnin okunması için koyu perde + açık yazı.
    Perde bilinçli olarak koyu: yüklenecek fotoğrafı önceden bilmiyoruz ve
    açık/parlak bir kare gelirse krem yazı okunmaz kalıyor. Gölge de ikinci

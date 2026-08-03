@@ -1378,13 +1378,139 @@
      alanı eklenirse anahtarını buraya yazmak yeterli. */
   const GORSEL_METIN_ANAHTARLARI = new Set(['hero_gorsel']);
 
+  /* Değeri görsel DİZİSİ olan alanlar. JSON tutuyorlar; kullanıcı JSON
+     görmesin diye kendi arayüzleri var (yükle / sırala / çerçevele). */
+  const COKLU_GORSEL_ANAHTARLARI = new Set(['hero_gorseller']);
+  const COKLU_GORSEL_AZAMI = 5;
+
+  /* Eski tek-görsel alanı artık listede gösterilmiyor: yerini
+     hero_gorseller aldı. Veritabanında duruyor çünkü site, yeni alan
+     boşsa hâlâ ona düşüyor (eski kapak kaybolmasın diye). */
+  const GIZLI_METIN_ANAHTARLARI = new Set(['hero_gorsel']);
+
+  /**
+   * Kapak görseli çerçeveleme aracı.
+   *
+   * Kapak geniş bir alan, yüklenen fotoğraf ise genelde başka oranda.
+   * Tarayıcı ortadan kırpınca önemli yer (yüz, kolye) kadraj dışında
+   * kalabiliyordu. Burada yayına almadan önce hangi bölgenin görüneceği
+   * sürükleyerek ve yakınlaştırarak ayarlanıyor.
+   *
+   * Üretilen değerler doğrudan CSS'e karşılık geliyor:
+   *   pos  -> background-position
+   *   zoom -> background-size (yüzde)
+   * Yani sitede ek bir hesap yapılmıyor, aynı değerler uygulanıyor.
+   */
+  function cerceveleAc(gorsel, kaydet) {
+    let x = 50, y = 50, zoom = 1;
+    if (gorsel.pos) {
+      const p = String(gorsel.pos).match(/(-?[\d.]+)%\s+(-?[\d.]+)%/);
+      if (p) { x = parseFloat(p[1]); y = parseFloat(p[2]); }
+    }
+    if (gorsel.zoom) zoom = Math.max(1, Math.min(3, Number(gorsel.zoom) || 1));
+
+    const kat = document.createElement('div');
+    kat.className = 'cerceve-kat';
+    kat.innerHTML = `
+      <div class="cerceve-kart">
+        <h3>Kapak çerçevesi</h3>
+        <p class="texts-section-hint">
+          Görseli sürükleyerek kaydır, yakınlaştırmayı aşağıdan ayarla.
+          Kutu, anasayfadaki kapağın oranını taklit ediyor.
+        </p>
+        <div class="cerceve-sahne" data-sahne></div>
+        <label class="cerceve-etiket">Yakınlaştırma</label>
+        <input type="range" min="100" max="300" step="5" class="cerceve-zoom" data-zoom>
+        <div class="cerceve-islem">
+          <button type="button" class="btn btn-ghost" data-iptal>VAZGEÇ</button>
+          <button type="button" class="btn btn-primary" data-kaydet>KAYDET</button>
+        </div>
+      </div>
+    `;
+
+    const sahne = kat.querySelector('[data-sahne]');
+    const zoomGirdi = kat.querySelector('[data-zoom]');
+    sahne.style.backgroundImage = 'url("' + gorsel.url.replace(/"/g, '%22') + '")';
+    zoomGirdi.value = String(Math.round(zoom * 100));
+
+    function uygula() {
+      sahne.style.backgroundPosition = x + '% ' + y + '%';
+      sahne.style.backgroundSize = (zoom * 100) + '%';
+    }
+    uygula();
+
+    zoomGirdi.addEventListener('input', () => {
+      zoom = Number(zoomGirdi.value) / 100;
+      uygula();
+    });
+
+    // Sürükleyerek kaydırma. Yüzde adımı kutu boyutuna göre ölçekleniyor
+    // ki büyük ekranda da küçük ekranda da benzer hızda hareket etsin.
+    let suruk = null;
+    function basla(e) {
+      const n = e.touches ? e.touches[0] : e;
+      suruk = { ex: n.clientX, ey: n.clientY, bx: x, by: y };
+    }
+    function hareket(e) {
+      if (!suruk) return;
+      const n = e.touches ? e.touches[0] : e;
+      const r = sahne.getBoundingClientRect();
+      x = Math.max(0, Math.min(100, suruk.bx - (n.clientX - suruk.ex) / r.width * 100));
+      y = Math.max(0, Math.min(100, suruk.by - (n.clientY - suruk.ey) / r.height * 100));
+      uygula();
+      if (e.cancelable) e.preventDefault();
+    }
+    function bitir() { suruk = null; }
+
+    sahne.addEventListener('mousedown', basla);
+    window.addEventListener('mousemove', hareket);
+    window.addEventListener('mouseup', bitir);
+    sahne.addEventListener('touchstart', basla, { passive: true });
+    sahne.addEventListener('touchmove', hareket, { passive: false });
+    sahne.addEventListener('touchend', bitir);
+
+    function kapat() {
+      window.removeEventListener('mousemove', hareket);
+      window.removeEventListener('mouseup', bitir);
+      kat.remove();
+    }
+
+    kat.querySelector('[data-iptal]').addEventListener('click', kapat);
+    kat.querySelector('[data-kaydet]').addEventListener('click', () => {
+      kaydet({ url: gorsel.url, pos: x + '% ' + y + '%', zoom });
+      kapat();
+    });
+
+    document.body.appendChild(kat);
+  }
+
   function renderSiteTextsList(texts) {
     if (!texts.length) {
       siteTextsList.innerHTML = '<div class="empty-state"><p>Henüz site metni yok.</p></div>';
       return;
     }
 
-    siteTextsList.innerHTML = texts.map(t => {
+    siteTextsList.innerHTML = texts.filter(t => !GIZLI_METIN_ANAHTARLARI.has(t.key)).map(t => {
+      // Çoklu görsel alanı: JSON'u kullanıcıya göstermeden kendi arayüzü
+      if (COKLU_GORSEL_ANAHTARLARI.has(t.key)) {
+        return `
+          <div class="text-field-card" data-key="${escapeHtml(t.key)}" data-coklu>
+            <label>${escapeHtml(t.label)}</label>
+            <p class="texts-section-hint">
+              En fazla ${COKLU_GORSEL_AZAMI} görsel. Birden fazlaysa anasayfada
+              4 saniyede bir sola kayarak dönerler. Her görselin hangi bölgesinin
+              görüneceğini “Çerçevele” ile ayarlayabilirsin.
+            </p>
+            <div class="hero-liste" data-hero-liste></div>
+            <div class="text-field-upload">
+              <button type="button" class="btn btn-ghost" data-action="hero-ekle">+ GÖRSEL EKLE</button>
+              <input type="file" accept="image/*" multiple hidden data-file>
+              <span class="status-msg" style="display:none;"></span>
+            </div>
+          </div>
+        `;
+      }
+
       // Görsel tutan alanlarda URL'yi elle yapıştırmak yerine doğrudan
       // yükleyebilmek için önizleme + yükle butonu eklenir.
       const gorselAlani = GORSEL_METIN_ANAHTARLARI.has(t.key) ? `
@@ -1423,6 +1549,107 @@
         const { error } = await PB_Data.adminUpdateSiteText(key, deger);
         showStatus(status, error ? 'Kaydedilemedi: ' + (error.message || error) : 'Kaydedildi ✓', error ? 'error' : 'success');
         return !error;
+      }
+
+      // ── Çoklu görsel alanı (kapak) ──
+      if (card.hasAttribute('data-coklu')) {
+        const kayit = texts.find(t => t.key === key);
+        let gorseller = [];
+        try {
+          const c = kayit && kayit.value ? JSON.parse(kayit.value) : [];
+          if (Array.isArray(c)) gorseller = c.filter(g => g && g.url).slice(0, COKLU_GORSEL_AZAMI);
+        } catch (e) {
+          console.warn('Kapak görselleri okunamadı:', e);
+        }
+
+        const liste = card.querySelector('[data-hero-liste]');
+        const ekleBtn = card.querySelector('[data-action="hero-ekle"]');
+        const dosyaGirdi = card.querySelector('[data-file]');
+
+        async function yaz() {
+          return await kaydet(gorseller.length ? JSON.stringify(gorseller) : '');
+        }
+
+        function ciz() {
+          liste.innerHTML = '';
+          gorseller.forEach((g, i) => {
+            const kutu = document.createElement('div');
+            kutu.className = 'hero-oge';
+            kutu.innerHTML = `
+              <div class="hero-oge-onizleme"></div>
+              <div class="hero-oge-islem">
+                <button type="button" class="btn btn-ghost" data-i="${i}" data-op="cerceve">ÇERÇEVELE</button>
+                <button type="button" class="icon-btn" data-i="${i}" data-op="sol" title="Sola al">←</button>
+                <button type="button" class="icon-btn" data-i="${i}" data-op="sag" title="Sağa al">→</button>
+                <button type="button" class="icon-btn" data-i="${i}" data-op="sil" title="Kaldır">✕</button>
+              </div>
+            `;
+            const on = kutu.querySelector('.hero-oge-onizleme');
+            on.style.backgroundImage = 'url("' + g.url.replace(/"/g, '%22') + '")';
+            if (g.pos) on.style.backgroundPosition = g.pos;
+            if (g.zoom && g.zoom > 1) on.style.backgroundSize = (g.zoom * 100) + '%';
+            liste.appendChild(kutu);
+          });
+
+          ekleBtn.disabled = gorseller.length >= COKLU_GORSEL_AZAMI;
+          ekleBtn.textContent = gorseller.length >= COKLU_GORSEL_AZAMI
+            ? 'EN FAZLA ' + COKLU_GORSEL_AZAMI + ' GÖRSEL'
+            : '+ GÖRSEL EKLE';
+
+          liste.querySelectorAll('[data-op]').forEach(b => {
+            b.addEventListener('click', async () => {
+              const i = Number(b.dataset.i);
+              const op = b.dataset.op;
+              if (op === 'sil') {
+                if (!confirm('Bu görsel kapaktan kaldırılsın mı?')) return;
+                gorseller.splice(i, 1);
+              } else if (op === 'sol' && i > 0) {
+                [gorseller[i - 1], gorseller[i]] = [gorseller[i], gorseller[i - 1]];
+              } else if (op === 'sag' && i < gorseller.length - 1) {
+                [gorseller[i + 1], gorseller[i]] = [gorseller[i], gorseller[i + 1]];
+              } else if (op === 'cerceve') {
+                cerceveleAc(gorseller[i], async (yeni) => {
+                  gorseller[i] = yeni;
+                  if (await yaz()) ciz();
+                });
+                return;
+              } else return;
+              if (await yaz()) ciz();
+            });
+          });
+        }
+
+        ekleBtn.addEventListener('click', () => dosyaGirdi.click());
+
+        dosyaGirdi.addEventListener('change', async () => {
+          const dosyalar = [...(dosyaGirdi.files || [])];
+          dosyaGirdi.value = '';
+          if (!dosyalar.length) return;
+
+          const yer = COKLU_GORSEL_AZAMI - gorseller.length;
+          if (yer <= 0) return;
+          if (dosyalar.length > yer) {
+            showStatus(status, 'Yalnızca ' + yer + ' görsel daha eklenebilir; fazlası alınmadı.', 'error');
+          }
+
+          ekleBtn.disabled = true;
+          ekleBtn.textContent = 'YÜKLENİYOR…';
+
+          for (const dosya of dosyalar.slice(0, yer)) {
+            const { data, error } = await PB_Data.adminUploadImage(dosya, 'site-hero');
+            if (error) {
+              showStatus(status, 'Yüklenemedi: ' + (error.message || error), 'error');
+              break;
+            }
+            gorseller.push({ url: data.publicUrl });
+          }
+
+          ekleBtn.disabled = false;
+          if (await yaz()) ciz();
+        });
+
+        ciz();
+        return;   // bu kartın geri kalan (tek görsel/metin) mantığı yok
       }
 
       saveBtn.addEventListener('click', async () => {

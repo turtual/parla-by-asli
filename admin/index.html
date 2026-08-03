@@ -523,6 +523,97 @@
 
     .text-field-upload .btn[hidden] { display: none; }
 
+    /* ───── Kapak görselleri (çoklu) ───── */
+    .hero-liste {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .hero-oge {
+      width: 190px;
+      border: 0.5px solid var(--c-line);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* Önizleme kutusu anasayfadaki kapağın oranını taklit ediyor */
+    .hero-oge-onizleme {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: var(--c-cream);
+    }
+
+    .hero-oge-islem {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hero-oge-islem .btn { padding: 5px 8px; font-size: 10px; }
+
+    /* ───── Çerçeveleme aracı ───── */
+    .cerceve-kat {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(20, 17, 14, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .cerceve-kart {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .cerceve-kart h3 { margin-bottom: 6px; font-size: 16px; }
+
+    .cerceve-sahne {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 10px;
+      border: 0.5px solid var(--c-line-strong);
+      background-repeat: no-repeat;
+      background-color: var(--c-cream);
+      cursor: grab;
+      margin: 12px 0;
+      touch-action: none;      /* sürüklerken sayfa kaymasın */
+      user-select: none;
+    }
+
+    .cerceve-sahne:active { cursor: grabbing; }
+
+    .cerceve-etiket {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-toprak);
+      margin-bottom: 6px;
+    }
+
+    .cerceve-zoom { width: 100%; }
+
+    .cerceve-islem {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
     /* ───── Sayfa içeriği blok editörü ───── */
     .cp-blocks-section {
       margin-top: 20px;
