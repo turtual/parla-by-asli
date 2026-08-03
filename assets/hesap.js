@@ -23,6 +23,36 @@
   const siparisListesi = document.getElementById('siparis-listesi');
   const favoriListesi = document.getElementById('favori-listesi');
 
+  /**
+   * Giriş bitince dönülecek sayfa: kullanıcı siteden hangi sayfadan
+   * geldiyse orası. Böylece bir ürüne yorum yazmak için giriş yapan kişi
+   * ürüne geri döner, işi bölünmez.
+   *
+   * Ayrı bir yerde saklamıyoruz (çerez/localStorage yok): kod ile giriş
+   * aynı sayfa açıkken tamamlandığı için değişken yeterli.
+   *
+   * null kalırsa hesap sayfasında kalınır — mail linkiyle gelindiğinde
+   * (referrer mail istemcisi) veya doğrudan /hesap/ açıldığında böyle olur;
+   * o kişi zaten hesabını görmek istemiştir.
+   */
+  const donusAdresi = (function () {
+    try {
+      if (!document.referrer) return null;
+      const r = new URL(document.referrer);
+      if (r.origin !== window.location.origin) return null;   // dış site / mail
+      if (r.pathname.startsWith('/hesap')) return null;        // kendi sayfamız
+      return r.href;
+    } catch { return null; }
+  })();
+
+  let baslangictaGirisliydi = false;
+
+  function girisSonrasiYonlendir() {
+    if (!donusAdresi) return false;
+    window.location.href = donusAdresi;
+    return true;
+  }
+
   const DURUM_ADI = {
     pending: 'Bekliyor',
     confirmed: 'Onaylandı',
@@ -97,8 +127,9 @@
       mesajGoster(kodMesaj, sonuc.hata, 'hata');
       return;
     }
-    // Oturum açıldı; onDegisim ekranı kendisi tazeleyecek
     mesajGoster(kodMesaj, sonuc.mesaj, 'basari');
+    // Geldiği sayfaya dön; yoksa onDegisim hesap ekranını açacak
+    girisSonrasiYonlendir();
   });
 
   cikisBtn.addEventListener('click', async () => {
@@ -186,8 +217,16 @@
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
-    await ekraniTazele(await PB_Account.kullanici());
+    const mevcut = await PB_Account.kullanici();
+    baslangictaGirisliydi = !!mevcut;
+    await ekraniTazele(mevcut);
+
     // E-posta linkinden dönüldüğünde oturum biraz sonra kurulabiliyor
-    PB_Account.onDegisim(user => ekraniTazele(user));
+    PB_Account.onDegisim(user => {
+      // Yalnız YENİ bir giriş olduysa yönlendir. Zaten girişliyken sayfayı
+      // açan kişiyi geldiği yere geri atmak, hesabını görmesini engellerdi.
+      if (user && !baslangictaGirisliydi && girisSonrasiYonlendir()) return;
+      ekraniTazele(user);
+    });
   });
 })();
