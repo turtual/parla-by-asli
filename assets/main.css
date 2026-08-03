@@ -256,6 +256,16 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   }
 }
 
+/* Header'a üçüncü ikon (Hesabım) eklenince çok dar telefonlarda logo +
+   ikonlar sığmayıp sayfayı yatay kaydırtıyordu; bu genişlikte logo bir
+   tık daha küçülüyor. */
+@media (max-width: 380px) {
+  .brand-logo {
+    height: 42px !important;
+    max-width: 155px !important;
+  }
+}
+
 .brand-wordmark {
   font-family: var(--font-serif);
   font-size: 16px;
@@ -1956,6 +1966,113 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .btn[disabled] {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* ──────────── Hesap sayfası (/hesap/) ──────────── */
+
+.hesap-kart {
+  background: var(--c-white);
+  border: 0.5px solid var(--c-line);
+  border-radius: var(--r-lg);
+  padding: var(--space-lg);
+  max-width: 480px;
+  margin-bottom: var(--space-xl);
+}
+
+.hesap-ust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  max-width: none;
+}
+
+.hesap-etiket {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  margin-bottom: 2px;
+}
+
+.hesap-label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  margin-bottom: 8px;
+}
+
+.hesap-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: var(--r-md);
+  font-size: 15px;          /* 16px altı iOS'ta odaklanınca sayfayı zumluyor */
+  margin-bottom: var(--space-md);
+  background: var(--c-white);
+}
+
+.hesap-input:focus-visible {
+  outline: 2px solid var(--c-bakir-cizgi);
+  outline-offset: 1px;
+}
+
+.hesap-mesaj {
+  margin-top: var(--space-md);
+  font-size: 13.5px;
+  line-height: 1.6;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+}
+
+.hesap-mesaj.is-basari { background: var(--c-soft-bej); color: var(--c-sicak-siyah); }
+.hesap-mesaj.is-hata   { background: #F6E4E0; color: #7A2E1D; }
+
+.hesap-baslik-2 { margin: var(--space-2xl) 0 var(--space-md); }
+
+.hesap-liste { display: flex; flex-direction: column; gap: var(--space-sm); }
+
+.hesap-siparis {
+  background: var(--c-white);
+  border: 0.5px solid var(--c-line);
+  border-radius: var(--r-lg);
+  padding: var(--space-md);
+}
+
+.hesap-siparis-ust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: 6px;
+}
+
+.hesap-rozet {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  background: var(--c-warm-greige);
+  color: var(--c-toprak);
+  white-space: nowrap;
+}
+
+.hesap-siparis-alt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  font-size: 13px;
+  color: var(--c-toprak);
+}
+
+.hesap-bos {
+  grid-column: 1 / -1;
+  color: var(--c-toprak);
+  font-size: 14px;
 }
 
 /* Favoriler çekmecesi — sepet çekmecesinin görsel dilini paylaşır,

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FAF6F1">
+
+  <title>Hesabım · Parla By Aslı</title>
+  <meta name="description" content="Parla By Aslı hesabın: siparişlerin ve favorilerin tek yerde.">
+  <link rel="canonical" href="https://parlabyasli.com/hesap/">
+
+  <!-- Hesap sayfası kişiye özeldir; arama motorlarında yeri yok -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-pa-bakir.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400..500;1,9..144,400..500&display=swap">
+  <link rel="stylesheet" href="../assets/main.css">
+</head>
+<body>
+
+  <div class="utility-bar" id="utility-bar-text">
+    Türkiye'ye ücretsiz kargo · 500 ₺ üzeri siparişlerde
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand-link" aria-label="Parla By Aslı anasayfa">
+        <img src="../assets/img/logo-yatay-bakir.svg" alt="Parla By Aslı" class="brand-logo">
+      </a>
+      <nav class="header-icons" aria-label="Ana navigasyon">
+        <a href="../index.html" class="header-icon-btn" aria-label="Anasayfa">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M3 9l7-6 7 6v8a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1z"/>
+          </svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="legal-page">
+    <div class="container">
+
+      <div class="legal-head">
+        <span class="eyebrow">Hesabım</span>
+        <h1 class="h1" id="hesap-baslik">Giriş yap</h1>
+        <p class="legal-meta" id="hesap-alt">Şifre yok — e-postana gönderdiğimiz linke tıklaman yeterli.</p>
+      </div>
+
+      <!-- ───── Giriş formu (oturum yokken) ───── -->
+      <section id="giris-bolumu" class="hesap-kart" hidden>
+        <form id="giris-form" novalidate>
+          <label class="hesap-label" for="giris-email">E-posta adresin</label>
+          <input class="hesap-input" type="email" id="giris-email" name="email"
+                 autocomplete="email" placeholder="ornek@eposta.com" required>
+          <button type="submit" class="btn btn-bakir btn-block" id="giris-btn">GİRİŞ LİNKİ GÖNDER</button>
+          <p class="hesap-mesaj" id="giris-mesaj" hidden></p>
+        </form>
+      </section>
+
+      <!-- ───── Hesap içeriği (oturum varken) ───── -->
+      <section id="hesap-bolumu" hidden>
+        <div class="hesap-kart hesap-ust">
+          <div>
+            <span class="hesap-etiket">Giriş yapıldı</span>
+            <strong id="hesap-eposta"></strong>
+          </div>
+          <button type="button" class="btn btn-ghost" id="cikis-btn">ÇIKIŞ YAP</button>
+        </div>
+
+        <h2 class="h2 hesap-baslik-2">Siparişlerim</h2>
+        <div id="siparis-listesi" class="hesap-liste">
+          <p class="hesap-bos">Yükleniyor…</p>
+        </div>
+
+        <h2 class="h2 hesap-baslik-2">Favorilerim</h2>
+        <div id="favori-listesi" class="product-grid">
+          <p class="hesap-bos">Yükleniyor…</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 Parla By Aslı · Tüm hakları saklıdır</span>
+        <span>Türkiye'de tasarlandı</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../assets/data.js"></script>
+  <script src="../assets/products.js"></script>
+  <script src="../assets/ui.js"></script>
+  <script src="../assets/account.js"></script>
+  <script src="../assets/hesap.js"></script>
+</body>
+</html>

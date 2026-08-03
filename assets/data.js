@@ -392,6 +392,7 @@
       .from('orders')
       .insert([{
         order_code: orderData.orderCode,
+        user_id: orderData.userId || null,
         customer_name: orderData.name,
         customer_email: orderData.email,
         customer_phone: orderData.phone,
@@ -758,6 +759,16 @@
     getProductById,
     invalidateCache,
     getLastError,
+
+    /**
+     * Ham Supabase istemcisi.
+     *
+     * Hesap modülü (assets/account.js) auth ve kullanıcıya özel tablolar
+     * için buna ihtiyaç duyuyor. İkinci bir istemci oluşturmuyoruz —
+     * oturum aynı depoda tutulmalı, aksi hâlde giriş bir modülde görünüp
+     * diğerinde görünmez olurdu.
+     */
+    supabaseClient: () => { if (!supabase) init(); return supabase; },
     createOrder,
 
     // Koleksiyonlar + ürün tipleri (public)

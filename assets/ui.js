@@ -206,7 +206,17 @@ const PB_Favs = {
     if (idx > -1) ids.splice(idx, 1);
     else ids.push(productId);
     this.write(ids);
-    return idx === -1; // yeni eklendi mi
+
+    const eklendi = idx === -1;
+
+    // Giriş yapılmışsa sunucuya da yaz — böylece favoriler cihazlar
+    // arasında taşınır. Beklenmiyor: localStorage zaten güncellendi,
+    // arayüz anında tepki vermeli. Giriş yoksa bu çağrı sessizce döner.
+    if (typeof PB_Account !== 'undefined') {
+      PB_Account.favoriYaz(productId, eklendi);
+    }
+
+    return eklendi; // yeni eklendi mi
   },
   has(productId) { return this.read().includes(productId); },
   count() { return this.read().length; },

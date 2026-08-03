@@ -148,9 +148,19 @@
       // stok takibi buradan beslensin). Formspree zaten müşteri/işletme sahibine
       // mail attığı için bu başarısız olsa da checkout akışını durdurmuyoruz,
       // sadece loglanıyor.
+      // Giriş yapmış müşterinin siparişi hesabına bağlansın ki "Siparişlerim"de
+      // görünsün. Giriş yoksa null kalır; o sipariş sonradan üye olunursa
+      // e-posta eşleşmesiyle yine görünür (bkz. orders RLS politikası).
+      let uyeId = null;
+      if (window.PB_Account) {
+        const u = await window.PB_Account.kullanici();
+        uyeId = u ? u.id : null;
+      }
+
       if (window.PB_Data && typeof window.PB_Data.createOrder === 'function') {
         window.PB_Data.createOrder({
           orderCode: orderId,
+          userId: uyeId,
           name: `${customer.ad || ''} ${customer.soyad || ''}`.trim(),
           email: customer.email,
           phone: customer.telefon,
