@@ -874,7 +874,12 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   transition: transform var(--t-base);
 }
 
-.modal.is-open .modal-card { transform: translateY(0); }
+/* Açılınca dönüşüm translateY(0) değil TAMAMEN kaldırılıyor.
+   translateY(0) da bir dönüşümdür ve kartı, içindeki position:fixed
+   öğeler için kapsayıcı yapar; kapatma butonu ekrana değil karta
+   bağlanıp içerikle birlikte kayıp gözden kayboluyordu.
+   Geçiş yine çalışıyor: tarayıcı 'none' değerini birim matris sayıyor. */
+.modal.is-open .modal-card { transform: none; }
 
 .modal-close {
   position: absolute;
@@ -2231,6 +2236,23 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   padding: var(--space-lg);
   border-top: 0.5px solid var(--c-line);
   background: var(--c-cream);
+}
+
+/* Mobilde ürün penceresi TEK parça kayar.
+   Önceden galeri yapışkandı ve gövde kendi içinde kayıyordu; üstelik
+   değerlendirmeler bölümü bu kaydırma alanının DIŞINDA, kartın sabit
+   yüksekliğinden pay alıyordu. Geriye ürün adı ve fiyat için daracık
+   bir şerit kalıyor, fiyat çoğu zaman hiç görünmüyordu.
+   Artık kartın kendisi kayıyor: fotoğraf, bilgiler ve değerlendirmeler
+   doğal bir akışta arka arkaya geliyor. Kapatma butonu mobilde zaten
+   ekrana sabit (fixed), kaydırınca kaybolmuyor. */
+@media (max-width: 767px) {
+  .product-modal-card {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .product-modal-body { overflow: visible; }
+  .product-modal-gallery { position: static; }
 }
 
 .pm-reviews-head {
