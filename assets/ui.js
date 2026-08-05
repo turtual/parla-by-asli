@@ -397,9 +397,16 @@ function PB_buildProductModalShell() {
         <div class="product-modal-gallery">
           <div class="product-modal-media" data-pm-media></div>
           <div class="product-modal-thumbs" data-pm-thumbs></div>
-          <p class="product-modal-ai-note" data-pm-ai-note hidden>
-            Görseldeki model yapay zekâ ile oluşturulmuştur. Ürün fotoğrafı gerçektir.
-          </p>
+          <!-- Yapay zekâ bildirimi. Ürün sayfasında kalıyor (satın alma
+               kararının verildiği yer) ama sessiz: kapalıyken tek satırlık
+               bir ipucu, dokununca tam açıklama. -->
+          <details class="product-modal-ai-note" data-pm-ai-note hidden>
+            <summary>
+              <span class="ai-note-simge" aria-hidden="true">ℹ</span>
+              Görseller hakkında
+            </summary>
+            <p>Görseldeki model yapay zekâ ile oluşturulmuştur. Ürün fotoğrafı gerçektir.</p>
+          </details>
         </div>
         <div class="product-modal-info">
           <span class="product-modal-badge" data-pm-badge>KOLEKSİYON</span>
