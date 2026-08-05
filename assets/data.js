@@ -528,15 +528,147 @@
     return { error };
   }
 
+  /* ── Görsel küçültme (yükleme öncesi, tarayıcıda) ──
+   * Telefondan/kameradan gelen dosyalar 10-20 MB olabiliyor; hem depo
+   * limitini aşıyor hem de siteyi yavaşlatıyordu. Yüklemeden önce burada
+   * yeniden boyutlandırıp sıkıştırıyoruz. Tek giriş noktası
+   * adminUploadImage olduğu için panelde hiçbir yol bunu atlayamaz.
+   */
+  const IMG_MAX_EDGE = 2000;                   // uzun kenar üst sınırı (px)
+  const IMG_TARGET_BYTES = 4 * 1024 * 1024;    // depo sınırı 5MB, pay bırakıyoruz
+  const IMG_QUALITIES = [0.85, 0.75, 0.65];
+  const IMG_SKIP_TYPES = ['image/svg+xml', 'image/gif']; // vektör ve hareketli GIF bozulur
+
+  /** Dosyayı çözer; ImageBitmap veya <img> döner. EXIF dönüklüğü uygulanır. */
+  async function decodeImage(file) {
+    if (typeof createImageBitmap === 'function') {
+      try {
+        return await createImageBitmap(file, { imageOrientation: 'from-image' });
+      } catch (e) {
+        // Eski tarayıcılar imageOrientation seçeneğini bilmiyor olabilir
+        try { return await createImageBitmap(file); } catch (e2) { /* alta düş */ }
+      }
+    }
+    return await new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('görsel çözülemedi')); };
+      img.src = url;
+    });
+  }
+
+  /** Küçük bir örnek üzerinden saydamlık arar. Şüphede kalırsa "var" der. */
+  function hasTransparency(source, w, h) {
+    try {
+      const scale = Math.min(1, 80 / Math.max(w, h));
+      const probe = document.createElement('canvas');
+      probe.width = Math.max(1, Math.round(w * scale));
+      probe.height = Math.max(1, Math.round(h * scale));
+      const ctx = probe.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(source, 0, 0, probe.width, probe.height);
+      const px = ctx.getImageData(0, 0, probe.width, probe.height).data;
+      for (let i = 3; i < px.length; i += 4) {
+        if (px[i] < 250) return true;
+      }
+      return false;
+    } catch (e) {
+      return true; // okuyamadıysak saydam varsay: WebP'ye gideriz, kayıp olmaz
+    }
+  }
+
+  function canvasToBlob(canvas, type, quality) {
+    return new Promise(resolve => canvas.toBlob(blob => resolve(blob), type, quality));
+  }
+
+  /**
+   * Görseli yükleme öncesi küçültür/sıkıştırır.
+   * Her durumda kullanılabilir bir File döner — işlem yapılamazsa aslını.
+   */
+  async function optimizeImage(file) {
+    if (!file || !file.type || file.type.indexOf('image/') !== 0) return file;
+    if (IMG_SKIP_TYPES.indexOf(file.type) !== -1) return file;
+    if (typeof document === 'undefined') return file;
+
+    let source;
+    try {
+      source = await decodeImage(file);
+    } catch (e) {
+      // HEIC gibi tarayıcının açamadığı biçimler buraya düşer
+      console.warn('Görsel çözülemedi, olduğu gibi yükleniyor:', file.name, e);
+      return file;
+    }
+
+    try {
+      const srcW = source.width || source.naturalWidth;
+      const srcH = source.height || source.naturalHeight;
+      if (!srcW || !srcH) return file;
+
+      // JPEG'de saydamlık olamaz, boşuna örnekleme yapma
+      const alpha = file.type !== 'image/jpeg' && hasTransparency(source, srcW, srcH);
+      const outType = alpha ? 'image/webp' : 'image/jpeg';
+      const outExt = alpha ? 'webp' : 'jpg';
+
+      let best = null;
+      for (const edge of [IMG_MAX_EDGE, 1600, 1200]) {
+        const scale = Math.min(1, edge / Math.max(srcW, srcH));
+        const w = Math.max(1, Math.round(srcW * scale));
+        const h = Math.max(1, Math.round(srcH * scale));
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(source, 0, 0, w, h);
+
+        for (const quality of IMG_QUALITIES) {
+          const blob = await canvasToBlob(canvas, outType, quality);
+          if (!blob) return file;
+          // Tarayıcı istenen biçimi üretemediyse (ör. WebP yok) PNG döner —
+          // o hâlde dokunmadan aslını yüklemek daha doğru
+          if (blob.type !== outType) return file;
+          best = blob;
+          if (blob.size <= IMG_TARGET_BYTES) break;
+        }
+        if (best && best.size <= IMG_TARGET_BYTES) break;
+      }
+
+      if (!best) return file;
+
+      // Sonuç aslından büyükse (düz renkli grafikler WebP/JPEG'de şişebiliyor)
+      // ve aslı zaten hedefin altındaysa dokunma — amaç küçültmek.
+      if (best.size >= file.size && file.size <= IMG_TARGET_BYTES) return file;
+
+      const name = file.name.replace(/\.[^.]+$/, '') + '.' + outExt;
+      try {
+        return new File([best], name, { type: outType, lastModified: Date.now() });
+      } catch (e) {
+        best.name = name; // File kurucusu yoksa Blob'a ad iliştir
+        return best;
+      }
+    } catch (e) {
+      console.warn('Görsel küçültülemedi, olduğu gibi yükleniyor:', file.name, e);
+      return file;
+    } finally {
+      if (source && typeof source.close === 'function') source.close();
+    }
+  }
+
   async function adminUploadImage(file, productId) {
     if (!supabase) init();
-    const ext = file.name.split('.').pop().toLowerCase();
+
+    const originalSize = file.size;
+    const uploadFile = await optimizeImage(file);
+
+    const ext = (uploadFile.name || file.name).split('.').pop().toLowerCase();
     const safeName = productId.replace(/[^a-z0-9-]/gi, '_');
     const filename = `${safeName}-${Date.now()}.${ext}`;
 
     const { data, error } = await supabase.storage
       .from('product-images')
-      .upload(filename, file, {
+      .upload(filename, uploadFile, {
         cacheControl: '3600',
         upsert: false
       });
@@ -547,7 +679,15 @@
       .from('product-images')
       .getPublicUrl(filename);
 
-    return { data: { path: data.path, publicUrl: urlData.publicUrl } };
+    return {
+      data: {
+        path: data.path,
+        publicUrl: urlData.publicUrl,
+        originalSize,
+        uploadedSize: uploadFile.size,
+        optimized: uploadFile !== file
+      }
+    };
   }
 
   /* ── Değerlendirmeler (admin) ──
@@ -815,6 +955,7 @@
     adminCreateProduct,
     adminDeleteProduct,
     adminUploadImage,
+    optimizeImage,
     adminGetOrders,
     adminUpdateOrderStatus,
     adminAdjustStock,

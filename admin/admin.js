@@ -768,16 +768,27 @@
     imageInput.value = ''; // aynı dosya tekrar seçilebilsin diye
   });
 
+  /** Bayt sayısını okunur hâle getirir: 3407872 → "3,3 MB" */
+  function boyutYazisi(bayt) {
+    if (bayt >= 1024 * 1024) return (bayt / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB';
+    return Math.round(bayt / 1024) + ' KB';
+  }
+
   /** Bir veya birden çok dosyayı sırayla yükler, her biri bitince listeye ekler. */
   async function handleImageFiles(files) {
     let basarili = 0;
+    let kazanc = 0;
+
     for (const file of files) {
-      if (file.size > 5 * 1024 * 1024) {
-        showStatus(formStatus, `${file.name}: dosya çok büyük (max 5MB)`, 'error');
+      // Görseller yükleme öncesi tarayıcıda küçültülüyor (bkz. PB_Data.optimizeImage),
+      // o yüzden buradaki sınır depo sınırı değil; sadece makinede çözülemeyecek
+      // kadar devasa dosyaları en baştan eliyor.
+      if (file.size > 40 * 1024 * 1024) {
+        showStatus(formStatus, `${file.name}: dosya çok büyük (${boyutYazisi(file.size)}, üst sınır 40 MB)`, 'error');
         continue;
       }
 
-      showStatus(formStatus, `Yükleniyor… (${file.name})`, 'info');
+      showStatus(formStatus, `Hazırlanıyor… (${file.name})`, 'info');
       const productId = fId.value || 'temp-' + Date.now();
       const { data, error } = await PB_Data.adminUploadImage(file, productId);
 
@@ -786,11 +797,16 @@
         continue;
       }
 
+      if (data.optimized) kazanc += data.originalSize - data.uploadedSize;
       productImages.push(data.publicUrl);
       renderImageList();
       basarili++;
     }
-    if (basarili > 0) showStatus(formStatus, 'Görseller yüklendi ✓', 'success');
+
+    if (basarili > 0) {
+      const not = kazanc > 0 ? ` (${boyutYazisi(kazanc)} küçültüldü)` : '';
+      showStatus(formStatus, `Görseller yüklendi ✓${not}`, 'success');
+    }
   }
 
   /** Görsel listesini (küçük resimler + ana/sırala/kaldır aksiyonları) çizer. */
