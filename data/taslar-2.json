@@ -1,0 +1,322 @@
+{
+  "_not": "Taş ansiklopedisi — 2. parça (A–H). Yazım kuralı için data/taslar.json'a bak.",
+
+  "taslar": [
+    {
+      "slug": "akik",
+      "ad": "Akik",
+      "ozet": "Bantlı kalsedon. Adını Sicilya'daki bir nehirden alan, insanlığın en eski süs taşlarından biri.",
+      "kimlik": {
+        "Mineral grubu": "Kalsedon (kriptokristalin kuvars)",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "6,5 – 7",
+        "Renk": "Kahve, kırmızı, gri, beyaz, siyah — genellikle bantlı",
+        "Başlıca kaynaklar": "Brezilya, Uruguay, Hindistan, Botsvana"
+      },
+      "anlatim": [
+        "Akik, volkanik kayaçlardaki gaz boşluklarına silis yüklü suyun katman katman çökelmesiyle oluşur. Her bant farklı bir dönemin kimyasal izidir; bu yüzden desenler jeolojik bir kayıt gibidir.",
+        "Adı Sicilya'daki *Achates* (bugünkü Dirillo) nehrinden gelir — Antik Yunan'da akik oradan çıkarılıyordu.",
+        "Şunu bilmek gerekir: piyasadaki canlı mavi, yeşil ve pembe akiklerin neredeyse tamamı **boyanmıştır**. Kalsedon gözenekli olduğu için boyayı iyi tutar. Doğal akik renkleri toprak tonlarındadır."
+      ],
+      "gelenek": [
+        "Mezopotamya'da mühür silindirlerinde kullanılmıştır; bilinen en eski işlenmiş taşlardandır.",
+        "İslam kültüründe yüzük taşı olarak yaygındır; Yemen akiği bu geleneğin en bilinen adıdır.",
+        "Halk inanışında denge ve topraklanma temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Boyalı örneklerde asit ve alkolden kaçın; renk açılabilir.",
+        "Sabunlu ılık su ve yumuşak fırça yeterlidir."
+      ],
+      "eslesme": ["akik", "agate", "agat"]
+    },
+
+    {
+      "slug": "ametrin",
+      "ad": "Ametrin",
+      "ozet": "Aynı kristalde hem ametist hem sitrin. Neredeyse tek kaynağı Bolivya'da bir maden.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Bir yanı mor, bir yanı sarı",
+        "Başlıca kaynaklar": "Bolivya (Anahí madeni)"
+      },
+      "anlatim": [
+        "Ametrin, tek bir kuvars kristalinin farklı bölgelerinde demirin farklı yükseltgenme durumlarında bulunmasıyla oluşur. Kristalin bir kısmı ametist gibi mor, diğer kısmı sitrin gibi sarı kalır.",
+        "Bu ancak çok dar bir sıcaklık aralığında gerçekleşir; doğal ametrin bu yüzden nadirdir. Ticari üretimin neredeyse tamamı Bolivya'daki Anahí madeninden gelir.",
+        "Piyasada ısıl işlem veya ışınlamayla üretilmiş taklitleri vardır. Doğal örneklerde iki renk arasındaki sınır keskin ve düzdür."
+      ],
+      "gelenek": [
+        "Anahí madeninin adı, 17. yüzyılda bir İspanyol fatihle evlenen yerli prensesin adından gelir; madenin çeyiz olarak verildiği anlatılır.",
+        "Modern doğal taş kültüründe iki zıt niteliğin birleşimi temasıyla anılır — bu, taşın görünüşünden türetilmiş yakın dönem bir anlatıdır.",
+        "Ametist ve sitrinin geleneksel anlatıları ametrine de atfedilir."
+      ],
+      "bakim": [
+        "Güneşte mor kısım solabilir.",
+        "Sabunlu ılık su yeterlidir.",
+        "Yüksek ısıdan uzak tut — renk dengesi bozulabilir."
+      ],
+      "eslesme": ["ametrin", "ametrine"]
+    },
+
+    {
+      "slug": "apatit",
+      "ad": "Apatit",
+      "ozet": "Adı \"aldatmak\"tan gelir, çünkü sürekli başka taşlarla karıştırılmıştır. Dişlerimizin de mineralidir.",
+      "kimlik": {
+        "Mineral grubu": "Fosfat",
+        "Kimyasal formül": "Ca₅(PO₄)₃(F,Cl,OH)",
+        "Sertlik (Mohs)": "5",
+        "Renk": "Neon mavi, yeşil, sarı, pembe",
+        "Başlıca kaynaklar": "Madagaskar, Brezilya, Meksika"
+      },
+      "anlatim": [
+        "Apatitin adı Yunanca *apate*, yani \"aldatma\"dan gelir. Renk çeşitliliği yüzünden yüzyıllarca akuamarin, turmalin ve peridotla karıştırılmıştır.",
+        "İnsan dişi minesinin ve kemiğinin temel minerali hidroksiapatittir — yani bu taş vücudumuzda da bulunur.",
+        "Mohs 5 sertliğiyle takı taşları arasında yumuşak sayılır. Madagaskar'ın neon mavi apatiti en çok aranan çeşididir; rengi son derece doygundur."
+      ],
+      "gelenek": [
+        "Antik dönemde ayrı bir taş olarak tanınmadığı için kendine ait eski bir geleneği yoktur; mineral olarak 1786'da tanımlanmıştır.",
+        "Modern doğal taş kültüründe ifade ve açıklık temalarıyla ilişkilendirilir.",
+        "Mavi apatit, rengi nedeniyle deniz ve gökyüzü çağrışımlarıyla anılır."
+      ],
+      "bakim": [
+        "Yumuşaktır; darbe ve çizilmeye karşı korunmalı.",
+        "Ultrasonik ve buharlı temizleyici kullanma.",
+        "Asitli maddelerden uzak tut — fosfat asitte çözünür."
+      ],
+      "eslesme": ["apatit", "apatite"]
+    },
+
+    {
+      "slug": "aventurin",
+      "ad": "Aventurin",
+      "ozet": "İçindeki mika pulcukları ışıkta pırıldar. Adı İtalyanca \"tesadüf\"ten gelir.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂ + mika inklüzyonları",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Yeşil (en yaygın), mavi, şeftali, gri",
+        "Başlıca kaynaklar": "Hindistan, Brezilya, Rusya, Tanzanya"
+      },
+      "anlatim": [
+        "Aventurin, içinde ince mika pulcukları barındıran kuvarstır. Yeşil rengi ve parıltısı, krom içeren fuksit adlı yeşil mikadan gelir.",
+        "Işık bu pulcuklardan yansıdığında ortaya çıkan pırıltıya **aventüresans** denir. Etkinin adı taştan, taşın adı ise bir kazadan gelir: 18. yüzyılda Venedikli cam ustaları erimiş cama yanlışlıkla bakır talaşı düşürünce benzer bir pırıltı elde etmiş ve buna *a ventura*, yani \"tesadüfen\" demişlerdir.",
+        "Yani doğal taş, adını kendisini taklit eden camdan almıştır."
+      ],
+      "gelenek": [
+        "Tibet'te heykellerin gözlerinde kullanılmıştır.",
+        "Halk inanışında şans ve fırsat temalarıyla ilişkilendirilir; \"kumarbaz taşı\" adlandırması bu anlatıdan gelir.",
+        "Modern doğal taş kültüründe büyüme ve tazelik çağrışımıyla anılır."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Uzun güneş maruziyeti yeşili soldurabilir.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir."
+      ],
+      "eslesme": ["aventurin", "aventurine", "avanturin"]
+    },
+
+    {
+      "slug": "aytasi",
+      "ad": "Ay Taşı",
+      "ozet": "Yüzeyinde mavimsi bir ışık akar. Bu etkinin adı adularesans.",
+      "kimlik": {
+        "Mineral grubu": "Feldispat (ortoklaz + albit)",
+        "Kimyasal formül": "KAlSi₃O₈ / NaAlSi₃O₈",
+        "Sertlik (Mohs)": "6 – 6,5",
+        "Renk": "Yarı saydam beyaz, gri, şeftali; mavi ışıltılı",
+        "Başlıca kaynaklar": "Sri Lanka, Hindistan, Madagaskar"
+      },
+      "anlatim": [
+        "Ay taşı iki feldispatın son derece ince katmanlar hâlinde iç içe büyümesiyle oluşur. Katmanlar görünür ışığın dalga boyuna yakın kalınlıktadır.",
+        "Işık bu katmanlarda saçıldığında taşın yüzeyinde yüzer gibi görünen mavimsi-beyaz bir parıltı doğar. Bu optik olaya **adularesans** denir; adı İsviçre'deki Adula dağlarından gelir.",
+        "En değerli örnekler renksiz gövde üzerinde canlı mavi ışıltı gösterenlerdir. Sri Lanka bu tip için tarihsel kaynaktır."
+      ],
+      "gelenek": [
+        "Hindistan'da kutsal sayılmış, ay ışığının katılaşmış hâli olduğuna inanılmıştır.",
+        "Roma'da da benzer bir anlatı vardır; taşın ayın evrelerine göre değiştiği düşünülürdü.",
+        "Art Nouveau döneminde René Lalique gibi tasarımcılar tarafından yoğun biçimde kullanılmıştır."
+      ],
+      "bakim": [
+        "Feldispatların dilinimi belirgindir; sert darbe çatlatabilir.",
+        "Ultrasonik temizleyici kullanma.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir."
+      ],
+      "eslesme": ["ay taşı", "aytaşı", "ay tasi", "moonstone", "aytasi"]
+    },
+
+    {
+      "slug": "caroit",
+      "ad": "Çaroit",
+      "ozet": "Dünyada tek bir yerde bulunur: Sibirya'da Çara Nehri havzası.",
+      "kimlik": {
+        "Mineral grubu": "Silikat",
+        "Sertlik (Mohs)": "5 – 6",
+        "Renk": "Mor, leylak; girdaplı beyaz ve siyah desenli",
+        "Başlıca kaynaklar": "Rusya (Yakutistan, Murun masifi)"
+      },
+      "anlatim": [
+        "Çaroit 1978'de bilim dünyasına tanıtıldı ve bilinen tek yatağı Sibirya'daki Murun masifidir. Başka hiçbir yerde çıkarılmaz.",
+        "Karakteristik girdaplı, lifli deseni mineralin iç içe geçmiş kristal demetlerinden doğar. İki parça asla aynı desende olmaz.",
+        "Sınırlı kaynak, fiyatını doğrudan belirler. Piyasada çaroit diye satılan ucuz taşların çoğu boyalı mermer veya reçinedir."
+      ],
+      "gelenek": [
+        "Çok yeni tanımlandığı için antik bir geleneği yoktur.",
+        "Adının Çara Nehri'nden mi yoksa Rusça \"büyüleyici\" anlamındaki *çary* kelimesinden mi geldiği tartışmalıdır.",
+        "Modern doğal taş kültüründe dönüşüm temasıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Orta sertliktedir; çizilmeye karşı korunmalı.",
+        "Asitli temizleyicilerden uzak tut.",
+        "Nemli bezle sil, kuru sakla."
+      ],
+      "eslesme": ["çaroit", "caroit", "charoite"]
+    },
+
+    {
+      "slug": "dumanli-kuvars",
+      "ad": "Dumanlı Kuvars",
+      "ozet": "Rengini yerin altındaki doğal radyasyona borçlu olan kahverengi kuvars.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Açık gri-kahveden neredeyse siyaha",
+        "Başlıca kaynaklar": "Brezilya, İskoçya, İsviçre Alpleri, Madagaskar"
+      },
+      "anlatim": [
+        "Dumanlı kuvarsın rengi, yapıdaki eser alüminyumun çevredeki kayaçlardan gelen doğal radyasyonla etkileşiminden doğar. Yani taş, milyonlarca yıllık bir ışınlanmanın kaydını taşır.",
+        "Isıtıldığında renk kaybolur, yeniden ışınlandığında geri gelir. Piyasadaki çok koyu, neredeyse siyah örneklerin bir kısmı yapay olarak ışınlanmıştır.",
+        "İskoçya'nın ulusal taşıdır ve orada *cairngorm* adıyla bilinir; geleneksel İskoç kılıç ve broşlarında kullanılır."
+      ],
+      "gelenek": [
+        "Kelt kültüründe yeraltı ve toprakla ilişkilendirilmiştir.",
+        "Antik Çin'de gözlük camı olarak kullanıldığı bilinir — bilinen en eski güneş gözlüğü camlarından biri dumanlı kuvarstır.",
+        "Modern doğal taş kültüründe topraklanma ve sakinleşme temalarıyla anılır."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Güneşte ve ısıda rengi açılır — vitrinde sergileme.",
+        "Sabunlu ılık su yeterlidir."
+      ],
+      "eslesme": ["dumanlı kuvars", "dumanli kuvars", "smoky quartz", "füme kuvars"]
+    },
+
+    {
+      "slug": "florit",
+      "ad": "Florit",
+      "ozet": "\"Floresans\" kelimesi bu mineralden gelir. Renk skalası mineraller arasında en geniş olanlardan.",
+      "kimlik": {
+        "Mineral grubu": "Halojenür",
+        "Kimyasal formül": "CaF₂",
+        "Sertlik (Mohs)": "4",
+        "Renk": "Mor, yeşil, mavi, sarı, renksiz — çoğu zaman bantlı",
+        "Başlıca kaynaklar": "Çin, Meksika, İngiltere, Güney Afrika"
+      },
+      "anlatim": [
+        "Florit, Mohs sertlik skalasının 4 numaralı referans mineralidir. Yani skalanın kendisi kısmen bu taş üzerine kuruludur.",
+        "Bazı örnekleri morötesi ışık altında parlar; **floresans** terimi doğrudan bu mineralin adından türetilmiştir.",
+        "Mükemmel oktahedral dilinimi vardır: belirli düzlemler boyunca temiz biçimde ayrılır. Bu, kesimi zorlaştırır ve takıda kırılganlık yaratır."
+      ],
+      "gelenek": [
+        "Antik Roma'da *murrina* adı verilen değerli kâseler büyük olasılıkla floritten yapılıyordu; Plinius bunların çok yüksek fiyatlara satıldığını yazar.",
+        "Çin'de yüzyıllardır heykelcilik malzemesi olmuştur.",
+        "Modern doğal taş kültüründe berraklık ve düzen temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Yumuşak ve kırılgandır; yüzük yerine kolye ve küpede daha güvenlidir.",
+        "Ani sıcaklık değişimi çatlatır.",
+        "Ultrasonik ve buharlı temizleyici kesinlikle kullanma."
+      ],
+      "eslesme": ["florit", "fluorit", "fluorite"]
+    },
+
+    {
+      "slug": "granat",
+      "ad": "Granat",
+      "ozet": "Tek bir taş değil, bir mineral ailesi. Adı nardan gelir.",
+      "kimlik": {
+        "Mineral grubu": "Granat grubu (almandin, pirop, spessartin, grossular, andradit)",
+        "Sertlik (Mohs)": "6,5 – 7,5",
+        "Renk": "Koyu kırmızı en yaygın; turuncu, yeşil, sarı, pembe",
+        "Başlıca kaynaklar": "Hindistan, Brezilya, Tanzanya, Madagaskar, Çekya"
+      },
+      "anlatim": [
+        "Granat, benzer kristal yapısını paylaşan ama farklı kimyaya sahip bir mineral ailesinin ortak adıdır. Kırmızı almandin en yaygın olanıdır; tsavorit ve demantoid gibi yeşil üyeleri çok daha nadirdir.",
+        "Adı Latince *granatum*, yani nar meyvesinden gelir — kristallerin nar taneleriyle görsel benzerliği yüzünden.",
+        "Ocak ayının doğum taşıdır. Endüstride aşındırıcı olarak da kullanılır; zımpara kâğıdındaki kırmızı taneler çoğu zaman granattır."
+      ],
+      "gelenek": [
+        "Bohemya granatı 19. yüzyıl Avrupa takısının imzası olmuş, Viktorya döneminde kümelenmiş granatlı broşlar moda hâline gelmiştir.",
+        "Antik Mısır ve Roma'da mühür ve boncuk olarak kullanılmıştır.",
+        "Halk inanışında sadakat ve dayanıklılık temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Dayanıklıdır ama darbeye karşı korunmalı.",
+        "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
+        "Ani sıcaklık değişiminden kaçın."
+      ],
+      "eslesme": ["granat", "garnet", "almandin"]
+    },
+
+    {
+      "slug": "hematit",
+      "ad": "Hematit",
+      "ozet": "Metalik gri görünür ama tozu kan kırmızısıdır. Adı da buradan gelir.",
+      "kimlik": {
+        "Mineral grubu": "Oksit",
+        "Kimyasal formül": "Fe₂O₃",
+        "Sertlik (Mohs)": "5 – 6",
+        "Renk": "Metalik gri-siyah; çizgi rengi kırmızı-kahve",
+        "Başlıca kaynaklar": "Brezilya, Çin, Avustralya, İngiltere"
+      },
+      "anlatim": [
+        "Hematit demir oksittir ve dünyanın başlıca demir cevheridir. Yüzeyi metalik parlaklıkta gri görünse de porselen bir yüzeye sürtüldüğünde bıraktığı iz kırmızıdır.",
+        "Adı Yunanca *haima*, yani kandan gelir; bu kırmızı çizgi rengi yüzünden.",
+        "Önemli bir uyarı: piyasada mıknatıslı boncuklar \"manyetik hematit\" adıyla satılır. Gerçek hematit **mıknatıslı değildir**; o ürünler *hematin* denen sentetik bir malzemedir."
+      ],
+      "gelenek": [
+        "Tarih öncesi mağara resimlerinde kırmızı pigment olarak kullanılmıştır — bilinen en eski boya maddelerinden biridir.",
+        "Antik Mısır'da mezar eşyalarında yer almıştır.",
+        "Halk inanışında koruma ve topraklanma temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Cilalı yüzeyi çizilmeye açıktır.",
+        "Nemli ortamda paslanabilir; kuru sakla.",
+        "Ultrasonik temizleyici kullanma, nemli bezle sil."
+      ],
+      "eslesme": ["hematit", "hematite", "hematıt"]
+    },
+
+    {
+      "slug": "howlit",
+      "ad": "Howlit",
+      "ozet": "Beyaz, siyah damarlı. Boyanıp \"turkuaz\" diye satılan taşların başında gelir.",
+      "kimlik": {
+        "Mineral grubu": "Borat",
+        "Kimyasal formül": "Ca₂B₅SiO₉(OH)₅",
+        "Sertlik (Mohs)": "3,5",
+        "Renk": "Beyaz; gri-siyah damarlı",
+        "Başlıca kaynaklar": "Kanada, ABD"
+      },
+      "anlatim": [
+        "Howlit 1868'de Kanada'da bulunmuş ve onu tanımlayan jeolog Henry How'un adını almıştır.",
+        "Beyaz gövdesi ve ağsı koyu damarlarıyla turkuaza yapısal olarak benzer. Gözenekli olduğu için boyayı çok iyi emer.",
+        "Bu iki özelliğin birleşimi onu **sektörün en yaygın taklit malzemesi** yapmıştır. Mavi boyanmış howlit, \"turkuaz\" veya \"howlit turkuaz\" adıyla satılır. Ayırt etmenin en kolay yolu sertliktir: howlit 3,5 ile tırnakla bile çizilebilirken turkuaz 5–6'dır."
+      ],
+      "gelenek": [
+        "Yakın dönemde tanımlandığı için antik bir geleneği yoktur.",
+        "Modern doğal taş kültüründe sakinlik ve sabır temalarıyla ilişkilendirilir.",
+        "Beyaz rengi nedeniyle durulma çağrışımıyla anılır."
+      ],
+      "bakim": [
+        "Çok yumuşaktır; ayrı saklanmalı.",
+        "Boyalı örneklerde su ve alkol rengi çıkarabilir.",
+        "Yalnızca kuru veya hafif nemli yumuşak bezle sil."
+      ],
+      "eslesme": ["howlit", "howlite"]
+    }
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "_not": "Taş ansiklopedisi — 4. parça (O–Z). Yazım kuralı için data/taslar.json'a bak.",
+
+  "taslar": [
+    {
+      "slug": "obsidiyen",
+      "ad": "Obsidiyen",
+      "ozet": "Mineral değil, volkanik cam. Kesme kenarı çelikten keskin olabilir.",
+      "kimlik": {
+        "Mineral grubu": "Mineral değil — volkanik cam",
+        "Sertlik (Mohs)": "5 – 5,5",
+        "Renk": "Siyah; kar taneli, gökkuşağı ve altın parıltılı çeşitleri",
+        "Başlıca kaynaklar": "Türkiye, Meksika, ABD, İzlanda, Ermenistan"
+      },
+      "anlatim": [
+        "Obsidiyen, silisçe zengin lavın kristalleşmeye vakit bulamadan hızla soğumasıyla oluşur. Düzenli kristal yapısı olmadığı için teknik olarak mineral değil, doğal bir camdır.",
+        "Kırıldığında **konkoidal** yani midye kabuğu biçimli, ustura gibi keskin kenarlar verir. Bu kenar moleküler ölçekte cerrahi çelikten daha incedir; deneysel bazı cerrahi bıçaklar obsidiyenden yapılır.",
+        "Türkiye obsidiyen tarihinde merkezî bir yere sahiptir. Kapadokya ve Doğu Anadolu obsidiyeni Neolitik dönemde Yakın Doğu'nun her yerine ticaretle dağılmıştır; arkeologlar bu ticaret ağlarını taşın kimyasal parmak iziyle haritalayabiliyor."
+      ],
+      "gelenek": [
+        "Aztek kültüründe hem alet hem ayin nesnesiydi; *tezcatlipoca* adı \"tüten ayna\" anlamına gelir ve cilalı obsidiyen aynalara işaret eder.",
+        "Antik Anadolu'da ayna olarak kullanılmıştır — Çatalhöyük kazılarında obsidiyen aynalar bulunmuştur.",
+        "Halk inanışında koruma ve gerçeği görme temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Cam olduğu için kırılgandır; darbeden koru.",
+        "Kenarları keskin olabilir, işlenmemiş parçalara dikkat et.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir."
+      ],
+      "eslesme": ["obsidiyen", "obsidian", "obsidyen"]
+    },
+
+    {
+      "slug": "opal",
+      "ad": "Opal",
+      "ozet": "İçinde su barındırır ve renk oyunu gösterir. Mineraloid sınıfında.",
+      "kimlik": {
+        "Mineral grubu": "Mineraloid (amorf silika)",
+        "Kimyasal formül": "SiO₂·nH₂O",
+        "Sertlik (Mohs)": "5,5 – 6,5",
+        "Renk": "Beyaz, siyah, ateş turuncusu; renk oyunlu",
+        "Başlıca kaynaklar": "Avustralya, Etiyopya, Meksika, Brezilya"
+      },
+      "anlatim": [
+        "Opal, düzenli dizilmiş mikroskobik silika kürelerinden oluşur ve yapısında **%3–21 oranında su** barındırır. Kristal yapısı olmadığı için mineral değil, mineraloid sayılır.",
+        "Değerli opaldeki renk oyunu, ışığın bu küreler arasından geçerken kırınıma uğramasından doğar. Kürelerin çapı hangi rengin görüneceğini belirler.",
+        "Su içeriği aynı zamanda en büyük zayıflığıdır: kuru ortamda veya ani ısı değişiminde çatlayabilir. Buna *crazing* denir ve geri döndürülemez."
+      ],
+      "gelenek": [
+        "Roma'da en değerli taşlardan sayılmıştır; Plinius opali tüm taşların renklerini birden taşıdığı için över.",
+        "19. yüzyılda Walter Scott'ın bir romanı yüzünden uğursuz sayıldığı bir dönem yaşanmış, Avrupa'da satışları düşmüştür — pazarlama tarihinin ilginç bir örneği.",
+        "Ekim ayının doğum taşıdır."
+      ],
+      "bakim": [
+        "Kuru ve sıcak ortamdan uzak tut; kasada uzun süre saklama.",
+        "Ultrasonik ve buharlı temizleyici kesinlikle kullanma.",
+        "Nemli yumuşak bezle sil."
+      ],
+      "eslesme": ["opal"]
+    },
+
+    {
+      "slug": "peridot",
+      "ad": "Peridot",
+      "ozet": "Tek renkte bulunan nadir taşlardan. Meteoritlerde de rastlanır.",
+      "kimlik": {
+        "Mineral grubu": "Olivin",
+        "Kimyasal formül": "(Mg,Fe)₂SiO₄",
+        "Sertlik (Mohs)": "6,5 – 7",
+        "Renk": "Zeytin yeşili, sarı-yeşil",
+        "Başlıca kaynaklar": "Pakistan, Myanmar, ABD (Arizona), Mısır (Zebirget)"
+      },
+      "anlatim": [
+        "Peridot, olivin mineralinin mücevher kalitesindeki hâlidir. Yalnızca yeşilin tonlarında bulunur; rengi safsızlıktan değil, ana bileşimindeki demirden gelir.",
+        "Yerin derinliklerinde, üst mantoda oluşur ve volkanik faaliyetle yüzeye taşınır. Bazı pallasit meteoritlerinde de peridot kristalleri bulunur — yani uzaydan gelen örnekleri vardır.",
+        "Mısır'ın Kızıldeniz'deki Zebirget adası 3500 yıldır peridot kaynağıdır; antik kaynaklarda \"topazos\" adıyla geçen taş büyük olasılıkla buradan gelen peridottu."
+      ],
+      "gelenek": [
+        "Antik Mısır'da \"güneşin mücevheri\" olarak anılmıştır.",
+        "Ortaçağ Avrupa'sında kiliselere bağışlanmış, Köln Katedrali'ndeki bazı büyük \"zümrütler\"in aslında peridot olduğu sonradan anlaşılmıştır.",
+        "Ağustos ayının doğum taşıdır."
+      ],
+      "bakim": [
+        "Ani sıcaklık değişimine karşı hassastır.",
+        "Ultrasonik temizleyici kullanma.",
+        "Asitli maddelerden uzak tut."
+      ],
+      "eslesme": ["peridot", "olivin", "zebercet"]
+    },
+
+    {
+      "slug": "pirit",
+      "ad": "Pirit",
+      "ozet": "Metalik altın sarısı küpler. \"Aptal altını\" adı buradan gelir.",
+      "kimlik": {
+        "Mineral grubu": "Sülfür",
+        "Kimyasal formül": "FeS₂",
+        "Sertlik (Mohs)": "6 – 6,5",
+        "Renk": "Pirinç sarısı, metalik",
+        "Başlıca kaynaklar": "İspanya, Peru, İtalya, Rusya"
+      },
+      "anlatim": [
+        "Pirit demir sülfürdür ve doğada çoğu zaman kusursuza yakın küp kristaller hâlinde büyür. Bu geometrik düzenlilik onu ilk bakışta yapay gösterir.",
+        "Altınla karıştırılması yüzyıllar boyunca sürmüş, \"aptal altını\" adını buradan almıştır. Ayırt etmek kolaydır: pirit sert ve kırılgandır, altın yumuşak ve dövülebilir; ayrıca piritin çizgi rengi siyahımsı yeşildir.",
+        "Adı Yunanca *pyr*, yani ateşten gelir — çeliğe vurulduğunda kıvılcım çıkarır. Tarih öncesinde ateş yakmakta kullanılmıştır."
+      ],
+      "gelenek": [
+        "İnka kültüründe cilalanıp ayna olarak kullanılmıştır.",
+        "Viktorya döneminde \"marcasite\" adıyla gümüş takılarda yaygın biçimde kullanılmıştır — o takılardaki taşlar aslında pirittir.",
+        "Halk inanışında bolluk ve irade temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Nemde okside olur ve yüzeyi bozulur; kuru sakla.",
+        "Suda bekletme, ultrasonik temizleyici kullanma.",
+        "Kuru yumuşak bezle sil."
+      ],
+      "eslesme": ["pirit", "pyrite", "markazit"]
+    },
+
+    {
+      "slug": "rodokrozit",
+      "ad": "Rodokrozit",
+      "ozet": "Pembe ve beyaz halkalı manganez karbonatı. Arjantin'in ulusal taşı.",
+      "kimlik": {
+        "Mineral grubu": "Karbonat",
+        "Kimyasal formül": "MnCO₃",
+        "Sertlik (Mohs)": "3,5 – 4",
+        "Renk": "Gül pembesi, kırmızımsı; beyaz bantlı",
+        "Başlıca kaynaklar": "Arjantin, Peru, ABD (Colorado), Güney Afrika"
+      },
+      "anlatim": [
+        "Rodokrozit manganez karbonatıdır; pembesi doğrudan manganezden gelir.",
+        "Mağara ortamlarında sarkıt biçiminde büyüdüğünde, kesitinde iç içe pembe-beyaz halkalar oluşur. Takıda en çok tanınan görünümü budur.",
+        "Arjantin'deki Capillitas madeni bu halkalı çeşidin klasik kaynağıdır; ülkenin ulusal taşı ilan edilmiştir. Colorado'dan çıkan şeffaf kırmızı kristaller ise koleksiyonerlik açısından çok değerlidir."
+      ],
+      "gelenek": [
+        "Yerel anlatıda İnka döneminde bilindiği söylenir; \"İnka gülü\" adlandırması buradan gelir.",
+        "Adı Yunanca *rhodon* (gül) ve *chros* (renk) kelimelerinden türer.",
+        "Modern doğal taş kültüründe şefkat ve kendine iyi davranma temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Yumuşak ve asitlere hassastır; ter ve parfüm yüzeyi bozar.",
+        "Suda bekletme, ultrasonik temizleyici kullanma.",
+        "Kuru yumuşak bezle sil, ayrı sakla."
+      ],
+      "eslesme": ["rodokrozit", "rhodochrosite", "inka gülü"]
+    },
+
+    {
+      "slug": "rodonit",
+      "ad": "Rodonit",
+      "ozet": "Pembe gövde üzerinde siyah manganez oksit damarları.",
+      "kimlik": {
+        "Mineral grubu": "Silikat (manganezli)",
+        "Kimyasal formül": "MnSiO₃",
+        "Sertlik (Mohs)": "5,5 – 6,5",
+        "Renk": "Pembe, gül kırmızısı; siyah damarlı",
+        "Başlıca kaynaklar": "Rusya (Ural), Avustralya, Peru, Madagaskar"
+      },
+      "anlatim": [
+        "Rodonit, rodokrozitle karıştırılır ama farklı minerallerdir: rodonit silikat, rodokrozit karbonattır. Rodonit daha serttir ve takıda daha dayanıklıdır.",
+        "Ayırt edici işareti siyah ağsı damarlardır; bunlar manganez oksit birikimleridir ve pembe zemin üzerinde belirgin bir kontrast yaratır.",
+        "Ural yataklarından çıkan büyük bloklar Rus imparatorluk döneminde vazo, sütun ve lahit yapımında kullanılmıştır."
+      ],
+      "gelenek": [
+        "Adı yine Yunanca *rhodon*, yani gülden gelir.",
+        "Rusya'da \"kartal taşı\" olarak da anılır; kartalların yuvalarına rodonit parçaları taşıdığı yönünde bir halk anlatısı vardır.",
+        "Modern doğal taş kültüründe duygusal denge temasıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Orta dayanıklılıktadır; sert taşlarla birlikte saklama.",
+        "Asitli temizleyicilerden kaçın.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir."
+      ],
+      "eslesme": ["rodonit", "rhodonite"]
+    },
+
+    {
+      "slug": "selenit",
+      "ad": "Selenit",
+      "ozet": "Jipsin berrak çeşidi. O kadar yumuşaktır ki tırnakla çizilir.",
+      "kimlik": {
+        "Mineral grubu": "Jips",
+        "Kimyasal formül": "CaSO₄·2H₂O",
+        "Sertlik (Mohs)": "2",
+        "Renk": "Renksiz, beyaz, saydam veya lifli parlak",
+        "Başlıca kaynaklar": "Meksika, Fas, ABD, Türkiye"
+      },
+      "anlatim": [
+        "Selenit, jipsin saydam ve iyi kristalleşmiş hâlidir. Mohs 2 sertliğiyle tırnakla çizilebilir — takı taşları arasında en yumuşaklardandır.",
+        "Meksika'daki Naica madeninin Kristal Mağarası'nda 11 metreye ulaşan selenit kristalleri bulunur; bunlar dünyanın bilinen en büyük doğal kristalleridir.",
+        "Suda çözünür. Bir selenit parçasını suda bırakmak onu yavaşça yok eder; bu, taşın en kritik bakım kuralıdır."
+      ],
+      "gelenek": [
+        "Adı Yunanca ay tanrıçası *Selene*'den gelir; ipeksi parlaklığı ay ışığına benzetilmiştir.",
+        "Ortaçağ'da ince dilimleri cam yerine pencerelerde kullanılmıştır.",
+        "Modern doğal taş kültüründe berraklık ve arınma temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "**Asla suyla temizleme** — suda çözünür.",
+        "Kuru yumuşak fırça veya bezle tozunu al.",
+        "Nemli ortamda saklama; banyoda bulundurma."
+      ],
+      "eslesme": ["selenit", "selenite", "jips"]
+    },
+
+    {
+      "slug": "serpantin",
+      "ad": "Serpantin",
+      "ozet": "Yılan derisi desenli yeşil taş. Sıkça \"yeşim\" diye satılır.",
+      "kimlik": {
+        "Mineral grubu": "Serpantin grubu",
+        "Sertlik (Mohs)": "3 – 5",
+        "Renk": "Yeşilin tonları; sarımsı, kahverengi benekli",
+        "Başlıca kaynaklar": "Çin, Afganistan, ABD, Yeni Zelanda, Türkiye"
+      },
+      "anlatim": [
+        "Serpantin, okyanus kabuğu minerallerinin suyla tepkimesiyle oluşan bir mineral grubudur. Adı benekli deseninin yılan derisine benzemesinden gelir.",
+        "Piyasada sıkça **yeşim yerine** satılır. \"Yeni yeşim\", \"Kore yeşimi\", \"Suzhou yeşimi\" gibi adların hemen hepsi serpantindir. Ayırt etmenin pratik yolu sertliktir: serpantin 3–5, gerçek yeşim 6–7'dir.",
+        "Bu bir sahtekârlık olmak zorunda değil — serpantin kendi başına güzel bir taştır. Sorun, yeşim fiyatına satıldığında başlar."
+      ],
+      "gelenek": [
+        "Çin'de yeşimin yanı sıra bin yıllardır oymacılıkta kullanılmıştır.",
+        "Anadolu'da ve Orta Doğu'da geleneksel el işçiliğinde yer alır.",
+        "Halk inanışında koruma temasıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Yumuşaktır, çizilmeye açıktır.",
+        "Asitten uzak tut.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir."
+      ],
+      "eslesme": ["serpantin", "serpentine", "yeni yeşim"]
+    },
+
+    {
+      "slug": "sodalit",
+      "ad": "Sodalit",
+      "ozet": "Lapis lazuliye benzer ama piriti yoktur. Adı sodyum içeriğinden gelir.",
+      "kimlik": {
+        "Mineral grubu": "Feldispatoid",
+        "Kimyasal formül": "Na₈(Al₆Si₆O₂₄)Cl₂",
+        "Sertlik (Mohs)": "5,5 – 6",
+        "Renk": "Koyu mavi; beyaz kalsit damarlı",
+        "Başlıca kaynaklar": "Brezilya, Kanada, Namibya, Rusya"
+      },
+      "anlatim": [
+        "Sodalit, lapis lazulinin bileşenlerinden biri olan lazuritle akrabadır ve ona benzer. Ayırt edici fark **piritin yokluğudur**: lapis lazulide altın parıltılar vardır, sodalitte yoktur.",
+        "Rengi genelde daha mat ve mora çalan bir mavidir. Beyaz damarları kalsittendir.",
+        "Bazı örnekler morötesi ışık altında turuncu floresans gösterir; *hackmanit* denen çeşidi ise güneş ışığında renk değiştirir ve karanlıkta eski rengine döner."
+      ],
+      "gelenek": [
+        "1811'de Grönland'da bulunmuştur; antik bir geleneği yoktur.",
+        "20. yüzyıl başında Kanada'da bulunan büyük yatak, İngiliz kraliyet ailesinin ziyareti sonrası \"prenses mavisi\" adıyla anılmıştır.",
+        "Modern doğal taş kültüründe akılcılık ve ifade temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Orta sertliktedir; çizilmeye karşı korunmalı.",
+        "Asitli temizleyicilerden kaçın.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir."
+      ],
+      "eslesme": ["sodalit", "sodalite"]
+    },
+
+    {
+      "slug": "turkuaz",
+      "ad": "Turkuaz",
+      "ozet": "Adı Türkiye'den gelir ama Türkiye'de çıkmaz. Avrupa'ya Türk tüccarlar getirdiği için.",
+      "kimlik": {
+        "Mineral grubu": "Fosfat (bakırlı)",
+        "Kimyasal formül": "CuAl₆(PO₄)₄(OH)₈·4H₂O",
+        "Sertlik (Mohs)": "5 – 6",
+        "Renk": "Gök mavisi, mavi-yeşil; kahve ağsı damarlı",
+        "Başlıca kaynaklar": "İran, ABD (Arizona, Nevada), Çin, Mısır"
+      },
+      "anlatim": [
+        "Turkuazın adı Fransızca *pierre turquoise*, yani \"Türk taşı\"ndan gelir. Taş aslında İran'dan çıkıyordu ama Avrupa'ya Türk tüccarlar aracılığıyla ulaştığı için bu adı aldı.",
+        "Rengini bakıra borçludur; demir arttıkça yeşile kayar. Yüzeyindeki kahverengi-siyah ağsı desen, taşın oluştuğu ana kayaçtan kalan kalıntıdır ve *matriks* olarak adlandırılır.",
+        "Gözenekli bir taştır. Piyasadaki turkuazın büyük bölümü dayanıklılığı artırmak için reçineyle **stabilize edilmiştir**. Ayrıca boyanmış howlit ve magnezitin turkuaz diye satılması çok yaygındır."
+      ],
+      "gelenek": [
+        "Antik Mısır'da Sina yarımadasındaki madenlerden çıkarılmış, Tutankamon'un maskesinde kullanılmıştır.",
+        "İran'da Nişabur madenleri 2000 yıldır işletilir; cami kubbelerindeki mavi çinilerin ilham kaynağıdır.",
+        "Yerli Amerikan kültürlerinde kutsal sayılır; Navajo ve Zuni gümüş işçiliğinin merkezindedir. Halk inanışında koruma ve yolculuk temalarıyla anılır."
+      ],
+      "bakim": [
+        "Gözeneklidir; parfüm, krem ve teri emer, rengi kalıcı olarak değişebilir.",
+        "Suda bekletme, ultrasonik temizleyici kullanma.",
+        "Kuru veya hafif nemli bezle sil."
+      ],
+      "eslesme": ["turkuaz", "turquoise", "firuze"]
+    },
+
+    {
+      "slug": "turmalin",
+      "ad": "Turmalin",
+      "ozet": "Bilinen en geniş renk yelpazesine sahip mineral. Isıtılınca elektriklenir.",
+      "kimlik": {
+        "Mineral grubu": "Turmalin grubu (borosilikat)",
+        "Sertlik (Mohs)": "7 – 7,5",
+        "Renk": "Siyah, pembe, yeşil, mavi, çok renkli",
+        "Başlıca kaynaklar": "Brezilya, Afganistan, Nijerya, Mozambik, ABD"
+      },
+      "anlatim": [
+        "Turmalin tek bir mineral değil, ortak yapıya sahip karmaşık bir borosilikat ailesidir. Siyah çeşidi *şörl*, pembesi *rubellit*, mavisi *indigolit* adıyla anılır.",
+        "Renk yelpazesi mineraller arasında en geniş olanıdır. Tek bir kristal boyunca renk değiştiren örnekler vardır; dışı yeşil içi pembe olanlara **karpuz turmalin** denir.",
+        "Piroelektrik ve piezoelektriktir: ısıtıldığında veya basınç uygulandığında uçlarında zıt elektrik yükleri oluşur. Hollandalı tüccarlar 18. yüzyılda bu özelliği fark edip taşı pipo külü çekmekte kullanmış, ona \"kül çeken\" demişlerdir."
+      ],
+      "gelenek": [
+        "Adı Sinhalaca *turamali*, yani \"karışık renkli taş\"tan gelir.",
+        "Uzun süre başka taşlarla karıştırılmıştır; Rus taç mücevherlerindeki bazı \"yakut\"ların aslında pembe turmalin olduğu sonradan anlaşılmıştır.",
+        "Siyah turmalin modern doğal taş kültüründe koruma temasıyla en çok anılan taşlardandır."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Ani sıcaklık değişiminden kaçın.",
+        "İç çatlağı olan örneklerde ultrasonik temizleyici kullanma."
+      ],
+      "eslesme": ["turmalin", "tourmaline", "şörl", "sorl", "rubellit"]
+    },
+
+    {
+      "slug": "unakit",
+      "ad": "Unakit",
+      "ozet": "Yeşil epidot ve somon pembesi feldispatın birlikte bulunduğu granit.",
+      "kimlik": {
+        "Mineral grubu": "Kayaç (granit türevi)",
+        "Sertlik (Mohs)": "6 – 7",
+        "Renk": "Zeytin yeşili + somon pembesi benekli",
+        "Başlıca kaynaklar": "ABD (Virginia), Güney Afrika, Brezilya, Zimbabve"
+      },
+      "anlatim": [
+        "Unakit tek bir mineral değil, değişime uğramış bir granittir. Yeşil kısmı epidot, pembe kısmı ortoklaz feldispat, açık gri taneleri kuvarstır.",
+        "Adını ilk bulunduğu yerden, ABD'deki Unaka Dağları'ndan alır.",
+        "Benekli deseni her parçada farklıdır ve kesim yönüne göre tamamen değişir. Cilalandığında yeşil ve pembe kontrastı belirginleşir."
+      ],
+      "gelenek": [
+        "19. yüzyılda tanımlanmıştır; antik bir geleneği yoktur.",
+        "Washington'daki bazı kamu binalarının döşemelerinde kullanılmıştır.",
+        "Modern doğal taş kültüründe denge ve kademeli ilerleme temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
+        "Uzun güneş maruziyeti pembe tonu soldurabilir."
+      ],
+      "eslesme": ["unakit", "unakite"]
+    },
+
+    {
+      "slug": "zumrut",
+      "ad": "Zümrüt",
+      "ozet": "Akuamarinle aynı mineral, farklı eser element. İçindeki çatlaklar kusur sayılmaz.",
+      "kimlik": {
+        "Mineral grubu": "Beril",
+        "Kimyasal formül": "Be₃Al₂Si₆O₁₈ + Cr/V",
+        "Sertlik (Mohs)": "7,5 – 8",
+        "Renk": "Canlı yeşil",
+        "Başlıca kaynaklar": "Kolombiya, Zambiya, Brezilya, Afganistan"
+      },
+      "anlatim": [
+        "Zümrüt, berilin krom veya vanadyum içeren yeşil çeşididir. Akuamarinle aynı mineraldir; aradaki tek fark hangi eser elementin yapıya girdiğidir.",
+        "Neredeyse tüm zümrütler iç çatlak ve inklüzyon barındırır. Sektörde bunlara Fransızca *jardin*, yani \"bahçe\" denir ve kusur değil, doğallık kanıtı sayılır. Kusursuz berraklıktaki bir zümrüt genellikle sentetiktir.",
+        "Bu çatlaklar yüzünden zümrütlerin büyük bölümü sedir yağı veya reçineyle doldurularak görünümü iyileştirilir. Bu, açıklanması gereken standart bir işlemdir."
+      ],
+      "gelenek": [
+        "Kleopatra'nın Mısır'daki zümrüt madenleri antik dünyanın en ünlü kaynağıydı.",
+        "İspanyol fatihler Güney Amerika'da Kolombiya zümrütleriyle karşılaşınca Avrupa'ya büyük miktarda taş taşımıştır; Muzo ve Chivor madenleri bugün de en iyi kaynaklardır.",
+        "Mayıs ayının doğum taşıdır."
+      ],
+      "bakim": [
+        "Sert ama iç çatlakları nedeniyle kırılgandır.",
+        "Ultrasonik ve buharlı temizleyici kesinlikle kullanma — yağ dolgusu çıkar.",
+        "Ilık sabunlu suyla kısa süreli, yumuşak bezle sil."
+      ],
+      "eslesme": ["zümrüt", "zumrut", "emerald"]
+    }
+  ]
+}

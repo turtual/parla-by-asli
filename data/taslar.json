@@ -1,0 +1,352 @@
+{
+  "_not": "Taş ansiklopedisinin tek kaynağı. Değiştirdikten sonra `node tools/taslar-uret.js` çalıştır; taslar/ altındaki sayfalar ve sitemap.xml yeniden üretilir. Elle HTML düzenleme.",
+  "_yazim_kurali": "Sağlık iddiası KURULMAZ. 'iyileştirir, tedavi eder, geçirir, önler, şifa verir, detoks' gibi fiiller kullanılmaz. Kültürel anlatı 'geleneksel olarak ... ilişkilendirilir', 'halk inanışında', 'Antik ...'da ... sayılmıştır' kalıplarıyla, inanç olduğu belli edilerek yazılır.",
+
+  "taslar": [
+    {
+      "slug": "akuamarin",
+      "ad": "Akuamarin",
+      "ozet": "Adını deniz suyundan alan, açık mavi-yeşil tonlarındaki beril. Mart ayının taşı olarak bilinir.",
+      "kimlik": {
+        "Mineral grubu": "Beril",
+        "Kimyasal formül": "Be₃Al₂Si₆O₁₈",
+        "Sertlik (Mohs)": "7,5 – 8",
+        "Renk": "Açık mavi, mavi-yeşil",
+        "Başlıca kaynaklar": "Brezilya, Pakistan, Nijerya, Madagaskar"
+      },
+      "anlatim": [
+        "Akuamarin, zümrütle aynı mineral ailesinden gelir: ikisi de beril. Aradaki tek fark eser element. Zümrüde yeşilini krom verirken, akuamarine mavisini demir verir. Yani aynı taşın iki farklı hikâyesi.",
+        "Adı Latince *aqua marina*'dan, yani \"deniz suyu\"ndan geliyor. Doğal hâlinde çoğu zaman soluk, yeşilimsi bir mavidir; piyasadaki daha canlı mavi taşların büyük kısmı ısıl işlem görmüştür. Bu yaygın ve kabul gören bir uygulamadır, ama bilmekte fayda var.",
+        "7,5–8 sertliğiyle günlük kullanıma oldukça dayanıklıdır. Berilin bir zayıflığı vardır: darbeye karşı dilinimi. Sert bir çarpma çizikten çok çatlak yaratır."
+      ],
+      "gelenek": [
+        "Antik Roma'da denizcilerin taşı sayılmıştır. Uzun yolculuğa çıkanların yanlarında akuamarin taşıdığı, taşın denizle bir bağı olduğuna inanıldığı için sakin bir geçiş dilemek amacıyla kullanıldığı anlatılır.",
+        "Ortaçağ Avrupa'sında berraklık ve açık sözlülükle ilişkilendirilmiş; halk inanışında anlaşmazlıkları yumuşattığı düşünülmüştür.",
+        "Modern doğal taş kültüründe genellikle sakinlik ve ifade rahatlığı temalarıyla anılır."
+      ],
+      "bakim": [
+        "Sabunlu ılık su ve yumuşak bez yeterlidir.",
+        "Uzun süre doğrudan güneşte kalırsa rengi soluklaşabilir.",
+        "Ultrasonik temizleyici ve buhar kullanma; iç çatlağı olan taşlarda risklidir."
+      ],
+      "eslesme": ["akuamarin", "aquamarine", "aqua marin"]
+    },
+
+    {
+      "slug": "amazonit",
+      "ad": "Amazonit",
+      "ozet": "Beyaz damarlı, mavi-yeşil feldispat. Adını Amazon'dan alır ama orada bulunmaz.",
+      "kimlik": {
+        "Mineral grubu": "Feldispat (mikroklin)",
+        "Kimyasal formül": "KAlSi₃O₈",
+        "Sertlik (Mohs)": "6 – 6,5",
+        "Renk": "Mavi-yeşil, turkuaz yeşili; beyaz damarlı",
+        "Başlıca kaynaklar": "Rusya (Ural), Brezilya, Madagaskar, ABD (Colorado)"
+      },
+      "anlatim": [
+        "Amazonit bir mikroklin çeşididir. Karakteristik mavi-yeşil rengi uzun süre bakırla açıklandı; bugün rengin yapıdaki eser kurşun ve suyla ilişkili olduğu kabul ediliyor.",
+        "İsmi yanıltıcıdır. Amazon Nehri'nden aldığı adı hak etmez — bölgede amazonit yatağı bilinmiyor. Adlandırmanın, oradan geldiği sanılan başka bir yeşil taşla karıştırılmasından doğduğu düşünülüyor.",
+        "Yüzeyindeki beyaz ağsı desen, mikroklinin albitle iç içe büyümesinden kaynaklanır. Her taşta farklıdır; iki amazonit boncuk asla aynı deseni taşımaz."
+      ],
+      "gelenek": [
+        "Antik Mısır'da kullanıldığı biliniyor; Tutankamon'un mezarında amazonit nesneler bulunmuştur.",
+        "Halk inanışında iletişim ve kendini ifade etme temalarıyla ilişkilendirilir.",
+        "Modern doğal taş kültüründe genellikle tazelik ve dinginlik anlatısıyla anılır — bu, rengin çağrışımından beslenen bir yakıştırmadır."
+      ],
+      "bakim": [
+        "6 sertliğiyle orta dayanıklılıktadır; anahtar ve metalle aynı çantada taşıma.",
+        "Sabunlu ılık suyla sil, sonra iyice kurula.",
+        "Asitli temizleyicilerden ve parfümden uzak tut."
+      ],
+      "eslesme": ["amazonit", "amazonite"]
+    },
+
+    {
+      "slug": "ametist",
+      "ad": "Ametist",
+      "ozet": "Kuvarsın mor çeşidi. Antik Yunan'dan bu yana bilinen, en tanınmış doğal taşlardan biri.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Açık leylaktan koyu mora",
+        "Başlıca kaynaklar": "Brezilya, Uruguay, Zambiya, Madagaskar"
+      },
+      "anlatim": [
+        "Ametist saf kuvarstır; moru, yapıdaki eser demirin doğal radyasyonla etkileşiminden doğan renk merkezlerinden gelir. Bu yüzden renk ısıya duyarlıdır.",
+        "Yeterince ısıtılan ametist sarıya döner ve sitrin olarak satılır. Piyasadaki sitrinin büyük bölümü aslında ısıtılmış ametisttir — iki taşın akrabalığı burada somutlaşır.",
+        "Genellikle jeot içinde, boşluk duvarlarına dik büyümüş kristaller hâlinde bulunur. Uruguay ve Brezilya jeotları bu yüzden ünlüdür."
+      ],
+      "gelenek": [
+        "Adı Yunanca *amethystos*, yani \"sarhoş olmayan\" demektir. Antik Yunan'da ametistten yapılmış kadehlerin içkinin etkisini azalttığına inanılırdı; bu inanç taşın adını kalıcı olarak belirledi.",
+        "Ortaçağ'da kilise adamlarının yüzük taşı olmuş, ölçülülük ve tevazu ile ilişkilendirilmiştir.",
+        "Şubat ayının doğum taşıdır. Modern doğal taş kültüründe sakinlik ve durulma temalarıyla anılır."
+      ],
+      "bakim": [
+        "Uzun güneş maruziyeti moru belirgin biçimde soldurur — vitrin ve araba torpidosu iyi fikir değil.",
+        "Sabunlu ılık su yeterlidir.",
+        "Buharlı temizleyici kullanma."
+      ],
+      "eslesme": ["ametist", "amethyst"]
+    },
+
+    {
+      "slug": "angelit",
+      "ad": "Angelit",
+      "ozet": "Peru kökenli, soluk gök mavisi anhidrit. Yumuşaklığı ve suya duyarlılığıyla dikkat ister.",
+      "kimlik": {
+        "Mineral grubu": "Anhidrit",
+        "Kimyasal formül": "CaSO₄",
+        "Sertlik (Mohs)": "3,5",
+        "Renk": "Soluk gök mavisi, gri-mavi; beyaz damarlı",
+        "Başlıca kaynaklar": "Peru"
+      },
+      "anlatim": [
+        "Angelit, anhidritin ticari adıdır. 1987'de Peru'da bulunan yatakla tanınmıştır; jeolojik olarak yeni sayılmaz ama takı malzemesi olarak yenidir.",
+        "Kimyasal olarak susuz kalsiyum sülfattır. Su aldığında jipse dönüşür — bu, taşın en kritik özelliğidir. Suda bekletilen bir angelit yüzeyini ve parlaklığını kalıcı olarak kaybedebilir.",
+        "3,5 sertlikle takı taşları arasında en yumuşaklardandır. Tırnakla bile iz alabilir; bu bir kusur değil, mineralin doğasıdır."
+      ],
+      "gelenek": [
+        "Adı \"melek\" kelimesinden türetilmiş bir pazarlama adlandırmasıdır; mineralojik bir karşılığı yoktur.",
+        "Modern doğal taş kültüründe sükûnet ve sakin iletişim temalarıyla ilişkilendirilir. Antik bir geleneği yoktur — yakın dönemde oluşmuş bir anlatıdır.",
+        "Rengi gökyüzüne benzetildiği için ferahlık çağrışımıyla anılır."
+      ],
+      "bakim": [
+        "Suda bekletme, sabunlu suya batırma. Yalnızca kuru veya hafif nemli yumuşak bezle sil.",
+        "Parfüm, sprey ve nemli ortamdan uzak tut.",
+        "Diğer takılarla aynı gözde saklama; daha sert taşlar yüzeyini çizer."
+      ],
+      "eslesme": ["angelit", "angelite", "anhidrit"]
+    },
+
+    {
+      "slug": "gul-kuvars",
+      "ad": "Gül Kuvars",
+      "ozet": "Kuvarsın soluk pembe çeşidi. Rengini mikroskobik lif inklüzyonlarına borçludur.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Soluk pembe, gül pembesi",
+        "Başlıca kaynaklar": "Brezilya, Madagaskar, Hindistan"
+      },
+      "anlatim": [
+        "Gül kuvarsın pembesi, uzun süre titanyum veya manganez izlerine bağlandı. Bugün rengin, yapı içinde büyümüş mikroskobik dumortierit benzeri liflerden kaynaklandığı kabul ediliyor.",
+        "Bu lifler aynı zamanda taşın bulutlu, yarı saydam görünümünü açıklar. Berrak gül kuvars nadirdir; yaygın olan, ışığı içeride dağıtan sütlü dokudur.",
+        "İyi yönlenmiş liflere sahip bazı örnekler kabaşon kesildiğinde yıldız etkisi (asterizm) gösterir."
+      ],
+      "gelenek": [
+        "Mezopotamya ve Asur kalıntılarında gül kuvarstan yapılmış boncuklar bulunmuştur; bilinen en eski süs taşlarından biridir.",
+        "Halk inanışında sevgi ve şefkat temalarıyla ilişkilendirilir; modern doğal taş kültüründe en çok bu anlatıyla anılır.",
+        "Bu ilişkilendirme büyük ölçüde 20. yüzyılda yaygınlaşmıştır."
+      ],
+      "bakim": [
+        "Güneşte pembesi gözle görülür biçimde solar. Vitrinde sergileme, kutusunda sakla.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir.",
+        "Ani sıcaklık değişiminden kaçın."
+      ],
+      "eslesme": ["gül kuvars", "gul kuvars", "rose quartz", "pembe kuvars"]
+    },
+
+    {
+      "slug": "inci",
+      "ad": "İnci",
+      "ozet": "Mineral değil, canlı bir organizmanın ürünü. Takıdaki tek organik \"taş\"lardan biri.",
+      "kimlik": {
+        "Köken": "Organik — midye ve istiridye",
+        "Yapı": "Aragonit katmanları + konkiolin",
+        "Sertlik (Mohs)": "2,5 – 4,5",
+        "Renk": "Beyaz, krem, pembe, lila, gri",
+        "Başlıca kaynaklar": "Çin (tatlısu kültür incisi), Japonya, Avustralya"
+      },
+      "anlatim": [
+        "İnci, yumuşakçanın kabuk içine giren bir yabancı maddeyi katman katman sedefle kaplamasıyla oluşur. Her katman mikron kalınlığındadır; parlaklık bu katmanlardan yansıyan ışığın girişiminden doğar.",
+        "Bugün takıda kullanılan incilerin neredeyse tamamı **kültür incisidir**: oluşum doğaldır, tetikleyen müdahale insana aittir. İnsan eli değmeden oluşan doğal inci son derece nadirdir ve fiyatı bambaşka bir ligdedir.",
+        "Tatlısu kültür incileri genellikle tamamen sedeften oluşur, bu yüzden dayanıklılıkları görece iyidir. Yine de 2,5–4,5 sertlikle takının en narin parçasıdır."
+      ],
+      "gelenek": [
+        "Antik Roma'da servet göstergesiydi; Kleopatra'nın bir inciyi sirkede erittiği anlatısı bu itibarın efsaneleşmiş hâlidir.",
+        "Pek çok kültürde saflık ve olgunlukla ilişkilendirilmiş, gelin takılarında yüzyıllardır yer almıştır.",
+        "Haziran ayının doğum taşıdır."
+      ],
+      "bakim": [
+        "**Son takılan, ilk çıkarılan** olsun. Parfüm, sprey ve krem sedefi kalıcı olarak matlaştırır.",
+        "Asla suda bekletme, ultrasonik temizleyiciye sokma.",
+        "Kullandıktan sonra yumuşak bezle sil, ayrı bir kese veya bölmede sakla."
+      ],
+      "eslesme": ["inci", "pearl", "barok inci", "tatlısu", "damla inci"]
+    },
+
+    {
+      "slug": "kaplan-gozu",
+      "ad": "Kaplan Gözü",
+      "ozet": "Altın-kahve bantları ışıkta kayan kuvars. Etkinin adı şatoyans.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Altın sarısı – kahve bantlı",
+        "Başlıca kaynaklar": "Güney Afrika, Avustralya, Namibya"
+      },
+      "anlatim": [
+        "Kaplan gözü, lifli bir mineralin (krosidolit) zamanla kuvarsla yer değiştirmesiyle oluşur. Lifler kaybolur ama dizilimleri kalır.",
+        "Işık bu paralel lif izlerine çarptığında tek bir parlak şerit hâlinde yansır ve taş çevrildikçe şerit kayar. Bu optik olaya **şatoyans** ya da kedi gözü etkisi denir.",
+        "Rengi demir oksitlenmesinden gelir. Aynı oluşumun mavi kalanına şahin gözü, kırmızıya dönmüş olanına boğa gözü denir — üçü aynı taşın farklı evreleridir."
+      ],
+      "gelenek": [
+        "Antik Mısır'da tanrı heykellerinin gözlerinde kullanılmıştır.",
+        "Roma askerlerinin savaşa giderken üzerinde taşıdığı, cesaret ve dayanıklılıkla ilişkilendirildiği anlatılır.",
+        "Modern doğal taş kültüründe kararlılık ve odak temalarıyla anılır."
+      ],
+      "bakim": [
+        "7 sertliğiyle dayanıklıdır, günlük kullanıma uygundur.",
+        "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
+        "Uzun güneş maruziyeti bandın kontrastını zayıflatabilir."
+      ],
+      "eslesme": ["kaplan gözü", "kaplan gozu", "tiger eye", "tigers eye"]
+    },
+
+    {
+      "slug": "lapis-lazuli",
+      "ad": "Lapis Lazuli",
+      "ozet": "Altın pirit serpintili derin lacivert. 6000 yıldır aynı vadiden çıkıyor.",
+      "kimlik": {
+        "Mineral grubu": "Kayaç (lazurit + kalsit + pirit)",
+        "Sertlik (Mohs)": "5 – 6",
+        "Renk": "Derin lacivert; altın pirit ve beyaz kalsit benekli",
+        "Başlıca kaynaklar": "Afganistan (Badahşan), Şili, Rusya"
+      },
+      "anlatim": [
+        "Lapis lazuli tek bir mineral değil, bir kayaçtır. Rengi lazuritten, altın parıltıları pirit tanelerinden, beyaz damarları kalsitten gelir. Kaliteyi belirleyen şey, mavinin derinliği ve kalsitin azlığıdır.",
+        "Dünyanın en iyi lapisi 6000 yıldır Afganistan'ın Badahşan bölgesindeki aynı madenlerden çıkıyor. Bu, insanlığın kesintisiz işlettiği en eski maden sahalarından biridir.",
+        "Rönesans'a kadar en pahalı mavi pigment olan **ultramarin**, ezilmiş lapisten yapılırdı. Altından pahalıya mal olduğu için ressamlar onu yalnızca en önemli figürlerde kullanırdı."
+      ],
+      "gelenek": [
+        "Tutankamon'un ölüm maskesinde kullanılmıştır; Antik Mısır'da gökyüzü ve ilahi olanla ilişkilendirilmiştir.",
+        "Sümer'de ve Mezopotamya'da kraliyet mühürlerinde ve mezar armağanlarında yer almıştır.",
+        "Halk inanışında bilgelik ve doğruluk temalarıyla anılır."
+      ],
+      "bakim": [
+        "Gözenekli bir kayaçtır; sıvıları emer. Suda bekletme.",
+        "Kesinlikle ultrasonik temizleyici kullanma — kalsit damarları boyunca ayrışabilir.",
+        "Nemli bezle sil, kuru sakla. Parfümden uzak tut."
+      ],
+      "eslesme": ["lapis", "lazuli", "lapis lazuli"]
+    },
+
+    {
+      "slug": "oniks",
+      "ad": "Oniks",
+      "ozet": "Bantlı kalsedonun siyah çeşidi. Piyasadaki çoğu örnek boyalıdır.",
+      "kimlik": {
+        "Mineral grubu": "Kalsedon (kriptokristalin kuvars)",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "6,5 – 7",
+        "Renk": "Siyah; bantlı çeşitlerde beyaz şeritli",
+        "Başlıca kaynaklar": "Brezilya, Hindistan, Madagaskar, Uruguay"
+      },
+      "anlatim": [
+        "Oniks, düz paralel bantlı bir kalsedon çeşididir. Kelimenin asıl anlamı bantlı olandır; günlük kullanımda ise düz siyah taşı anlatır hâle gelmiştir.",
+        "Şunu açıkça söylemek gerekir: takıda kullanılan siyah oniksin büyük bölümü **renklendirilmiştir**. Gri kalsedon, şeker ve asit yöntemiyle karbonlaştırılarak siyaha çevrilir. Bu, yüzyıllardır uygulanan ve sektörde kabul gören bir yöntemdir; kusur değil, bilinmesi gereken bir gerçektir.",
+        "Kriptokristalin yapısı sayesinde kırılma yüzeyi pürüzsüzdür ve iyi cila tutar. Derin, ıslak görünümlü siyahı buradan gelir."
+      ],
+      "gelenek": [
+        "Antik Roma'da mühür yüzüklerinde kullanılmıştır; mumlu mühre yapışmadığı için tercih edilirdi — pratik bir sebep.",
+        "Pek çok kültürde koruma ve kararlılık temalarıyla ilişkilendirilmiştir.",
+        "Viktorya döneminde yas takılarının başlıca taşı olmuştur."
+      ],
+      "bakim": [
+        "Sabunlu ılık su ve yumuşak bez yeterlidir.",
+        "Renklendirilmiş taşlarda asitli ve alkollü temizleyicilerden kaçın.",
+        "Ani sıcaklık değişimi çatlatabilir."
+      ],
+      "eslesme": ["oniks", "onyx", "onix"]
+    },
+
+    {
+      "slug": "sedef",
+      "ad": "Sedef",
+      "ozet": "Kabuğun iç yüzeyi. Rengi boyadan değil, ışığın katmanlarda kırılmasından gelir.",
+      "kimlik": {
+        "Köken": "Organik — yumuşakça kabuğu",
+        "Yapı": "Aragonit plakaları + konkiolin",
+        "Sertlik (Mohs)": "2,5 – 4",
+        "Renk": "Beyaz, krem, gri; yanardöner",
+        "Başlıca kaynaklar": "Endonezya, Filipinler, Avustralya"
+      },
+      "anlatim": [
+        "Sedef, inciyle aynı maddedir: aragonit plakaları ve onları bir arada tutan organik konkiolin. Fark, incinin serbest bir küre, sedefin ise kabuğun iç astarı olmasıdır.",
+        "Yanardöner görünümü pigmentten kaynaklanmaz. Aragonit plakaları görünür ışığın dalga boyuna yakın kalınlıktadır; ışık bu katmanlarda kırılıp girişim yaparak renk üretir. Buna **yapısal renk** denir — kelebek kanadındaki mekanizmanın aynısı.",
+        "Bu yüzden sedefin rengi bakış açısına göre değişir ve hiçbir fotoğraf onu tam olarak veremez."
+      ],
+      "gelenek": [
+        "Osmanlı'da ahşap işçiliğinin ayrılmaz parçasıydı; kapı, rahle ve müzik aletlerinde sedef kakma ustalık göstergesiydi.",
+        "Deniz kültürlerinde bereket ve koruma temalarıyla ilişkilendirilmiştir.",
+        "Halk inanışında sakinlik ve akışkanlık anlatısıyla anılır."
+      ],
+      "bakim": [
+        "İnci gibi narindir. Parfüm ve kozmetikten sonra tak.",
+        "Suda bekletme; nemli bezle sil ve kurula.",
+        "Sert taşlarla aynı bölmede saklama."
+      ],
+      "eslesme": ["sedef", "mother of pearl", "nacre"]
+    },
+
+    {
+      "slug": "sitrin",
+      "ad": "Sitrin",
+      "ozet": "Kuvarsın sarı çeşidi. Piyasadakinin çoğu ısıtılmış ametisttir.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Açık sarı, bal, amber, sarı-turuncu",
+        "Başlıca kaynaklar": "Brezilya, Bolivya, Madagaskar"
+      },
+      "anlatim": [
+        "Sitrinin sarısı yapıdaki eser demirden gelir. Doğal sitrin gerçekten nadirdir; genellikle soluk, limonumsu bir sarıdır.",
+        "Piyasadaki koyu amber ve turuncu tonların büyük bölümü **ısıtılmış ametisttir**. Ametist yaklaşık 470 °C'nin üzerinde ısıtıldığında demirin yükseltgenme durumu değişir ve taş kalıcı olarak sararır. Yasal ve yaygın bir işlemdir.",
+        "Ayırt etmenin pratik yolu renk dağılımıdır: ısıtılmış taşlarda renk çoğu zaman uçlarda yoğunlaşır, doğal sitrinde daha homojendir."
+      ],
+      "gelenek": [
+        "Adı Fransızca *citron*, yani limondan gelir.",
+        "Antik Yunan ve Roma'da süs taşı olarak kullanılmış, İskoçya'da 17. yüzyılda kılıç kabzalarını süslemiştir.",
+        "Modern doğal taş kültüründe bolluk ve canlılık temalarıyla ilişkilendirilir; \"tüccar taşı\" adlandırması bu anlatının yakın dönem ürünüdür."
+      ],
+      "bakim": [
+        "Güneşte solabilir, özellikle ısıl işlem görmüş taşlar.",
+        "Sabunlu ılık su yeterlidir.",
+        "Yüksek ısıdan uzak tut — renk yeniden değişebilir."
+      ],
+      "eslesme": ["sitrin", "citrine"]
+    },
+
+    {
+      "slug": "yesim",
+      "ad": "Yeşim",
+      "ozet": "Tek bir taş değil, iki farklı mineralin ortak adı: jadeit ve nefrit.",
+      "kimlik": {
+        "Mineral grubu": "Jadeit (piroksen) veya Nefrit (amfibol)",
+        "Sertlik (Mohs)": "6 – 7",
+        "Renk": "Açık yeşilden koyu yeşile; beyaz, sarımsı, siyahımsı",
+        "Başlıca kaynaklar": "Myanmar, Çin, Yeni Zelanda, Kanada, Rusya"
+      },
+      "anlatim": [
+        "\"Yeşim\" adı iki ayrı mineral için kullanılır. **Jadeit** daha nadir ve değerlidir; imparator yeşili denen canlı ton ondadır. **Nefrit** daha yaygındır, genelde daha mat ve yağımsı bir görünüme sahiptir.",
+        "İkisi de lifli, iç içe geçmiş kristal yapıya sahiptir. Bu yüzden sertlikleri orta olmasına rağmen **tokluğu** olağanüstüdür: çizilebilir ama kırılması çok zordur. Neolitik dönemde balta yapımında tercih edilmesinin sebebi budur.",
+        "Piyasada \"yeşim\" adıyla satılan pek çok yeşil taş aslında serpantin, aventurin veya boyalı kuvarstır. Gerçek yeşim el sırtına değdiğinde belirgin biçimde serindir ve ağırdır."
+      ],
+      "gelenek": [
+        "Çin'de 5000 yılı aşkın süredir altından daha değerli sayılmıştır; Konfüçyüs yeşimin erdemleri temsil ettiğini yazmıştır.",
+        "Maya ve Aztek kültürlerinde de kutsal kabul edilmiş, mezar maskelerinde kullanılmıştır.",
+        "Maori kültüründe *pounamu* adıyla kuşaktan kuşağa aktarılan miras nesnesidir."
+      ],
+      "bakim": [
+        "Dayanıklıdır ama gözenekli olabilir; uzun süre suda bırakma.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir.",
+        "Boyalı örneklerde asitli temizleyici rengi çıkarabilir."
+      ],
+      "eslesme": ["yeşim", "yesim", "jade", "jadeit", "nefrit"]
+    }
+  ]
+}

@@ -1,0 +1,321 @@
+{
+  "_not": "Taş ansiklopedisi — 3. parça (İ–M). Yazım kuralı için data/taslar.json'a bak.",
+
+  "taslar": [
+    {
+      "slug": "iolit",
+      "ad": "İolit",
+      "ozet": "Bakış açısına göre rengi değişir. Vikinglerin pusulası olduğu düşünülür.",
+      "kimlik": {
+        "Mineral grubu": "Kordiyerit",
+        "Kimyasal formül": "Mg₂Al₄Si₅O₁₈",
+        "Sertlik (Mohs)": "7 – 7,5",
+        "Renk": "Menekşe mavisi; açıya göre gri veya sarımsı",
+        "Başlıca kaynaklar": "Hindistan, Sri Lanka, Madagaskar, Tanzanya"
+      },
+      "anlatim": [
+        "İolitin en belirgin özelliği **pleokroizmdir**: taş farklı eksenlerden bakıldığında farklı renk gösterir. Bir yönden derin menekşe mavisi, doksan derece çevrildiğinde soluk gri veya sarımsı görünür.",
+        "Bu, kesim ustası için ciddi bir kısıttır; taş yanlış yönde kesilirse mavi tamamen kaybolur.",
+        "Aynı özellik, Vikinglerin bulutlu havada güneşin yerini bulmak için ince iolit dilimlerini polarize filtre olarak kullandığı yönündeki yaygın anlatının kaynağıdır. Arkeolojik olarak kesin kanıtlanmış değildir ama fiziksel olarak mümkündür."
+      ],
+      "gelenek": [
+        "\"Viking pusulası\" adlandırması bu anlatıdan doğmuştur.",
+        "Adı Yunanca *ion*, yani menekşeden gelir.",
+        "Modern doğal taş kültüründe yön bulma ve içgörü temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Dayanıklıdır ama dilinimi vardır; sert darbeden koru.",
+        "Ultrasonik temizleyici kullanma.",
+        "Sabunlu ılık su yeterlidir."
+      ],
+      "eslesme": ["iolit", "iolite", "kordiyerit"]
+    },
+
+    {
+      "slug": "jasper",
+      "ad": "Jasper",
+      "ozet": "Opak kalsedon. Desenleri manzara resmine benzediği için \"resimli taş\" da denir.",
+      "kimlik": {
+        "Mineral grubu": "Kalsedon (opak kuvars)",
+        "Kimyasal formül": "SiO₂ + mineral safsızlıkları",
+        "Sertlik (Mohs)": "6,5 – 7",
+        "Renk": "Kırmızı, kahve, sarı, yeşil — çoğu zaman çok renkli desenli",
+        "Başlıca kaynaklar": "Hindistan, Brezilya, ABD, Madagaskar, Rusya"
+      },
+      "anlatim": [
+        "Jasper, içinde %20'ye varan oranda yabancı mineral barındıran opak bir kalsedondur. Rengini ve desenini bu safsızlıklara borçludur: demir oksitler kırmızı ve sarıyı, kil mineralleri kahveyi verir.",
+        "Akikten temel farkı saydamlıktır — akik yarı saydam, jasper tamamen opaktır.",
+        "Bazı örneklerde desenler manzara izlenimi verir; bunlara *manzara jasperi* denir. Desen tamamen rastlantısaldır ve iki taş asla aynı değildir."
+      ],
+      "gelenek": [
+        "Antik Mısır'da amulet olarak kullanılmış, kırmızı jasper koruma ile ilişkilendirilmiştir.",
+        "İncil'de adı geçen taşlardandır.",
+        "Yerli Amerikan kültürlerinde toprakla bağ kurma temasıyla anılır."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
+        "Boyalı örneklerde asitten kaçın."
+      ],
+      "eslesme": ["jasper", "jaspis", "yeşim taşı jasper"]
+    },
+
+    {
+      "slug": "kalsedon",
+      "ad": "Kalsedon",
+      "ozet": "Akik, oniks, karneol ve jasperin ortak üst adı. Mikroskobik kuvars lifleri.",
+      "kimlik": {
+        "Mineral grubu": "Kriptokristalin kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "6,5 – 7",
+        "Renk": "Mavimsi gri, beyaz, lavanta (dar anlamda)",
+        "Başlıca kaynaklar": "Türkiye, Brezilya, Hindistan, Madagaskar"
+      },
+      "anlatim": [
+        "Kalsedon aslında bir grup adıdır: gözle görülemeyecek kadar küçük kuvars liflerinden oluşan tüm taşları kapsar. Akik, oniks, karneol, krizopras ve jasper bu ailenin üyeleridir.",
+        "Dar anlamda kalsedon denince yarı saydam, mavimsi-gri ya da soluk lavanta rengindeki düz çeşit kastedilir.",
+        "Türkiye kalsedon açısından zengindir; Eskişehir ve Ankara çevresindeki mavi kalsedon yatakları uluslararası piyasada tanınır."
+      ],
+      "gelenek": [
+        "Adı, Antik Yunan'da Kalkedon (bugünkü Kadıköy) kentinden gelir — taşın oradan ticareti yapılıyordu.",
+        "Roma'da mühür taşı olarak yaygın kullanılmıştır; sıcak mumla yapışmaması pratik bir avantajdı.",
+        "Halk inanışında sakinlik ve uyum temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Gözenekli olabilir; parfüm ve boyalı sıvılardan uzak tut.",
+        "Sabunlu ılık su yeterlidir."
+      ],
+      "eslesme": ["kalsedon", "chalcedony", "kadıköy taşı"]
+    },
+
+    {
+      "slug": "karneol",
+      "ad": "Karneol",
+      "ozet": "Turuncu-kırmızı kalsedon. Antik dünyanın en çok kullanılan mühür taşlarından.",
+      "kimlik": {
+        "Mineral grubu": "Kalsedon",
+        "Kimyasal formül": "SiO₂ + demir oksit",
+        "Sertlik (Mohs)": "6,5 – 7",
+        "Renk": "Turuncu, kırmızı-turuncu, kızıl kahve",
+        "Başlıca kaynaklar": "Hindistan, Brezilya, Uruguay, Madagaskar"
+      },
+      "anlatim": [
+        "Karneol, rengini ince dağılmış demir oksite borçlu olan yarı saydam bir kalsedondur.",
+        "Doğal olarak soluk olan örnekler güneşte bekletilip ısıtılarak koyulaştırılır. Bu, en az 4000 yıldır uygulanan bir yöntemdir — Hindistan'da bugün de aynı şekilde yapılır.",
+        "Sardonyks denen bantlı çeşidi, karneol ve beyaz katmanların dönüşümlü dizilmesiyle oluşur; kameo oymacılığının klasik malzemesidir."
+      ],
+      "gelenek": [
+        "Antik Mısır'da yaygın kullanılmıştır; Tutankamon'un takılarında yer alır.",
+        "Roma'da mühür yüzüğü taşı olarak tercih edilmiştir.",
+        "İslam kültüründe yüzük taşı geleneği güçlüdür. Halk inanışında cesaret ve canlılık temalarıyla anılır."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Uzun güneş maruziyeti rengi değiştirebilir.",
+        "Sabunlu ılık su yeterlidir."
+      ],
+      "eslesme": ["karneol", "carnelian", "kırmızı akik"]
+    },
+
+    {
+      "slug": "kaya-kristali",
+      "ad": "Kaya Kristali",
+      "ozet": "Saf, renksiz kuvars. \"Kristal\" kelimesinin kökeni bu taştır.",
+      "kimlik": {
+        "Mineral grubu": "Kuvars",
+        "Kimyasal formül": "SiO₂",
+        "Sertlik (Mohs)": "7",
+        "Renk": "Renksiz, saydam",
+        "Başlıca kaynaklar": "Brezilya, Madagaskar, Alpler, Arkansas"
+      },
+      "anlatim": [
+        "Kaya kristali, hiçbir renk verici eser element içermeyen saf kuvarstır. Kuvars yeryüzü kabuğunun en yaygın ikinci mineralidir; kaya kristali onun berrak hâlidir.",
+        "Adı Yunanca *krystallos*, yani \"buz\"dan gelir. Antik Yunanlar bu taşın, hiç erimeyecek kadar donmuş su olduğuna inanıyordu — *kristal* kelimesi dile buradan girdi.",
+        "Kuvarsın **piezoelektrik** özelliği vardır: basınç altında elektrik üretir. Kuvars saatler, radyo vericileri ve mikroişlemcilerdeki zamanlama devreleri bu özelliğe dayanır."
+      ],
+      "gelenek": [
+        "Neredeyse tüm kültürlerde kutsal sayılmıştır; Japonya'da \"ejderhanın mükemmel mücevheri\" adıyla anılırdı.",
+        "Ortaçağ Avrupa'sında kürelerin ve dini nesnelerin malzemesiydi.",
+        "Modern doğal taş kültüründe berraklık ve odak temalarıyla ilişkilendirilir; \"ana taş\" olarak anılması yakın dönem bir adlandırmadır."
+      ],
+      "bakim": [
+        "Dayanıklıdır, günlük kullanıma uygundur.",
+        "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
+        "İç çatlağı olan taşlarda ani sıcaklık değişiminden kaçın."
+      ],
+      "eslesme": ["kaya kristali", "kuvars", "quartz", "rock crystal", "kristal kuvars"]
+    },
+
+    {
+      "slug": "krizokol",
+      "ad": "Krizokol",
+      "ozet": "Bakır yataklarında oluşan turkuaz-yeşil taş. Adı \"altın tutkalı\" demek.",
+      "kimlik": {
+        "Mineral grubu": "Silikat (bakırlı)",
+        "Sertlik (Mohs)": "2 – 4 (kuvarslaşmışsa 6–7)",
+        "Renk": "Turkuaz, gök mavisi, yeşil-mavi",
+        "Başlıca kaynaklar": "Peru, Kongo, ABD (Arizona), İsrail"
+      },
+      "anlatim": [
+        "Krizokol, bakır yataklarının oksitlenme kuşağında oluşur. Canlı mavi-yeşil rengi doğrudan bakır içeriğinden gelir.",
+        "Saf hâlde çok yumuşaktır (Mohs 2–4) ve takıda kullanılamaz. Takıda gördüğümüz krizokolün büyük kısmı kuvarsla doğal olarak kaynaşmış hâlidir; bu karışıma *krizokol kalsedon* veya ticari adıyla **gem silika** denir ve sertliği 6–7'ye çıkar.",
+        "Malakit ve azuritle aynı ortamda bulunduğu için sık sık iç içe geçmiş örnekleri görülür."
+      ],
+      "gelenek": [
+        "Adı Yunanca *chrysos* (altın) ve *kolla* (tutkal) kelimelerinden gelir; antik dönemde altın lehimlemede kullanılan bir maddeye verilen addı.",
+        "Mısır'da bakır madenciliğiyle birlikte tanınmıştır.",
+        "Modern doğal taş kültüründe iletişim ve dinginlik temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Kuvarslaşmamış örnekler çok yumuşaktır, dikkatli kullan.",
+        "Asit ve amonyaktan uzak tut — bakır bileşikleri tepki verir.",
+        "Suda bekletme; nemli bezle sil."
+      ],
+      "eslesme": ["krizokol", "chrysocolla", "gem silika"]
+    },
+
+    {
+      "slug": "kyanit",
+      "ad": "Kyanit",
+      "ozet": "Aynı kristalde iki farklı sertlik. Bıçak gibi yassı, mavi levhalar hâlinde büyür.",
+      "kimlik": {
+        "Mineral grubu": "Silikat",
+        "Kimyasal formül": "Al₂SiO₅",
+        "Sertlik (Mohs)": "4,5 uzunlamasına — 6,5 enlemesine",
+        "Renk": "Mavi (en yaygın), yeşil, siyah, turuncu",
+        "Başlıca kaynaklar": "Nepal, Brezilya, Hindistan, Kenya"
+      },
+      "anlatim": [
+        "Kyanitin en sıra dışı özelliği **anizotropik sertliğidir**: kristalin uzun ekseni boyunca 4,5, ona dik yönde 6,5 sertliktedir. Aynı taşın bir yönü bıçakla çizilirken diğer yönü çizilmez.",
+        "Bu yüzden eski adı *disten*'dir; Yunanca \"iki güç\" anlamına gelir.",
+        "Yüksek basınç altında oluşur ve jeologlar için bir basınç göstergesidir. Aynı kimyasal formüle sahip andaluzit ve sillimanit, farklı basınç ve sıcaklıklarda oluşan kardeş mineralleridir."
+      ],
+      "gelenek": [
+        "Adı Yunanca *kyanos*, yani koyu maviden gelir.",
+        "Antik bir takı geleneği yoktur; daha çok endüstriyel seramikte kullanılmıştır.",
+        "Modern doğal taş kültüründe hizalanma ve açık ifade temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Levhamsı yapısı nedeniyle kolay kırılır; darbeden koru.",
+        "Ultrasonik temizleyici kullanma.",
+        "Yumuşak nemli bezle sil."
+      ],
+      "eslesme": ["kyanit", "kianit", "kyanite", "disten"]
+    },
+
+    {
+      "slug": "labradorit",
+      "ad": "Labradorit",
+      "ozet": "Çevirdikçe mavi, yeşil ve altın parlar. Bu etkinin adı labradoresans.",
+      "kimlik": {
+        "Mineral grubu": "Feldispat (plajiyoklaz)",
+        "Sertlik (Mohs)": "6 – 6,5",
+        "Renk": "Gri gövde; mavi, yeşil, altın, mor yanardönerlik",
+        "Başlıca kaynaklar": "Kanada (Labrador), Madagaskar, Finlandiya"
+      },
+      "anlatim": [
+        "Labradorit sıradan gri bir taş gibi görünür — ta ki doğru açıyla ışık alana kadar. O anda yüzeyinde mavi, yeşil ve altın renkler dalgalanır.",
+        "Bu etkiye **labradoresans** denir. Sebebi, mineralin soğurken mikroskobik katmanlara ayrışması ve ışığın bu katmanlarda girişim yapmasıdır. Yani renk pigmentten değil, yapıdan gelir.",
+        "Finlandiya'da bulunan, tüm spektrumu gösteren çeşidine *spektrolit* denir."
+      ],
+      "gelenek": [
+        "1770'te Kanada'nın Labrador yarımadasında bulunmuş ve adını oradan almıştır.",
+        "Inuit anlatılarında kuzey ışıklarının taşa hapsolduğu söylenir.",
+        "Modern doğal taş kültüründe dönüşüm ve koruma temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Feldispat dilinimi vardır; darbeye karşı korunmalı.",
+        "Ultrasonik temizleyici kullanma.",
+        "Sabunlu ılık su ve yumuşak bez yeterlidir."
+      ],
+      "eslesme": ["labradorit", "labradorite", "spektrolit"]
+    },
+
+    {
+      "slug": "lepidolit",
+      "ad": "Lepidolit",
+      "ozet": "Lityum içeren leylak rengi mika. Pullu yapısı ışıkta pırıldar.",
+      "kimlik": {
+        "Mineral grubu": "Mika",
+        "Sertlik (Mohs)": "2,5 – 3",
+        "Renk": "Leylak, mor, pembemsi gri",
+        "Başlıca kaynaklar": "Brezilya, Madagaskar, ABD, Çekya"
+      },
+      "anlatim": [
+        "Lepidolit lityumca zengin bir mikadır; lityumun başlıca cevherlerinden biridir. Mor rengi manganez izlerinden gelir.",
+        "Mika ailesinin üyesi olduğu için son derece ince yapraklar hâlinde ayrılır. Adı Yunanca *lepidos*, yani \"pul\"dan gelir.",
+        "Mohs 2,5–3 sertliğiyle takıda kullanılan en yumuşak taşlardandır. Takıda karşılaşılan örnekler genellikle kuvarsla kaynaşmış, daha dayanıklı hâlleridir."
+      ],
+      "gelenek": [
+        "1861'de tanımlanmıştır; antik bir geleneği yoktur.",
+        "Modern doğal taş kültüründe sakinleşme ve geçiş dönemleri temalarıyla ilişkilendirilir.",
+        "Lityum içeriği nedeniyle çeşitli iddialar dolaşır; taştaki lityum vücuda geçmez, bu ilişkilendirmeler kültürel anlatı düzeyindedir."
+      ],
+      "bakim": [
+        "Çok yumuşaktır; kolye ucu olarak kullan, yüzükte tercih etme.",
+        "Suda bekletme, yapraklar arasına su girer.",
+        "Kuru yumuşak bezle sil."
+      ],
+      "eslesme": ["lepidolit", "lepidolite"]
+    },
+
+    {
+      "slug": "malakit",
+      "ad": "Malakit",
+      "ozet": "Konsantrik yeşil bantlar. Rus çarlarının odalarını kaplayan taş.",
+      "kimlik": {
+        "Mineral grubu": "Karbonat (bakırlı)",
+        "Kimyasal formül": "Cu₂CO₃(OH)₂",
+        "Sertlik (Mohs)": "3,5 – 4",
+        "Renk": "Açık ve koyu yeşil bantlı",
+        "Başlıca kaynaklar": "Kongo, Rusya (Ural), Zambiya, Avustralya"
+      },
+      "anlatim": [
+        "Malakit, bakır yataklarının üst kısımlarında ikincil olarak oluşur. Karakteristik halkalı deseni, çözeltiden katman katman çökelmesinden doğar.",
+        "Rusya'nın Ural yataklarından çıkan devasa bloklar 19. yüzyılda St. Petersburg'daki Kışlık Saray'ın malakit salonunu kaplamakta kullanılmıştır.",
+        "Bir uyarı gerektirir: malakit tozu bakır bileşiği olduğu için solunmamalıdır. Cilalı takı parçası günlük kullanımda güvenlidir; kesim ve zımpara işlemi maske ister."
+      ],
+      "gelenek": [
+        "Antik Mısır'da öğütülüp yeşil göz farı olarak kullanılmıştır — bilinen en eski kozmetik pigmentlerinden biri.",
+        "Rusya'da Ural efsanelerinin merkezindedir; \"Bakır Dağın Hanımı\" masalları bu taş etrafında döner.",
+        "Halk inanışında koruma ve dönüşüm temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Yumuşaktır ve asitlere karşı hassastır; limon, sirke ve ter cilayı bozar.",
+        "Suda bekletme, ultrasonik temizleyici kullanma.",
+        "Kuru yumuşak bezle sil, ayrı sakla."
+      ],
+      "eslesme": ["malakit", "malachite"]
+    },
+
+    {
+      "slug": "mercan",
+      "ad": "Mercan",
+      "ozet": "Taş değil, canlı bir kolonin iskeleti. Akdeniz'in kırmızı mercanı yüzyıllardır takıda.",
+      "kimlik": {
+        "Köken": "Organik — mercan polip iskeleti",
+        "Yapı": "Kalsiyum karbonat (kalsit)",
+        "Sertlik (Mohs)": "3 – 4",
+        "Renk": "Kırmızı, somon, pembe, beyaz, siyah",
+        "Başlıca kaynaklar": "Akdeniz, Japonya, Tayvan çevresi"
+      },
+      "anlatim": [
+        "Mücevher mercanı, mercan poliplerinin salgıladığı sert iskeletten elde edilir. İnci ve sedef gibi organik kökenlidir.",
+        "Akdeniz'in *Corallium rubrum* türü, kırmızı mercanın klasik kaynağıdır ve İtalya'nın Torre del Greco kasabası yüzyıllardır bu işin merkezidir.",
+        "Sürdürülebilirlik burada gerçek bir konudur. Pek çok mercan türü koruma altındadır ve ticareti sınırlıdır. Piyasadaki ucuz \"mercan\" boncukların büyük kısmı boyanmış bambu mercan, reçine veya renklendirilmiş kalsittir."
+      ],
+      "gelenek": [
+        "Antik Roma'da çocukların boynuna korunma amacıyla takılırdı; Plinius bundan söz eder.",
+        "Anadolu'da ve Orta Asya'da geleneksel takıların ayrılmaz parçası olmuştur; gümüş işçiliğiyle birlikte kullanılır.",
+        "Halk inanışında koruma ve yaşam gücü temalarıyla ilişkilendirilir."
+      ],
+      "bakim": [
+        "Yumuşak ve gözeneklidir; asitlere karşı çok hassastır.",
+        "Parfüm, ter ve temizleyicilerden uzak tut — yüzeyi matlaşır.",
+        "Nemli bezle sil, ayrı bir kesede sakla."
+      ],
+      "eslesme": ["mercan", "coral", "kırmızı mercan"]
+    }
+  ]
+}
