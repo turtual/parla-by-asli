@@ -104,6 +104,7 @@
   const fPrice = document.getElementById('product-price');
   const fCategory = document.getElementById('product-category');
   const fCollection = document.getElementById('product-collection');
+  const fCollections = document.getElementById('product-collections');
   const fDescription = document.getElementById('product-description');
   const fMaterials = document.getElementById('product-materials');
   const fSlug = document.getElementById('product-slug');
@@ -121,6 +122,7 @@
   let allProductTypes = [];
   let editingProduct = null; // null = yeni, obj = düzenleme
   let productImages = []; // sıralı görsel URL listesi — ilk eleman ana fotoğraf
+  let productCollectionIds = []; // ürünün göründüğü tüm koleksiyonlar (ana dahil)
   let editingCollection = null;
   let editingProductType = null;
   let editingContentPageSlug = null;
@@ -437,7 +439,7 @@
     const filtered = allProducts.filter(p => {
       if (search && !p.name.toLowerCase().includes(search) && !p.slug.toLowerCase().includes(search)) return false;
       if (catF && p.category !== catF) return false;
-      if (colF && p.collectionId !== colF) return false;
+      if (colF && !urunKoleksiyonlari(p).includes(colF)) return false;
       return true;
     });
 
@@ -508,8 +510,23 @@
     if (dragEnabled) bindProductDrag();
   }
 
+  /** Ürünün göründüğü koleksiyon id'leri — ana koleksiyon her zaman ilk. */
+  function urunKoleksiyonlari(p) {
+    const hepsi = [];
+    if (p.collectionId) hepsi.push(p.collectionId);
+    (p.collectionIds || []).forEach(id => {
+      if (id && !hepsi.includes(id)) hepsi.push(id);
+    });
+    return hepsi;
+  }
+
   function renderProductRow(p, dragEnabled) {
-    const colName = (allCollections.find(c => c.id === p.collectionId) || {}).name || '—';
+    // Ana koleksiyon adı; ürün başka koleksiyonlarda da görünüyorsa "+2"
+    const idler = urunKoleksiyonlari(p);
+    const adlar = idler.map(id => (allCollections.find(c => c.id === id) || {}).name).filter(Boolean);
+    const colName = adlar.length
+      ? adlar[0] + (adlar.length > 1 ? ` +${adlar.length - 1}` : '')
+      : '—';
     const typeName = (allProductTypes.find(t => t.slug === p.category) || {}).name || p.category;
     const inactiveBadge = !p.isActive
       ? '<span class="badge badge-inactive">Pasif</span>'
@@ -531,7 +548,7 @@
           <div style="font-weight: 500;">${escapeHtml(p.name)}${featured}</div>
           <div style="font-size: 11px; color: var(--c-toprak); font-family: ui-monospace, monospace;">${escapeHtml(p.slug)}</div>
         </td>
-        <td>${escapeHtml(colName)}</td>
+        <td title="${escapeHtml(adlar.join(', '))}">${escapeHtml(colName)}</td>
         <td>${escapeHtml(typeName)}</td>
         <td><span class="${stockClass}">${stock} adet</span></td>
         <td>${inactiveBadge}</td>
@@ -690,6 +707,9 @@
       fPrice.value = product.price || 0;
       fCategory.value = product.category || '';
       fCollection.value = product.collectionId || '';
+      productCollectionIds = (product.collectionIds && product.collectionIds.length)
+        ? [...product.collectionIds]
+        : (product.collectionId ? [product.collectionId] : []);
       fDescription.value = product.description || '';
       fMaterials.value = (product.materials || []).join('\n');
       fSlug.value = product.slug || '';
@@ -709,11 +729,68 @@
       fStock.value = 0;
       fActive.checked = true;
       productImages = [];
+      productCollectionIds = [];
     }
     renderImageList();
+    renderCollectionChecks();
 
     productModal.classList.add('is-open');
   }
+
+  /**
+   * "Ayrıca göründüğü koleksiyonlar" listesi.
+   *
+   * Ana koleksiyon her zaman işaretli ve kilitli görünür — ürün ana
+   * koleksiyonundan çıkarılamaz, orası yukarıdaki seçimle değişir.
+   */
+  function renderCollectionChecks() {
+    if (!fCollections) return;
+
+    const ana = fCollection.value;
+    if (ana && productCollectionIds.indexOf(ana) === -1) productCollectionIds.push(ana);
+
+    if (!allCollections.length) {
+      fCollections.innerHTML = '<span style="font-size:12px;color:var(--c-toprak);">Önce koleksiyon eklemelisin.</span>';
+      return;
+    }
+
+    fCollections.innerHTML = allCollections.map(c => {
+      const anaMi = c.id === ana;
+      const secili = anaMi || productCollectionIds.indexOf(c.id) !== -1;
+      return `
+        <label class="${anaMi ? 'is-ana' : ''}">
+          <input type="checkbox" value="${escapeHtml(c.id)}"
+                 ${secili ? 'checked' : ''} ${anaMi ? 'disabled' : ''}>
+          <span>${escapeHtml(c.name)}${anaMi ? ' (ana)' : ''}</span>
+        </label>`;
+    }).join('');
+
+    // Veritabanında collection_ids kolonu yoksa seçim kaydedilmez —
+    // sessizce yutmak yerine söylüyoruz. (db/2026-09-03-coklu-koleksiyon.sql)
+    PB_Data.hasMultiCollection().then(destekVar => {
+      if (destekVar || !fCollections.children.length) return;
+      if (document.getElementById('koleksiyon-uyari')) return; // tek sefer
+      const uyari = document.createElement('p');
+      uyari.id = 'koleksiyon-uyari';
+      uyari.className = 'koleksiyon-secim-not';
+      uyari.style.color = '#b3541e';
+      uyari.textContent = 'Çoklu koleksiyon için veritabanı güncellemesi gerekiyor '
+        + '(db/2026-09-03-coklu-koleksiyon.sql). O çalıştırılana kadar ürün yalnız ana koleksiyonda görünür.';
+      fCollections.after(uyari);
+    });
+
+    fCollections.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const id = cb.value;
+        const i = productCollectionIds.indexOf(id);
+        if (cb.checked && i === -1) productCollectionIds.push(id);
+        if (!cb.checked && i !== -1) productCollectionIds.splice(i, 1);
+      });
+    });
+  }
+
+  // Ana koleksiyon değişince kilitli işaret de yer değiştirsin
+  fCollection.addEventListener('change', renderCollectionChecks);
 
   function closeProductModal() {
     productModal.classList.remove('is-open');
@@ -768,6 +845,201 @@
     imageInput.value = ''; // aynı dosya tekrar seçilebilsin diye
   });
 
+  /* ──────────── KARE KIRPMA (ürün fotoğrafı) ────────────
+   *
+   * Ürün kartları kare. Farklı oranlarda fotoğraf yüklenince ızgarada kimi
+   * ürün küçük kalıyor, kimi kenarlardan boşluklu görünüyordu. Bu yüzden her
+   * fotoğraf yüklenmeden ÖNCE burada kareye alınıyor: sitede hepsi aynı boy.
+   *
+   * İki kadraj biçimi var:
+   *   Doldur — kare tamamen dolar, taşan kenarlar kesilir (varsayılan)
+   *   Sığdır — fotoğrafın tamamı görünür, boşluk beyazla tamamlanır
+   *            (uzun kolyelerde kolyenin ucu kesilmesin diye)
+   */
+
+  const KIRP_ATLA_TIPLERI = ['image/svg+xml', 'image/gif']; // vektör/hareketli bozulur
+  const KIRP_ONIZLEME_PX = 760;  // canvas backing store (CSS'te 380'e sığar)
+  const KIRP_CIKTI_PX = 1400;    // kaydedilen kare fotoğrafın kenarı
+
+  function kirpCiz(ctx, S, img, durum) {
+    const w = img.naturalWidth, h = img.naturalHeight;
+    const dik = durum.donme % 180 !== 0;
+    const effW = dik ? h : w;
+    const effH = dik ? w : h;
+    const taban = durum.mod === 'sigdir'
+      ? Math.min(S / effW, S / effH)
+      : Math.max(S / effW, S / effH);
+    const s = taban * durum.zoom;
+
+    // Kaydırma sınırı: "doldur"da kare hep dolu kalsın; "sığdır"da fotoğraf
+    // kutunun dışına kaçmasın.
+    const sinirX = Math.abs(effW * s - S) / 2;
+    const sinirY = Math.abs(effH * s - S) / 2;
+    durum.ox = Math.max(-sinirX, Math.min(sinirX, durum.ox));
+    durum.oy = Math.max(-sinirY, Math.min(sinirY, durum.oy));
+
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, S, S);
+    ctx.translate(S / 2 + durum.ox, S / 2 + durum.oy);
+    ctx.rotate(durum.donme * Math.PI / 180);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, -w * s / 2, -h * s / 2, w * s, h * s);
+    ctx.restore();
+  }
+
+  function kirpGorselYukle(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => resolve({ img, url });
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('açılamadı')); };
+      img.src = url;
+    });
+  }
+
+  /**
+   * Kırpma penceresini açar.
+   * @returns {Promise<File|null>} kare fotoğraf; kullanıcı vazgeçerse null
+   */
+  async function kareKirpAc(file, sira, toplam) {
+    if (KIRP_ATLA_TIPLERI.indexOf(file.type) !== -1) return file;
+
+    let yuklenen;
+    try {
+      yuklenen = await kirpGorselYukle(file);
+    } catch (e) {
+      // HEIC gibi tarayıcının açamadığı biçimler — kırpmadan yükle
+      console.warn('Kırpma için açılamadı, olduğu gibi yükleniyor:', file.name, e);
+      return file;
+    }
+
+    const { img, url } = yuklenen;
+    const durum = { zoom: 1, ox: 0, oy: 0, donme: 0, mod: 'doldur' };
+
+    return new Promise(resolve => {
+      const kat = document.createElement('div');
+      kat.className = 'cerceve-kat';
+      kat.innerHTML = `
+        <div class="cerceve-kart" style="max-width: 440px;">
+          <h3>Fotoğrafı kareye al</h3>
+          <p style="font-size: 12px; color: var(--c-toprak); margin-bottom: 12px;">
+            Sürükleyerek kaydır, çubukla yakınlaştır. Bütün ürün fotoğrafları
+            aynı kare boyda kaydedilir.
+          </p>
+          <div class="kirp-sahne">
+            <canvas width="${KIRP_ONIZLEME_PX}" height="${KIRP_ONIZLEME_PX}"></canvas>
+            <div class="kirp-izgara"></div>
+          </div>
+          <div class="kirp-araclar">
+            <button type="button" class="kirp-dugme" data-op="dondur" title="90° döndür">⟳</button>
+            <input type="range" min="100" max="300" value="100" aria-label="Yakınlaştır">
+            <button type="button" class="kirp-dugme" data-op="mod" title="Doldur / sığdır">⊡</button>
+          </div>
+          <div class="kirp-sayac"></div>
+          <div class="cerceve-islem">
+            <button type="button" class="btn btn-ghost" data-iptal>VAZGEÇ</button>
+            <button type="button" class="btn btn-primary" data-kaydet>TAMAM</button>
+          </div>
+        </div>`;
+
+      const sahne = kat.querySelector('.kirp-sahne');
+      const canvas = kat.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      const zoomGirdi = kat.querySelector('input[type="range"]');
+      const sayac = kat.querySelector('.kirp-sayac');
+
+      function tazele() {
+        kirpCiz(ctx, KIRP_ONIZLEME_PX, img, durum);
+        sayac.textContent = (toplam > 1 ? `${sira} / ${toplam} · ` : '')
+          + (durum.mod === 'sigdir' ? 'Tamamı görünüyor (boşluklar beyaz)' : 'Kare dolduruluyor, taşan kenarlar kesilir');
+      }
+
+      tazele();
+
+      zoomGirdi.addEventListener('input', () => {
+        durum.zoom = Number(zoomGirdi.value) / 100;
+        tazele();
+      });
+
+      kat.querySelector('[data-op="dondur"]').addEventListener('click', () => {
+        durum.donme = (durum.donme + 90) % 360;
+        durum.ox = 0; durum.oy = 0;
+        tazele();
+      });
+
+      kat.querySelector('[data-op="mod"]').addEventListener('click', () => {
+        durum.mod = durum.mod === 'doldur' ? 'sigdir' : 'doldur';
+        durum.zoom = 1; durum.ox = 0; durum.oy = 0;
+        zoomGirdi.value = '100';
+        tazele();
+      });
+
+      // Sürükleyerek kaydırma — fare ve dokunmatik
+      let suruk = null;
+      function basla(e) {
+        const n = e.touches ? e.touches[0] : e;
+        suruk = { ex: n.clientX, ey: n.clientY, bx: durum.ox, by: durum.oy };
+      }
+      function hareket(e) {
+        if (!suruk) return;
+        const n = e.touches ? e.touches[0] : e;
+        const r = sahne.getBoundingClientRect();
+        const olcek = KIRP_ONIZLEME_PX / r.width; // ekran px → canvas px
+        durum.ox = suruk.bx + (n.clientX - suruk.ex) * olcek;
+        durum.oy = suruk.by + (n.clientY - suruk.ey) * olcek;
+        tazele();
+        if (e.cancelable) e.preventDefault();
+      }
+      function bitir() { suruk = null; }
+
+      sahne.addEventListener('mousedown', basla);
+      sahne.addEventListener('touchstart', basla, { passive: true });
+      sahne.addEventListener('touchmove', hareket, { passive: false });
+      sahne.addEventListener('touchend', bitir);
+      window.addEventListener('mousemove', hareket);
+      window.addEventListener('mouseup', bitir);
+
+      function kapat() {
+        window.removeEventListener('mousemove', hareket);
+        window.removeEventListener('mouseup', bitir);
+        URL.revokeObjectURL(url);
+        kat.remove();
+      }
+
+      kat.querySelector('[data-iptal]').addEventListener('click', () => {
+        kapat();
+        resolve(null);
+      });
+
+      kat.querySelector('[data-kaydet]').addEventListener('click', () => {
+        const cikti = document.createElement('canvas');
+        cikti.width = KIRP_CIKTI_PX;
+        cikti.height = KIRP_CIKTI_PX;
+        // Önizlemeyle birebir aynı kadraj: kaydırma da aynı oranda büyür
+        const k = KIRP_CIKTI_PX / KIRP_ONIZLEME_PX;
+        kirpCiz(cikti.getContext('2d'), KIRP_CIKTI_PX, img, {
+          ...durum, ox: durum.ox * k, oy: durum.oy * k
+        });
+
+        cikti.toBlob(blob => {
+          kapat();
+          if (!blob) { resolve(file); return; }
+          const ad = file.name.replace(/\.[^.]+$/, '') + '-kare.jpg';
+          try {
+            resolve(new File([blob], ad, { type: 'image/jpeg', lastModified: Date.now() }));
+          } catch (e) {
+            blob.name = ad;
+            resolve(blob);
+          }
+        }, 'image/jpeg', 0.92);
+      });
+
+      document.body.appendChild(kat);
+    });
+  }
+
   /** Bayt sayısını okunur hâle getirir: 3407872 → "3,3 MB" */
   function boyutYazisi(bayt) {
     if (bayt >= 1024 * 1024) return (bayt / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB';
@@ -778,8 +1050,11 @@
   async function handleImageFiles(files) {
     let basarili = 0;
     let kazanc = 0;
+    let sira = 0;
 
     for (const file of files) {
+      sira++;
+
       // Görseller yükleme öncesi tarayıcıda küçültülüyor (bkz. PB_Data.optimizeImage),
       // o yüzden buradaki sınır depo sınırı değil; sadece makinede çözülemeyecek
       // kadar devasa dosyaları en baştan eliyor.
@@ -788,9 +1063,13 @@
         continue;
       }
 
+      // Önce kareye al — sitede tüm ürün fotoğrafları aynı boyda görünsün
+      const kare = await kareKirpAc(file, sira, files.length);
+      if (!kare) continue; // vazgeçildi
+
       showStatus(formStatus, `Hazırlanıyor… (${file.name})`, 'info');
       const productId = fId.value || 'temp-' + Date.now();
-      const { data, error } = await PB_Data.adminUploadImage(file, productId);
+      const { data, error } = await PB_Data.adminUploadImage(kare, productId);
 
       if (error) {
         showStatus(formStatus, `${file.name} yüklenemedi: ` + (error.message || error), 'error');
@@ -875,6 +1154,8 @@
       price: parseInt(fPrice.value) || 0,
       category: fCategory.value,
       collectionId: fCollection.value,
+      // Ana koleksiyon her zaman dizinin başında
+      collectionIds: [fCollection.value, ...productCollectionIds.filter(id => id && id !== fCollection.value)],
       // Kişiye özel tasarım stüdyosu kaldırıldı, katalogda artık tek tip
       // ürün var. 'mode' kolonu veritabanı şemasında duruyor, sabit değer
       // veriyoruz ki eski sorgular/raporlar bozulmasın.
@@ -891,10 +1172,12 @@
     };
 
     // Sıralama artık sürükle-bırak ile yönetiliyor (bkz. persistNewOrder).
-    // Düzenlemede dokunmuyoruz; yeni ürün listenin sonuna ekleniyor.
+    // Düzenlemede dokunmuyoruz; yeni ürün listenin BAŞINA ekleniyor —
+    // sitede yeni parçalar en üstte, YENİ rozetiyle görünsün diye.
+    // Sonrasında sürükleyerek istediğin yere taşıyabilirsin.
     if (!editingProduct) {
-      const maxSira = allProducts.reduce((m, p) => Math.max(m, p.displayOrder || 0), 0);
-      productData.displayOrder = maxSira + 10;
+      const minSira = allProducts.reduce((m, p) => Math.min(m, p.displayOrder || 0), 0);
+      productData.displayOrder = minSira - 10;
     }
 
     let result;

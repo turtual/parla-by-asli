@@ -638,6 +638,110 @@
       margin-top: 16px;
     }
 
+    /* ───── Çoklu koleksiyon seçimi ───── */
+    .koleksiyon-secim {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .koleksiyon-secim label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 11px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 999px;
+      font-size: 12px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--c-sicak-siyah);
+      cursor: pointer;
+      user-select: none;
+      margin: 0;
+    }
+
+    .koleksiyon-secim label:has(input:checked) {
+      background: var(--c-sicak-siyah);
+      color: #fff;
+      border-color: var(--c-sicak-siyah);
+    }
+
+    /* Ana koleksiyon her zaman işaretli ve kilitli — kaldırmak istersen
+       yukarıdaki "Ana koleksiyon" seçimini değiştir. */
+    .koleksiyon-secim label.is-ana { opacity: 0.75; cursor: default; }
+
+    .koleksiyon-secim input { margin: 0; }
+
+    .koleksiyon-secim-not {
+      font-size: 11px;
+      color: var(--c-toprak);
+      margin-top: 6px;
+    }
+
+    /* ───── Kare kırpma aracı (ürün fotoğrafı) ───── */
+    .kirp-sahne {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #efeae4;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .kirp-sahne:active { cursor: grabbing; }
+
+    .kirp-sahne canvas { width: 100%; height: 100%; display: block; }
+
+    /* Üçte bir çizgileri — kadrajı hizalamayı kolaylaştırıyor */
+    .kirp-izgara {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(to right, transparent calc(33.33% - 0.5px), rgba(255,255,255,0.45) calc(33.33% - 0.5px) calc(33.33% + 0.5px), transparent calc(33.33% + 0.5px)),
+        linear-gradient(to right, transparent calc(66.66% - 0.5px), rgba(255,255,255,0.45) calc(66.66% - 0.5px) calc(66.66% + 0.5px), transparent calc(66.66% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(33.33% - 0.5px), rgba(255,255,255,0.45) calc(33.33% - 0.5px) calc(33.33% + 0.5px), transparent calc(33.33% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(66.66% - 0.5px), rgba(255,255,255,0.45) calc(66.66% - 0.5px) calc(66.66% + 0.5px), transparent calc(66.66% + 0.5px));
+    }
+
+    .kirp-araclar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px auto 0;
+      max-width: 380px;
+    }
+
+    .kirp-araclar input[type="range"] { flex: 1; }
+
+    .kirp-dugme {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      border-radius: 50%;
+      border: 0.5px solid var(--c-line-strong);
+      background: #fff;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      color: var(--c-sicak-siyah);
+    }
+
+    .kirp-dugme:hover { background: var(--c-cream); }
+
+    .kirp-sayac {
+      font-size: 11px;
+      color: var(--c-toprak);
+      text-align: center;
+      margin-top: 10px;
+    }
+
     /* ───── Sayfa içeriği blok editörü ───── */
     .cp-blocks-section {
       margin-top: 20px;
@@ -1324,6 +1428,7 @@
               <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp,image/svg+xml" multiple>
             </div>
             <p style="font-size: 11px; color: var(--c-toprak); margin-top: 6px;">
+              Her fotoğraf yüklenmeden önce kareye alınır — sitede hepsi aynı boyda görünsün diye.
               İlk sıradaki (★ işaretli) görsel ürünün ana fotoğrafı olur — listede ve kartlarda o görünür.
               Görsele gelip ★ ile ana yap, ← → ile sırasını değiştir, ✕ ile kaldır.
             </p>
@@ -1350,11 +1455,24 @@
             </div>
 
             <div class="field">
-              <label>Koleksiyon *</label>
+              <label>Ana koleksiyon *</label>
               <select id="product-collection" required>
                 <option value="">Seç…</option>
                 <!-- admin.js dolduruyor: getCollections() -->
               </select>
+            </div>
+
+            <!-- Bir ürün birden fazla koleksiyonda görünebilir: ametist bir
+                 küpe hem Ametist hem Doğal Taş koleksiyonunda listelensin. -->
+            <div class="field full">
+              <label>Ayrıca göründüğü koleksiyonlar</label>
+              <div class="koleksiyon-secim" id="product-collections">
+                <!-- admin.js dolduruyor -->
+              </div>
+              <p class="koleksiyon-secim-not">
+                Ana koleksiyon listede ve ürün kartında görünen isim. Buradan
+                işaretlediğin koleksiyonların sayfasında da aynı ürün çıkar.
+              </p>
             </div>
 
             <div class="field full">

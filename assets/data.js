@@ -31,6 +31,12 @@
   let contentPagesCache = {}; // slug -> { data, time }
   const CACHE_TTL = 60 * 1000; // 1 dakika cache (admin panelden değişiklik olabileceği için kısa)
 
+  // products.collection_ids kolonu (çoklu koleksiyon) veritabanında var mı?
+  // null = henüz bilinmiyor. Migration çalıştırılmadan önce de panel
+  // çalışmaya devam etsin diye kolon yokken o alanı hiç yazmıyoruz.
+  // Bkz. db/2026-09-03-coklu-koleksiyon.sql
+  let multiCollection = null;
+
   // Son ürün çekme denemesi başarısız olduysa buraya yazılır.
   // Boş liste dönmek "ürün yok" ile "bağlanamadım"ı aynı gösteriyordu; sayfalar
   // ikisini ayırt edebilsin diye tutuluyor. Başarılı her çekimde temizlenir.
@@ -53,6 +59,20 @@
    * DB row'unu site formatına dönüştür.
    * SQL kolon isimleri zaten products.js formatına uyumlu, sadece direkt geçiriyoruz.
    */
+  /**
+   * Ürünün göründüğü koleksiyonların tamamı.
+   * Ana koleksiyon (collection_id) her zaman dizinin başında; kolon henüz
+   * eklenmemişse dizi tek elemanlı olur, yani eski davranış aynen sürer.
+   */
+  function collectionIdsOf(row) {
+    const hepsi = [];
+    if (row.collection_id) hepsi.push(row.collection_id);
+    (row.collection_ids || []).forEach(id => {
+      if (id && hepsi.indexOf(id) === -1) hepsi.push(id);
+    });
+    return hepsi;
+  }
+
   function rowToProduct(row) {
     return {
       id: row.id,
@@ -60,6 +80,8 @@
       name: row.name,
       category: row.category,
       collectionId: row.collection_id,
+      collectionIds: collectionIdsOf(row),
+      createdAt: row.created_at || null,
       mode: row.mode,
       price: row.price,
       description: row.description || '',
@@ -149,6 +171,13 @@
     }
 
     lastLoadError = null;
+
+    // select('*') zaten tüm kolonları getiriyor: kolonun varlığını ayrı bir
+    // sorgu atmadan buradan öğreniyoruz.
+    if (data.length && multiCollection === null) {
+      multiCollection = Object.prototype.hasOwnProperty.call(data[0], 'collection_ids');
+    }
+
     const products = data.map(rowToProduct);
 
     if (!includeInactive) {
@@ -463,6 +492,20 @@
     return !!data;
   }
 
+  /**
+   * collection_ids kolonu var mı? Bir kez sorup hatırlıyor.
+   * Yoksa (migration henüz çalıştırılmadıysa) panel tek koleksiyonla
+   * çalışmaya devam eder, kayıt hatası vermez.
+   */
+  async function hasMultiCollection() {
+    if (multiCollection !== null) return multiCollection;
+    if (!supabase) init();
+    if (!supabase) return false;
+    const { error } = await supabase.from('products').select('collection_ids').limit(1);
+    multiCollection = !error;
+    return multiCollection;
+  }
+
   async function adminUpdateProduct(id, updates) {
     if (!supabase) init();
     const dbUpdates = {};
@@ -470,6 +513,9 @@
     if ('isActive' in updates) dbUpdates.is_active = updates.isActive;
     if ('displayOrder' in updates) dbUpdates.display_order = updates.displayOrder;
     if ('collectionId' in updates) dbUpdates.collection_id = updates.collectionId;
+    if ('collectionIds' in updates && await hasMultiCollection()) {
+      dbUpdates.collection_ids = updates.collectionIds || [];
+    }
     if ('stockQuantity' in updates) dbUpdates.stock_quantity = updates.stockQuantity;
     // Diğerleri direkt eşleşiyor
     const directKeys = ['slug', 'name', 'category', 'mode', 'price', 'description',
@@ -510,6 +556,10 @@
       display_order: product.displayOrder || 0,
       stock_quantity: product.stockQuantity || 0
     };
+
+    if (await hasMultiCollection()) {
+      dbRow.collection_ids = product.collectionIds || [];
+    }
 
     const { data, error } = await supabase
       .from('products')
@@ -956,6 +1006,7 @@
     adminDeleteProduct,
     adminUploadImage,
     optimizeImage,
+    hasMultiCollection,
     adminGetOrders,
     adminUpdateOrderStatus,
     adminAdjustStock,

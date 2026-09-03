@@ -308,8 +308,11 @@ function renderProductCard(p, animDelay = 0) {
   const img = PB_h('img', { src: PB_imgPath(p.image), alt: p.name, loading: 'lazy' });
   imgWrap.append(img);
 
+  // Rozet tek: tükendi bilgisi "yeni"den önemli, ikisi üst üste binmesin.
   if ((p.stockQuantity || 0) <= 0) {
     imgWrap.append(PB_h('span', { class: 'product-card-badge' }, 'TÜKENDİ'));
+  } else if (typeof isNewProduct === 'function' && isNewProduct(p)) {
+    imgWrap.append(PB_h('span', { class: 'product-card-badge is-new' }, 'YENİ'));
   }
 
   const info = PB_h('div', { class: 'product-card-info' });

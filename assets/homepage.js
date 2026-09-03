@@ -1,10 +1,10 @@
 /**
  * Parla By Aslı — Anasayfa interactivity
  *
- * - Koleksiyon pill listesi — her zaman görünür, sayfa değiştirmez.
- *   Tıklanınca aynı sayfada ürün ızgarasını o koleksiyona daraltır
- *   (URL değişmez, tam sayfa yenilenmez).
- * - "Tümü" pili filtreyi temizler.
+ * - İki katmanlı filtre — her zaman görünür, sayfa değiştirmez.
+ *   Üstte ürün tipi (Kolye, Küpe…), altta o tipte ürünü olan koleksiyonlar.
+ *   Tıklanınca aynı sayfada ürün ızgarası daralır (URL değişmez, tam sayfa
+ *   yenilenmez). Her iki satırdaki "Tümü" pili o katmanı temizler.
  *
  * Not: Koleksiyonlar önceden her biri kendi /katalog/[slug]/ sayfasına
  * sahipti (SEO amaçlı). Bu, tek bir dinamik şablonun (katalog/index.html)
@@ -16,40 +16,114 @@
 (function () {
   'use strict';
 
+  const typeNavEl = document.getElementById('home-type-nav');
   const collectionNavEl = document.getElementById('home-collection-nav');
   const grid = document.getElementById('featured-grid');
 
-  let activeCollectionId = null; // null = Tümü
+  let activeCategory = null;     // null = tüm ürün tipleri (üst filtre)
+  let activeCollectionId = null; // null = tüm koleksiyonlar (alt filtre)
 
-  async function renderCollectionNav() {
-    if (!collectionNavEl || typeof getCollections !== 'function') return;
-    const collections = await getCollections();
+  /**
+   * İki katmanlı filtre.
+   *
+   *   Üst satır  — ürün tipi: Tümü · Kolye · Küpe · Bileklik …
+   *   Alt satır  — koleksiyon: seçili tipte ürünü OLAN koleksiyonlar
+   *
+   * Alt satır üstteki seçime göre yeniden kuruluyor: "Küpe"ye basınca aşağıda
+   * yalnız küpesi olan koleksiyonlar kalıyor, küpesi olmayanlar listeden
+   * çıkıyor. Böylece hiçbir kombinasyon boş sonuç vermiyor.
+   *
+   * Her iki satırda da yalnız gerçekten ürünü olan seçenekler görünür.
+   */
+  async function renderFilters() {
+    if (!typeNavEl || typeof getCollections !== 'function') return;
+
+    const [collections, types, products] = await Promise.all([
+      getCollections(),
+      typeof getProductTypes === 'function' ? getProductTypes() : [],
+      getProducts()
+    ]);
+
+    // ── Üst satır: ürün tipleri ──
+    const varOlanTipler = types.filter(t => products.some(p => p.category === t.slug));
+
+    // Üst katman düğme değil sekme görünümünde (bkz. .type-tab): zemin
+    // sayfayla aynı, seçili olanın altında kalın bakır çizgi var. Alt
+    // katmanın pilleriyle karışmasın diye kasten farklı.
+    typeNavEl.innerHTML = '';
+    typeNavEl.append(pilOlustur('Tümü', activeCategory === null, () => tipSec(null), null, 'type-tab'));
+    varOlanTipler.forEach(t => {
+      typeNavEl.append(pilOlustur(t.name, activeCategory === t.slug, () => tipSec(t.slug), t.slug, 'type-tab'));
+    });
+
+    // ── Alt satır: seçili tipte ürünü olan koleksiyonlar ──
+    const kapsam = activeCategory
+      ? products.filter(p => p.category === activeCategory)
+      : products;
+
+    const varOlanKoleksiyonlar = collections.filter(c =>
+      kapsam.some(p => urunKoleksiyondaMi(p, c.id)));
 
     collectionNavEl.innerHTML = '';
 
-    const tumuBtn = PB_h('button', {
-      type: 'button',
-      class: 'pill' + (activeCollectionId === null ? ' is-active' : ''),
-      'aria-pressed': activeCollectionId === null ? 'true' : 'false',
-      onclick: () => secFiltre(null)
-    }, 'Tümü');
-    collectionNavEl.append(tumuBtn);
+    // Tek koleksiyon kaldıysa seçim yapmak anlamsız — satırı hiç göstermiyoruz
+    if (varOlanKoleksiyonlar.length < 2) {
+      collectionNavEl.hidden = true;
+      return;
+    }
 
-    collections.forEach(c => {
-      const btn = PB_h('button', {
-        type: 'button',
-        class: 'pill' + (activeCollectionId === c.id ? ' is-active' : ''),
-        'aria-pressed': activeCollectionId === c.id ? 'true' : 'false',
-        'data-collection': c.slug,
-        onclick: () => secFiltre(c.id)
-      }, c.name);
-      collectionNavEl.append(btn);
+    collectionNavEl.hidden = false;
+    collectionNavEl.append(pilOlustur(
+      activeCategory ? 'Tüm koleksiyonlar' : 'Tümü',
+      activeCollectionId === null,
+      () => koleksiyonSec(null)
+    ));
+    varOlanKoleksiyonlar.forEach(c => {
+      const adet = kapsam.filter(p => urunKoleksiyondaMi(p, c.id)).length;
+      const pil = pilOlustur(c.name, activeCollectionId === c.id,
+        () => koleksiyonSec(c.id), c.slug);
+      pil.append(PB_h('span', { class: 'pill-adet' }, String(adet)));
+      collectionNavEl.append(pil);
     });
   }
 
-  function secFiltre(collectionId) {
+  function urunKoleksiyondaMi(p, collectionId) {
+    return typeof productInCollection === 'function'
+      ? productInCollection(p, collectionId)
+      : p.collectionId === collectionId;
+  }
+
+  function pilOlustur(etiket, secili, onclick, veriSlug, sinif) {
+    const nitelikler = {
+      type: 'button',
+      class: (sinif || 'pill') + (secili ? ' is-active' : ''),
+      'aria-pressed': secili ? 'true' : 'false',
+      onclick
+    };
+    if (veriSlug) nitelikler['data-slug'] = veriSlug;
+    return PB_h('button', nitelikler, etiket);
+  }
+
+  /**
+   * Üst filtre. Seçili koleksiyonda bu tipten ürün yoksa alt filtre
+   * sıfırlanıyor — aksi hâlde "Küpe + Seramik Serisi" gibi boş bir
+   * kombinasyonda kalınıyordu.
+   */
+  async function tipSec(category) {
+    activeCategory = category;
+
+    if (activeCollectionId) {
+      const eslesen = await getProducts({ category, collectionId: activeCollectionId });
+      if (!eslesen.length) activeCollectionId = null;
+    }
+
+    renderFilters();
+    renderProducts();
+  }
+
+  function koleksiyonSec(collectionId) {
     activeCollectionId = collectionId;
-    renderCollectionNav();
+    renderFilters();
     renderProducts();
   }
 
@@ -84,17 +158,27 @@
   }
 
   /**
-   * Hero'nun ekranı tam kaplaması için üst şerit + header yüksekliğini
-   * ölçüp --hero-offset'e yazar. Sabit sayı yerine ölçüm kullanılıyor:
-   * üst şerit metni dar ekranda iki satıra sarabiliyor ve header
-   * yüksekliği kırılma noktasına göre değişiyor.
+   * İki ölçü yazar, ikisi de sabit sayı yerine ölçümle: üst şerit metni dar
+   * ekranda iki satıra sarabiliyor, header yüksekliği kırılma noktasına göre
+   * değişiyor.
+   *
+   *   --hero-offset → üst şerit + header. Hero'nun ekranı tam kaplaması için.
+   *   --sticky-ust  → yalnız header (üst şerit sayfayla birlikte kayıp gidiyor,
+   *                   yapışkan olan sadece header). "ÜRÜNLERİ KEŞFET"e basınca
+   *                   filtre menüsü header'ın altında kalmasın diye #urunler'in
+   *                   scroll-margin-top'u buna bağlı.
    */
   function heroYuksekligiAyarla() {
     const serit = document.querySelector('.utility-bar');
     const header = document.querySelector('.site-header');
-    const toplam = (serit ? serit.offsetHeight : 0) + (header ? header.offsetHeight : 0);
+    const headerYuksekligi = header ? header.offsetHeight : 0;
+    const toplam = (serit ? serit.offsetHeight : 0) + headerYuksekligi;
+
     if (toplam > 0) {
       document.documentElement.style.setProperty('--hero-offset', toplam + 'px');
+    }
+    if (headerYuksekligi > 0) {
+      document.documentElement.style.setProperty('--sticky-ust', headerYuksekligi + 'px');
     }
   }
 
@@ -281,11 +365,18 @@
       grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
     }
 
-    const items = await getProducts(activeCollectionId ? { collectionId: activeCollectionId } : {});
+    const bulunanlar = await getProducts({
+      collectionId: activeCollectionId,
+      category: activeCategory
+    });
+
+    // Öne çıkan (⭐) ürünler ızgaranın başına geçer; gerisi panelde
+    // sürükleyerek verilen sırayla gelir. Bkz. products.js sortForDisplay.
+    const items = typeof sortForDisplay === 'function' ? sortForDisplay(bulunanlar) : bulunanlar;
 
     grid.innerHTML = '';
     if (items.length === 0) {
-      renderEmptyGridState(grid, { filtered: activeCollectionId !== null });
+      renderEmptyGridState(grid, { filtered: activeCollectionId !== null || activeCategory !== null });
       return;
     }
     items.forEach((p, i) => grid.append(renderProductCard(p, i)));
@@ -294,7 +385,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     heroYuksekligiAyarla();
     renderSiteTexts();
-    renderCollectionNav();
+    renderFilters();
     renderProducts();
   });
 

@@ -32,12 +32,67 @@ async function getProducts({ category = null, collectionId = null, featuredOnly 
   }
 
   const all = await window.PB_Data.getProducts();
+  pbYeniIdleriHesapla(all);
 
   return all.filter(p => {
     if (category && p.category !== category) return false;
-    if (collectionId && p.collectionId !== collectionId) return false;
+    if (collectionId && !productInCollection(p, collectionId)) return false;
     if (featuredOnly && !p.featured) return false;
     return true;
+  });
+}
+
+/**
+ * Ürün bu koleksiyonda görünüyor mu?
+ *
+ * Bir ürün birden fazla koleksiyonda olabilir (ör. ametist bir küpe hem
+ * "Ametist Koleksiyonu"nda hem "Doğal Taş Koleksiyonu"nda). collectionId
+ * ana koleksiyon, collectionIds ise göründüğü tüm koleksiyonlar.
+ */
+function productInCollection(p, collectionId) {
+  if (!collectionId) return true;
+  if (p.collectionId === collectionId) return true;
+  return (p.collectionIds || []).indexOf(collectionId) !== -1;
+}
+
+/**
+ * Ürün "yeni" sayılıyor mu — kartta YENİ rozeti bunun için çıkıyor.
+ *
+ * İki koşul birlikte: son 30 günde eklenmiş OLACAK ve en son eklenen
+ * PB_YENI_ADET ürün arasında olacak. İkinci koşul, mağazaya toplu ürün
+ * girildiğinde her kartın "YENİ" rozetiyle dolup rozetin anlamını
+ * yitirmesini engelliyor.
+ */
+const PB_YENI_GUN = 30;
+const PB_YENI_ADET = 6;
+
+let pbYeniIdler = null; // getProducts her çağrıldığında tazeleniyor
+
+function pbYeniIdleriHesapla(all) {
+  const sinir = Date.now() - PB_YENI_GUN * 24 * 60 * 60 * 1000;
+  pbYeniIdler = new Set(
+    all
+      .filter(p => p.createdAt && new Date(p.createdAt).getTime() >= sinir)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, PB_YENI_ADET)
+      .map(p => p.id)
+  );
+}
+
+function isNewProduct(p) {
+  if (!p || !pbYeniIdler) return false;
+  return pbYeniIdler.has(p.id);
+}
+
+/**
+ * Vitrin sıralaması: önce öne çıkanlar (⭐), sonra panelde sürükleyerek
+ * verilen sıra. Panelde yeni eklenen ürün listenin başına geldiği için
+ * yeni ürünler de doğal olarak üstte çıkıyor.
+ */
+function sortForDisplay(products) {
+  return products.slice().sort((a, b) => {
+    if (!!b.featured !== !!a.featured) return b.featured ? 1 : -1;
+    return (a.displayOrder || 0) - (b.displayOrder || 0);
   });
 }
 

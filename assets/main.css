@@ -571,6 +571,11 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   /* Üst/alt eşit — piller şeridin içinde dikey olarak ortalanmış görünsün */
   padding: var(--space-md) 0;
   position: relative;
+
+  /* "ÜRÜNLERİ KEŞFET" ve ok bağlantısı buraya atlıyor. Yapışkan header
+     (--sticky-ust, homepage.js ölçüyor) kadar pay bırakılmazsa filtre
+     menüsü header'ın altında kalıyor; sayfa filtreyle başlasın istiyoruz. */
+  scroll-margin-top: var(--sticky-ust, 64px);
 }
 
 /* ──────────── 9. Featured products / Product grid ──────────── */
@@ -697,6 +702,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   letter-spacing: 0.08em;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+/* Yeni eklenen ürün — tükendi rozetiyle aynı yerde ama bakır zeminli,
+   uyarı değil davet olduğu için. */
+.product-card-badge.is-new {
+  background: var(--c-bakir);
+  color: var(--c-cream);
 }
 
 .product-card-info { padding: 12px 14px 16px; }
@@ -2033,6 +2045,91 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   border-color: var(--c-sicak-siyah);
 }
 
+/* ───── İki katmanlı anasayfa filtresi ─────
+   Üst satır ürün tipi (Kolye, Küpe…), alt satır o tipte ürünü olan
+   koleksiyonlar. Alt satır üstteki seçime göre yeniden kuruluyor, tek
+   koleksiyon kalırsa hiç görünmüyor. Hiyerarşi görsel olarak da belli
+   olsun diye alt satırın pilleri daha küçük ve seçili olanı bakır. */
+.home-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Üst katman: pil değil sekme. Zemini yok (şeridin rengi görünür), seçili
+   olanın altında kalın bakır çizgi. Alt katmanın pilleriyle aynı görünürse
+   hangisinin üst filtre olduğu okunmuyordu. */
+.home-type-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px 28px;
+}
+
+.type-tab {
+  padding: 8px 2px 7px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: none;
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.3;
+  color: var(--c-toprak);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--t-base), border-color var(--t-base);
+}
+
+.type-tab:hover { color: var(--c-sicak-siyah); }
+
+.type-tab.is-active {
+  color: var(--c-sicak-siyah);
+  font-weight: 500;
+  border-bottom-color: var(--c-bakir);
+}
+
+.type-tab:focus-visible {
+  outline: 2px solid var(--c-bakir);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .home-type-nav { gap: 0 18px; }
+  .type-tab { font-size: 12.5px; }
+}
+
+.home-collection-nav-alt {
+  padding-top: 10px;
+  border-top: 0.5px solid var(--c-line-soft);
+  width: 100%;
+}
+
+.home-collection-nav-alt .pill {
+  padding: 9px 13px;
+  font-size: 11.5px;
+  gap: 7px;
+  background: transparent;
+}
+
+.home-collection-nav-alt .pill:hover {
+  background: var(--c-sicak-siyah);
+  color: var(--c-cream);
+}
+
+.home-collection-nav-alt .pill.is-active {
+  background: var(--c-bakir);
+  color: var(--c-cream);
+  border-color: var(--c-bakir);
+}
+
+/* Koleksiyon pilindeki ürün adedi */
+.pill-adet {
+  font-size: 10px;
+  opacity: 0.65;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Boş durum */
 .catalog-empty {
   grid-column: 1 / -1;
@@ -2850,4 +2947,208 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   .legal-table th {
     width: 42%;
   }
+}
+
+/* ══════════════════════════════════════════════════════════
+   TAŞ ANSİKLOPEDİSİ  (taslar/)
+   Sayfalar tools/taslar-uret.js ile üretiliyor; buradaki
+   sınıflar legal-page iskeletinin üzerine biniyor.
+   ══════════════════════════════════════════════════════════ */
+
+.stone-lede {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--c-toprak);
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* Dizin sayfası kart ızgarası için daha geniş kolon */
+.stone-index .container {
+  max-width: 980px;
+}
+
+/* Harf çubuğu */
+
+.stone-alpha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-2xl);
+}
+
+.stone-alpha a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: var(--c-bakir);
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.stone-alpha a:hover {
+  background: var(--c-bakir);
+  color: var(--c-white);
+}
+
+/* Harf grupları */
+
+.stone-group {
+  margin-bottom: var(--space-2xl);
+  scroll-margin-top: var(--space-xl);
+}
+
+.stone-letter {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--c-bakir);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  border-bottom: 0.5px solid var(--c-line);
+}
+
+.stone-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .stone-list { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 960px) {
+  .stone-list { grid-template-columns: repeat(3, 1fr); }
+}
+
+.stone-card a {
+  display: block;
+  height: 100%;
+  padding: var(--space-md);
+  border: 0.5px solid var(--c-line);
+  border-radius: 2px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.stone-card a:hover {
+  border-color: var(--c-bakir-cizgi);
+  transform: translateY(-2px);
+}
+
+.stone-card-name {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--c-sicak-siyah);
+  margin-bottom: 6px;
+}
+
+.stone-card-desc {
+  display: block;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+}
+
+/* Taş sayfasındaki ürün şeridi */
+
+.stone-products {
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-xl);
+  border-top: 0.5px solid var(--c-line);
+}
+
+.stone-products h2 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--c-sicak-siyah);
+  margin-bottom: var(--space-lg);
+}
+
+/* Önceki / sonraki taş */
+
+.stone-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-lg);
+  border-top: 0.5px solid var(--c-line);
+  font-size: 14px;
+}
+
+.stone-nav a {
+  color: var(--c-sicak-siyah);
+}
+
+.stone-nav a:hover {
+  color: var(--c-bakir);
+}
+
+.stone-nav span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  margin-bottom: 2px;
+}
+
+.stone-nav-next {
+  text-align: right;
+}
+
+.stone-nav-index {
+  font-size: 12px;
+  color: var(--c-toprak);
+  border-bottom: 0.5px solid var(--c-line-strong);
+  white-space: nowrap;
+}
+
+/* ── Header'ın sol boşluğundaki metin bağlantıları ──
+ *
+ * Logo mutlak konumla ortada durduğu için akıştaki elemanlar yalnızca
+ * bu nav ve sağdaki ikonlar. justify-content: flex-end'i değiştirmek
+ * yerine nav'a margin-right: auto veriliyor — böylece kural, header'ı
+ * paylaşan ama nav'ı olmayan sayfaları (hesap/) etkilemiyor.
+ *
+ * 1000px altında gizli: logo 360-440px'e kadar genişliyor ve ikonlarla
+ * birlikte metin bağlantıları sığmıyor. Bu header dar ekranlarda daha
+ * önce yatay kaydırma sorunu çıkarmıştı (bkz. .brand-logo notları).
+ */
+.header-nav {
+  display: none;
+  margin-right: auto;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.header-nav a {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.header-nav a:hover {
+  color: var(--c-bakir);
+}
+
+@media (min-width: 1000px) {
+  .header-nav { display: flex; }
 }
