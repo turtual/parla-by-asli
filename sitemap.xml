@@ -167,6 +167,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://parlabyasli.com/taslar/kalsit/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://parlabyasli.com/taslar/kaplan-gozu/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
@@ -183,6 +188,11 @@
   </url>
   <url>
     <loc>https://parlabyasli.com/taslar/krizokol/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://parlabyasli.com/taslar/kunzit/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

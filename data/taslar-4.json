@@ -1,6 +1,5 @@
 {
   "_not": "Taş ansiklopedisi — 4. parça (O–Z). Yazım kuralı için data/taslar.json'a bak.",
-
   "taslar": [
     {
       "slug": "obsidiyen",
@@ -27,9 +26,12 @@
         "Kenarları keskin olabilir, işlenmemiş parçalara dikkat et.",
         "Sabunlu ılık su ve yumuşak bez yeterlidir."
       ],
-      "eslesme": ["obsidiyen", "obsidian", "obsidyen"]
+      "eslesme": [
+        "obsidiyen",
+        "obsidian",
+        "obsidyen"
+      ]
     },
-
     {
       "slug": "opal",
       "ad": "Opal",
@@ -56,9 +58,10 @@
         "Ultrasonik ve buharlı temizleyici kesinlikle kullanma.",
         "Nemli yumuşak bezle sil."
       ],
-      "eslesme": ["opal"]
+      "eslesme": [
+        "opal"
+      ]
     },
-
     {
       "slug": "peridot",
       "ad": "Peridot",
@@ -85,9 +88,12 @@
         "Ultrasonik temizleyici kullanma.",
         "Asitli maddelerden uzak tut."
       ],
-      "eslesme": ["peridot", "olivin", "zebercet"]
+      "eslesme": [
+        "peridot",
+        "olivin",
+        "zebercet"
+      ]
     },
-
     {
       "slug": "pirit",
       "ad": "Pirit",
@@ -114,9 +120,12 @@
         "Suda bekletme, ultrasonik temizleyici kullanma.",
         "Kuru yumuşak bezle sil."
       ],
-      "eslesme": ["pirit", "pyrite", "markazit"]
+      "eslesme": [
+        "pirit",
+        "pyrite",
+        "markazit"
+      ]
     },
-
     {
       "slug": "rodokrozit",
       "ad": "Rodokrozit",
@@ -143,9 +152,12 @@
         "Suda bekletme, ultrasonik temizleyici kullanma.",
         "Kuru yumuşak bezle sil, ayrı sakla."
       ],
-      "eslesme": ["rodokrozit", "rhodochrosite", "inka gülü"]
+      "eslesme": [
+        "rodokrozit",
+        "rhodochrosite",
+        "inka gülü"
+      ]
     },
-
     {
       "slug": "rodonit",
       "ad": "Rodonit",
@@ -172,9 +184,11 @@
         "Asitli temizleyicilerden kaçın.",
         "Sabunlu ılık su ve yumuşak bez yeterlidir."
       ],
-      "eslesme": ["rodonit", "rhodonite"]
+      "eslesme": [
+        "rodonit",
+        "rhodonite"
+      ]
     },
-
     {
       "slug": "selenit",
       "ad": "Selenit",
@@ -201,9 +215,12 @@
         "Kuru yumuşak fırça veya bezle tozunu al.",
         "Nemli ortamda saklama; banyoda bulundurma."
       ],
-      "eslesme": ["selenit", "selenite", "jips"]
+      "eslesme": [
+        "selenit",
+        "selenite",
+        "jips"
+      ]
     },
-
     {
       "slug": "serpantin",
       "ad": "Serpantin",
@@ -229,9 +246,12 @@
         "Asitten uzak tut.",
         "Sabunlu ılık su ve yumuşak bez yeterlidir."
       ],
-      "eslesme": ["serpantin", "serpentine", "yeni yeşim"]
+      "eslesme": [
+        "serpantin",
+        "serpentine",
+        "yeni yeşim"
+      ]
     },
-
     {
       "slug": "sodalit",
       "ad": "Sodalit",
@@ -258,9 +278,11 @@
         "Asitli temizleyicilerden kaçın.",
         "Sabunlu ılık su ve yumuşak bez yeterlidir."
       ],
-      "eslesme": ["sodalit", "sodalite"]
+      "eslesme": [
+        "sodalit",
+        "sodalite"
+      ]
     },
-
     {
       "slug": "turkuaz",
       "ad": "Turkuaz",
@@ -287,9 +309,12 @@
         "Suda bekletme, ultrasonik temizleyici kullanma.",
         "Kuru veya hafif nemli bezle sil."
       ],
-      "eslesme": ["turkuaz", "turquoise", "firuze"]
+      "eslesme": [
+        "turkuaz",
+        "turquoise",
+        "firuze"
+      ]
     },
-
     {
       "slug": "turmalin",
       "ad": "Turmalin",
@@ -315,9 +340,14 @@
         "Ani sıcaklık değişiminden kaçın.",
         "İç çatlağı olan örneklerde ultrasonik temizleyici kullanma."
       ],
-      "eslesme": ["turmalin", "tourmaline", "şörl", "sorl", "rubellit"]
+      "eslesme": [
+        "turmalin",
+        "tourmaline",
+        "şörl",
+        "sorl",
+        "rubellit"
+      ]
     },
-
     {
       "slug": "unakit",
       "ad": "Unakit",
@@ -343,9 +373,11 @@
         "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
         "Uzun güneş maruziyeti pembe tonu soldurabilir."
       ],
-      "eslesme": ["unakit", "unakite"]
+      "eslesme": [
+        "unakit",
+        "unakite"
+      ]
     },
-
     {
       "slug": "zumrut",
       "ad": "Zümrüt",
@@ -372,7 +404,80 @@
         "Ultrasonik ve buharlı temizleyici kesinlikle kullanma — yağ dolgusu çıkar.",
         "Ilık sabunlu suyla kısa süreli, yumuşak bezle sil."
       ],
-      "eslesme": ["zümrüt", "zumrut", "emerald"]
+      "eslesme": [
+        "zümrüt",
+        "zumrut",
+        "emerald"
+      ]
+    },
+    {
+      "slug": "kalsit",
+      "ad": "Kalsit",
+      "ozet": "Yeryüzünün en yaygın minerallerinden. Mermeri ve kireçtaşını oluşturan taş; bal sarısından maviye kadar onlarca renkte bulunur.",
+      "kimlik": {
+        "Mineral grubu": "Karbonat",
+        "Kimyasal formül": "CaCO₃",
+        "Sertlik (Mohs)": "3",
+        "Renk": "Renksiz, beyaz, bal sarısı, turuncu, yeşil, mavi, pembe",
+        "Başlıca kaynaklar": "Meksika, Türkiye, İzlanda, Brezilya, ABD, Fas"
+      },
+      "anlatim": [
+        "Kalsit, kalsiyum karbonatın en kararlı hâlidir ve yerkabuğundaki en yaygın minerallerden biridir. Kireçtaşı, tebeşir ve mermer büyük ölçüde kalsitten oluşur; damlataşı mağaralarındaki sarkıt ve dikitler de kalsitin sudan yavaşça çökelmesiyle büyür.",
+        "Mohs sertlik cetvelinde **3 numarayı tanımlayan** mineraldir — yani cetvelin basamaklarından biri doğrudan kalsitle ölçülür. Bu da onu takıda kullanılan taşların yumuşak ucuna yerleştirir: bakır bir paranın kenarı bile yüzeyini çizebilir.",
+        "Saydam çeşidi *İzlanda spatı* olarak bilinir ve **çift kırılma** gösterir: üstüne konduğu yazıyı çift gösterir. Bu özellik 17. yüzyıldan itibaren ışığın doğasını anlamaya çalışan bilim insanları için önemli bir araç olmuştur.",
+        "Rengini saf hâlinde değil, yapısına giren eser elementlerden alır. Takıda en çok görülen bal rengi ve turuncu tonlar demir ve manganez içeriğinden gelir; 'bal kalsit' adı bu sıcak amber tonu için kullanılır.",
+        "Seyreltik asitle temas ettiğinde köpürür. Bu, jeologların kalsiti arazide tanımak için kullandığı klasik testtir — ama aynı zamanda takı olarak neden dikkat istediğinin de açıklamasıdır."
+      ],
+      "gelenek": [
+        "Farklı kültürlerde berraklık ve tazelenme temalarıyla ilişkilendirilmiştir; rengine göre ayrı anlamlar yüklenmesi yaygındır.",
+        "Bal ve turuncu tonlarının halk anlatısında canlılık ve özgüvenle, yeşil tonlarının ise sakinlikle eşleştirildiği görülür.",
+        "Mısır'da alabaster adıyla bilinen ve kaplarda kullanılan taşın bir kısmı aslında kalsittir; ışığı geçiren yapısı nedeniyle tapınak kandillerinde tercih edilmiştir."
+      ],
+      "bakim": [
+        "Yumuşak bir taştır (Mohs 3) — çizilmeye çok açıktır, başka takılarla aynı gözde saklama.",
+        "Aside karşı hassastır: parfüm, limon, sirke, ter ve temizlik ürünlerinden uzak tut.",
+        "Ultrasonik temizleyici ve buhar kullanma; yüzeyini matlaştırır.",
+        "Kuru ve yumuşak bezle sil, uzun süre suda bırakma."
+      ],
+      "eslesme": [
+        "kalsit",
+        "calcite",
+        "bal kalsit"
+      ]
+    },
+    {
+      "slug": "kunzit",
+      "ad": "Kunzit",
+      "ozet": "Spodumenin pembe-lila çeşidi. 1902'de tanımlanan, mücevher dünyasının görece genç taşlarından.",
+      "kimlik": {
+        "Mineral grubu": "Spodumen (piroksen ailesi)",
+        "Kimyasal formül": "LiAlSi₂O₆",
+        "Sertlik (Mohs)": "6,5 – 7",
+        "Renk": "Açık pembe, lila, mor-pembe",
+        "Başlıca kaynaklar": "Afganistan, Pakistan, Brezilya, Madagaskar, ABD (Kaliforniya)"
+      },
+      "anlatim": [
+        "Kunzit, lityum içeren spodumen mineralinin pembeden lilaya uzanan çeşididir. Rengini yapısındaki eser manganezden alır.",
+        "Adını **George Frederick Kunz**'tan alır. Tiffany & Co.'nun baş gemoloğu olan Kunz, taşı 1902'de bilimsel olarak tanımlamıştır; ilk önemli buluntular Kaliforniya'nın Pala bölgesindendir. Yani binlerce yıllık anlatısı olan çoğu taşın aksine kunzit, modern mücevherciliğin taşıdır.",
+        "Belirgin **çok renklilik** gösterir: aynı taş farklı açılardan bakıldığında daha pembe ya da daha renksiz görünür. Kesici, en güçlü rengi üstten görünecek şekilde taşı yönlendirmek zorundadır.",
+        "Mükemmel dilinimi vardır — belirli düzlemler boyunca temiz şekilde ayrılır. Sertliği 6,5–7 olmasına rağmen bu özellik onu işlemesi zor bir taş yapar ve darbeye karşı hassas kılar.",
+        "Rengi ışığa karşı kalıcı değildir. Uzun süreli güneş ışığı ve ısı, pembe tonun solmasına yol açabilir; bu yüzden bazı kaynaklarda 'akşam taşı' olarak anılır."
+      ],
+      "gelenek": [
+        "Geçmişi yeni olduğu için antik anlatılarda yer almaz; ona yüklenen anlamlar 20. yüzyılda oluşmuştur.",
+        "Modern taş anlatılarında şefkat ve duygusal yumuşama temalarıyla ilişkilendirilir.",
+        "Pembe tonu nedeniyle hediye seçimlerinde sevgi ve yakınlık anlatısıyla birlikte anılır."
+      ],
+      "bakim": [
+        "Güneşte ve sıcakta bırakma — rengi zamanla solabilir; kutusunda, ışık almayan yerde sakla.",
+        "Mükemmel dilinimi nedeniyle sert darbeden koru; sertliği yüksek olsa da çarpınca ayrılabilir.",
+        "Ultrasonik ve buharlı temizleyici kullanma.",
+        "Ilık su, yumuşak bez yeterlidir; kimyasal temizleyicilerden uzak tut."
+      ],
+      "eslesme": [
+        "kunzit",
+        "kunzite"
+      ]
     }
   ]
 }
