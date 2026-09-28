@@ -7,9 +7,9 @@
 
 :root {
   /* Brand renkleri */
-  --c-cream: #FAF6F1;
+  --c-cream: #F5F1EA;
   --c-soft-bej: #F0E8DA;
-  --c-warm-greige: #EDE7DC;
+  --c-warm-greige: #E9E1D6;
   --c-soft-bej-dark: #E8DEC8;
   --c-warm-taupe: #6B5D4F;
 
@@ -33,7 +33,15 @@
    * Yeni bir yerde bakır kullanırken: metin ise --c-bakir, çizgi ise
    * --c-bakir-cizgi. Emin değilsen --c-bakir seç; güvenli olan o.
    */
-  --c-bakir: #875F45;
+  --c-bakir: #7A4038;
+
+  /* ── Koyu orman yeşili ──
+   * 2026 yenilemesinde eklendi. Footer ve editorial bantların zemini;
+   * sayfanın sıcak bej akışını böler, markaya derinlik verir.
+   * Üzerine daima açık renk yazı gelir (krem üzerinde 12.9 kontrast).
+   * Küçük dozda kullan: zemin olarak evet, metin rengi olarak hayır. */
+  --c-orman: #26382F;
+  --c-orman-acik: #35493E;
   --c-bakir-cizgi: #B07D5C;
   --c-bakir-light: #C9926D;
   --c-bakir-deep: #7A5139;
@@ -474,20 +482,42 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   transition: color var(--t-slow);
 }
 
-.btn-hero {
+/* Kapak CTA'sı: yuvarlak "uygulama butonu" değil, moda e-ticaretindeki gibi
+   keskin köşeli, geniş harf aralıklı, ince çerçeveli. Yalnız kapakta geçerli —
+   sepet/ödeme butonları eski hâlinde bırakıldı ki alışılmış satın alma
+   akışının görünümü değişmesin. */
+/* Seçici ".hero .btn-hero": temel .btn kuralı dosyada daha sonra geldiği
+   için aynı özgüllükte yazılan override'ı yeniyordu (köşe yarıçapı 8px
+   kalıyordu). Bir seviye artırmak yeterli. */
+.hero .btn-hero {
   margin-top: var(--space-xl);
+  padding: 15px 30px;
+  border-radius: 0;
+  letter-spacing: 0.2em;
   background: var(--c-sicak-siyah);
   color: var(--c-cream);
+  border: 1px solid var(--c-sicak-siyah);
 }
 
-.btn-hero:hover { background: #2A2520; transform: translateY(-1px); }
-
-.hero.has-image .btn-hero {
-  background: var(--c-cream);
+.hero .btn-hero:hover {
+  background: transparent;
   color: var(--c-sicak-siyah);
 }
 
-.hero.has-image .btn-hero:hover { background: var(--c-white); }
+/* Fotoğraflı kapakta dolgu yerine hayalet buton: fotoğrafın üstünü
+   kapatmıyor. Okunurluğu kapak perdesi sağlıyor
+   (bkz. .hero.has-image .hero-media::after). */
+.hero.has-image .btn-hero {
+  background: transparent;
+  color: var(--c-cream);
+  border-color: rgba(250, 246, 241, 0.8);
+}
+
+.hero.has-image .btn-hero:hover {
+  background: var(--c-cream);
+  color: var(--c-sicak-siyah);
+  border-color: var(--c-cream);
+}
 
 /* Aşağı ok — "kaydırınca ürünler var" ipucu */
 .hero-scroll {
@@ -3152,3 +3182,915 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 @media (min-width: 1000px) {
   .header-nav { display: flex; }
 }
+
+/* ============================================================
+   ANASAYFA — 2026 editorial yenilemesi
+   ------------------------------------------------------------
+   Bölümler dergi sayfası mantığında dizildi: her biri kendi nefes
+   alanına sahip, kart/gölge/çerçeve yığmadan. Ortak kurallar:
+     · Bölüm başlıkları .section-head üçlüsünü kullanır
+     · Zeminler krem ↔ greige arasında dönüşümlü gider
+     · Koyu orman yeşili yalnız editorial bant ve footer'da
+   ============================================================ */
+
+.home-section {
+  padding: var(--space-3xl) 0;
+}
+
+.home-section + .home-section { padding-top: 0; }
+
+.home-section-greige { background: var(--c-warm-greige); }
+
+/* ── Bölüm başlığı ──
+   Sol: küçük üst yazı + başlık. Sağ: "tümünü gör". Mobilde alt alta. */
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(22px, 3.2vw, 32px);
+  line-height: 1.15;
+  color: var(--c-sicak-siyah);
+  margin: 0;
+}
+
+.section-head .eyebrow { display: block; margin-bottom: 8px; }
+
+.section-link {
+  flex-shrink: 0;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-sicak-siyah);
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--c-line-strong);
+  transition: border-color var(--t-base), color var(--t-base);
+  white-space: nowrap;
+}
+
+.section-link:hover { border-color: var(--c-bakir); color: var(--c-bakir); }
+
+/* Ortalanmış varyant — Taşını Bul ve Özel Kutu bölümlerinde */
+.section-head-orta {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-sub {
+  font-size: 15px;
+  color: var(--c-toprak);
+  margin: 10px 0 0;
+  max-width: 44ch;
+}
+
+.section-alt-link {
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.section-alt-link a {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-sicak-siyah);
+  text-decoration: none;
+  border-bottom: 1px solid var(--c-line-strong);
+  padding-bottom: 3px;
+}
+
+.section-alt-link a:hover { border-color: var(--c-bakir); color: var(--c-bakir); }
+
+/* ── Kapak üst yazısı ── */
+.hero-eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  margin-bottom: var(--space-md);
+  transition: color var(--t-slow);
+}
+
+/* Fotoğraf geldiğinde kapak yazıları kreme dönüyor (bkz. .hero.has-image) */
+.hero.has-image .hero-eyebrow { color: rgba(250, 246, 241, 0.85); }
+
+/* ── Dört sütunlu ürün ızgarası (Yeni Gelenler) ── */
+.product-grid-4 { grid-template-columns: repeat(2, 1fr); }
+
+@media (min-width: 900px) {
+  .product-grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── Editorial bant ──
+   Tam genişlik fotoğraf + tek cümle. Satış değil atmosfer alanı;
+   o yüzden buton, fiyat, ikon yok. Fotoğraf yoksa orman yeşili zemin
+   kalır ve bölüm yine de durur — boş kutu görünmez. */
+.editorial-band {
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-orman);
+  overflow: hidden;
+  margin: var(--space-3xl) 0;
+}
+
+@media (min-width: 900px) {
+  .editorial-band { min-height: 440px; }
+}
+
+.editorial-band-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--t-slow);
+}
+
+.editorial-band.has-image .editorial-band-img { opacity: 1; }
+
+/* Fotoğrafın üstündeki yazı her fotoğrafta okunsun diye ince perde */
+.editorial-band.has-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,17,14,0.15), rgba(20,17,14,0.35));
+}
+
+.editorial-band-text {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: var(--space-xl) var(--space-md);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(28px, 5vw, 54px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--c-cream);
+  text-align: center;
+}
+
+/* ── Parla Favorileri ──
+   Yeni Gelenler ızgarasının kopyası olmasın diye asimetrik: solda büyük
+   tek parça, sağda iki küçük. Mobilde tek sütuna iner. */
+.favori-duzen {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+@media (min-width: 800px) {
+  .favori-duzen {
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--space-lg);
+  }
+
+  .favori-duzen > :first-child { grid-row: span 2; }
+
+  /* Büyük parçanın fotoğrafı dikey dursun — dergi kapağı hissi */
+  .favori-duzen > :first-child .product-card-img { aspect-ratio: 4 / 5; }
+}
+
+/* ── Taşını Bul ──
+   Her taş kendi renginden türeyen bir daire. Gerçek fotoğraf yüklendiğinde
+   (panel → Taş görselleri) dairenin içini o fotoğraf doldurur. */
+.tas-secim {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md) var(--space-sm);
+}
+
+@media (min-width: 720px) {
+  .tas-secim { grid-template-columns: repeat(6, 1fr); }
+}
+
+.tas-oge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  padding: 4px;
+}
+
+.tas-oge-daire {
+  width: 100%;
+  max-width: 108px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  transition: transform var(--t-base);
+}
+
+.tas-oge:hover .tas-oge-daire { transform: scale(1.04); }
+
+.tas-oge-daire img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tas-oge-ad {
+  font-size: 12.5px;
+  color: var(--c-sicak-siyah);
+  text-align: center;
+  line-height: 1.25;
+}
+
+.tas-oge:hover .tas-oge-ad { color: var(--c-bakir); }
+
+/* ── Kombin (Shop the Look) ──
+   Fotoğraf yüklenene kadar bölüm hiç render edilmiyor; boş çerçeve
+   göstermek yerine yok sayılıyor (bkz. homepage.js renderLookbook). */
+.lookbook {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  background: var(--c-warm-greige);
+  margin: var(--space-3xl) 0;
+}
+
+@media (min-width: 900px) {
+  .lookbook { grid-template-columns: 1.4fr 1fr; }
+}
+
+.lookbook-media {
+  min-height: 300px;
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .lookbook-media { min-height: 520px; }
+}
+
+.lookbook-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lookbook-icerik {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.lookbook-icerik .section-title { font-size: clamp(24px, 3.4vw, 36px); }
+
+.lookbook-yakinda {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+}
+
+/* ── Hikâyemiz ──
+   Eski hâli ortada iki mühür arasında sıkışmış bir metin bloğuydu.
+   Yeni hâl iki sütun: bir taraf fotoğraf, bir taraf metin. */
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .story-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+  }
+}
+
+.story-media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--c-soft-bej);
+}
+
+@media (min-width: 860px) {
+  .story-media { aspect-ratio: 3 / 4; }
+}
+
+.story-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Fotoğraf yoksa markanın mühür deseni görünür — boşluk kalmaz */
+.story-media:not(.has-image) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-media-seal {
+  width: 45%;
+  max-width: 160px;
+  color: var(--c-bakir-cizgi);
+  opacity: 0.55;
+}
+
+.story-metin { max-width: 46ch; }
+.story-metin .section-title { margin-top: 10px; }
+.story-metin p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--c-toprak);
+  margin: var(--space-md) 0 0;
+  white-space: pre-line;
+}
+
+.story-metin .section-link { display: inline-block; margin-top: var(--space-lg); }
+
+/* ── Özel kutusunda ── */
+.kutu {
+  background: var(--c-soft-bej);
+  padding: var(--space-3xl) 0;
+}
+
+.kutu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .kutu-grid { grid-template-columns: 1fr 1.15fr; gap: var(--space-2xl); }
+}
+
+.kutu-metin .section-title { margin-top: 10px; white-space: pre-line; }
+
+.kutu-metin p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--c-toprak);
+  margin: var(--space-md) 0 0;
+}
+
+.kutu-media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--c-warm-greige);
+}
+
+.kutu-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ── Güven alanı ──
+   Üç kısa söz. İkon yığmıyoruz: her biri tek ince çizgiyle ayrılmış yazı. */
+.guven {
+  padding: var(--space-2xl) 0;
+}
+
+.guven-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  text-align: center;
+}
+
+@media (min-width: 760px) {
+  .guven-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-xl); }
+}
+
+.guven-oge h3 {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-sicak-siyah);
+  margin: 0 0 8px;
+}
+
+.guven-oge p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+  margin: 0 auto;
+  max-width: 34ch;
+}
+
+.guven-oge-cizgi {
+  width: 28px;
+  height: 1px;
+  background: var(--c-bakir-cizgi);
+  margin: 0 auto var(--space-md);
+}
+
+/* ── Bülten ── */
+.bulten {
+  background: var(--c-warm-greige);
+  padding: var(--space-2xl) 0;
+}
+
+.bulten-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md) var(--space-xl);
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .bulten-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.bulten-metin p {
+  font-size: 14px;
+  color: var(--c-toprak);
+  margin: 8px 0 0;
+}
+
+.bulten-form {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.bulten-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: var(--r-pill);
+  background: var(--c-white);
+  font-size: 14px;
+  color: var(--c-sicak-siyah);
+}
+
+.bulten-form input:focus-visible {
+  outline: 2px solid var(--c-bakir-cizgi);
+  outline-offset: 1px;
+}
+
+.bulten-durum {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: var(--c-bakir);
+  margin: 0;
+}
+
+.bulten-durum[data-tip="hata"] { color: #9A3B2F; }
+
+/* ── Ürün kartı: editorial sadeleştirme ──
+   Eski kart beyaz zeminli, çerçeveli ve köşeleri yuvarlaktı; ızgara
+   "kutu dizisi" gibi duruyordu. Artık zemin yok, çerçeve yok: fotoğraf
+   doğrudan sayfanın üstünde durur, yazı altına sola yaslı gelir. */
+.product-card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.product-card-img {
+  background: var(--c-warm-greige);
+  border-radius: 2px;
+}
+
+/* Kare kırpma aracı sayesinde ürün fotoğrafları aynı oranda; contain
+   yerine cover kullanınca ızgarada kenar boşluğu kalmıyor. */
+.product-card-img img { object-fit: cover; }
+
+.product-card-info { padding: 12px 2px 4px; }
+
+/* Üründe kullanılan taşlar — ada ile fiyat arasında ince bir satır */
+.product-card-stones {
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--c-toprak);
+  margin-bottom: 5px;
+}
+
+/* ============================================================
+   HEADER / MENÜ / ARAMA / FOOTER — 2026 yenilemesi
+   ------------------------------------------------------------
+   Kaynak işaretleme: tools/site-kabuk.js (tüm sayfalara oradan basılır)
+   Davranış:          assets/site-nav.js (mobil menü, arama, kompakt header)
+
+   Eski header logoyu mutlak konumla ortalıyordu ve 128px yüksekliğindeydi;
+   yanına menü sığmıyordu. Yeni düzen üç sütunlu: solda menü/logo, ortada
+   ana menü, sağda ikonlar. Sayfa kaydırılınca header inceliyor.
+   ============================================================ */
+
+.site-header {
+  background: var(--c-cream);
+  border-bottom: 0.5px solid var(--c-line-soft);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: box-shadow 200ms ease;
+}
+
+.site-header.is-compact {
+  box-shadow: 0 1px 12px rgba(20, 17, 14, 0.06);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  height: auto;
+  min-height: 62px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: static;
+}
+
+/* Logo artık mutlak değil, akışın içinde — yanındaki menüye yer açıyor */
+.brand-link {
+  position: static;
+  transform: none;
+  flex-shrink: 0;
+  margin-right: auto;
+}
+
+/* Logo yüksekliği tek yerden: kaydırınca küçülmesi de bu değişkenle.
+   !important, global "img { height: auto }" reset'ini geçmek için. */
+.brand-logo {
+  height: var(--logo-h, 44px) !important;
+  width: auto !important;
+  max-width: 190px !important;
+  transition: height 200ms ease;
+}
+
+@media (min-width: 900px) {
+  .header-inner { min-height: 92px; }
+  .brand-logo { height: var(--logo-h, 58px) !important; max-width: 240px !important; }
+  .site-header.is-compact .header-inner { min-height: 66px; }
+  .site-header.is-compact .brand-logo { height: 40px !important; }
+}
+
+/* ── Masaüstü ana menü ── */
+.header-nav {
+  display: none;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 26px);
+}
+
+@media (min-width: 1000px) {
+  .header-nav { display: flex; }
+}
+
+.header-nav a {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-sicak-siyah);
+  text-decoration: none;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color var(--t-base), border-color var(--t-base);
+}
+
+.header-nav a:hover { color: var(--c-bakir); }
+
+.header-nav a[aria-current="page"] {
+  border-bottom-color: var(--c-bakir);
+}
+
+/* ── Sağdaki ikonlar ── */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* Hamburger yalnız masaüstü menüsünün gizli olduğu genişlikte */
+.header-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--c-sicak-siyah);
+  order: -1;
+}
+
+.header-menu-btn svg { width: 22px; height: 22px; }
+
+@media (min-width: 1000px) {
+  .header-menu-btn { display: none; }
+}
+
+/* Arama ve hesap ikonu dar ekranda menünün içine taşınıyor —
+   header'da dört ikon yan yana kalabalık duruyordu. */
+@media (max-width: 999px) {
+  .header-ara-btn,
+  .header-icon-genis { display: none; }
+}
+
+/* ── Mobil menü ──
+   Küçük açılır liste değil, tam ekran katman. Kategoriler rahat
+   dokunulabilir boyutta; altta ikincil bağlantılar. */
+.mobil-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: var(--c-cream);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 240ms ease;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.mobil-menu.is-acik { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mobil-menu { transition: none; }
+}
+
+.mobil-menu-ust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 14px var(--space-md);
+  border-bottom: 0.5px solid var(--c-line-soft);
+}
+
+.mobil-menu-ust .brand-logo { height: 40px !important; max-width: 170px !important; }
+
+.mobil-menu-kapat {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  color: var(--c-sicak-siyah);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.mobil-menu-ana {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) var(--space-md) 0;
+}
+
+.mobil-menu-ana a {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--c-sicak-siyah);
+  text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--c-line-soft);
+}
+
+.mobil-menu-ana a:last-child { border-bottom: none; }
+
+.mobil-menu-alt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px var(--space-lg);
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
+}
+
+.mobil-menu-alt a {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  text-decoration: none;
+}
+
+.mobil-menu-alt a:hover { color: var(--c-bakir); }
+
+.mobil-menu-ara {
+  margin: 0 var(--space-md) var(--space-sm);
+}
+
+/* ── Arama katmanı ──
+   Ürün adı, taş adı ve malzeme metninde arar. Sonuçlar sayfadan
+   çekilmiş veriyle üretilir; ek bir servis ya da kütüphane yok. */
+.ara-kat {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  background: rgba(20, 17, 14, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--space-md);
+}
+
+.ara-kutu {
+  width: 100%;
+  max-width: 620px;
+  margin-top: 6vh;
+  background: var(--c-cream);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(20, 17, 14, 0.25);
+  display: flex;
+  flex-direction: column;
+  max-height: 82vh;
+}
+
+.ara-girdi-satir {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--c-line-soft);
+}
+
+.ara-girdi-satir svg { width: 18px; height: 18px; color: var(--c-toprak); flex-shrink: 0; }
+
+.ara-girdi-satir input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--c-sicak-siyah);
+}
+
+.ara-girdi-satir input:focus { outline: none; }
+
+.ara-kapat {
+  border: none;
+  background: none;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+}
+
+.ara-sonuc {
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.ara-baslik {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  padding: 12px 10px 6px;
+}
+
+.ara-oge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: var(--r-md);
+  text-decoration: none;
+  color: inherit;
+}
+
+.ara-oge:hover { background: var(--c-warm-greige); }
+
+.ara-oge-gorsel {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  object-fit: cover;
+  background: var(--c-warm-greige);
+}
+
+.ara-oge-daire { border-radius: 50%; }
+
+.ara-oge-ad { font-size: 14px; color: var(--c-sicak-siyah); }
+.ara-oge-alt { font-size: 12px; color: var(--c-toprak); }
+
+.ara-bos {
+  padding: var(--space-lg) 10px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--c-toprak);
+}
+
+/* ── Footer ──
+   Koyu orman yeşili. Eskiden sıcak siyahtı; yeşil hem markanın doğal
+   taş dilini hem de sayfanın bej akışını daha iyi kapatıyor. */
+.site-footer {
+  background: var(--c-orman);
+  color: var(--c-cream);
+}
+
+.site-footer a { color: var(--c-cream); }
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 720px) {
+  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-lg); }
+}
+
+.footer-brand-seal {
+  width: 56px;
+  height: 56px;
+  color: var(--c-bakir-light);
+  opacity: 0.9;
+  margin-bottom: var(--space-sm);
+}
+
+.footer-brand-text {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(245, 241, 234, 0.78);
+  max-width: 34ch;
+  margin: 0;
+}
+
+.footer-insta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--space-md);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.footer-insta svg { width: 18px; height: 18px; }
+.footer-insta:hover { color: var(--c-bakir-light); }
+
+.footer-col h4 {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 234, 0.6);
+  margin: 0 0 12px;
+}
+
+.footer-col ul { list-style: none; margin: 0; padding: 0; }
+.footer-col li { margin-bottom: 9px; }
+
+.footer-col a {
+  font-size: 13.5px;
+  text-decoration: none;
+  color: rgba(245, 241, 234, 0.92);
+}
+
+.footer-col a:hover { color: var(--c-bakir-light); }
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px var(--space-lg);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(245, 241, 234, 0.14);
+  font-size: 12px;
+  color: rgba(245, 241, 234, 0.6);
+}
+
+.footer-yasal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.footer-yasal a {
+  font-size: 12px;
+  text-decoration: none;
+  color: rgba(245, 241, 234, 0.6);
+}
+
+.footer-yasal a:hover { color: var(--c-cream); }
+
+/* Sayfa içeriği kısa olsa bile footer en altta kalsın */
+body { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1 0 auto; }

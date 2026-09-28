@@ -316,10 +316,16 @@ function renderProductCard(p, animDelay = 0) {
   }
 
   const info = PB_h('div', { class: 'product-card-info' });
-  info.append(
-    PB_h('div', { class: 'product-card-name' }, p.name),
-    PB_h('div', { class: 'product-card-price' }, formatPrice(p.price))
-  );
+  info.append(PB_h('div', { class: 'product-card-name' }, p.name));
+
+  // Üründeki taşlar — önce panelde seçilenler, yoksa metinden çıkarım.
+  // Taş bulunamayan üründe satır hiç oluşmuyor ki kartlar aynı hizada kalsın.
+  if (typeof PB_TasEslesme !== 'undefined') {
+    const taslar = PB_TasEslesme.taslarYazisi(p, 2);
+    if (taslar) info.append(PB_h('div', { class: 'product-card-stones' }, taslar));
+  }
+
+  info.append(PB_h('div', { class: 'product-card-price' }, formatPrice(p.price)));
 
   // Yıldız özeti — özet tek sorguda çekilip cache'lendiği için her kart
   // ayrı istek atmıyor. Yorumu olmayan üründe hiç yer kaplamıyor.

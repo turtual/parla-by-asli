@@ -1675,7 +1675,17 @@
   /* Değeri bir görsel URL'si olan site metinleri — bu alanlarda düz metin
      kutusunun yanına önizleme + yükleme kontrolü çıkar. Yeni bir görsel
      alanı eklenirse anahtarını buraya yazmak yeterli. */
-  const GORSEL_METIN_ANAHTARLARI = new Set(['hero_gorsel']);
+  /* Değeri tek bir görsel URL'i olan alanlar. Bu listede olan her alanda
+     metin kutusunun üstünde önizleme + "Görsel yükle" butonu çıkar; kullanıcı
+     URL yapıştırmak zorunda kalmaz. Yeni bir görsel alanı eklersen (site_texts
+     tablosuna satır) anahtarını buraya da yaz. */
+  const GORSEL_METIN_ANAHTARLARI = new Set([
+    'hero_gorsel',
+    'editorial_gorsel',
+    'lookbook_gorsel',
+    'hikaye_gorsel',
+    'kutu_gorsel'
+  ]);
 
   /* Değeri görsel DİZİSİ olan alanlar. JSON tutuyorlar; kullanıcı JSON
      görmesin diye kendi arayüzleri var (yükle / sırala / çerçevele). */

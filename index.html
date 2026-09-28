@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#FAF6F1">
+  <meta name="theme-color" content="#F5F1EA">
 
   <title>Parla By Aslı · El emeği takı, sana özel tasarım</title>
   <meta name="description" content="Premium feminen takı ve aksesuar. Doğal taş ile el emeği buluşuyor. Kolye, küpe, bileklik, yüzük ve sana özel tasarımlar.">
@@ -62,46 +62,54 @@
   </div>
 
   <!-- ────────── Header ────────── -->
-  <header class="site-header">
+  <header class="site-header" id="site-header">
     <div class="container header-inner">
-      <nav class="header-nav" aria-label="Bölümler">
-        <a href="index.html">Ana sayfa</a>
-        <a href="taslar/">Taş ansiklopedisi</a>
-      </nav>
+
+      <button type="button" class="header-menu-btn" data-menu-ac
+              aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobil-menu">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+      </button>
 
       <a href="index.html" class="brand-link" aria-label="Parla By Aslı anasayfa">
-        <img src="assets/img/logo-yatay-bakir.svg" alt="Parla By Aslı" class="brand-logo">
+        <img src="assets/img/logo-yatay-bakir.svg" alt="Parla By Aslı" class="brand-logo" width="150" height="32">
       </a>
 
-      <nav class="header-icons" aria-label="Ana navigasyon">
-        <a href="hesap/" class="header-icon-btn" aria-label="Hesabım">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
-            <circle cx="10" cy="6.5" r="3"/>
-            <path d="M4 17c0-3 2.7-5 6-5s6 2 6 5"/>
-          </svg>
+      <nav class="header-nav" aria-label="Ana menü">
+        <a href="urunler/?sirala=yeni">Yeni Gelenler</a>
+        <a href="kolyeler/">Kolyeler</a>
+        <a href="bileklikler/">Bileklikler</a>
+        <a href="kupeler/">Küpeler</a>
+        <a href="setler/">Setler</a>
+        <a href="taslar/">Taşlar</a>
+        <a href="hikayemiz/">Hikâyemiz</a>
+      </nav>
+
+      <div class="header-icons">
+        <button type="button" class="header-icon-btn header-ara-btn" data-ara-ac aria-label="Ara">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="9" cy="9" r="5.2"/><path d="M12.8 12.8 17 17"/></svg>
+        </button>
+        <a href="hesap/" class="header-icon-btn header-icon-genis" aria-label="Hesabım">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="10" cy="6.5" r="3"/><path d="M4 17c0-3 2.7-5 6-5s6 2 6 5"/></svg>
         </a>
-        <button class="header-icon-btn" aria-label="Favorilerim" type="button">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
-            <path d="M10 17s-6-3.5-6-8.5A3.5 3.5 0 0 1 10 6a3.5 3.5 0 0 1 6 2.5C16 13.5 10 17 10 17z"/>
-          </svg>
+        <button type="button" class="header-icon-btn" aria-label="Favorilerim">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M10 17s-6-3.5-6-8.5A3.5 3.5 0 0 1 10 6a3.5 3.5 0 0 1 6 2.5C16 13.5 10 17 10 17z"/></svg>
           <span class="fav-count-badge" data-fav-count style="display:none;">0</span>
         </button>
         <button type="button" class="header-icon-btn" aria-label="Sepetim">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
-            <path d="M4 6h12l-1 9.5a1.5 1.5 0 0 1-1.5 1.4h-7A1.5 1.5 0 0 1 5 15.5L4 6z"/>
-            <path d="M7.5 6a2.5 2.5 0 0 1 5 0"/>
-          </svg>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 6h12l-1 9.5a1.5 1.5 0 0 1-1.5 1.4h-7A1.5 1.5 0 0 1 5 15.5L4 6z"/><path d="M7.5 6a2.5 2.5 0 0 1 5 0"/></svg>
           <span class="cart-count-badge" data-cart-count style="display:none;">0</span>
         </button>
-      </nav>
+      </div>
+
     </div>
   </header>
 
   <main>
 
-    <!-- ────────── Karşılama ekranı ──────────
-         Arka plan görseli admin'deki "Anasayfa kapak görseli" alanından
-         gelir; boşsa markanın mühür deseni + bakır degrade görünür. -->
+    <!-- ────────── Kapak ──────────
+         Arka plan görseli admin → Metinler → "Anasayfa kapak görselleri"
+         alanından gelir; boşsa markanın mühür deseni + bakır degrade görünür.
+         Tek güçlü fotoğraf; slider yok. -->
     <section class="hero" id="hero">
       <div class="hero-media" aria-hidden="true">
         <!-- src'siz duruyor; homepage.js admin'deki kapak görselini bağlar.
@@ -110,70 +118,198 @@
       </div>
 
       <div class="hero-content container">
-        <h1 class="hero-title" id="hero-title-text">Senin için, <em>sana özel</em></h1>
+        <span class="hero-eyebrow" id="hero-eyebrow-text">Parla By Aslı</span>
+        <h1 class="hero-title" id="hero-title-text">Senin için, <em>sana özel.</em></h1>
         <p class="hero-sub" id="hero-subtitle-text">
-          Her taş kendine özgü, her parça siparişle tek tek üretiliyor.
+          Her taşın izi farklı. Her Parla parçası da öyle.
+          Siparişin için tek tek hazırlanır.
         </p>
-        <a href="#urunler" class="btn btn-hero">ÜRÜNLERİ KEŞFET</a>
+        <a href="urunler/" class="btn btn-hero" id="hero-cta-link">
+          <span id="hero-cta-text">Koleksiyonu keşfet</span>
+          <span aria-hidden="true">&nbsp;→</span>
+        </a>
       </div>
 
-      <a href="#urunler" class="hero-scroll" aria-label="Ürünlere in">
+      <a href="#yeni-gelenler" class="hero-scroll" aria-label="Ürünlere in">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
           <path d="M12 5v14M6 13l6 6 6-6"/>
         </svg>
       </a>
     </section>
 
-    <!-- ────────── Kampanya bandı + geri sayım ──────────
-         Tamamen admin'den yönetilir: "Kampanya metni" boşsa bu bant hiç
-         görünmez, "Kampanya bitiş" boşsa sayaç gizlenir (metin kalır). -->
+    <!-- ────────── Kampanya bandı ──────────
+         Tamamen admin'den yönetilir: "Kampanya metni" boşsa bant hiç görünmez.
+         Geri sayım sayacı anasayfadan kaldırıldı (kampanya sayfalarında
+         kullanılmak üzere homepage.js içinde duruyor). -->
     <section class="promo-band" id="promo-band" hidden>
       <div class="container promo-band-inner">
         <p class="promo-band-text" id="kampanya-metni-text"></p>
-        <div class="countdown" id="promo-countdown" hidden role="timer" aria-live="off">
-          <div class="countdown-unit"><span data-cd="gun">00</span><small>GÜN</small></div>
-          <div class="countdown-unit"><span data-cd="saat">00</span><small>SAAT</small></div>
-          <div class="countdown-unit"><span data-cd="dakika">00</span><small>DAKİKA</small></div>
-          <div class="countdown-unit"><span data-cd="saniye">00</span><small>SANİYE</small></div>
-        </div>
       </div>
     </section>
 
-    <!-- ────────── Filtreler ──────────
-         İki katman: üstte ürün tipi, altta o tipte ürünü olan koleksiyonlar.
-         İkisini de homepage.js dolduruyor. -->
-    <section class="mode-area" id="urunler" aria-label="Ürün filtreleri">
+    <!-- ────────── Yeni Gelenler ────────── -->
+    <section class="home-section" id="yeni-gelenler" aria-labelledby="yeni-gelenler-baslik">
       <div class="container">
-        <nav class="home-filters" aria-label="Ürün filtreleri">
-          <div class="home-type-nav" id="home-type-nav" role="group" aria-label="Ürün tipi"></div>
-          <div class="home-collection-nav home-collection-nav-alt" id="home-collection-nav" role="group" aria-label="Koleksiyon" hidden></div>
-        </nav>
-      </div>
-    </section>
-
-    <!-- ────────── Öne çıkan ürünler ────────── -->
-    <section class="featured">
-      <div class="container">
-        <div class="product-grid" id="featured-grid">
-          <!-- homepage.js render eder -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ────────── Hikâye ────────── -->
-    <section class="story" id="hikayemiz">
-      <div class="container">
-        <div class="story-flex">
-          <img src="assets/img/logo-seal-bakir.svg" alt="" class="story-seal" aria-hidden="true">
-          <div class="story-inner">
-            <span class="eyebrow">Hikâyemiz</span>
-            <h2 class="h1" style="margin-top: 12px;" id="hikaye-baslik-text">Parla, Aslı'nın kızı.</h2>
-            <p id="hikaye-metin-text">
-              Bu marka anne-kız hikâyesinden doğdu. El emeği takı geleneğini doğal taşlarla buluşturduk; her taş kendine özgü, her ürün siparişle tek tek üretiliyor. Üretim Türkiye'de, tasarım hep beraber.
-            </p>
-            <a href="iletisim/" class="story-link" id="hikaye-link-text">Bize yaz</a>
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Yeni Gelenler</span>
+            <h2 class="section-title" id="yeni-gelenler-baslik">Son eklenen parçalar</h2>
           </div>
-          <img src="assets/img/logo-seal-bakir.svg" alt="" class="story-seal" aria-hidden="true">
+          <a class="section-link" href="urunler/">Tümünü gör →</a>
+        </div>
+        <div class="product-grid product-grid-4" id="yeni-gelenler-grid">
+          <!-- homepage.js dolduruyor -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────── Editorial bant ──────────
+         Görsel: admin → Metinler → "Editorial bant — görsel" -->
+    <section class="editorial-band" id="editorial-band" aria-label="Marka sözü">
+      <img class="editorial-band-img" id="editorial-gorsel" alt="" loading="lazy" decoding="async">
+      <p class="editorial-band-text" id="editorial-metni">Bir kalıba sığmaz.</p>
+    </section>
+
+    <!-- ────────── Parla Favorileri ──────────
+         İçerik panelden yönetiliyor: ürün formunda "Öne çıkan ürün"
+         işaretli parçalar buraya düşer. -->
+    <section class="home-section" id="favoriler" aria-labelledby="favoriler-baslik" hidden>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Parla'nın seçtikleri</span>
+            <h2 class="section-title" id="favoriler-baslik">Parla Favorileri</h2>
+          </div>
+          <a class="section-link" href="urunler/">Tümünü gör →</a>
+        </div>
+        <div class="favori-duzen" id="favori-duzen">
+          <!-- homepage.js dolduruyor -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────── Taşını Bul ──────────
+         Taşlar taş ansiklopedisinin kendi verisinden geliyor
+         (assets/taslar-listesi.js). Hangi taşların görüneceği admin →
+         Metinler → "Taşını Bul — gösterilecek taşlar" alanından seçilir. -->
+    <section class="home-section home-section-greige" id="tasini-bul" aria-labelledby="tasini-bul-baslik">
+      <div class="container">
+        <div class="section-head section-head-orta">
+          <div>
+            <span class="eyebrow">Taşını Bul</span>
+            <h2 class="section-title" id="tasini-bul-baslik">Taşınla başla</h2>
+          </div>
+          <p class="section-sub" id="tasini-bul-metni">
+            Bazen seçim tasarımla değil, taşla başlar.
+          </p>
+        </div>
+        <div class="tas-secim" id="tas-secim">
+          <!-- homepage.js dolduruyor -->
+        </div>
+        <div class="section-alt-link">
+          <a href="taslar/">Tüm taşları gör →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────── Kombin (Shop the Look) ──────────
+         Görsel yüklenene kadar bölüm hiç görünmez — boş çerçeve
+         göstermiyoruz. Admin → Metinler → "Kombin bölümü — görsel" -->
+    <section class="lookbook" id="lookbook" aria-labelledby="lookbook-baslik" hidden>
+      <div class="lookbook-media">
+        <img id="lookbook-gorsel" alt="" loading="lazy" decoding="async">
+      </div>
+      <div class="lookbook-icerik">
+        <span class="eyebrow">Shop the look</span>
+        <h2 class="section-title" id="lookbook-baslik">Parla stilini keşfet.</h2>
+        <p class="lookbook-yakinda" id="lookbook-yakinda">Yakında</p>
+        <a class="section-link" id="lookbook-link" href="#" hidden>Kombini gör →</a>
+      </div>
+    </section>
+
+    <!-- ────────── Hikâyemiz ────────── -->
+    <section class="home-section story" id="hikayemiz" aria-labelledby="hikaye-baslik-text">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-media" id="hikaye-media">
+            <!-- Fotoğraf admin'den gelir; yoksa marka mührü görünür -->
+            <img id="hikaye-gorsel" alt="" loading="lazy" decoding="async" hidden>
+            <img src="assets/img/logo-seal-bakir.svg" alt="" class="story-media-seal" id="hikaye-muhur" aria-hidden="true">
+          </div>
+
+          <div class="story-metin">
+            <span class="eyebrow">Hikâyemiz</span>
+            <h2 class="section-title" id="hikaye-baslik-text">Parla, Aslı'nın kızı.</h2>
+            <p id="hikaye-metin-text">Parla by Aslı bir takı markası olmadan önce bir anne-kız hikâyesiydi.
+
+Doğal taşlara duyulan merak, elde üretmenin verdiği keyif ve birbirimiz için bir şeyler seçme alışkanlığı zamanla Parla'ya dönüştü.
+
+Bugün her parçayı aynı düşünceyle hazırlıyoruz: Senin için, sana özel.</p>
+            <a href="hikayemiz/" class="section-link" id="hikaye-link-text">Hikâyemizi oku →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────── Özel kutusunda ────────── -->
+    <section class="kutu" id="kutu" aria-labelledby="kutu-baslik-text">
+      <div class="container">
+        <div class="kutu-grid">
+          <div class="kutu-metin">
+            <span class="eyebrow">Parla detayı</span>
+            <h2 class="section-title" id="kutu-baslik-text">Sen seç.
+Biz özenle hazırlayalım.</h2>
+            <p id="kutu-metin-text">Her Parla siparişi özel kutusunda hazırlanır.</p>
+          </div>
+          <div class="kutu-media" id="kutu-media" hidden>
+            <img id="kutu-gorsel" alt="" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────── Güven alanı ────────── -->
+    <section class="guven" aria-label="Neden Parla">
+      <div class="container">
+        <div class="guven-grid">
+          <div class="guven-oge">
+            <div class="guven-oge-cizgi" aria-hidden="true"></div>
+            <h3>Elde hazırlanır</h3>
+            <p>Her parça siparişin için hazırlanır.</p>
+          </div>
+          <div class="guven-oge">
+            <div class="guven-oge-cizgi" aria-hidden="true"></div>
+            <h3>Doğal taş</h3>
+            <p>Doğası gereği her biri kendine özgüdür.</p>
+          </div>
+          <div class="guven-oge">
+            <div class="guven-oge-cizgi" aria-hidden="true"></div>
+            <h3>Özel kutusunda</h3>
+            <p>Her sipariş Parla kutusunda gönderilir.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────── Bülten ──────────
+         Kayıtlar Supabase'e yazılır, admin → Bülten sekmesinden görülür.
+         Tablo yoksa form hata verir ve bölüm gizlenir (bkz. homepage.js). -->
+    <section class="bulten" id="bulten" aria-labelledby="bulten-baslik-text">
+      <div class="container">
+        <div class="bulten-grid">
+          <div class="bulten-metin">
+            <h2 class="section-title" id="bulten-baslik-text">Parla'dan haberdar ol.</h2>
+            <p id="bulten-metin-text">Yeni tasarımlar, yeni taşlar ve küçük Parla notları.</p>
+          </div>
+
+          <form class="bulten-form" id="bulten-form" novalidate>
+            <label class="sr-only" for="bulten-eposta">E-posta adresin</label>
+            <input type="email" id="bulten-eposta" name="eposta" placeholder="E-posta adresin"
+                   autocomplete="email" required>
+            <button type="submit" class="btn btn-primary" id="bulten-gonder">Katıl →</button>
+          </form>
+
+          <p class="bulten-durum" id="bulten-durum" role="status" hidden></p>
         </div>
       </div>
     </section>
@@ -185,18 +321,33 @@
     <div class="container">
 
       <div class="footer-grid">
-        <div>
+        <div class="footer-marka">
           <img src="assets/img/logo-seal-bakir.svg" alt="" class="footer-brand-seal" aria-hidden="true">
           <p class="footer-brand-text" id="footer-marka-text">
             El emeği takı, doğal taş, kişiye özel üretim. Türkiye'de tasarlandı, Türkiye'de üretildi.
           </p>
+          <a class="footer-insta" href="https://www.instagram.com/parlabyasli/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="4"/><circle cx="10" cy="10" r="3.2"/><circle cx="14.2" cy="5.8" r="0.9" fill="currentColor" stroke="none"/></svg><span>Instagram</span>
+          </a>
         </div>
 
         <div class="footer-col">
-          <h4>Marka</h4>
+          <h4>Alışveriş</h4>
           <ul>
-            <li><a href="index.html#hikayemiz">Hikâyemiz</a></li>
+            <li><a href="kolyeler/">Kolyeler</a></li>
+            <li><a href="bileklikler/">Bileklikler</a></li>
+            <li><a href="kupeler/">Küpeler</a></li>
+            <li><a href="setler/">Setler</a></li>
+            <li><a href="urunler/?sirala=yeni">Yeni gelenler</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Parla</h4>
+          <ul>
+            <li><a href="hikayemiz/">Hikâyemiz</a></li>
             <li><a href="taslar/">Taş ansiklopedisi</a></li>
+            <li><a href="bakim-rehberi/">Bakım rehberi</a></li>
             <li><a href="iletisim/">İletişim</a></li>
           </ul>
         </div>
@@ -204,26 +355,22 @@
         <div class="footer-col">
           <h4>Yardım</h4>
           <ul>
-            <li><a href="yasal/kargo-teslimat/">Kargo & teslimat</a></li>
-            <li><a href="yasal/iade-iptal/">İade & değişim</a></li>
+            <li><a href="hesap/">Siparişlerim</a></li>
+            <li><a href="yasal/kargo-teslimat/">Kargo &amp; teslimat</a></li>
+            <li><a href="yasal/iade-iptal/">İade &amp; değişim</a></li>
             <li><a href="sss/">SSS</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Yasal</h4>
-          <ul>
-            <li><a href="yasal/gizlilik/">Gizlilik politikası</a></li>
-            <li><a href="yasal/kvkk/">KVKK</a></li>
-            <li><a href="yasal/kullanim-kosullari/">Kullanım koşulları</a></li>
-            <li><a href="yasal/mesafeli-satis/">Mesafeli satış</a></li>
+            <li><a href="yasal/gizlilik/">Gizlilik</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
         <span>© 2026 Parla By Aslı · Tüm hakları saklıdır</span>
-        <span>Türkiye'de tasarlandı</span>
+        <nav class="footer-yasal" aria-label="Yasal">
+          <a href="yasal/kvkk/">KVKK</a>
+          <a href="yasal/kullanim-kosullari/">Kullanım koşulları</a>
+          <a href="yasal/mesafeli-satis/">Mesafeli satış</a>
+        </nav>
       </div>
 
     </div>
@@ -237,6 +384,9 @@
   <script src="assets/ui.js"></script>
   <script src="assets/reviews.js"></script>
   <script src="assets/account.js"></script>
+  <script src="assets/taslar-listesi.js"></script>
+  <script src="assets/taslar-eslesme.js"></script>
   <script src="assets/homepage.js"></script>
+  <script src="assets/site-nav.js"></script>
 </body>
 </html>

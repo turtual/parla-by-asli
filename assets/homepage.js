@@ -16,117 +16,6 @@
 (function () {
   'use strict';
 
-  const typeNavEl = document.getElementById('home-type-nav');
-  const collectionNavEl = document.getElementById('home-collection-nav');
-  const grid = document.getElementById('featured-grid');
-
-  let activeCategory = null;     // null = tüm ürün tipleri (üst filtre)
-  let activeCollectionId = null; // null = tüm koleksiyonlar (alt filtre)
-
-  /**
-   * İki katmanlı filtre.
-   *
-   *   Üst satır  — ürün tipi: Tümü · Kolye · Küpe · Bileklik …
-   *   Alt satır  — koleksiyon: seçili tipte ürünü OLAN koleksiyonlar
-   *
-   * Alt satır üstteki seçime göre yeniden kuruluyor: "Küpe"ye basınca aşağıda
-   * yalnız küpesi olan koleksiyonlar kalıyor, küpesi olmayanlar listeden
-   * çıkıyor. Böylece hiçbir kombinasyon boş sonuç vermiyor.
-   *
-   * Her iki satırda da yalnız gerçekten ürünü olan seçenekler görünür.
-   */
-  async function renderFilters() {
-    if (!typeNavEl || typeof getCollections !== 'function') return;
-
-    const [collections, types, products] = await Promise.all([
-      getCollections(),
-      typeof getProductTypes === 'function' ? getProductTypes() : [],
-      getProducts()
-    ]);
-
-    // ── Üst satır: ürün tipleri ──
-    const varOlanTipler = types.filter(t => products.some(p => p.category === t.slug));
-
-    // Üst katman düğme değil sekme görünümünde (bkz. .type-tab): zemin
-    // sayfayla aynı, seçili olanın altında kalın bakır çizgi var. Alt
-    // katmanın pilleriyle karışmasın diye kasten farklı.
-    typeNavEl.innerHTML = '';
-    typeNavEl.append(pilOlustur('Tümü', activeCategory === null, () => tipSec(null), null, 'type-tab'));
-    varOlanTipler.forEach(t => {
-      typeNavEl.append(pilOlustur(t.name, activeCategory === t.slug, () => tipSec(t.slug), t.slug, 'type-tab'));
-    });
-
-    // ── Alt satır: seçili tipte ürünü olan koleksiyonlar ──
-    const kapsam = activeCategory
-      ? products.filter(p => p.category === activeCategory)
-      : products;
-
-    const varOlanKoleksiyonlar = collections.filter(c =>
-      kapsam.some(p => urunKoleksiyondaMi(p, c.id)));
-
-    collectionNavEl.innerHTML = '';
-
-    // Tek koleksiyon kaldıysa seçim yapmak anlamsız — satırı hiç göstermiyoruz
-    if (varOlanKoleksiyonlar.length < 2) {
-      collectionNavEl.hidden = true;
-      return;
-    }
-
-    collectionNavEl.hidden = false;
-    collectionNavEl.append(pilOlustur(
-      activeCategory ? 'Tüm koleksiyonlar' : 'Tümü',
-      activeCollectionId === null,
-      () => koleksiyonSec(null)
-    ));
-    varOlanKoleksiyonlar.forEach(c => {
-      const adet = kapsam.filter(p => urunKoleksiyondaMi(p, c.id)).length;
-      const pil = pilOlustur(c.name, activeCollectionId === c.id,
-        () => koleksiyonSec(c.id), c.slug);
-      pil.append(PB_h('span', { class: 'pill-adet' }, String(adet)));
-      collectionNavEl.append(pil);
-    });
-  }
-
-  function urunKoleksiyondaMi(p, collectionId) {
-    return typeof productInCollection === 'function'
-      ? productInCollection(p, collectionId)
-      : p.collectionId === collectionId;
-  }
-
-  function pilOlustur(etiket, secili, onclick, veriSlug, sinif) {
-    const nitelikler = {
-      type: 'button',
-      class: (sinif || 'pill') + (secili ? ' is-active' : ''),
-      'aria-pressed': secili ? 'true' : 'false',
-      onclick
-    };
-    if (veriSlug) nitelikler['data-slug'] = veriSlug;
-    return PB_h('button', nitelikler, etiket);
-  }
-
-  /**
-   * Üst filtre. Seçili koleksiyonda bu tipten ürün yoksa alt filtre
-   * sıfırlanıyor — aksi hâlde "Küpe + Seramik Serisi" gibi boş bir
-   * kombinasyonda kalınıyordu.
-   */
-  async function tipSec(category) {
-    activeCategory = category;
-
-    if (activeCollectionId) {
-      const eslesen = await getProducts({ category, collectionId: activeCollectionId });
-      if (!eslesen.length) activeCollectionId = null;
-    }
-
-    renderFilters();
-    renderProducts();
-  }
-
-  function koleksiyonSec(collectionId) {
-    activeCollectionId = collectionId;
-    renderFilters();
-    renderProducts();
-  }
-
   /**
    * Admin panelinden düzenlenebilen site metinlerini (hero, hikâye, footer,
    * üst şerit) bağlar. HTML'deki statik metin ilk anda görünür kalır —
@@ -144,7 +33,15 @@
       'hikaye-baslik-text': 'hikaye_baslik',
       'hikaye-metin-text': 'hikaye_metin',
       'hikaye-link-text': 'hikaye_link_metni',
-      'footer-marka-text': 'footer_marka_metni'
+      'footer-marka-text': 'footer_marka_metni',
+      'hero-eyebrow-text': 'hero_eyebrow',
+      'hero-cta-text': 'hero_cta_metni',
+      'editorial-metni': 'editorial_metni',
+      'tasini-bul-metni': 'tasini_bul_metni',
+      'kutu-baslik-text': 'kutu_baslik',
+      'kutu-metin-text': 'kutu_metni',
+      'bulten-baslik-text': 'bulten_baslik',
+      'bulten-metin-text': 'bulten_metni'
     };
 
     Object.entries(map).forEach(([elId, key]) => {
@@ -155,6 +52,13 @@
 
     renderHeroImages(texts.hero_gorseller, texts.hero_gorsel);
     renderPromoBand(texts.kampanya_metni, texts.kampanya_bitis);
+
+    // Bölüm görselleri ve içerikleri — hepsi panelden yönetiliyor
+    renderEditorial(texts.editorial_gorsel);
+    renderTasSecim(texts.tasini_bul_taslar);
+    renderLookbook(texts.lookbook_gorsel, texts.lookbook_baslik, texts.lookbook_link);
+    renderHikayeGorseli(texts.hikaye_gorsel);
+    renderKutuGorseli(texts.kutu_gorsel);
   }
 
   /**
@@ -321,11 +225,14 @@
     const band = document.getElementById('promo-band');
     const textEl = document.getElementById('kampanya-metni-text');
     const countdown = document.getElementById('promo-countdown');
-    if (!band || !textEl || !countdown) return;
+    if (!band || !textEl) return;
 
     if (!metin || !metin.trim()) return;   // hidden kalır
     textEl.innerHTML = pbFormatInline(metin);
     band.hidden = false;
+
+    // Geri sayım anasayfadan kaldırıldı; sayaç elemanı yoksa yalnız metin gösterilir
+    if (!countdown) return;
 
     const bitis = bitisMetni ? new Date(bitisMetni) : null;
     if (!bitis || isNaN(bitis.getTime())) return;
@@ -357,36 +264,224 @@
     const sayac = setInterval(tik, 1000);
   }
 
-  async function renderProducts() {
+  /* ──────────── Yeni Gelenler ────────────
+   * Panelde en son eklenen 4 parça. Sıralama created_at'e göre; panelde
+   * yeni ürün listenin başına eklendiği için sürükle-bırak sırasıyla da
+   * uyumlu kalıyor ama burada tarih esas alınıyor: "yeni" olmanın ölçüsü
+   * elle verilen sıra değil, gerçekten ne zaman eklendiği. */
+  async function renderYeniGelenler() {
+    const grid = document.getElementById('yeni-gelenler-grid');
     if (!grid || typeof getProducts !== 'function') return;
 
-    // Yükleniyor göstergesi (cache miss durumunda görünür)
-    if (!grid.children.length) {
-      grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
-    }
-
-    const bulunanlar = await getProducts({
-      collectionId: activeCollectionId,
-      category: activeCategory
-    });
-
-    // Öne çıkan (⭐) ürünler ızgaranın başına geçer; gerisi panelde
-    // sürükleyerek verilen sırayla gelir. Bkz. products.js sortForDisplay.
-    const items = typeof sortForDisplay === 'function' ? sortForDisplay(bulunanlar) : bulunanlar;
-
-    grid.innerHTML = '';
-    if (items.length === 0) {
-      renderEmptyGridState(grid, { filtered: activeCollectionId !== null || activeCategory !== null });
+    const hepsi = await getProducts({});
+    if (!hepsi.length) {
+      const bolum = document.getElementById('yeni-gelenler');
+      if (bolum) bolum.hidden = true;
       return;
     }
-    items.forEach((p, i) => grid.append(renderProductCard(p, i)));
+
+    const yeniler = hepsi
+      .slice()
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .slice(0, 4);
+
+    grid.innerHTML = '';
+    yeniler.forEach((p, i) => grid.append(renderProductCard(p, i)));
+  }
+
+  /* ──────────── Parla Favorileri ────────────
+   * İçerik panelden geliyor: ürün formunda "Öne çıkan ürün" işaretli
+   * parçalar. Hiç işaretli yoksa bölüm görünmez — boş başlık kalmasın.
+   * Düzen kasten asimetrik (solda büyük, sağda iki küçük) ki Yeni
+   * Gelenler ızgarasının kopyası gibi durmasın. */
+  async function renderFavoriler() {
+    const bolum = document.getElementById('favoriler');
+    const duzen = document.getElementById('favori-duzen');
+    if (!bolum || !duzen || typeof getProducts !== 'function') return;
+
+    const favoriler = (await getProducts({ featuredOnly: true })).slice(0, 3);
+    if (!favoriler.length) return;   // hidden kalır
+
+    duzen.innerHTML = '';
+    favoriler.forEach((p, i) => duzen.append(renderProductCard(p, i)));
+    bolum.hidden = false;
+  }
+
+  /* ──────────── Taşını Bul ────────────
+   * Taşlar ansiklopedinin kendi verisinden (assets/taslar-listesi.js).
+   * Hangileri görünecek: admin → Metinler → "Taşını Bul — gösterilecek
+   * taşlar". Fotoğrafı olan taşta fotoğraf, olmayanda taşın kendi
+   * renginden türeyen düz zemin çıkar — uydurma görsel koymuyoruz. */
+  async function renderTasSecim(secimMetni) {
+    const kap = document.getElementById('tas-secim');
+    const bolum = document.getElementById('tasini-bul');
+    if (!kap) return;
+
+    const tumTaslar = window.PB_TASLAR || [];
+    if (!tumTaslar.length) {
+      if (bolum) bolum.hidden = true;
+      return;
+    }
+
+    const istenen = String(secimMetni || '')
+      .split(/[,\n]/).map(s => s.trim()).filter(Boolean);
+
+    const secilenler = (istenen.length
+      ? istenen.map(slug => tumTaslar.find(t => t.slug === slug)).filter(Boolean)
+      : tumTaslar.slice(0, 6));
+
+    if (!secilenler.length) {
+      if (bolum) bolum.hidden = true;
+      return;
+    }
+
+    // Fotoğraflar ayrı tabloda; tablo yoksa boş harita döner
+    let gorseller = {};
+    try {
+      if (typeof PB_Data !== 'undefined' && PB_Data.getStoneImages) {
+        gorseller = await PB_Data.getStoneImages();
+      }
+    } catch (e) { /* fotoğraf yoksa renk zemini yeterli */ }
+
+    kap.innerHTML = '';
+    secilenler.forEach(tas => {
+      const bag = PB_h('a', {
+        class: 'tas-oge',
+        href: 'taslar/' + tas.slug + '/',
+        'aria-label': tas.ad + ' taşını keşfet'
+      });
+
+      const daire = PB_h('div', { class: 'tas-oge-daire' });
+      daire.style.background = tas.renk || 'var(--c-warm-greige)';
+
+      const url = gorseller[tas.slug];
+      if (url) {
+        daire.append(PB_h('img', { src: url, alt: '', loading: 'lazy', decoding: 'async' }));
+      }
+
+      bag.append(daire, PB_h('span', { class: 'tas-oge-ad' }, tas.ad));
+      kap.append(bag);
+    });
+  }
+
+  /* ──────────── Editorial bant ────────────
+   * Fotoğraf yoksa bölüm yine durur: zemini koyu orman yeşili kalır,
+   * yazı okunur. Boş çerçeve görünmez. */
+  function renderEditorial(gorselUrl) {
+    const bant = document.getElementById('editorial-band');
+    const img = document.getElementById('editorial-gorsel');
+    if (!bant || !img || !gorselUrl) return;
+
+    img.addEventListener('load', () => bant.classList.add('has-image'), { once: true });
+    img.src = gorselUrl;
+  }
+
+  /* ──────────── Kombin (Shop the Look) ────────────
+   * Altyapı hazır ama içerik bekliyor: fotoğraf yüklenmeden bölüm hiç
+   * render edilmez. Bağlantı verilmediyse "Yakında" yazar — çalışmayan
+   * bir bağlantı göstermiyoruz. */
+  function renderLookbook(gorselUrl, baslik, link) {
+    const bolum = document.getElementById('lookbook');
+    const img = document.getElementById('lookbook-gorsel');
+    if (!bolum || !img || !gorselUrl) return;
+
+    img.src = gorselUrl;
+    if (baslik) {
+      const h = document.getElementById('lookbook-baslik');
+      if (h) h.textContent = baslik;
+    }
+
+    const bag = document.getElementById('lookbook-link');
+    const yakinda = document.getElementById('lookbook-yakinda');
+    if (link && link.trim()) {
+      if (bag) { bag.href = link.trim(); bag.hidden = false; }
+      if (yakinda) yakinda.hidden = true;
+    }
+
+    bolum.hidden = false;
+  }
+
+  /* ──────────── Hikâyemiz fotoğrafı ────────────
+   * Fotoğraf yoksa marka mührü görünmeye devam eder. */
+  function renderHikayeGorseli(url) {
+    const kap = document.getElementById('hikaye-media');
+    const img = document.getElementById('hikaye-gorsel');
+    const muhur = document.getElementById('hikaye-muhur');
+    if (!kap || !img || !url) return;
+
+    img.addEventListener('load', () => {
+      img.hidden = false;
+      if (muhur) muhur.hidden = true;
+      kap.classList.add('has-image');
+    }, { once: true });
+    img.src = url;
+  }
+
+  /* ──────────── Özel kutu görseli ──────────── */
+  function renderKutuGorseli(url) {
+    const kap = document.getElementById('kutu-media');
+    const img = document.getElementById('kutu-gorsel');
+    if (!kap || !img || !url) return;
+    img.src = url;
+    kap.hidden = false;
+  }
+
+  /* ──────────── Bülten ────────────
+   * Gerçek kayıt: e-posta Supabase'e yazılır ve admin → Bülten sekmesinde
+   * görünür. Tablo henüz açılmadıysa (migration çalıştırılmadıysa) form
+   * kullanıcıyı boşa düşürmesin diye bölüm gizleniyor — çalışıyormuş gibi
+   * gösterip sessizce yutmuyoruz. */
+  function renderBulten() {
+    const form = document.getElementById('bulten-form');
+    const girdi = document.getElementById('bulten-eposta');
+    const durum = document.getElementById('bulten-durum');
+    const buton = document.getElementById('bulten-gonder');
+    if (!form || !girdi || !durum || typeof PB_Data === 'undefined') return;
+
+    function bildir(mesaj, tip) {
+      durum.textContent = mesaj;
+      if (tip) durum.setAttribute('data-tip', tip);
+      else durum.removeAttribute('data-tip');
+      durum.hidden = false;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const eposta = girdi.value.trim();
+      // Tarayıcının kendi e-posta doğrulaması; novalidate olduğu için elle
+      if (!eposta || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(eposta)) {
+        bildir('Geçerli bir e-posta adresi yazar mısın?', 'hata');
+        girdi.focus();
+        return;
+      }
+
+      buton.disabled = true;
+      const eskiYazi = buton.textContent;
+      buton.textContent = 'Kaydediliyor…';
+
+      const { error, zatenVar } = await PB_Data.subscribeNewsletter(eposta, 'anasayfa');
+
+      buton.disabled = false;
+      buton.textContent = eskiYazi;
+
+      if (error) {
+        console.warn('Bülten kaydı başarısız:', error);
+        bildir('Şu anda kaydedemedik. Biraz sonra tekrar dener misin?', 'hata');
+        return;
+      }
+
+      form.reset();
+      bildir(zatenVar ? 'Zaten listedesin — teşekkürler.' : 'Aramıza hoş geldin. Yakında yazacağız.');
+    });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     heroYuksekligiAyarla();
-    renderSiteTexts();
-    renderFilters();
-    renderProducts();
+    renderSiteTexts();     // metinler + bölüm görselleri
+    renderYeniGelenler();
+    renderFavoriler();
+    renderBulten();
   });
 
   // Ekran döndürme / pencere boyutu değişiminde yeniden ölç

@@ -14,6 +14,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { headerHtml, footerHtml, seritHtml } = require('./site-kabuk.js');
 
 const KOK = path.join(__dirname, '..');
 const SITE = 'https://parlabyasli.com';
@@ -59,7 +60,7 @@ const ilkHarf = ad => ad.charAt(0).toLocaleUpperCase('tr');
 function kafa({ baslik, aciklama, kanonik, derinlik }) {
   const u = '../'.repeat(derinlik);
   return `<!DOCTYPE html>
-<html lang="tr">
+<html lang="tr"${derinlik ? ` data-kok="${u}"` : ''}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -92,34 +93,22 @@ function kafa({ baslik, aciklama, kanonik, derinlik }) {
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="${u}index.html" class="brand-link" aria-label="Parla By Aslı anasayfa">
-        <img src="${u}assets/img/logo-yatay-bakir.svg" alt="Parla By Aslı" class="brand-logo" width="150" height="32">
-      </a>
-    </div>
-  </header>
-`;
+${seritHtml()}${headerHtml(derinlik, 'taslar/')}`;
 }
 
 const ayak = derinlik => {
   const u = '../'.repeat(derinlik);
   return `
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-bottom">
-        <span>© 2026 Parla By Aslı · Tüm hakları saklıdır</span>
-        <span>Türkiye'de tasarlandı</span>
-      </div>
-    </div>
-  </footer>
-
+${footerHtml(derinlik)}
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="${u}assets/data.js"></script>
   <script src="${u}assets/products.js"></script>
   <script src="${u}assets/ui.js"></script>
   <script src="${u}assets/reviews.js"></script>
+  <script src="${u}assets/taslar-listesi.js"></script>
+  <script src="${u}assets/taslar-eslesme.js"></script>
   <script src="${u}assets/tas-urunleri.js"></script>
+  <script src="${u}assets/site-nav.js"></script>
 </body>
 </html>
 `;
@@ -290,21 +279,8 @@ taslar.forEach((tas, i) => {
 fs.mkdirSync(path.join(KOK, 'taslar'), { recursive: true });
 fs.writeFileSync(path.join(KOK, 'taslar', 'index.html'), dizinSayfasi(), 'utf8');
 
-/* ── sitemap.xml ── */
-const smYol = path.join(KOK, 'sitemap.xml');
-let sm = fs.readFileSync(smYol, 'utf8');
-const BAS = '  <!-- taslar:baslangic -->';
-const BIT = '  <!-- taslar:bitis -->';
-const blok = [BAS,
-  `  <url><loc>${SITE}/taslar/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>`,
-  ...taslar.map(t => `  <url><loc>${SITE}/taslar/${t.slug}/</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>`),
-  BIT].join('\n');
+/* sitemap.xml artık tools/sitemap-uret.js tarafından dosya sistemi
+   taranarak baştan yazılıyor; burada ayrıca güncellemeye gerek yok. */
 
-if (sm.includes(BAS) && sm.includes(BIT)) {
-  sm = sm.replace(new RegExp(`${BAS}[\\s\\S]*?${BIT}`), blok);
-} else {
-  sm = sm.replace('</urlset>', blok + '\n</urlset>');
-}
-fs.writeFileSync(smYol, sm, 'utf8');
-
-console.log(`${yazilan} taş sayfası + dizin üretildi, sitemap güncellendi.`);
+console.log(`${yazilan} taş sayfası + dizin üretildi.`);
+console.log('Sitemap için: node tools/sitemap-uret.js');

@@ -37,6 +37,9 @@
   // Bkz. db/2026-09-03-coklu-koleksiyon.sql
   let multiCollection = null;
 
+  // products.stones kolonu var mı? (bkz. db/2026-09-28-anasayfa-yenileme.sql)
+  let stonesKolonu = null;
+
   // Son ürün çekme denemesi başarısız olduysa buraya yazılır.
   // Boş liste dönmek "ürün yok" ile "bağlanamadım"ı aynı gösteriyordu; sayfalar
   // ikisini ayırt edebilsin diye tutuluyor. Başarılı her çekimde temizlenir.
@@ -81,6 +84,9 @@
       category: row.category,
       collectionId: row.collection_id,
       collectionIds: collectionIdsOf(row),
+      // Panelden seçilen taşlar (taş sayfası adresindeki yazımıyla).
+      // Kolon henüz yoksa boş dizi: eşleşme metinden tahmine düşer.
+      stones: row.stones || [],
       createdAt: row.created_at || null,
       mode: row.mode,
       price: row.price,
@@ -506,6 +512,84 @@
     return multiCollection;
   }
 
+  /** products.stones kolonu var mı? Bir kez sorup hatırlıyor. */
+  async function hasStones() {
+    if (stonesKolonu !== null) return stonesKolonu;
+    if (!supabase) init();
+    if (!supabase) return false;
+    const { error } = await supabase.from('products').select('stones').limit(1);
+    stonesKolonu = !error;
+    return stonesKolonu;
+  }
+
+  /* ──────────── TAŞ GÖRSELLERİ ────────────
+   * Taş metni statik dosyalarda üretiliyor; yalnız fotoğraf veritabanında
+   * duruyor ki panelden yüklenebilsin. Tablo yoksa boş harita döner ve site
+   * taşın kendi renginden türeyen sade zemini gösterir — uydurma görsel yok. */
+
+  let stoneImagesCache = null;
+  let stoneImagesCacheTime = 0;
+
+  async function getStoneImages() {
+    if (stoneImagesCache && (Date.now() - stoneImagesCacheTime) < CACHE_TTL) {
+      return stoneImagesCache;
+    }
+    if (!supabase) init();
+    if (!supabase) return stoneImagesCache || {};
+
+    const { data, error } = await supabase.from('stone_images').select('slug,image');
+    if (error) return stoneImagesCache || {};
+
+    const harita = {};
+    (data || []).forEach(r => { if (r.image) harita[r.slug] = r.image; });
+    stoneImagesCache = harita;
+    stoneImagesCacheTime = Date.now();
+    return harita;
+  }
+
+  async function adminSetStoneImage(slug, image) {
+    if (!supabase) init();
+    const { error } = await supabase
+      .from('stone_images')
+      .upsert({ slug, image, updated_at: new Date().toISOString() }, { onConflict: 'slug' });
+    stoneImagesCache = null;
+    return { error };
+  }
+
+  /* ──────────── BÜLTEN ────────────
+   * Ziyaretçi yalnız kayıt ekleyebiliyor (RLS); listeyi sadece yönetici görür.
+   * Aynı e-posta ikinci kez girilirse benzersiz indeks hata döndürür — bunu
+   * kullanıcıya hata gibi değil "zaten kayıtlısın" diye çeviriyoruz. */
+
+  async function subscribeNewsletter(email, source) {
+    if (!supabase) init();
+    if (!supabase) return { error: new Error('Bağlantı kurulamadı') };
+
+    const { error } = await supabase
+      .from('newsletter_subscribers')
+      .insert([{ email: String(email).trim(), source: source || 'anasayfa' }]);
+
+    if (error && (error.code === '23505' || /duplicate|unique/i.test(error.message || ''))) {
+      return { error: null, zatenVar: true };
+    }
+    return { error };
+  }
+
+  async function adminGetSubscribers() {
+    if (!supabase) init();
+    const { data, error } = await supabase
+      .from('newsletter_subscribers')
+      .select('*')
+      .order('created_at', { ascending: false });
+    return { data: data || [], error };
+  }
+
+  async function adminDeleteSubscriber(id) {
+    if (!supabase) init();
+    const { error } = await supabase.from('newsletter_subscribers').delete().eq('id', id);
+    return { error };
+  }
+
   async function adminUpdateProduct(id, updates) {
     if (!supabase) init();
     const dbUpdates = {};
@@ -513,6 +597,9 @@
     if ('isActive' in updates) dbUpdates.is_active = updates.isActive;
     if ('displayOrder' in updates) dbUpdates.display_order = updates.displayOrder;
     if ('collectionId' in updates) dbUpdates.collection_id = updates.collectionId;
+    if ('stones' in updates && await hasStones()) {
+      dbUpdates.stones = updates.stones || [];
+    }
     if ('collectionIds' in updates && await hasMultiCollection()) {
       dbUpdates.collection_ids = updates.collectionIds || [];
     }
@@ -559,6 +646,9 @@
 
     if (await hasMultiCollection()) {
       dbRow.collection_ids = product.collectionIds || [];
+    }
+    if (await hasStones()) {
+      dbRow.stones = product.stones || [];
     }
 
     const { data, error } = await supabase
@@ -1007,6 +1097,12 @@
     adminUploadImage,
     optimizeImage,
     hasMultiCollection,
+    hasStones,
+    getStoneImages,
+    adminSetStoneImage,
+    subscribeNewsletter,
+    adminGetSubscribers,
+    adminDeleteSubscriber,
     adminGetOrders,
     adminUpdateOrderStatus,
     adminAdjustStock,
