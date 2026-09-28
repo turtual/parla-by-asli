@@ -19,10 +19,13 @@ const path = require('path');
 const KOK = path.join(__dirname, '..');
 const VERI = path.join(KOK, 'data');
 const CIKTI = path.join(KOK, 'assets', 'taslar-listesi.js');
+const GORSEL_DIZIN = path.join(KOK, 'assets', 'img', 'taslar');
+const KUNYE_DOSYA = path.join(KOK, 'data', 'tas-gorselleri.json');
 
 function taslariOku() {
   const hepsi = [];
-  for (const dosya of fs.readdirSync(VERI).filter(f => f.endsWith('.json'))) {
+  // Yalnız taş verisi dosyaları; data/ altında künye gibi başka JSON'lar da var
+  for (const dosya of fs.readdirSync(VERI).filter(f => /^taslar.*.json$/.test(f))) {
     const ham = JSON.parse(fs.readFileSync(path.join(VERI, dosya), 'utf8'));
     const dizi = Array.isArray(ham) ? ham : (ham.taslar || Object.values(ham)[0]);
     for (const t of dizi) hepsi.push(t);
@@ -69,12 +72,30 @@ function kisaOzet(ozet, sinir = 72) {
   return (son > 30 ? kesik.slice(0, son) : kesik).trim() + '…';
 }
 
+/* Depodaki hazır taş fotoğrafları. Panelden yüklenen fotoğraf (stone_images)
+   varsa o kazanır; burası yalnızca yedek. Fotoğrafı olmayan taşta hiçbir
+   şey yazılmıyor ve site taşın kendi renginden zemini gösteriyor. */
+const kunye = fs.existsSync(KUNYE_DOSYA)
+  ? JSON.parse(fs.readFileSync(KUNYE_DOSYA, 'utf8'))
+  : {};
+
+function yerelGorsel(slug) {
+  return fs.existsSync(path.join(GORSEL_DIZIN, slug + '.jpg'))
+    ? 'assets/img/taslar/' + slug + '.jpg'
+    : null;
+}
+
 const taslar = taslariOku()
   .map(t => ({
     slug: t.slug,
     ad: t.ad,
     ozet: kisaOzet(t.ozet),
     renk: renkBul(t),
+    gorsel: yerelGorsel(t.slug),
+    // Fotoğraf künyesi: taş sayfasında kaynak ve lisans gösteriliyor
+    kunye: kunye[t.slug]
+      ? { yazar: kunye[t.slug].yazar, lisans: kunye[t.slug].lisans, kaynak: kunye[t.slug].kaynak }
+      : null,
     eslesme: t.eslesme || []
   }))
   .sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));

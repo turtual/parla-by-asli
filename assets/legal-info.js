@@ -17,20 +17,32 @@ window.PB_SATICI = {
   /* ── Kimlik (mesafeli satış sözleşmesinde zorunlu) ── */
 
   // Vergi levhasındaki tam unvan. Şahıs şirketiyse "Ad Soyad - Parla By Aslı" gibi.
-  unvan: '',
+  // Levhada "Ticaret Ünvanı" satırı boş; şahıs işletmelerinde unvan kişinin
+  // kendi adıdır, markayı da göstermek için ikisi birlikte yazıldı.
+  unvan: 'Ali Salihoğlu - Parla By Aslı',
 
   // 'sahis' | 'esnaf' | 'limited'  → metinlerdeki ifadeleri belirler
-  tip: '',
+  tip: 'sahis',
 
-  vergiDairesi: '',
-  vergiNo: '',
+  vergiDairesi: 'Bornova',
+  vergiNo: '7410269068',
+
+  /* TC kimlik numarası KASTEN buraya yazılmadı.
+     Mesafeli Sözleşmeler Yönetmeliği satıcının adı/unvanı, adresi,
+     telefonu, e-postası ve varsa MERSİS numarasını istiyor — TCKN'yi
+     değil. Vergi kimlik numarası zaten yayımlanabilir bir numara;
+     TCKN'yi yayımlamak ise gereksiz bir kimlik hırsızlığı riski.
+     Bir kurum TCKN isterse siteye koymak yerine doğrudan paylaş. */
 
   // Yalnızca limited/AŞ için. Şahıs şirketi ve esnafta boş kalır.
   mersis: '',
   ticaretSicilNo: '',
 
   /* ── İletişim (zorunlu) ── */
-  adres: '',
+  adres: 'Osmangazi Mah. Dumlupınar Cad. Çiçek Kardeşler No: 154/1 İç Kapı No: 28, Bayraklı / İzmir',
+
+  // HÂLÂ EKSİK: mesafeli satışta telefon zorunlu. Vergi levhasında yok,
+  // işletmenin iletişim numarasını buraya yaz.
   telefon: '',
   eposta: 'parlabyasli@outlook.com',
 
@@ -73,8 +85,19 @@ window.PB_SATICI = {
   // Türkçe biçimle yazılır. Tam sayılarda kuruş gösterilmez (35 ₺).
   const TUTAR_ALANLARI = new Set(['ucretsizKargoEsigi', 'kargoUcreti']);
 
+  /* Şahıs işletmesi ve esnafta MERSİS ile ticaret sicil numarası YOKTUR —
+     bunlar ticaret siciline kayıtlı şirketlere verilir. Boş olmaları eksik
+     bilgi değil, doğru bilgi; "DOLDURULACAK" yazmak yanıltıcı oluyordu. */
+  const SIRKETE_OZEL = new Set(['mersis', 'ticaretSicilNo']);
+
   function deger(alan) {
     const v = S[alan];
+
+    if (SIRKETE_OZEL.has(alan) && (v === '' || v == null)) {
+      const sirketMi = S.tip === 'limited' || S.tip === 'anonim';
+      return sirketMi ? null : '—';
+    }
+
     if (v === null || v === undefined || v === '') return null;
 
     if (TUTAR_ALANLARI.has(alan)) {

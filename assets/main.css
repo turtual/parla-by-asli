@@ -4792,3 +4792,16 @@ main { flex: 1 0 auto; }
   color: var(--c-toprak);
   max-width: 66ch;
 }
+
+/* Taş fotoğrafı künyesi — Wikimedia'dan gelen CC BY-SA görsellerde
+   fotoğrafçı ve lisans belirtmek zorunlu. Marka kendi çekimini
+   yükleyince künye görünmüyor. */
+.tas-kunye {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--c-toprak);
+}
+
+.tas-kunye a { color: var(--c-toprak); text-decoration: underline; }
+.tas-kunye a:hover { color: var(--c-bakir); }

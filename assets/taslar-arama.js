@@ -31,22 +31,34 @@
      üstüne görsel konuyor. Tablo yoksa ya da ulaşılamazsa hiçbir şey
      olmuyor, zemin kalıyor. */
   async function gorselleriBagla() {
-    if (typeof PB_Data === 'undefined' || !PB_Data.getStoneImages) return;
-
     let harita = {};
-    try {
-      harita = await PB_Data.getStoneImages();
-    } catch (e) {
-      return;
+    // Panelden yüklenmiş fotoğraflar; tablo yoksa yerel dosyalarla devam
+    if (typeof PB_Data !== 'undefined' && PB_Data.getStoneImages) {
+      try { harita = await PB_Data.getStoneImages(); } catch (e) { harita = {}; }
     }
 
+    const kok = document.documentElement.getAttribute('data-kok') || '';
+    const dizin = {};
+    (window.PB_TASLAR || []).forEach(t => { dizin[t.slug] = t; });
+
     document.querySelectorAll('[data-tas-gorsel]').forEach(kap => {
-      const url = harita[kap.dataset.tasGorsel];
+      const slug = kap.dataset.tasGorsel;
+      const tas = dizin[slug];
+
+      /* Öncelik sırası: panelden yüklenen fotoğraf → depodaki hazır
+         fotoğraf → hiçbiri (renk zemini kalır). Marka kendi çekimini
+         yükleyince otomatik olarak o geçerli oluyor. */
+      const url = harita[slug] || (tas && tas.gorsel ? kok + tas.gorsel : null);
       if (!url) return;
+
+      const kapakMi = kap.classList.contains('tas-kapak-gorsel');
 
       const img = document.createElement('img');
       img.alt = '';
-      img.loading = 'lazy';
+      // Detay sayfasının kapağı sayfanın en büyük görseli: tembel
+      // yüklenirse ilk boyama gecikiyor. Listedeki kartlar tembel kalıyor.
+      img.loading = kapakMi ? 'eager' : 'lazy';
+      if (kapakMi) img.fetchPriority = 'high';
       img.decoding = 'async';
       img.addEventListener('load', () => {
         // Harf yalnız fotoğraf gerçekten geldiğinde kalkıyor; kırık
@@ -56,7 +68,36 @@
       }, { once: true });
       img.src = url;
       kap.appendChild(img);
+
+      /* Lisans künyesi. Wikimedia'dan gelen fotoğrafların çoğu CC BY-SA:
+         kullanmak serbest ama kaynağı ve fotoğrafçıyı yazmak zorunlu.
+         Yalnız taş DETAY sayfasındaki büyük görselin altına konuyor;
+         listedeki küçük kartlarda yer kaplamasın diye orada yok —
+         oradan tıklayınca zaten künyeli sayfaya geliniyor.
+         Panelden yüklenen kendi fotoğrafımızda künye çıkmıyor. */
+      if (kap.classList.contains('tas-kapak-gorsel') && !harita[slug] && tas && tas.kunye) {
+        kunyeYaz(kap, tas.kunye);
+      }
     });
+  }
+
+  function kunyeYaz(kap, kunye) {
+    if (kap.parentElement.querySelector('.tas-kunye')) return;
+
+    const p = document.createElement('p');
+    p.className = 'tas-kunye';
+
+    const yazar = String(kunye.yazar || '').replace(/s+/g, ' ').trim().slice(0, 60);
+    p.append(document.createTextNode('Fotoğraf: ' + (yazar || 'Wikimedia Commons') + ' · '));
+
+    const bag = document.createElement('a');
+    bag.href = kunye.kaynak;
+    bag.target = '_blank';
+    bag.rel = 'noopener noreferrer';
+    bag.textContent = kunye.lisans;
+    p.append(bag);
+
+    kap.parentElement.appendChild(p);
   }
 
   /* ──────────── Arama ve harf filtresi ──────────── */

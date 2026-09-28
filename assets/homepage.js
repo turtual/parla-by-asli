@@ -364,7 +364,9 @@
       const daire = PB_h('div', { class: 'tas-oge-daire' });
       daire.style.background = tas.renk || 'var(--c-warm-greige)';
 
-      const url = gorseller[tas.slug];
+      /* Öncelik: panelden yüklenen fotoğraf → depodaki hazır fotoğraf →
+         taşın kendi rengi. Anasayfa kökte olduğu için yola ön ek gerekmiyor. */
+      const url = gorseller[tas.slug] || tas.gorsel || null;
       if (url) {
         daire.append(PB_h('img', { src: url, alt: '', loading: 'lazy', decoding: 'async' }));
       }
