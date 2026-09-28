@@ -109,6 +109,7 @@ ${footerHtml(derinlik)}
   <script src="${u}assets/taslar-listesi.js"></script>
   <script src="${u}assets/taslar-eslesme.js"></script>
   <script src="${u}assets/tas-urunleri.js"></script>
+  <script src="${u}assets/taslar-arama.js"></script>
   <script src="${u}assets/site-nav.js"></script>
 </body>
 </html>
@@ -128,12 +129,129 @@ const UYARI = `
           </div>`;
 
 /* ── Taş sayfası ── */
+
+/* ── Dizin sayfası ── */
+/* Taşın kendi renginden zemin — assets/taslar-listesi.js ile aynı sözlük.
+   Fotoğraf yüklenene kadar kart ve kapak bu renkle duruyor. */
+const RENK_SOZLUGU = [
+  [/lacivert|koyu mavi/i, '#2A3D6B'],
+  [/gök mavi|açık mavi|mavi-yeşil|turkuaz/i, '#6FA8B5'],
+  [/mavi/i, '#4A6FA5'],
+  [/mor|lila|eflatun/i, '#7D6493'],
+  [/pembe|gül/i, '#C58B93'],
+  [/kırmızı|kızıl/i, '#8E3B34'],
+  [/turuncu|amber|bal/i, '#B4763C'],
+  [/sarı|altın/i, '#B79A4E'],
+  [/yeşil/i, '#4F7358'],
+  [/siyah|antrasit/i, '#2B2B2E'],
+  [/beyaz|krem|süt/i, '#D9CFC2'],
+  [/gri|gümüş/i, '#8A8A8F'],
+  [/kahve|bej|toprak/i, '#8A6F55'],
+  [/şeffaf|renksiz|berrak/i, '#C3C9CC']
+];
+
+function tasRengi(tas) {
+  const metin = (tas.kimlik && (tas.kimlik['Renk'] || tas.kimlik['renk'])) || '';
+  for (const [kalip, renk] of RENK_SOZLUGU) if (kalip.test(metin)) return renk;
+  return '#9A8B7A';
+}
+
+/** Kart altındaki tek satırlık tanıtım — cümle ortasında kesmiyor. */
+function kisaOzet(ozet, sinir = 70) {
+  const d = String(ozet || '').trim();
+  if (d.length <= sinir) return d;
+  const kesik = d.slice(0, sinir);
+  const son = Math.max(kesik.lastIndexOf(' '), kesik.lastIndexOf(','));
+  return (son > 30 ? kesik.slice(0, son) : kesik).trim() + '…';
+}
+
+function dizinSayfasi() {
+  const harfler = [...new Set(taslar.map(t => ilkHarf(t.ad)))]
+    .sort((a, b) => a.localeCompare(b, 'tr'));
+
+  const harfNav = harfler
+    .map(h => `          <button type="button" class="tas-harf" data-harf="${esc(h)}">${esc(h)}</button>`)
+    .join('\n');
+
+  const kartlar = taslar.map(t => `
+            <li class="tas-kart" data-harf="${esc(ilkHarf(t.ad))}" data-ad="${esc(t.ad)}" data-anahtar="${esc((t.eslesme || []).join(' '))}">
+              <a href="${t.slug}/">
+                <span class="tas-kart-gorsel" data-tas-gorsel="${esc(t.slug)}" style="background: ${tasRengi(t)}">
+                  <span class="tas-kart-harf" aria-hidden="true">${esc(ilkHarf(t.ad))}</span>
+                </span>
+                <span class="tas-kart-ad">${esc(t.ad)}</span>
+                <span class="tas-kart-ozet">${esc(kisaOzet(t.ozet))}</span>
+                <span class="tas-kart-kesfet">Keşfet →</span>
+              </a>
+            </li>`).join('');
+
+  const aciklama = 'Doğal taşların mineral kimliği, kökeni, geleneksel anlatısı ve bakımı — ' + taslar.length + ' taşlık ansiklopedi.';
+
+  return kafa({
+    baslik: 'Taş Ansiklopedisi — Doğal Taşlar A\'dan Z\'ye · Parla By Aslı',
+    aciklama,
+    kanonik: `${SITE}/taslar/`,
+    derinlik: 1
+  }) + `
+  <main>
+    <section class="stone-index">
+      <div class="container">
+
+        <nav class="legal-crumb" aria-label="Sayfa konumu">
+          <a href="../index.html">Anasayfa</a> · Taş ansiklopedisi
+        </nav>
+
+        <div class="tas-dizin-kapak">
+          <span class="eyebrow">Taş Ansiklopedisi</span>
+          <h1>Doğal taşlar, A'dan Z'ye</h1>
+          <p class="tas-lede">
+            Her taşın kendine özgü bir yapısı, rengi ve hikâyesi var.
+            ${taslar.length} taş için mineral kimliği, nasıl oluştuğu, hangi
+            kültürlerde neyle ilişkilendirildiği ve nasıl bakılacağı.
+          </p>
+
+          <div class="tas-ara">
+            <label class="sr-only" for="tas-ara">Bir taş ara</label>
+            <input type="search" id="tas-ara" placeholder="Bir taş ara…" autocomplete="off">
+            <svg class="tas-ara-ikon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <circle cx="9" cy="9" r="5.2"/><path d="M12.8 12.8 17 17"/>
+            </svg>
+          </div>
+
+          <nav class="tas-harfler" aria-label="Harfe göre süz">
+${harfNav}
+          </nav>
+
+          <p class="tas-sonuc-sayisi" id="tas-sonuc-sayisi" role="status"></p>
+        </div>
+
+        <ul class="tas-izgara" id="tas-izgara">${kartlar}
+        </ul>
+
+      </div>
+    </section>
+  </main>
+` + ayak(1);
+}
+
 function tasSayfasi(tas, onceki, sonraki) {
   const kanonik = `${SITE}/taslar/${tas.slug}/`;
   const baslik = `${tas.ad} — Özellikleri, Kökeni ve Geleneksel Anlatısı · Parla By Aslı`;
 
-  const kimlikSatirlari = Object.entries(tas.kimlik || {})
-    .map(([k, v]) => `<tr><th>${esc(k)}</th><td>${bicim(v)}</td></tr>`).join('\n              ');
+  const kimlik = Object.entries(tas.kimlik || {});
+
+  /* Kapağın altındaki hızlı bakış: mineral grubu, sertlik, renk.
+     Tamamı aşağıdaki kimlik listesinde de duruyor. */
+  const hizliAnahtarlar = ['Mineral grubu', 'Sertlik (Mohs)', 'Renk'];
+  const hizli = hizliAnahtarlar
+    .map(k => {
+      const satir = kimlik.find(([ad]) => ad === k);
+      return satir ? `            <div><dt>${esc(satir[0])}</dt><dd>${bicim(satir[1])}</dd></div>` : '';
+    })
+    .filter(Boolean).join('\n');
+
+  const kimlikSatirlari = kimlik
+    .map(([k, v]) => `            <div><dt>${esc(k)}</dt><dd>${bicim(v)}</dd></div>`).join('\n');
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -146,9 +264,19 @@ function tasSayfasi(tas, onceki, sonraki) {
     publisher: { '@type': 'Organization', name: 'Parla By Aslı' }
   };
 
+  const yolIzi = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Anasayfa', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'Taş ansiklopedisi', item: `${SITE}/taslar/` },
+      { '@type': 'ListItem', position: 3, name: tas.ad, item: kanonik }
+    ]
+  };
+
   return kafa({ baslik, aciklama: tas.ozet, kanonik, derinlik: 2 }) + `
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -157,38 +285,50 @@ function tasSayfasi(tas, onceki, sonraki) {
           ${esc(tas.ad)}
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">${esc(tas.ad)}</h1>
-          <p class="stone-lede">${bicim(tas.ozet)}</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              ${kimlikSatirlari}
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="${esc(tas.slug)}" style="background: ${tasRengi(tas)}">
+            <span class="tas-kapak-harf" aria-hidden="true">${esc(ilkHarf(tas.ad))}</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
-          ${(tas.anlatim || []).map(p => `<p>${bicim(p)}</p>`).join('\n          ')}
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>${esc(tas.ad)}</h1>
+            <p class="tas-lede">${bicim(tas.ozet)}</p>
+${hizli ? `            <dl class="tas-hizli">\n${hizli}\n            </dl>` : ''}
+          </div>
+        </header>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+${kimlikSatirlari}
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
+          ${(tas.anlatim || []).map(p => `<p>${bicim(p)}</p>`).join('\n          ')}
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           ${(tas.gelenek || []).map(p => `<p>${bicim(p)}</p>`).join('\n          ')}
 ${UYARI}
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             ${(tas.bakim || []).map(b => `<li>${bicim(b)}</li>`).join('\n            ')}
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="${esc((tas.eslesme || []).join('|'))}" hidden>
-          <h2>${esc(tas.ad)} kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -198,73 +338,12 @@ ${UYARI}
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+  <script type="application/ld+json">${JSON.stringify(yolIzi)}</script>
 ` + ayak(2);
-}
-
-/* ── Dizin sayfası ── */
-function dizinSayfasi() {
-  const harfler = [...new Set(taslar.map(t => ilkHarf(t.ad)))]
-    .sort((a, b) => a.localeCompare(b, 'tr'));
-
-  const harfNav = harfler
-    .map(h => `<a href="#harf-${encodeURIComponent(h)}">${esc(h)}</a>`).join('\n            ');
-
-  const gruplar = harfler.map(h => {
-    const grup = taslar.filter(t => ilkHarf(t.ad) === h);
-    const kartlar = grup.map(t => `
-              <li class="stone-card">
-                <a href="${t.slug}/">
-                  <span class="stone-card-name">${esc(t.ad)}</span>
-                  <span class="stone-card-desc">${esc(t.ozet)}</span>
-                </a>
-              </li>`).join('');
-    return `
-          <div class="stone-group" id="harf-${encodeURIComponent(h)}">
-            <h2 class="stone-letter">${esc(h)}</h2>
-            <ul class="stone-list">${kartlar}
-            </ul>
-          </div>`;
-  }).join('\n');
-
-  const aciklama = 'Doğal taşların mineral kimliği, kökeni, geleneksel anlatısı ve bakımı — A\'dan Z\'ye taş ansiklopedisi.';
-
-  return kafa({
-    baslik: 'Taş Ansiklopedisi — Doğal Taşlar A\'dan Z\'ye · Parla By Aslı',
-    aciklama,
-    kanonik: `${SITE}/taslar/`,
-    derinlik: 1
-  }) + `
-  <main>
-    <section class="legal-page stone-index">
-      <div class="container">
-
-        <nav class="legal-crumb" aria-label="Sayfa konumu">
-          <a href="../index.html">Anasayfa</a> · Taş ansiklopedisi
-        </nav>
-
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Doğal taşlar, A'dan Z'ye</h1>
-          <p class="stone-lede">
-            Kullandığımız taşların her biri için mineral kimliği, nasıl oluştuğu,
-            hangi kültürlerde neyle ilişkilendirildiği ve nasıl bakılması gerektiği.
-            ${taslar.length} taş — liste büyüyor.
-          </p>
-        </div>
-
-        <nav class="stone-alpha" aria-label="Harfe göre git">
-            ${harfNav}
-        </nav>
-${gruplar}
-
-      </div>
-    </section>
-  </main>
-` + ayak(1);
 }
 
 /* ── Yaz ── */

@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,30 +87,42 @@
           Granat
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Granat</h1>
-          <p class="stone-lede">Tek bir taş değil, bir mineral ailesi. Adı nardan gelir.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Granat grubu (almandin, pirop, spessartin, grossular, andradit)</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>6,5 – 7,5</td></tr>
-              <tr><th>Renk</th><td>Koyu kırmızı en yaygın; turuncu, yeşil, sarı, pembe</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Hindistan, Brezilya, Tanzanya, Madagaskar, Çekya</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="granat" style="background: #C58B93">
+            <span class="tas-kapak-harf" aria-hidden="true">G</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Granat</h1>
+            <p class="tas-lede">Tek bir taş değil, bir mineral ailesi. Adı nardan gelir.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Granat grubu (almandin, pirop, spessartin, grossular, andradit)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6,5 – 7,5</dd></div>
+            <div><dt>Renk</dt><dd>Koyu kırmızı en yaygın; turuncu, yeşil, sarı, pembe</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Granat grubu (almandin, pirop, spessartin, grossular, andradit)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6,5 – 7,5</dd></div>
+            <div><dt>Renk</dt><dd>Koyu kırmızı en yaygın; turuncu, yeşil, sarı, pembe</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Hindistan, Brezilya, Tanzanya, Madagaskar, Çekya</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Granat, benzer kristal yapısını paylaşan ama farklı kimyaya sahip bir mineral ailesinin ortak adıdır. Kırmızı almandin en yaygın olanıdır; tsavorit ve demantoid gibi yeşil üyeleri çok daha nadirdir.</p>
           <p>Adı Latince <em>granatum</em>, yani nar meyvesinden gelir — kristallerin nar taneleriyle görsel benzerliği yüzünden.</p>
           <p>Ocak ayının doğum taşıdır. Endüstride aşındırıcı olarak da kullanılır; zımpara kâğıdındaki kırmızı taneler çoğu zaman granattır.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Bohemya granatı 19. yüzyıl Avrupa takısının imzası olmuş, Viktorya döneminde kümelenmiş granatlı broşlar moda hâline gelmiştir.</p>
           <p>Antik Mısır ve Roma&#39;da mühür ve boncuk olarak kullanılmıştır.</p>
           <p>Halk inanışında sadakat ve dayanıklılık temalarıyla ilişkilendirilir.</p>
@@ -124,19 +136,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Dayanıklıdır ama darbeye karşı korunmalı.</li>
             <li>Sabunlu ılık su ve yumuşak fırça yeterlidir.</li>
             <li>Ani sıcaklık değişiminden kaçın.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="granat|garnet|almandin" hidden>
-          <h2>Granat kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -146,10 +162,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Granat — özellikleri, kökeni ve geleneksel anlatısı","description":"Tek bir taş değil, bir mineral ailesi. Adı nardan gelir.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/granat/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Granat","item":"https://parlabyasli.com/taslar/granat/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -219,6 +236,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           İolit
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">İolit</h1>
-          <p class="stone-lede">Bakış açısına göre rengi değişir. Vikinglerin pusulası olduğu düşünülür.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Kordiyerit</td></tr>
-              <tr><th>Kimyasal formül</th><td>Mg₂Al₄Si₅O₁₈</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>7 – 7,5</td></tr>
-              <tr><th>Renk</th><td>Menekşe mavisi; açıya göre gri veya sarımsı</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Hindistan, Sri Lanka, Madagaskar, Tanzanya</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="iolit" style="background: #4A6FA5">
+            <span class="tas-kapak-harf" aria-hidden="true">İ</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>İolit</h1>
+            <p class="tas-lede">Bakış açısına göre rengi değişir. Vikinglerin pusulası olduğu düşünülür.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Kordiyerit</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7 – 7,5</dd></div>
+            <div><dt>Renk</dt><dd>Menekşe mavisi; açıya göre gri veya sarımsı</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Kordiyerit</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>Mg₂Al₄Si₅O₁₈</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7 – 7,5</dd></div>
+            <div><dt>Renk</dt><dd>Menekşe mavisi; açıya göre gri veya sarımsı</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Hindistan, Sri Lanka, Madagaskar, Tanzanya</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>İolitin en belirgin özelliği <strong>pleokroizmdir</strong>: taş farklı eksenlerden bakıldığında farklı renk gösterir. Bir yönden derin menekşe mavisi, doksan derece çevrildiğinde soluk gri veya sarımsı görünür.</p>
           <p>Bu, kesim ustası için ciddi bir kısıttır; taş yanlış yönde kesilirse mavi tamamen kaybolur.</p>
           <p>Aynı özellik, Vikinglerin bulutlu havada güneşin yerini bulmak için ince iolit dilimlerini polarize filtre olarak kullandığı yönündeki yaygın anlatının kaynağıdır. Arkeolojik olarak kesin kanıtlanmış değildir ama fiziksel olarak mümkündür.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>&quot;Viking pusulası&quot; adlandırması bu anlatıdan doğmuştur.</p>
           <p>Adı Yunanca <em>ion</em>, yani menekşeden gelir.</p>
           <p>Modern doğal taş kültüründe yön bulma ve içgörü temalarıyla ilişkilendirilir.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Dayanıklıdır ama dilinimi vardır; sert darbeden koru.</li>
             <li>Ultrasonik temizleyici kullanma.</li>
             <li>Sabunlu ılık su yeterlidir.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="iolit|iolite|kordiyerit" hidden>
-          <h2>İolit kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"İolit — özellikleri, kökeni ve geleneksel anlatısı","description":"Bakış açısına göre rengi değişir. Vikinglerin pusulası olduğu düşünülür.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/iolit/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"İolit","item":"https://parlabyasli.com/taslar/iolit/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Apatit
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Apatit</h1>
-          <p class="stone-lede">Adı &quot;aldatmak&quot;tan gelir, çünkü sürekli başka taşlarla karıştırılmıştır. Dişlerimizin de mineralidir.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Fosfat</td></tr>
-              <tr><th>Kimyasal formül</th><td>Ca₅(PO₄)₃(F,Cl,OH)</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>5</td></tr>
-              <tr><th>Renk</th><td>Neon mavi, yeşil, sarı, pembe</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Madagaskar, Brezilya, Meksika</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="apatit" style="background: #4A6FA5">
+            <span class="tas-kapak-harf" aria-hidden="true">A</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Apatit</h1>
+            <p class="tas-lede">Adı &quot;aldatmak&quot;tan gelir, çünkü sürekli başka taşlarla karıştırılmıştır. Dişlerimizin de mineralidir.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Fosfat</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>5</dd></div>
+            <div><dt>Renk</dt><dd>Neon mavi, yeşil, sarı, pembe</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Fosfat</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>Ca₅(PO₄)₃(F,Cl,OH)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>5</dd></div>
+            <div><dt>Renk</dt><dd>Neon mavi, yeşil, sarı, pembe</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Madagaskar, Brezilya, Meksika</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Apatitin adı Yunanca <em>apate</em>, yani &quot;aldatma&quot;dan gelir. Renk çeşitliliği yüzünden yüzyıllarca akuamarin, turmalin ve peridotla karıştırılmıştır.</p>
           <p>İnsan dişi minesinin ve kemiğinin temel minerali hidroksiapatittir — yani bu taş vücudumuzda da bulunur.</p>
           <p>Mohs 5 sertliğiyle takı taşları arasında yumuşak sayılır. Madagaskar&#39;ın neon mavi apatiti en çok aranan çeşididir; rengi son derece doygundur.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Antik dönemde ayrı bir taş olarak tanınmadığı için kendine ait eski bir geleneği yoktur; mineral olarak 1786&#39;da tanımlanmıştır.</p>
           <p>Modern doğal taş kültüründe ifade ve açıklık temalarıyla ilişkilendirilir.</p>
           <p>Mavi apatit, rengi nedeniyle deniz ve gökyüzü çağrışımlarıyla anılır.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Yumuşaktır; darbe ve çizilmeye karşı korunmalı.</li>
             <li>Ultrasonik ve buharlı temizleyici kullanma.</li>
             <li>Asitli maddelerden uzak tut — fosfat asitte çözünür.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="apatit|apatite" hidden>
-          <h2>Apatit kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Apatit — özellikleri, kökeni ve geleneksel anlatısı","description":"Adı \"aldatmak\"tan gelir, çünkü sürekli başka taşlarla karıştırılmıştır. Dişlerimizin de mineralidir.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/apatit/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Apatit","item":"https://parlabyasli.com/taslar/apatit/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

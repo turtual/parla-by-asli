@@ -345,6 +345,8 @@
       if (target === 'product-types') renderProductTypeTable();
       if (target === 'texts') { loadSiteTexts(); loadContentPages(); }
       if (target === 'reviews') loadReviews();
+      if (target === 'stones') loadStones();
+      if (target === 'newsletter') loadNewsletter();
     });
   });
 
@@ -685,6 +687,16 @@
     productTable.style.pointerEvents = '';
   }
 
+  // Taş seçimi ve taş görselleri aramaları
+  const stonePickerAra = document.getElementById('product-stones-ara');
+  if (stonePickerAra) stonePickerAra.addEventListener('input', renderStonePicker);
+
+  const stoneSearch = document.getElementById('stone-search');
+  if (stoneSearch) stoneSearch.addEventListener('input', renderStoneGrid);
+
+  const btnNewsletterCsv = document.getElementById('btn-newsletter-csv');
+  if (btnNewsletterCsv) btnNewsletterCsv.addEventListener('click', newsletterCsvIndir);
+
   // Filtre event'leri
   searchInput.addEventListener('input', renderProductTable);
   filterCategory.addEventListener('change', renderProductTable);
@@ -707,6 +719,7 @@
       fPrice.value = product.price || 0;
       fCategory.value = product.category || '';
       fCollection.value = product.collectionId || '';
+      productStones = Array.isArray(product.stones) ? [...product.stones] : [];
       productCollectionIds = (product.collectionIds && product.collectionIds.length)
         ? [...product.collectionIds]
         : (product.collectionId ? [product.collectionId] : []);
@@ -730,9 +743,11 @@
       fActive.checked = true;
       productImages = [];
       productCollectionIds = [];
+      productStones = [];
     }
     renderImageList();
     renderCollectionChecks();
+    renderStonePicker();
 
     productModal.classList.add('is-open');
   }
@@ -1134,6 +1149,253 @@
     });
   }
 
+  /* ──────────── ÜRÜN FORMU: TAŞ SEÇİMİ ────────────
+   *
+   * Taş ↔ ürün bağı iki kademeli çalışıyor (bkz. assets/taslar-eslesme.js):
+   * burada taş seçilmişse o kesin bilgi kullanılıyor, seçilmemişse site
+   * taşı ürün açıklamasından tahmin etmeye çalışıyor.
+   *
+   * Tahmin çoğu üründe doğru çalışıyor ama yazım farkına takılabiliyor —
+   * ürün metinlerinde "ametis" yazılıyordu, taşın adı "ametist" olduğu
+   * için altı ürün Ametist sayfasında hiç görünmüyordu. Buradan seçmek
+   * bu riski tamamen kaldırıyor.
+   */
+
+  let productStones = [];
+
+  function tumTaslar() {
+    return window.PB_TASLAR || [];
+  }
+
+  function tasNormalize(s) {
+    return String(s || '')
+      .toLocaleLowerCase('tr')
+      .replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g')
+      .replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c')
+      .trim();
+  }
+
+  function renderStonePicker() {
+    const seciliKap = document.getElementById('product-stones-secili');
+    const listeKap = document.getElementById('product-stones-liste');
+    const notEl = document.getElementById('product-stones-not');
+    const ara = document.getElementById('product-stones-ara');
+    if (!seciliKap || !listeKap) return;
+
+    const taslar = tumTaslar();
+    if (!taslar.length) {
+      listeKap.innerHTML = '<span style="font-size:12px;color:var(--c-toprak);">Taş listesi yüklenemedi.</span>';
+      return;
+    }
+
+    // Seçilmiş taşlar — çıkarmak için ✕
+    seciliKap.innerHTML = '';
+    productStones.forEach(slug => {
+      const tas = taslar.find(t => t.slug === slug);
+      const rozet = document.createElement('span');
+      rozet.className = 'tas-rozet';
+      rozet.innerHTML = `<span class="tas-rozet-renk" style="background:${tas ? tas.renk : '#9A8B7A'}"></span>`
+        + escapeHtml(tas ? tas.ad : slug)
+        + '<button type="button" aria-label="Kaldır">✕</button>';
+      rozet.querySelector('button').addEventListener('click', () => {
+        productStones = productStones.filter(s => s !== slug);
+        renderStonePicker();
+      });
+      seciliKap.append(rozet);
+    });
+
+    // Arama kutusuna yazılanla süzülmüş liste
+    const q = tasNormalize(ara ? ara.value : '');
+    const secilebilir = taslar
+      .filter(t => productStones.indexOf(t.slug) === -1)
+      .filter(t => !q || tasNormalize(t.ad).includes(q) || (t.eslesme || []).some(a => tasNormalize(a).includes(q)))
+      .slice(0, q ? 12 : 0);   // arama yazılmadan liste açılmıyor, form kalabalık olmasın
+
+    listeKap.innerHTML = '';
+    secilebilir.forEach(t => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tas-secenek';
+      btn.innerHTML = `<span class="tas-rozet-renk" style="background:${t.renk}"></span>` + escapeHtml(t.ad);
+      btn.addEventListener('click', () => {
+        productStones.push(t.slug);
+        if (ara) ara.value = '';
+        renderStonePicker();
+      });
+      listeKap.append(btn);
+    });
+
+    if (notEl) {
+      notEl.textContent = productStones.length
+        ? 'Bu ürün seçilen taşların sayfalarında görünecek.'
+        : 'Boş bırakırsan site, taşı ürün açıklamasından tahmin etmeye çalışır. Seçmek daha güvenli.';
+    }
+  }
+
+  /* ──────────── TAŞ GÖRSELLERİ SEKMESİ ────────────
+   * Taş metinleri statik dosyalarda üretiliyor; yalnız fotoğraflar
+   * veritabanında (stone_images). Yükleme, ürün fotoğraflarıyla aynı
+   * kare kırpma aracından geçiyor ki taş kartları aynı boyda dursun. */
+
+  let stoneImages = {};
+
+  async function loadStones() {
+    const grid = document.getElementById('stone-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '<div class="loading">Yükleniyor…</div>';
+    try {
+      stoneImages = await PB_Data.getStoneImages();
+    } catch (e) {
+      stoneImages = {};
+    }
+    renderStoneGrid();
+  }
+
+  function renderStoneGrid() {
+    const grid = document.getElementById('stone-grid');
+    const aramaEl = document.getElementById('stone-search');
+    if (!grid) return;
+
+    const taslar = tumTaslar();
+    if (!taslar.length) {
+      grid.innerHTML = '<div class="empty-state"><p>Taş listesi yüklenemedi.</p></div>';
+      return;
+    }
+
+    const q = tasNormalize(aramaEl ? aramaEl.value : '');
+    const gosterilecek = taslar.filter(t => !q || tasNormalize(t.ad).includes(q));
+
+    if (!gosterilecek.length) {
+      grid.innerHTML = '<div class="empty-state"><p>Taş bulunamadı.</p></div>';
+      return;
+    }
+
+    grid.innerHTML = gosterilecek.map(t => {
+      const url = stoneImages[t.slug];
+      return `
+        <div class="tas-yonetim-kart" data-slug="${escapeHtml(t.slug)}">
+          <div class="tas-yonetim-gorsel" style="background:${t.renk}">
+            ${url ? `<img src="${escapeHtml(url)}" alt="">` : `<span>${escapeHtml(t.ad.charAt(0))}</span>`}
+          </div>
+          <div class="tas-yonetim-ad">${escapeHtml(t.ad)}</div>
+          <div class="tas-yonetim-islem">
+            <button type="button" class="btn btn-ghost" data-op="yukle">${url ? 'DEĞİŞTİR' : 'FOTOĞRAF YÜKLE'}</button>
+            ${url ? '<button type="button" class="btn btn-ghost" data-op="kaldir">KALDIR</button>' : ''}
+          </div>
+          <input type="file" accept="image/*" hidden data-file>
+          <span class="status-msg" style="display:none;"></span>
+        </div>`;
+    }).join('');
+
+    grid.querySelectorAll('.tas-yonetim-kart').forEach(kart => {
+      const slug = kart.dataset.slug;
+      const dosya = kart.querySelector('[data-file]');
+      const durum = kart.querySelector('.status-msg');
+
+      kart.querySelector('[data-op="yukle"]').addEventListener('click', () => dosya.click());
+
+      const kaldirBtn = kart.querySelector('[data-op="kaldir"]');
+      if (kaldirBtn) {
+        kaldirBtn.addEventListener('click', async () => {
+          const { error } = await PB_Data.adminSetStoneImage(slug, null);
+          if (error) { showStatus(durum, 'Kaldırılamadı: ' + (error.message || error), 'error'); return; }
+          delete stoneImages[slug];
+          renderStoneGrid();
+        });
+      }
+
+      dosya.addEventListener('change', async (e) => {
+        const secilen = e.target.files && e.target.files[0];
+        dosya.value = '';
+        if (!secilen) return;
+
+        // Ürün fotoğraflarıyla aynı kare kırpma aracı
+        const kare = await kareKirpAc(secilen, 1, 1);
+        if (!kare) return;
+
+        showStatus(durum, 'Yükleniyor…', 'info');
+        const { data, error } = await PB_Data.adminUploadImage(kare, 'tas-' + slug);
+        if (error) { showStatus(durum, 'Yüklenemedi: ' + (error.message || error), 'error'); return; }
+
+        const kayit = await PB_Data.adminSetStoneImage(slug, data.publicUrl);
+        if (kayit.error) { showStatus(durum, 'Kaydedilemedi: ' + (kayit.error.message || kayit.error), 'error'); return; }
+
+        stoneImages[slug] = data.publicUrl;
+        renderStoneGrid();
+      });
+    });
+  }
+
+  /* ──────────── BÜLTEN SEKMESİ ────────────
+   * Anasayfadaki formdan gelen kayıtlar. Liste yalnız yöneticiye açık
+   * (RLS), dışarıdan okunamıyor. */
+
+  async function loadNewsletter() {
+    const liste = document.getElementById('newsletter-list');
+    if (!liste) return;
+
+    liste.innerHTML = '<div class="loading">Yükleniyor…</div>';
+    const { data, error } = await PB_Data.adminGetSubscribers();
+
+    if (error) {
+      liste.innerHTML = '<div class="empty-state"><p>Liste alınamadı: '
+        + escapeHtml(error.message || String(error)) + '</p></div>';
+      return;
+    }
+
+    if (!data.length) {
+      liste.innerHTML = '<div class="empty-state"><p>Henüz kayıt yok.</p></div>';
+      return;
+    }
+
+    liste.innerHTML = `
+      <table>
+        <thead><tr><th>E-posta</th><th>Nereden</th><th>Tarih</th><th style="width:80px;"></th></tr></thead>
+        <tbody>
+          ${data.map(k => `
+            <tr data-id="${escapeHtml(k.id)}">
+              <td>${escapeHtml(k.email)}</td>
+              <td>${escapeHtml(k.source || '')}</td>
+              <td>${new Date(k.created_at).toLocaleDateString('tr-TR')}</td>
+              <td><button class="icon-btn is-danger" data-op="sil" title="Sil">✕</button></td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+
+    liste.querySelectorAll('[data-op="sil"]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const tr = btn.closest('tr');
+        if (!confirm('Bu kaydı silmek istediğine emin misin?')) return;
+        const { error } = await PB_Data.adminDeleteSubscriber(tr.dataset.id);
+        if (error) { alert('Silinemedi: ' + (error.message || error)); return; }
+        loadNewsletter();
+      });
+    });
+  }
+
+  function newsletterCsvIndir() {
+    PB_Data.adminGetSubscribers().then(({ data, error }) => {
+      const durum = document.getElementById('newsletter-durum');
+      if (error || !data.length) {
+        showStatus(durum, error ? 'Liste alınamadı' : 'İndirilecek kayıt yok', 'error');
+        return;
+      }
+
+      // Excel Türkçe karakterleri doğru açsın diye BOM ekliyoruz
+      const satirlar = [['E-posta', 'Kaynak', 'Tarih']].concat(
+        data.map(k => [k.email, k.source || '', new Date(k.created_at).toLocaleDateString('tr-TR')])
+      );
+      const csv = '﻿' + satirlar.map(s => s.map(h => '"' + String(h).replace(/"/g, '""') + '"').join(';')).join('\n');
+
+      const bag = document.createElement('a');
+      bag.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+      bag.download = 'parla-bulten-' + new Date().toISOString().slice(0, 10) + '.csv';
+      bag.click();
+      URL.revokeObjectURL(bag.href);
+    });
+  }
+
   /* ──────────── SAVE PRODUCT ──────────── */
 
   btnSave.addEventListener('click', async () => {
@@ -1154,6 +1416,7 @@
       price: parseInt(fPrice.value) || 0,
       category: fCategory.value,
       collectionId: fCollection.value,
+      stones: [...productStones],
       // Ana koleksiyon her zaman dizinin başında
       collectionIds: [fCollection.value, ...productCollectionIds.filter(id => id && id !== fCollection.value)],
       // Kişiye özel tasarım stüdyosu kaldırıldı, katalogda artık tek tip

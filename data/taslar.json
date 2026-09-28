@@ -1,7 +1,6 @@
 {
   "_not": "Taş ansiklopedisinin tek kaynağı. Değiştirdikten sonra `node tools/taslar-uret.js` çalıştır; taslar/ altındaki sayfalar ve sitemap.xml yeniden üretilir. Elle HTML düzenleme.",
   "_yazim_kurali": "Sağlık iddiası KURULMAZ. 'iyileştirir, tedavi eder, geçirir, önler, şifa verir, detoks' gibi fiiller kullanılmaz. Kültürel anlatı 'geleneksel olarak ... ilişkilendirilir', 'halk inanışında', 'Antik ...'da ... sayılmıştır' kalıplarıyla, inanç olduğu belli edilerek yazılır.",
-
   "taslar": [
     {
       "slug": "akuamarin",
@@ -29,9 +28,12 @@
         "Uzun süre doğrudan güneşte kalırsa rengi soluklaşabilir.",
         "Ultrasonik temizleyici ve buhar kullanma; iç çatlağı olan taşlarda risklidir."
       ],
-      "eslesme": ["akuamarin", "aquamarine", "aqua marin"]
+      "eslesme": [
+        "akuamarin",
+        "aquamarine",
+        "aqua marin"
+      ]
     },
-
     {
       "slug": "amazonit",
       "ad": "Amazonit",
@@ -58,9 +60,11 @@
         "Sabunlu ılık suyla sil, sonra iyice kurula.",
         "Asitli temizleyicilerden ve parfümden uzak tut."
       ],
-      "eslesme": ["amazonit", "amazonite"]
+      "eslesme": [
+        "amazonit",
+        "amazonite"
+      ]
     },
-
     {
       "slug": "ametist",
       "ad": "Ametist",
@@ -87,9 +91,12 @@
         "Sabunlu ılık su yeterlidir.",
         "Buharlı temizleyici kullanma."
       ],
-      "eslesme": ["ametist", "amethyst"]
+      "eslesme": [
+        "ametis",
+        "ametist",
+        "amethyst"
+      ]
     },
-
     {
       "slug": "angelit",
       "ad": "Angelit",
@@ -116,9 +123,12 @@
         "Parfüm, sprey ve nemli ortamdan uzak tut.",
         "Diğer takılarla aynı gözde saklama; daha sert taşlar yüzeyini çizer."
       ],
-      "eslesme": ["angelit", "angelite", "anhidrit"]
+      "eslesme": [
+        "angelit",
+        "angelite",
+        "anhidrit"
+      ]
     },
-
     {
       "slug": "gul-kuvars",
       "ad": "Gül Kuvars",
@@ -145,9 +155,13 @@
         "Sabunlu ılık su ve yumuşak bez yeterlidir.",
         "Ani sıcaklık değişiminden kaçın."
       ],
-      "eslesme": ["gül kuvars", "gul kuvars", "rose quartz", "pembe kuvars"]
+      "eslesme": [
+        "gül kuvars",
+        "gul kuvars",
+        "rose quartz",
+        "pembe kuvars"
+      ]
     },
-
     {
       "slug": "inci",
       "ad": "İnci",
@@ -174,9 +188,14 @@
         "Asla suda bekletme, ultrasonik temizleyiciye sokma.",
         "Kullandıktan sonra yumuşak bezle sil, ayrı bir kese veya bölmede sakla."
       ],
-      "eslesme": ["inci", "pearl", "barok inci", "tatlısu", "damla inci"]
+      "eslesme": [
+        "inci",
+        "pearl",
+        "barok inci",
+        "tatlısu",
+        "damla inci"
+      ]
     },
-
     {
       "slug": "kaplan-gozu",
       "ad": "Kaplan Gözü",
@@ -203,9 +222,13 @@
         "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
         "Uzun güneş maruziyeti bandın kontrastını zayıflatabilir."
       ],
-      "eslesme": ["kaplan gözü", "kaplan gozu", "tiger eye", "tigers eye"]
+      "eslesme": [
+        "kaplan gözü",
+        "kaplan gozu",
+        "tiger eye",
+        "tigers eye"
+      ]
     },
-
     {
       "slug": "lapis-lazuli",
       "ad": "Lapis Lazuli",
@@ -231,9 +254,12 @@
         "Kesinlikle ultrasonik temizleyici kullanma — kalsit damarları boyunca ayrışabilir.",
         "Nemli bezle sil, kuru sakla. Parfümden uzak tut."
       ],
-      "eslesme": ["lapis", "lazuli", "lapis lazuli"]
+      "eslesme": [
+        "lapis",
+        "lazuli",
+        "lapis lazuli"
+      ]
     },
-
     {
       "slug": "oniks",
       "ad": "Oniks",
@@ -260,9 +286,12 @@
         "Renklendirilmiş taşlarda asitli ve alkollü temizleyicilerden kaçın.",
         "Ani sıcaklık değişimi çatlatabilir."
       ],
-      "eslesme": ["oniks", "onyx", "onix"]
+      "eslesme": [
+        "oniks",
+        "onyx",
+        "onix"
+      ]
     },
-
     {
       "slug": "sedef",
       "ad": "Sedef",
@@ -289,9 +318,12 @@
         "Suda bekletme; nemli bezle sil ve kurula.",
         "Sert taşlarla aynı bölmede saklama."
       ],
-      "eslesme": ["sedef", "mother of pearl", "nacre"]
+      "eslesme": [
+        "sedef",
+        "mother of pearl",
+        "nacre"
+      ]
     },
-
     {
       "slug": "sitrin",
       "ad": "Sitrin",
@@ -318,9 +350,11 @@
         "Sabunlu ılık su yeterlidir.",
         "Yüksek ısıdan uzak tut — renk yeniden değişebilir."
       ],
-      "eslesme": ["sitrin", "citrine"]
+      "eslesme": [
+        "sitrin",
+        "citrine"
+      ]
     },
-
     {
       "slug": "yesim",
       "ad": "Yeşim",
@@ -346,7 +380,13 @@
         "Sabunlu ılık su ve yumuşak bez yeterlidir.",
         "Boyalı örneklerde asitli temizleyici rengi çıkarabilir."
       ],
-      "eslesme": ["yeşim", "yesim", "jade", "jadeit", "nefrit"]
+      "eslesme": [
+        "yeşim",
+        "yesim",
+        "jade",
+        "jadeit",
+        "nefrit"
+      ]
     }
   ]
 }

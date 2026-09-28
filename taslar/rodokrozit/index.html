@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Rodokrozit
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Rodokrozit</h1>
-          <p class="stone-lede">Pembe ve beyaz halkalı manganez karbonatı. Arjantin&#39;in ulusal taşı.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Karbonat</td></tr>
-              <tr><th>Kimyasal formül</th><td>MnCO₃</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>3,5 – 4</td></tr>
-              <tr><th>Renk</th><td>Gül pembesi, kırmızımsı; beyaz bantlı</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Arjantin, Peru, ABD (Colorado), Güney Afrika</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="rodokrozit" style="background: #C58B93">
+            <span class="tas-kapak-harf" aria-hidden="true">R</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Rodokrozit</h1>
+            <p class="tas-lede">Pembe ve beyaz halkalı manganez karbonatı. Arjantin&#39;in ulusal taşı.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Karbonat</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3,5 – 4</dd></div>
+            <div><dt>Renk</dt><dd>Gül pembesi, kırmızımsı; beyaz bantlı</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Karbonat</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>MnCO₃</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3,5 – 4</dd></div>
+            <div><dt>Renk</dt><dd>Gül pembesi, kırmızımsı; beyaz bantlı</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Arjantin, Peru, ABD (Colorado), Güney Afrika</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Rodokrozit manganez karbonatıdır; pembesi doğrudan manganezden gelir.</p>
           <p>Mağara ortamlarında sarkıt biçiminde büyüdüğünde, kesitinde iç içe pembe-beyaz halkalar oluşur. Takıda en çok tanınan görünümü budur.</p>
           <p>Arjantin&#39;deki Capillitas madeni bu halkalı çeşidin klasik kaynağıdır; ülkenin ulusal taşı ilan edilmiştir. Colorado&#39;dan çıkan şeffaf kırmızı kristaller ise koleksiyonerlik açısından çok değerlidir.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Yerel anlatıda İnka döneminde bilindiği söylenir; &quot;İnka gülü&quot; adlandırması buradan gelir.</p>
           <p>Adı Yunanca <em>rhodon</em> (gül) ve <em>chros</em> (renk) kelimelerinden türer.</p>
           <p>Modern doğal taş kültüründe şefkat ve kendine iyi davranma temalarıyla ilişkilendirilir.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Yumuşak ve asitlere hassastır; ter ve parfüm yüzeyi bozar.</li>
             <li>Suda bekletme, ultrasonik temizleyici kullanma.</li>
             <li>Kuru yumuşak bezle sil, ayrı sakla.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="rodokrozit|rhodochrosite|inka gülü" hidden>
-          <h2>Rodokrozit kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Rodokrozit — özellikleri, kökeni ve geleneksel anlatısı","description":"Pembe ve beyaz halkalı manganez karbonatı. Arjantin'in ulusal taşı.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/rodokrozit/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Rodokrozit","item":"https://parlabyasli.com/taslar/rodokrozit/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

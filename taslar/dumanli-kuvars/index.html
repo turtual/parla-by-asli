@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Dumanlı Kuvars
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Dumanlı Kuvars</h1>
-          <p class="stone-lede">Rengini yerin altındaki doğal radyasyona borçlu olan kahverengi kuvars.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Kuvars</td></tr>
-              <tr><th>Kimyasal formül</th><td>SiO₂</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>7</td></tr>
-              <tr><th>Renk</th><td>Açık gri-kahveden neredeyse siyaha</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Brezilya, İskoçya, İsviçre Alpleri, Madagaskar</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="dumanli-kuvars" style="background: #2B2B2E">
+            <span class="tas-kapak-harf" aria-hidden="true">D</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Dumanlı Kuvars</h1>
+            <p class="tas-lede">Rengini yerin altındaki doğal radyasyona borçlu olan kahverengi kuvars.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Kuvars</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7</dd></div>
+            <div><dt>Renk</dt><dd>Açık gri-kahveden neredeyse siyaha</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Kuvars</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>SiO₂</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7</dd></div>
+            <div><dt>Renk</dt><dd>Açık gri-kahveden neredeyse siyaha</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Brezilya, İskoçya, İsviçre Alpleri, Madagaskar</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Dumanlı kuvarsın rengi, yapıdaki eser alüminyumun çevredeki kayaçlardan gelen doğal radyasyonla etkileşiminden doğar. Yani taş, milyonlarca yıllık bir ışınlanmanın kaydını taşır.</p>
           <p>Isıtıldığında renk kaybolur, yeniden ışınlandığında geri gelir. Piyasadaki çok koyu, neredeyse siyah örneklerin bir kısmı yapay olarak ışınlanmıştır.</p>
           <p>İskoçya&#39;nın ulusal taşıdır ve orada <em>cairngorm</em> adıyla bilinir; geleneksel İskoç kılıç ve broşlarında kullanılır.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Kelt kültüründe yeraltı ve toprakla ilişkilendirilmiştir.</p>
           <p>Antik Çin&#39;de gözlük camı olarak kullanıldığı bilinir — bilinen en eski güneş gözlüğü camlarından biri dumanlı kuvarstır.</p>
           <p>Modern doğal taş kültüründe topraklanma ve sakinleşme temalarıyla anılır.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Dayanıklıdır, günlük kullanıma uygundur.</li>
             <li>Güneşte ve ısıda rengi açılır — vitrinde sergileme.</li>
             <li>Sabunlu ılık su yeterlidir.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="dumanlı kuvars|dumanli kuvars|smoky quartz|füme kuvars" hidden>
-          <h2>Dumanlı Kuvars kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Dumanlı Kuvars — özellikleri, kökeni ve geleneksel anlatısı","description":"Rengini yerin altındaki doğal radyasyona borçlu olan kahverengi kuvars.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/dumanli-kuvars/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Dumanlı Kuvars","item":"https://parlabyasli.com/taslar/dumanli-kuvars/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

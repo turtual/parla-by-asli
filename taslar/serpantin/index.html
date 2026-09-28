@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,30 +87,42 @@
           Serpantin
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Serpantin</h1>
-          <p class="stone-lede">Yılan derisi desenli yeşil taş. Sıkça &quot;yeşim&quot; diye satılır.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Serpantin grubu</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>3 – 5</td></tr>
-              <tr><th>Renk</th><td>Yeşilin tonları; sarımsı, kahverengi benekli</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Çin, Afganistan, ABD, Yeni Zelanda, Türkiye</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="serpantin" style="background: #B79A4E">
+            <span class="tas-kapak-harf" aria-hidden="true">S</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Serpantin</h1>
+            <p class="tas-lede">Yılan derisi desenli yeşil taş. Sıkça &quot;yeşim&quot; diye satılır.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Serpantin grubu</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3 – 5</dd></div>
+            <div><dt>Renk</dt><dd>Yeşilin tonları; sarımsı, kahverengi benekli</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Serpantin grubu</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3 – 5</dd></div>
+            <div><dt>Renk</dt><dd>Yeşilin tonları; sarımsı, kahverengi benekli</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Çin, Afganistan, ABD, Yeni Zelanda, Türkiye</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Serpantin, okyanus kabuğu minerallerinin suyla tepkimesiyle oluşan bir mineral grubudur. Adı benekli deseninin yılan derisine benzemesinden gelir.</p>
           <p>Piyasada sıkça <strong>yeşim yerine</strong> satılır. &quot;Yeni yeşim&quot;, &quot;Kore yeşimi&quot;, &quot;Suzhou yeşimi&quot; gibi adların hemen hepsi serpantindir. Ayırt etmenin pratik yolu sertliktir: serpantin 3–5, gerçek yeşim 6–7&#39;dir.</p>
           <p>Bu bir sahtekârlık olmak zorunda değil — serpantin kendi başına güzel bir taştır. Sorun, yeşim fiyatına satıldığında başlar.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Çin&#39;de yeşimin yanı sıra bin yıllardır oymacılıkta kullanılmıştır.</p>
           <p>Anadolu&#39;da ve Orta Doğu&#39;da geleneksel el işçiliğinde yer alır.</p>
           <p>Halk inanışında koruma temasıyla ilişkilendirilir.</p>
@@ -124,19 +136,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Yumuşaktır, çizilmeye açıktır.</li>
             <li>Asitten uzak tut.</li>
             <li>Sabunlu ılık su ve yumuşak bez yeterlidir.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="serpantin|serpentine|yeni yeşim" hidden>
-          <h2>Serpantin kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -146,10 +162,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Serpantin — özellikleri, kökeni ve geleneksel anlatısı","description":"Yılan derisi desenli yeşil taş. Sıkça \"yeşim\" diye satılır.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/serpantin/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Serpantin","item":"https://parlabyasli.com/taslar/serpantin/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -219,6 +236,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

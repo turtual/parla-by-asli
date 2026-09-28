@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,42 @@
           Sedef
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Sedef</h1>
-          <p class="stone-lede">Kabuğun iç yüzeyi. Rengi boyadan değil, ışığın katmanlarda kırılmasından gelir.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Köken</th><td>Organik — yumuşakça kabuğu</td></tr>
-              <tr><th>Yapı</th><td>Aragonit plakaları + konkiolin</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>2,5 – 4</td></tr>
-              <tr><th>Renk</th><td>Beyaz, krem, gri; yanardöner</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Endonezya, Filipinler, Avustralya</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="sedef" style="background: #D9CFC2">
+            <span class="tas-kapak-harf" aria-hidden="true">S</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Sedef</h1>
+            <p class="tas-lede">Kabuğun iç yüzeyi. Rengi boyadan değil, ışığın katmanlarda kırılmasından gelir.</p>
+            <dl class="tas-hizli">
+            <div><dt>Sertlik (Mohs)</dt><dd>2,5 – 4</dd></div>
+            <div><dt>Renk</dt><dd>Beyaz, krem, gri; yanardöner</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Köken</dt><dd>Organik — yumuşakça kabuğu</dd></div>
+            <div><dt>Yapı</dt><dd>Aragonit plakaları + konkiolin</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>2,5 – 4</dd></div>
+            <div><dt>Renk</dt><dd>Beyaz, krem, gri; yanardöner</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Endonezya, Filipinler, Avustralya</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Sedef, inciyle aynı maddedir: aragonit plakaları ve onları bir arada tutan organik konkiolin. Fark, incinin serbest bir küre, sedefin ise kabuğun iç astarı olmasıdır.</p>
           <p>Yanardöner görünümü pigmentten kaynaklanmaz. Aragonit plakaları görünür ışığın dalga boyuna yakın kalınlıktadır; ışık bu katmanlarda kırılıp girişim yaparak renk üretir. Buna <strong>yapısal renk</strong> denir — kelebek kanadındaki mekanizmanın aynısı.</p>
           <p>Bu yüzden sedefin rengi bakış açısına göre değişir ve hiçbir fotoğraf onu tam olarak veremez.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Osmanlı&#39;da ahşap işçiliğinin ayrılmaz parçasıydı; kapı, rahle ve müzik aletlerinde sedef kakma ustalık göstergesiydi.</p>
           <p>Deniz kültürlerinde bereket ve koruma temalarıyla ilişkilendirilmiştir.</p>
           <p>Halk inanışında sakinlik ve akışkanlık anlatısıyla anılır.</p>
@@ -125,19 +136,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>İnci gibi narindir. Parfüm ve kozmetikten sonra tak.</li>
             <li>Suda bekletme; nemli bezle sil ve kurula.</li>
             <li>Sert taşlarla aynı bölmede saklama.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="sedef|mother of pearl|nacre" hidden>
-          <h2>Sedef kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +162,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Sedef — özellikleri, kökeni ve geleneksel anlatısı","description":"Kabuğun iç yüzeyi. Rengi boyadan değil, ışığın katmanlarda kırılmasından gelir.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/sedef/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Sedef","item":"https://parlabyasli.com/taslar/sedef/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +236,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

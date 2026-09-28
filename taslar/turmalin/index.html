@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,30 +87,42 @@
           Turmalin
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Turmalin</h1>
-          <p class="stone-lede">Bilinen en geniş renk yelpazesine sahip mineral. Isıtılınca elektriklenir.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Turmalin grubu (borosilikat)</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>7 – 7,5</td></tr>
-              <tr><th>Renk</th><td>Siyah, pembe, yeşil, mavi, çok renkli</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Brezilya, Afganistan, Nijerya, Mozambik, ABD</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="turmalin" style="background: #4A6FA5">
+            <span class="tas-kapak-harf" aria-hidden="true">T</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Turmalin</h1>
+            <p class="tas-lede">Bilinen en geniş renk yelpazesine sahip mineral. Isıtılınca elektriklenir.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Turmalin grubu (borosilikat)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7 – 7,5</dd></div>
+            <div><dt>Renk</dt><dd>Siyah, pembe, yeşil, mavi, çok renkli</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Turmalin grubu (borosilikat)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7 – 7,5</dd></div>
+            <div><dt>Renk</dt><dd>Siyah, pembe, yeşil, mavi, çok renkli</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Brezilya, Afganistan, Nijerya, Mozambik, ABD</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Turmalin tek bir mineral değil, ortak yapıya sahip karmaşık bir borosilikat ailesidir. Siyah çeşidi <em>şörl</em>, pembesi <em>rubellit</em>, mavisi <em>indigolit</em> adıyla anılır.</p>
           <p>Renk yelpazesi mineraller arasında en geniş olanıdır. Tek bir kristal boyunca renk değiştiren örnekler vardır; dışı yeşil içi pembe olanlara <strong>karpuz turmalin</strong> denir.</p>
           <p>Piroelektrik ve piezoelektriktir: ısıtıldığında veya basınç uygulandığında uçlarında zıt elektrik yükleri oluşur. Hollandalı tüccarlar 18. yüzyılda bu özelliği fark edip taşı pipo külü çekmekte kullanmış, ona &quot;kül çeken&quot; demişlerdir.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Adı Sinhalaca <em>turamali</em>, yani &quot;karışık renkli taş&quot;tan gelir.</p>
           <p>Uzun süre başka taşlarla karıştırılmıştır; Rus taç mücevherlerindeki bazı &quot;yakut&quot;ların aslında pembe turmalin olduğu sonradan anlaşılmıştır.</p>
           <p>Siyah turmalin modern doğal taş kültüründe koruma temasıyla en çok anılan taşlardandır.</p>
@@ -124,19 +136,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Dayanıklıdır, günlük kullanıma uygundur.</li>
             <li>Ani sıcaklık değişiminden kaçın.</li>
             <li>İç çatlağı olan örneklerde ultrasonik temizleyici kullanma.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="turmalin|tourmaline|şörl|sorl|rubellit" hidden>
-          <h2>Turmalin kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -146,10 +162,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Turmalin — özellikleri, kökeni ve geleneksel anlatısı","description":"Bilinen en geniş renk yelpazesine sahip mineral. Isıtılınca elektriklenir.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/turmalin/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Turmalin","item":"https://parlabyasli.com/taslar/turmalin/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -219,6 +236,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Florit
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Florit</h1>
-          <p class="stone-lede">&quot;Floresans&quot; kelimesi bu mineralden gelir. Renk skalası mineraller arasında en geniş olanlardan.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Halojenür</td></tr>
-              <tr><th>Kimyasal formül</th><td>CaF₂</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>4</td></tr>
-              <tr><th>Renk</th><td>Mor, yeşil, mavi, sarı, renksiz — çoğu zaman bantlı</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Çin, Meksika, İngiltere, Güney Afrika</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="florit" style="background: #4A6FA5">
+            <span class="tas-kapak-harf" aria-hidden="true">F</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Florit</h1>
+            <p class="tas-lede">&quot;Floresans&quot; kelimesi bu mineralden gelir. Renk skalası mineraller arasında en geniş olanlardan.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Halojenür</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>4</dd></div>
+            <div><dt>Renk</dt><dd>Mor, yeşil, mavi, sarı, renksiz — çoğu zaman bantlı</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Halojenür</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>CaF₂</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>4</dd></div>
+            <div><dt>Renk</dt><dd>Mor, yeşil, mavi, sarı, renksiz — çoğu zaman bantlı</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Çin, Meksika, İngiltere, Güney Afrika</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Florit, Mohs sertlik skalasının 4 numaralı referans mineralidir. Yani skalanın kendisi kısmen bu taş üzerine kuruludur.</p>
           <p>Bazı örnekleri morötesi ışık altında parlar; <strong>floresans</strong> terimi doğrudan bu mineralin adından türetilmiştir.</p>
           <p>Mükemmel oktahedral dilinimi vardır: belirli düzlemler boyunca temiz biçimde ayrılır. Bu, kesimi zorlaştırır ve takıda kırılganlık yaratır.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Antik Roma&#39;da <em>murrina</em> adı verilen değerli kâseler büyük olasılıkla floritten yapılıyordu; Plinius bunların çok yüksek fiyatlara satıldığını yazar.</p>
           <p>Çin&#39;de yüzyıllardır heykelcilik malzemesi olmuştur.</p>
           <p>Modern doğal taş kültüründe berraklık ve düzen temalarıyla ilişkilendirilir.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Yumuşak ve kırılgandır; yüzük yerine kolye ve küpede daha güvenlidir.</li>
             <li>Ani sıcaklık değişimi çatlatır.</li>
             <li>Ultrasonik ve buharlı temizleyici kesinlikle kullanma.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="florit|fluorit|fluorite" hidden>
-          <h2>Florit kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Florit — özellikleri, kökeni ve geleneksel anlatısı","description":"\"Floresans\" kelimesi bu mineralden gelir. Renk skalası mineraller arasında en geniş olanlardan.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/florit/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Florit","item":"https://parlabyasli.com/taslar/florit/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Malakit
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Malakit</h1>
-          <p class="stone-lede">Konsantrik yeşil bantlar. Rus çarlarının odalarını kaplayan taş.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Karbonat (bakırlı)</td></tr>
-              <tr><th>Kimyasal formül</th><td>Cu₂CO₃(OH)₂</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>3,5 – 4</td></tr>
-              <tr><th>Renk</th><td>Açık ve koyu yeşil bantlı</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Kongo, Rusya (Ural), Zambiya, Avustralya</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="malakit" style="background: #4F7358">
+            <span class="tas-kapak-harf" aria-hidden="true">M</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Malakit</h1>
+            <p class="tas-lede">Konsantrik yeşil bantlar. Rus çarlarının odalarını kaplayan taş.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Karbonat (bakırlı)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3,5 – 4</dd></div>
+            <div><dt>Renk</dt><dd>Açık ve koyu yeşil bantlı</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Karbonat (bakırlı)</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>Cu₂CO₃(OH)₂</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3,5 – 4</dd></div>
+            <div><dt>Renk</dt><dd>Açık ve koyu yeşil bantlı</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Kongo, Rusya (Ural), Zambiya, Avustralya</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Malakit, bakır yataklarının üst kısımlarında ikincil olarak oluşur. Karakteristik halkalı deseni, çözeltiden katman katman çökelmesinden doğar.</p>
           <p>Rusya&#39;nın Ural yataklarından çıkan devasa bloklar 19. yüzyılda St. Petersburg&#39;daki Kışlık Saray&#39;ın malakit salonunu kaplamakta kullanılmıştır.</p>
           <p>Bir uyarı gerektirir: malakit tozu bakır bileşiği olduğu için solunmamalıdır. Cilalı takı parçası günlük kullanımda güvenlidir; kesim ve zımpara işlemi maske ister.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Antik Mısır&#39;da öğütülüp yeşil göz farı olarak kullanılmıştır — bilinen en eski kozmetik pigmentlerinden biri.</p>
           <p>Rusya&#39;da Ural efsanelerinin merkezindedir; &quot;Bakır Dağın Hanımı&quot; masalları bu taş etrafında döner.</p>
           <p>Halk inanışında koruma ve dönüşüm temalarıyla ilişkilendirilir.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Yumuşaktır ve asitlere karşı hassastır; limon, sirke ve ter cilayı bozar.</li>
             <li>Suda bekletme, ultrasonik temizleyici kullanma.</li>
             <li>Kuru yumuşak bezle sil, ayrı sakla.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="malakit|malachite" hidden>
-          <h2>Malakit kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Malakit — özellikleri, kökeni ve geleneksel anlatısı","description":"Konsantrik yeşil bantlar. Rus çarlarının odalarını kaplayan taş.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/malakit/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Malakit","item":"https://parlabyasli.com/taslar/malakit/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Howlit
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Howlit</h1>
-          <p class="stone-lede">Beyaz, siyah damarlı. Boyanıp &quot;turkuaz&quot; diye satılan taşların başında gelir.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Borat</td></tr>
-              <tr><th>Kimyasal formül</th><td>Ca₂B₅SiO₉(OH)₅</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>3,5</td></tr>
-              <tr><th>Renk</th><td>Beyaz; gri-siyah damarlı</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Kanada, ABD</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="howlit" style="background: #2B2B2E">
+            <span class="tas-kapak-harf" aria-hidden="true">H</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Howlit</h1>
+            <p class="tas-lede">Beyaz, siyah damarlı. Boyanıp &quot;turkuaz&quot; diye satılan taşların başında gelir.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Borat</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3,5</dd></div>
+            <div><dt>Renk</dt><dd>Beyaz; gri-siyah damarlı</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Borat</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>Ca₂B₅SiO₉(OH)₅</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>3,5</dd></div>
+            <div><dt>Renk</dt><dd>Beyaz; gri-siyah damarlı</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Kanada, ABD</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Howlit 1868&#39;de Kanada&#39;da bulunmuş ve onu tanımlayan jeolog Henry How&#39;un adını almıştır.</p>
           <p>Beyaz gövdesi ve ağsı koyu damarlarıyla turkuaza yapısal olarak benzer. Gözenekli olduğu için boyayı çok iyi emer.</p>
           <p>Bu iki özelliğin birleşimi onu <strong>sektörün en yaygın taklit malzemesi</strong> yapmıştır. Mavi boyanmış howlit, &quot;turkuaz&quot; veya &quot;howlit turkuaz&quot; adıyla satılır. Ayırt etmenin en kolay yolu sertliktir: howlit 3,5 ile tırnakla bile çizilebilirken turkuaz 5–6&#39;dır.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Yakın dönemde tanımlandığı için antik bir geleneği yoktur.</p>
           <p>Modern doğal taş kültüründe sakinlik ve sabır temalarıyla ilişkilendirilir.</p>
           <p>Beyaz rengi nedeniyle durulma çağrışımıyla anılır.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Çok yumuşaktır; ayrı saklanmalı.</li>
             <li>Boyalı örneklerde su ve alkol rengi çıkarabilir.</li>
             <li>Yalnızca kuru veya hafif nemli yumuşak bezle sil.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="howlit|howlite" hidden>
-          <h2>Howlit kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Howlit — özellikleri, kökeni ve geleneksel anlatısı","description":"Beyaz, siyah damarlı. Boyanıp \"turkuaz\" diye satılan taşların başında gelir.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/howlit/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Howlit","item":"https://parlabyasli.com/taslar/howlit/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

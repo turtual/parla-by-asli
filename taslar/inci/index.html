@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,42 @@
           İnci
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">İnci</h1>
-          <p class="stone-lede">Mineral değil, canlı bir organizmanın ürünü. Takıdaki tek organik &quot;taş&quot;lardan biri.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Köken</th><td>Organik — midye ve istiridye</td></tr>
-              <tr><th>Yapı</th><td>Aragonit katmanları + konkiolin</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>2,5 – 4,5</td></tr>
-              <tr><th>Renk</th><td>Beyaz, krem, pembe, lila, gri</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Çin (tatlısu kültür incisi), Japonya, Avustralya</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="inci" style="background: #7D6493">
+            <span class="tas-kapak-harf" aria-hidden="true">İ</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>İnci</h1>
+            <p class="tas-lede">Mineral değil, canlı bir organizmanın ürünü. Takıdaki tek organik &quot;taş&quot;lardan biri.</p>
+            <dl class="tas-hizli">
+            <div><dt>Sertlik (Mohs)</dt><dd>2,5 – 4,5</dd></div>
+            <div><dt>Renk</dt><dd>Beyaz, krem, pembe, lila, gri</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Köken</dt><dd>Organik — midye ve istiridye</dd></div>
+            <div><dt>Yapı</dt><dd>Aragonit katmanları + konkiolin</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>2,5 – 4,5</dd></div>
+            <div><dt>Renk</dt><dd>Beyaz, krem, pembe, lila, gri</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Çin (tatlısu kültür incisi), Japonya, Avustralya</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>İnci, yumuşakçanın kabuk içine giren bir yabancı maddeyi katman katman sedefle kaplamasıyla oluşur. Her katman mikron kalınlığındadır; parlaklık bu katmanlardan yansıyan ışığın girişiminden doğar.</p>
           <p>Bugün takıda kullanılan incilerin neredeyse tamamı <strong>kültür incisidir</strong>: oluşum doğaldır, tetikleyen müdahale insana aittir. İnsan eli değmeden oluşan doğal inci son derece nadirdir ve fiyatı bambaşka bir ligdedir.</p>
           <p>Tatlısu kültür incileri genellikle tamamen sedeften oluşur, bu yüzden dayanıklılıkları görece iyidir. Yine de 2,5–4,5 sertlikle takının en narin parçasıdır.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Antik Roma&#39;da servet göstergesiydi; Kleopatra&#39;nın bir inciyi sirkede erittiği anlatısı bu itibarın efsaneleşmiş hâlidir.</p>
           <p>Pek çok kültürde saflık ve olgunlukla ilişkilendirilmiş, gelin takılarında yüzyıllardır yer almıştır.</p>
           <p>Haziran ayının doğum taşıdır.</p>
@@ -125,19 +136,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li><strong>Son takılan, ilk çıkarılan</strong> olsun. Parfüm, sprey ve krem sedefi kalıcı olarak matlaştırır.</li>
             <li>Asla suda bekletme, ultrasonik temizleyiciye sokma.</li>
             <li>Kullandıktan sonra yumuşak bezle sil, ayrı bir kese veya bölmede sakla.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="inci|pearl|barok inci|tatlısu|damla inci" hidden>
-          <h2>İnci kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +162,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"İnci — özellikleri, kökeni ve geleneksel anlatısı","description":"Mineral değil, canlı bir organizmanın ürünü. Takıdaki tek organik \"taş\"lardan biri.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/inci/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"İnci","item":"https://parlabyasli.com/taslar/inci/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +236,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

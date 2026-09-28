@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Ametrin
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Ametrin</h1>
-          <p class="stone-lede">Aynı kristalde hem ametist hem sitrin. Neredeyse tek kaynağı Bolivya&#39;da bir maden.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Kuvars</td></tr>
-              <tr><th>Kimyasal formül</th><td>SiO₂</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>7</td></tr>
-              <tr><th>Renk</th><td>Bir yanı mor, bir yanı sarı</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Bolivya (Anahí madeni)</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="ametrin" style="background: #7D6493">
+            <span class="tas-kapak-harf" aria-hidden="true">A</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Ametrin</h1>
+            <p class="tas-lede">Aynı kristalde hem ametist hem sitrin. Neredeyse tek kaynağı Bolivya&#39;da bir maden.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Kuvars</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7</dd></div>
+            <div><dt>Renk</dt><dd>Bir yanı mor, bir yanı sarı</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Kuvars</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>SiO₂</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>7</dd></div>
+            <div><dt>Renk</dt><dd>Bir yanı mor, bir yanı sarı</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Bolivya (Anahí madeni)</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Ametrin, tek bir kuvars kristalinin farklı bölgelerinde demirin farklı yükseltgenme durumlarında bulunmasıyla oluşur. Kristalin bir kısmı ametist gibi mor, diğer kısmı sitrin gibi sarı kalır.</p>
           <p>Bu ancak çok dar bir sıcaklık aralığında gerçekleşir; doğal ametrin bu yüzden nadirdir. Ticari üretimin neredeyse tamamı Bolivya&#39;daki Anahí madeninden gelir.</p>
           <p>Piyasada ısıl işlem veya ışınlamayla üretilmiş taklitleri vardır. Doğal örneklerde iki renk arasındaki sınır keskin ve düzdür.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Anahí madeninin adı, 17. yüzyılda bir İspanyol fatihle evlenen yerli prensesin adından gelir; madenin çeyiz olarak verildiği anlatılır.</p>
           <p>Modern doğal taş kültüründe iki zıt niteliğin birleşimi temasıyla anılır — bu, taşın görünüşünden türetilmiş yakın dönem bir anlatıdır.</p>
           <p>Ametist ve sitrinin geleneksel anlatıları ametrine de atfedilir.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Güneşte mor kısım solabilir.</li>
             <li>Sabunlu ılık su yeterlidir.</li>
             <li>Yüksek ısıdan uzak tut — renk dengesi bozulabilir.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="ametrin|ametrine" hidden>
-          <h2>Ametrin kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Ametrin — özellikleri, kökeni ve geleneksel anlatısı","description":"Aynı kristalde hem ametist hem sitrin. Neredeyse tek kaynağı Bolivya'da bir maden.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/ametrin/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Ametrin","item":"https://parlabyasli.com/taslar/ametrin/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

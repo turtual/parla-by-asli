@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Peridot
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Peridot</h1>
-          <p class="stone-lede">Tek renkte bulunan nadir taşlardan. Meteoritlerde de rastlanır.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Olivin</td></tr>
-              <tr><th>Kimyasal formül</th><td>(Mg,Fe)₂SiO₄</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>6,5 – 7</td></tr>
-              <tr><th>Renk</th><td>Zeytin yeşili, sarı-yeşil</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Pakistan, Myanmar, ABD (Arizona), Mısır (Zebirget)</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="peridot" style="background: #B79A4E">
+            <span class="tas-kapak-harf" aria-hidden="true">P</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Peridot</h1>
+            <p class="tas-lede">Tek renkte bulunan nadir taşlardan. Meteoritlerde de rastlanır.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Olivin</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6,5 – 7</dd></div>
+            <div><dt>Renk</dt><dd>Zeytin yeşili, sarı-yeşil</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Olivin</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>(Mg,Fe)₂SiO₄</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6,5 – 7</dd></div>
+            <div><dt>Renk</dt><dd>Zeytin yeşili, sarı-yeşil</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Pakistan, Myanmar, ABD (Arizona), Mısır (Zebirget)</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Peridot, olivin mineralinin mücevher kalitesindeki hâlidir. Yalnızca yeşilin tonlarında bulunur; rengi safsızlıktan değil, ana bileşimindeki demirden gelir.</p>
           <p>Yerin derinliklerinde, üst mantoda oluşur ve volkanik faaliyetle yüzeye taşınır. Bazı pallasit meteoritlerinde de peridot kristalleri bulunur — yani uzaydan gelen örnekleri vardır.</p>
           <p>Mısır&#39;ın Kızıldeniz&#39;deki Zebirget adası 3500 yıldır peridot kaynağıdır; antik kaynaklarda &quot;topazos&quot; adıyla geçen taş büyük olasılıkla buradan gelen peridottu.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Antik Mısır&#39;da &quot;güneşin mücevheri&quot; olarak anılmıştır.</p>
           <p>Ortaçağ Avrupa&#39;sında kiliselere bağışlanmış, Köln Katedrali&#39;ndeki bazı büyük &quot;zümrütler&quot;in aslında peridot olduğu sonradan anlaşılmıştır.</p>
           <p>Ağustos ayının doğum taşıdır.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Ani sıcaklık değişimine karşı hassastır.</li>
             <li>Ultrasonik temizleyici kullanma.</li>
             <li>Asitli maddelerden uzak tut.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="peridot|olivin|zebercet" hidden>
-          <h2>Peridot kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Peridot — özellikleri, kökeni ve geleneksel anlatısı","description":"Tek renkte bulunan nadir taşlardan. Meteoritlerde de rastlanır.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/peridot/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Peridot","item":"https://parlabyasli.com/taslar/peridot/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

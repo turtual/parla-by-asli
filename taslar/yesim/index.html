@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,30 +87,42 @@
           Yeşim
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Yeşim</h1>
-          <p class="stone-lede">Tek bir taş değil, iki farklı mineralin ortak adı: jadeit ve nefrit.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Jadeit (piroksen) veya Nefrit (amfibol)</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>6 – 7</td></tr>
-              <tr><th>Renk</th><td>Açık yeşilden koyu yeşile; beyaz, sarımsı, siyahımsı</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Myanmar, Çin, Yeni Zelanda, Kanada, Rusya</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="yesim" style="background: #B79A4E">
+            <span class="tas-kapak-harf" aria-hidden="true">Y</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Yeşim</h1>
+            <p class="tas-lede">Tek bir taş değil, iki farklı mineralin ortak adı: jadeit ve nefrit.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Jadeit (piroksen) veya Nefrit (amfibol)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6 – 7</dd></div>
+            <div><dt>Renk</dt><dd>Açık yeşilden koyu yeşile; beyaz, sarımsı, siyahımsı</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Jadeit (piroksen) veya Nefrit (amfibol)</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6 – 7</dd></div>
+            <div><dt>Renk</dt><dd>Açık yeşilden koyu yeşile; beyaz, sarımsı, siyahımsı</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Myanmar, Çin, Yeni Zelanda, Kanada, Rusya</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>&quot;Yeşim&quot; adı iki ayrı mineral için kullanılır. <strong>Jadeit</strong> daha nadir ve değerlidir; imparator yeşili denen canlı ton ondadır. <strong>Nefrit</strong> daha yaygındır, genelde daha mat ve yağımsı bir görünüme sahiptir.</p>
           <p>İkisi de lifli, iç içe geçmiş kristal yapıya sahiptir. Bu yüzden sertlikleri orta olmasına rağmen <strong>tokluğu</strong> olağanüstüdür: çizilebilir ama kırılması çok zordur. Neolitik dönemde balta yapımında tercih edilmesinin sebebi budur.</p>
           <p>Piyasada &quot;yeşim&quot; adıyla satılan pek çok yeşil taş aslında serpantin, aventurin veya boyalı kuvarstır. Gerçek yeşim el sırtına değdiğinde belirgin biçimde serindir ve ağırdır.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Çin&#39;de 5000 yılı aşkın süredir altından daha değerli sayılmıştır; Konfüçyüs yeşimin erdemleri temsil ettiğini yazmıştır.</p>
           <p>Maya ve Aztek kültürlerinde de kutsal kabul edilmiş, mezar maskelerinde kullanılmıştır.</p>
           <p>Maori kültüründe <em>pounamu</em> adıyla kuşaktan kuşağa aktarılan miras nesnesidir.</p>
@@ -124,19 +136,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Dayanıklıdır ama gözenekli olabilir; uzun süre suda bırakma.</li>
             <li>Sabunlu ılık su ve yumuşak bez yeterlidir.</li>
             <li>Boyalı örneklerde asitli temizleyici rengi çıkarabilir.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="yeşim|yesim|jade|jadeit|nefrit" hidden>
-          <h2>Yeşim kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -146,10 +162,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Yeşim — özellikleri, kökeni ve geleneksel anlatısı","description":"Tek bir taş değil, iki farklı mineralin ortak adı: jadeit ve nefrit.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/yesim/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Yeşim","item":"https://parlabyasli.com/taslar/yesim/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -219,6 +236,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

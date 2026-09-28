@@ -1236,6 +1236,116 @@
         grid-column: 1;
       }
     }
+
+    /* ───── Ürün formunda taş seçimi ───── */
+    .tas-secim-arama input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    .tas-secim-secili {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tas-secim-secili:empty { margin-top: 0; }
+
+    .tas-rozet {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 8px 5px 6px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .tas-rozet button {
+      border: none;
+      background: none;
+      color: var(--c-toprak);
+      font-size: 12px;
+      line-height: 1;
+      padding: 0 0 0 2px;
+      cursor: pointer;
+    }
+
+    .tas-rozet button:hover { color: #9A3B2F; }
+
+    .tas-rozet-renk {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Arama yazılmadan liste boş kalıyor — form kalabalıklaşmasın */
+    .tas-secim-liste {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tas-secim-liste:empty { margin-top: 0; }
+
+    .tas-secenek {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border: 0.5px solid var(--c-line-strong);
+      border-radius: 999px;
+      background: #fff;
+      font-family: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .tas-secenek:hover { background: var(--c-cream); }
+
+    /* ───── Taş görselleri sekmesi ───── */
+    .tas-yonetim-izgara {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
+    .tas-yonetim-kart { text-align: center; }
+
+    .tas-yonetim-gorsel {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .tas-yonetim-gorsel img { width: 100%; height: 100%; object-fit: cover; }
+
+    .tas-yonetim-gorsel span {
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .tas-yonetim-ad { font-size: 13px; margin-bottom: 6px; }
+
+    .tas-yonetim-islem {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tas-yonetim-islem .btn { padding: 6px 8px; font-size: 10px; }
+
   </style>
 </head>
 
@@ -1287,6 +1397,8 @@
       <button class="tab" data-tab="orders">Siparişler</button>
       <button class="tab" data-tab="reviews">Değerlendirmeler</button>
       <button class="tab" data-tab="texts">Metinler</button>
+      <button class="tab" data-tab="stones">Taş Görselleri</button>
+      <button class="tab" data-tab="newsletter">Bülten</button>
     </nav>
 
     <main class="content">
@@ -1382,6 +1494,28 @@
         <div id="reviews-list"><div class="loading">Yükleniyor…</div></div>
       </section>
 
+      <!-- TAŞ GÖRSELLERİ SEKMESİ -->
+      <section class="tab-content" id="tab-stones" style="display:none;">
+        <div class="toolbar">
+          <input type="search" class="search-input" id="stone-search" placeholder="Taş ara…">
+        </div>
+        <p class="texts-section-hint" style="margin-bottom:16px;">
+          Taş metinleri sitenin kendi dosyalarında; burada yalnız fotoğrafları
+          yönetiliyor. Fotoğrafı olmayan taş, sitede kendi renginden bir zeminle
+          görünür — uydurma görsel konmaz. Fotoğraflar kare olarak kırpılır.
+        </p>
+        <div id="stone-grid" class="tas-yonetim-izgara"></div>
+      </section>
+
+      <!-- BÜLTEN SEKMESİ -->
+      <section class="tab-content" id="tab-newsletter" style="display:none;">
+        <div class="toolbar">
+          <button class="btn btn-ghost" id="btn-newsletter-csv">CSV OLARAK İNDİR</button>
+          <span class="status-msg" id="newsletter-durum" style="display:none;"></span>
+        </div>
+        <div id="newsletter-list"></div>
+      </section>
+
       <section class="tab-content" id="tab-texts" style="display:none;">
 
         <h3 class="texts-section-title">Site metinleri</h3>
@@ -1473,6 +1607,19 @@
                 Ana koleksiyon listede ve ürün kartında görünen isim. Buradan
                 işaretlediğin koleksiyonların sayfasında da aynı ürün çıkar.
               </p>
+            </div>
+
+            <!-- Üründeki taşlar. Boş bırakılırsa site, taş adını ürün
+                 açıklamasından tahmin etmeye çalışır; burada seçince
+                 tahmine gerek kalmaz ve taş sayfasıyla bağ kesinleşir. -->
+            <div class="field full">
+              <label>Taşlar</label>
+              <div class="tas-secim-arama">
+                <input type="search" id="product-stones-ara" placeholder="Taş ara… (ametist, inci, lapis)" autocomplete="off">
+              </div>
+              <div class="tas-secim-secili" id="product-stones-secili"></div>
+              <div class="tas-secim-liste" id="product-stones-liste"></div>
+              <p class="koleksiyon-secim-not" id="product-stones-not"></p>
             </div>
 
             <div class="field full">
@@ -1706,6 +1853,7 @@
   <!-- ===== SCRIPTS ===== -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/data.js"></script>
+  <script src="../assets/taslar-listesi.js"></script>
   <script src="admin.js"></script>
 
 </body>

@@ -78,7 +78,7 @@
   </header>
 
   <main>
-    <section class="legal-page stone-page">
+    <article class="stone-page">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -87,31 +87,43 @@
           Kalsedon
         </nav>
 
-        <div class="legal-head">
-          <span class="eyebrow">Taş Ansiklopedisi</span>
-          <h1 class="h1">Kalsedon</h1>
-          <p class="stone-lede">Akik, oniks, karneol ve jasperin ortak üst adı. Mikroskobik kuvars lifleri.</p>
-        </div>
-
-        <div class="legal-body">
-
-          <h2>Taşın kimliği</h2>
-          <div class="legal-table-wrap">
-            <table class="legal-table"><tbody>
-              <tr><th>Mineral grubu</th><td>Kriptokristalin kuvars</td></tr>
-              <tr><th>Kimyasal formül</th><td>SiO₂</td></tr>
-              <tr><th>Sertlik (Mohs)</th><td>6,5 – 7</td></tr>
-              <tr><th>Renk</th><td>Mavimsi gri, beyaz, lavanta (dar anlamda)</td></tr>
-              <tr><th>Başlıca kaynaklar</th><td>Türkiye, Brezilya, Hindistan, Madagaskar</td></tr>
-            </tbody></table>
+        <header class="tas-kapak">
+          <div class="tas-kapak-gorsel" data-tas-gorsel="kalsedon" style="background: #4A6FA5">
+            <span class="tas-kapak-harf" aria-hidden="true">K</span>
           </div>
 
-          <h2>Nedir, nasıl oluşur</h2>
+          <div class="tas-kapak-yazi">
+            <span class="eyebrow">Taş Ansiklopedisi</span>
+            <h1>Kalsedon</h1>
+            <p class="tas-lede">Akik, oniks, karneol ve jasperin ortak üst adı. Mikroskobik kuvars lifleri.</p>
+            <dl class="tas-hizli">
+            <div><dt>Mineral grubu</dt><dd>Kriptokristalin kuvars</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6,5 – 7</dd></div>
+            <div><dt>Renk</dt><dd>Mavimsi gri, beyaz, lavanta (dar anlamda)</dd></div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="tas-bolum">
+          <h2>Taşı tanı</h2>
+          <dl class="tas-kimlik">
+            <div><dt>Mineral grubu</dt><dd>Kriptokristalin kuvars</dd></div>
+            <div><dt>Kimyasal formül</dt><dd>SiO₂</dd></div>
+            <div><dt>Sertlik (Mohs)</dt><dd>6,5 – 7</dd></div>
+            <div><dt>Renk</dt><dd>Mavimsi gri, beyaz, lavanta (dar anlamda)</dd></div>
+            <div><dt>Başlıca kaynaklar</dt><dd>Türkiye, Brezilya, Hindistan, Madagaskar</dd></div>
+          </dl>
+        </section>
+
+        <section class="tas-bolum">
+          <h2>Oluşumu</h2>
           <p>Kalsedon aslında bir grup adıdır: gözle görülemeyecek kadar küçük kuvars liflerinden oluşan tüm taşları kapsar. Akik, oniks, karneol, krizopras ve jasper bu ailenin üyeleridir.</p>
           <p>Dar anlamda kalsedon denince yarı saydam, mavimsi-gri ya da soluk lavanta rengindeki düz çeşit kastedilir.</p>
           <p>Türkiye kalsedon açısından zengindir; Eskişehir ve Ankara çevresindeki mavi kalsedon yatakları uluslararası piyasada tanınır.</p>
+        </section>
 
-          <h2>Geleneksel anlatılar ve inanışlar</h2>
+        <section class="tas-bolum">
+          <h2>Tarihi ve kültürel yeri</h2>
           <p>Adı, Antik Yunan&#39;da Kalkedon (bugünkü Kadıköy) kentinden gelir — taşın oradan ticareti yapılıyordu.</p>
           <p>Roma&#39;da mühür taşı olarak yaygın kullanılmıştır; sıcak mumla yapışmaması pratik bir avantajdı.</p>
           <p>Halk inanışında sakinlik ve uyum temalarıyla ilişkilendirilir.</p>
@@ -125,19 +137,23 @@
               başvurun.
             </p>
           </div>
+        </section>
 
+        <section class="tas-bolum">
           <h2>Bakımı</h2>
           <ul>
             <li>Dayanıklıdır, günlük kullanıma uygundur.</li>
             <li>Gözenekli olabilir; parfüm ve boyalı sıvılardan uzak tut.</li>
             <li>Sabunlu ılık su yeterlidir.</li>
           </ul>
-
-        </div>
+        </section>
 
         <section class="stone-products" data-tas-eslesme="kalsedon|chalcedony|kadıköy taşı" hidden>
-          <h2>Kalsedon kullandığımız parçalar</h2>
-          <div class="product-grid" data-tas-urun-grid></div>
+          <div class="section-head">
+            <h2 class="section-title">Bu taşı taşıyan tasarımlar</h2>
+            <a class="section-link" href="../../urunler/">Tümünü gör →</a>
+          </div>
+          <div class="product-grid product-grid-4" data-tas-urun-grid></div>
         </section>
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
@@ -147,10 +163,11 @@
         </nav>
 
       </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Kalsedon — özellikleri, kökeni ve geleneksel anlatısı","description":"Akik, oniks, karneol ve jasperin ortak üst adı. Mikroskobik kuvars lifleri.","inLanguage":"tr-TR","mainEntityOfPage":"https://parlabyasli.com/taslar/kalsedon/","author":{"@type":"Organization","name":"Parla By Aslı"},"publisher":{"@type":"Organization","name":"Parla By Aslı"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":"https://parlabyasli.com/"},{"@type":"ListItem","position":2,"name":"Taş ansiklopedisi","item":"https://parlabyasli.com/taslar/"},{"@type":"ListItem","position":3,"name":"Kalsedon","item":"https://parlabyasli.com/taslar/kalsedon/"}]}</script>
 
   <footer class="site-footer">
     <div class="container">
@@ -220,6 +237,7 @@
   <script src="../../assets/taslar-listesi.js"></script>
   <script src="../../assets/taslar-eslesme.js"></script>
   <script src="../../assets/tas-urunleri.js"></script>
+  <script src="../../assets/taslar-arama.js"></script>
   <script src="../../assets/site-nav.js"></script>
 </body>
 </html>

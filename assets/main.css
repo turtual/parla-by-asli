@@ -4443,3 +4443,346 @@ main { flex: 1 0 auto; }
 }
 
 .product-modal-tam-sayfa:hover { color: var(--c-sicak-siyah); border-color: var(--c-sicak-siyah); }
+
+/* ============================================================
+   TAŞ ANSİKLOPEDİSİ — 2026 yenilemesi
+   ------------------------------------------------------------
+   Üretim: tools/taslar-uret.js   ·   Arama: assets/taslar-arama.js
+   Fotoğraflar: panelden yükleniyor (stone_images tablosu). Fotoğrafı
+   olmayan taşta uydurma görsel koymuyoruz; taşın kendi renginden
+   türeyen düz bir zemin ve baş harfi görünüyor.
+   ============================================================ */
+
+/* ── Liste sayfası ── */
+.tas-dizin-kapak {
+  text-align: center;
+  padding: var(--space-2xl) 0 var(--space-lg);
+}
+
+.tas-dizin-kapak .eyebrow { display: block; margin-bottom: 10px; }
+
+.tas-dizin-kapak h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.1;
+  color: var(--c-sicak-siyah);
+  margin: 0;
+}
+
+.tas-lede {
+  max-width: 52ch;
+  margin: var(--space-md) auto 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--c-toprak);
+}
+
+/* Arama kutusu — sayfanın içinde, header'daki genel aramadan ayrı */
+.tas-ara {
+  max-width: 420px;
+  margin: var(--space-lg) auto 0;
+  position: relative;
+}
+
+.tas-ara input {
+  width: 100%;
+  padding: 14px 44px 14px 18px;
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: var(--r-pill);
+  background: var(--c-white);
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--c-sicak-siyah);
+}
+
+.tas-ara input:focus-visible {
+  outline: 2px solid var(--c-bakir-cizgi);
+  outline-offset: 1px;
+}
+
+.tas-ara-ikon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--c-toprak);
+  pointer-events: none;
+}
+
+/* Harf şeridi — arama yanında ikinci bir yol */
+.tas-harfler {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin: var(--space-md) auto 0;
+  max-width: 640px;
+}
+
+.tas-harf {
+  min-width: 30px;
+  padding: 5px 7px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--c-toprak);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tas-harf:hover { color: var(--c-sicak-siyah); }
+
+.tas-harf.is-active {
+  color: var(--c-sicak-siyah);
+  font-weight: 500;
+  border-bottom-color: var(--c-bakir);
+}
+
+.tas-sonuc-sayisi {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--c-toprak);
+  margin: var(--space-md) 0 0;
+  min-height: 18px;
+}
+
+/* Izgara — çerçeveli UI kartı değil, fotoğraf önde */
+.tas-izgara {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md) var(--space-sm);
+  list-style: none;
+  margin: var(--space-lg) 0 var(--space-2xl);
+  padding: 0;
+}
+
+@media (min-width: 600px) { .tas-izgara { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { .tas-izgara { grid-template-columns: repeat(4, 1fr); gap: var(--space-lg) var(--space-md); } }
+
+.tas-kart a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tas-kart-gorsel {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--t-base);
+}
+
+.tas-kart a:hover .tas-kart-gorsel { transform: translateY(-2px); }
+
+.tas-kart-gorsel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Fotoğrafı olmayan taş: renk zemini üstünde baş harf */
+.tas-kart-harf {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.tas-kart-ad {
+  display: block;
+  font-size: 14.5px;
+  color: var(--c-sicak-siyah);
+  margin-top: 10px;
+}
+
+.tas-kart-ozet {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--c-toprak);
+  margin-top: 3px;
+}
+
+.tas-kart-kesfet {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-bakir);
+  margin-top: 7px;
+}
+
+.tas-kart a:hover .tas-kart-kesfet { color: var(--c-sicak-siyah); }
+
+.tas-bos {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-2xl) 0;
+  color: var(--c-toprak);
+}
+
+/* ── Detay sayfası ── */
+.tas-kapak {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+  padding: var(--space-lg) 0 var(--space-xl);
+}
+
+@media (min-width: 820px) {
+  .tas-kapak {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-2xl);
+  }
+}
+
+.tas-kapak-gorsel {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tas-kapak-gorsel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.tas-kapak-harf {
+  font-family: var(--font-serif);
+  font-size: clamp(60px, 12vw, 110px);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tas-kapak-yazi h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.08;
+  color: var(--c-sicak-siyah);
+  margin: 10px 0 0;
+}
+
+.tas-kapak-yazi .tas-lede { margin-left: 0; margin-right: 0; }
+
+/* Kimlik kartındaki ilk birkaç satır — kapak altında hızlı bakış */
+.tas-hizli {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-xl);
+  margin: var(--space-lg) 0 0;
+}
+
+.tas-hizli div { margin: 0; }
+
+.tas-hizli dt {
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  margin-bottom: 4px;
+}
+
+.tas-hizli dd {
+  margin: 0;
+  font-size: 14px;
+  color: var(--c-sicak-siyah);
+}
+
+/* Uzun ansiklopedi metni telefonda dev blok görünmesin diye
+   bölümler ayrıldı ve satır uzunluğu sınırlandı. */
+.tas-bolum {
+  padding: var(--space-xl) 0;
+  border-top: 0.5px solid var(--c-line-soft);
+}
+
+.tas-bolum h2 {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-bakir);
+  margin: 0 0 var(--space-md);
+}
+
+.tas-bolum p,
+.tas-bolum li {
+  max-width: 66ch;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--c-toprak);
+}
+
+.tas-bolum p { margin: 0 0 var(--space-md); }
+.tas-bolum ul { margin: 0; padding-left: 20px; }
+.tas-bolum li { margin-bottom: 8px; }
+
+/* Kimlik tablosu — çizgili tablo yerine iki sütunlu sade liste */
+.tas-kimlik {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  max-width: 620px;
+}
+
+.tas-kimlik div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.6fr) 1fr;
+  gap: var(--space-md);
+  padding: 11px 0;
+  border-bottom: 0.5px solid var(--c-line-soft);
+}
+
+.tas-kimlik dt { font-size: 13px; color: var(--c-toprak); }
+.tas-kimlik dd { margin: 0; font-size: 14px; color: var(--c-sicak-siyah); }
+
+/* Bu taşı taşıyan tasarımlar */
+.stone-products { padding: var(--space-xl) 0; border-top: 0.5px solid var(--c-line-soft); }
+
+/* Önceki / sonraki taş */
+.stone-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0 var(--space-2xl);
+  border-top: 0.5px solid var(--c-line-soft);
+}
+
+.stone-nav a {
+  font-size: 13px;
+  color: var(--c-sicak-siyah);
+  text-decoration: none;
+}
+
+.stone-nav a:hover { color: var(--c-bakir); }
+.stone-nav span { display: block; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-toprak); margin-bottom: 3px; }
+.stone-nav-next { text-align: right; }
+
+.stone-nav-index {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+}
+
+/* Bilgilendirme notu — geleneksel anlatıların tıbbi iddia olmadığı uyarısı */
+.stone-disclaimer {
+  margin: var(--space-md) 0 0;
+  padding: var(--space-md);
+  background: var(--c-warm-greige);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--c-toprak);
+  max-width: 66ch;
+}
