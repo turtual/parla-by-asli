@@ -41,9 +41,7 @@ window.PB_SATICI = {
   /* ── İletişim (zorunlu) ── */
   adres: 'Osmangazi Mah. Dumlupınar Cad. Çiçek Kardeşler No: 154/1 İç Kapı No: 28, Bayraklı / İzmir',
 
-  // HÂLÂ EKSİK: mesafeli satışta telefon zorunlu. Vergi levhasında yok,
-  // işletmenin iletişim numarasını buraya yaz.
-  telefon: '',
+  telefon: '0536 636 99 96',
   eposta: 'parlabyasli@outlook.com',
 
   /* ── Operasyon ──
