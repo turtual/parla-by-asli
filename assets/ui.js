@@ -272,11 +272,16 @@ function PB_h(tag, attrs = {}, ...children) {
 // - Lokal yol ise (assets/img/...) → sayfaya göre prefix ekler
 function PB_imgPath(relPath) {
   if (!relPath) return '';
-  // Tam URL ise direkt döndür (Supabase Storage)
-  if (/^https?:\/\//i.test(relPath) || relPath.startsWith('data:')) {
-    return relPath;
-  }
-  return relPath;
+
+  // Tam URL, veri URL'i ya da kökten yol — olduğu gibi kullanılır.
+  // Supabase Storage görselleri bu gruba giriyor.
+  if (/^(https?:\/\/|data:|\/)/i.test(relPath)) return relPath;
+
+  /* Göreli yol (ör. "assets/img/products/kolye.svg"). Sayfanın kaçıncı
+     klasörde olduğu <html data-kok="../"> ile bildiriliyor; ön ek
+     eklenmediği için alt sayfalarda bu görseller kırılıyordu. */
+  const kok = document.documentElement.getAttribute('data-kok') || '';
+  return kok + relPath;
 }
 
 /* ──────────── Ürün kartı render (paylaşılan) ──────────── */

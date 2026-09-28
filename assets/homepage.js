@@ -149,7 +149,17 @@
 
     const slaytlar = liste.map((g, i) => {
       const s = PB_h('div', { class: 'hero-slide' + (i === 0 ? ' is-active' : '') });
-      const im = PB_h('img', { alt: '', 'aria-hidden': 'true' });
+
+      /* Yalnız ilk slayt açılışta gerekli — o sayfanın en büyük görseli
+         (LCP), öncelikli yükleniyor. Diğerleri 4 saniyede bir sırayla
+         geliyor; hepsini baştan indirmek ilk açılışı yavaşlatıyordu. */
+      const im = PB_h('img', {
+        alt: '',
+        'aria-hidden': 'true',
+        decoding: 'async',
+        loading: i === 0 ? 'eager' : 'lazy',
+        fetchpriority: i === 0 ? 'high' : 'low'
+      });
       im.src = g.url;
       // object-fit:cover + object-position + scale üçlüsü, admin'deki
       // önizlemede de birebir aynı uygulanıyor: gördüğün kadraj bu.

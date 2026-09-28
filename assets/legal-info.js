@@ -39,7 +39,10 @@ window.PB_SATICI = {
    * artık tek tip ürün var, hepsi standart teslimat ve cayma hakkına tabi.
    */
   kargoFirmasi: '',
-  ucretsizKargoEsigi: 500,        // ₺
+  // Yedek değerler: yalnız site_texts okunamadığında kullanılır.
+  // Panelden değiştirdiğinde burayı da güncelle, yoksa bağlantı
+  // koptuğunda yasal sayfada eski rakam görünür.
+  ucretsizKargoEsigi: 2000,       // ₺
   kargoUcreti: 35,                // ₺ — eşiğin altında
   teslimatSuresi: '1-3 iş günü',
 

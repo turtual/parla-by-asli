@@ -188,7 +188,8 @@ function dizinSayfasi() {
   const aciklama = 'Doğal taşların mineral kimliği, kökeni, geleneksel anlatısı ve bakımı — ' + taslar.length + ' taşlık ansiklopedi.';
 
   return kafa({
-    baslik: 'Taş Ansiklopedisi — Doğal Taşlar A\'dan Z\'ye · Parla By Aslı',
+    // 60 karakteri aşan başlığı Google arama sonucunda kırpıyor
+    baslik: 'Taş Ansiklopedisi — Doğal Taşlar · Parla By Aslı',
     aciklama,
     kanonik: `${SITE}/taslar/`,
     derinlik: 1
@@ -236,7 +237,10 @@ ${harfNav}
 
 function tasSayfasi(tas, onceki, sonraki) {
   const kanonik = `${SITE}/taslar/${tas.slug}/`;
-  const baslik = `${tas.ad} — Özellikleri, Kökeni ve Geleneksel Anlatısı · Parla By Aslı`;
+  // Başlık 60 karakteri aşarsa Google arama sonucunda kırpıyor.
+  // "Özellikleri ve Bakımı" hem kısa hem de sayfanın gerçekten
+  // cevapladığı iki soruyu karşılıyor.
+  const baslik = `${tas.ad} — Özellikleri ve Bakımı · Parla By Aslı`;
 
   const kimlik = Object.entries(tas.kimlik || {});
 

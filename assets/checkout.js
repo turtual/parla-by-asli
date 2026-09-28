@@ -74,7 +74,11 @@
       const row = PB_h('div', { class: 'checkout-summary-item' });
       row.innerHTML = `
         <div class="checkout-summary-item-img">
-          <img src="${PB_escape('../' + item.image)}" alt="${PB_escape(item.name)}">
+          <!-- Eskiden yol başına düz "../" ekleniyordu; Supabase'deki tam
+               URL'ler "../https://…" hâline gelip 404 veriyordu, yani ödeme
+               özetindeki her ürün fotoğrafı kırıktı. PB_imgPath tam URL ile
+               göreli yolu ayırt ediyor. -->
+          <img src="${PB_escape(PB_imgPath(item.image))}" alt="${PB_escape(item.name)}">
         </div>
         <div class="checkout-summary-item-info">
           <div class="checkout-summary-item-name">${PB_escape(item.name)}</div>

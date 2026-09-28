@@ -74,14 +74,19 @@
             Siparişin bize ulaştı. Detayları gözden geçireceğiz ve <strong>en geç 1 iş günü içinde</strong> seninle iletişime geçip ödeme bilgilerini paylaşacağız.
           </p>
 
-          <p>
-            Sipariş takibi için bu numaranı bir yere not et:
-          </p>
+          <!-- Sipariş numarası bloğu, numara gerçekten varsa açılıyor.
+               Eskiden "PB-XXXXXX" yazısı sabit duruyordu; sayfa doğrudan
+               açıldığında ziyaretçi bunu kendi sipariş numarası sanıyordu. -->
+          <div id="order-id-block" hidden>
+            <p>
+              Sipariş takibi için bu numaranı bir yere not et:
+            </p>
 
-          <div class="thanks-order-id" id="order-id-display">PB-XXXXXX</div>
+            <div class="thanks-order-id" id="order-id-display"></div>
+          </div>
 
           <p style="font-size: 12px; padding: 0 var(--space-md);">
-            Bu numarayı kayıtlı e-posta adresinde de bulacaksın. <br>
+            Sipariş numaranı kayıtlı e-posta adresinde de bulacaksın. <br>
             Aklına gelen bir soru olursa <a href="../iletisim/" style="color: var(--c-bakir); border-bottom: 0.5px solid currentColor;">iletişim</a> üzerinden ulaşabilirsin.
           </p>
 
@@ -157,6 +162,7 @@
         const lastOrder = JSON.parse(sessionStorage.getItem('pb_last_order') || '{}');
         if (lastOrder.id) {
           document.getElementById('order-id-display').textContent = lastOrder.id;
+          document.getElementById('order-id-block').hidden = false;
         }
       } catch (e) {}
     });

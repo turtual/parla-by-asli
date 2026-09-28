@@ -710,10 +710,16 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   right: 9px;
   background: rgba(255, 255, 255, 0.85);
   border: none;
-  padding: 6px;
   border-radius: var(--r-pill);
   cursor: pointer;
+  /* Dokunma hedefi 26x26'ydı; parmakla ıskalanıyordu. Görünen daire
+     aynı büyüklükte kalsın diye ikon küçük, kutu 40px. */
+  width: 40px;
+  height: 40px;
+  padding: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-card-fav svg { width: 14px; height: 14px; color: var(--c-sicak-siyah); opacity: 0.55; }
