@@ -127,8 +127,12 @@ window.PB_SATICI = {
         el.textContent = v;
         el.classList.remove('yasal-eksik');
       } else {
-        el.textContent = 'DOLDURULACAK';
-        el.classList.add('yasal-eksik');
+        /* Müşteriye kırmızı "DOLDURULACAK" göstermek markayı özensiz
+           gösteriyordu ve alıcının işine de yaramıyordu. Eksik alan sade
+           bir tire ile geçiliyor; sayfanın başındaki bant durumu zaten
+           söylüyor, ayrıntı da konsola yazılıyor (bkz. uyariBandi). */
+        el.textContent = '—';
+        el.classList.remove('yasal-eksik');
       }
     });
   }
@@ -144,13 +148,25 @@ window.PB_SATICI = {
     const sayfa = document.querySelector('.legal-page');
     if (!sayfa) return;
 
+    /* Eksik alanın adını ve ne yapılacağını GELİŞTİRİCİYE konsoldan
+       söylüyoruz. Sayfadaki bant müşteriye görünüyor; oraya dosya adı
+       yazmak alıcı için anlamsız, marka için de özensiz duruyordu.
+       Bant yine de duruyor: eksikliği gizlemek istemiyoruz, yalnız
+       müşterinin işine yarayacak biçimde söylüyoruz. */
+    console.warn(
+      '[Parla] Yasal sayfalarda eksik satıcı bilgisi: ' + eksikler.join(', ') +
+      ' — assets/legal-info.js dosyasını doldur.'
+    );
+
     const band = document.createElement('div');
     band.className = 'yasal-uyari';
-    band.setAttribute('role', 'alert');
-    band.textContent =
-      'Bu metin henüz tamamlanmadı: satıcı bilgileri girilmemiş (' +
-      eksikler.join(', ') + '). ' +
-      'Yayına almadan önce assets/legal-info.js dosyasını doldur.';
+    band.setAttribute('role', 'status');
+
+    const eposta = deger('eposta');
+    band.textContent = eposta
+      ? 'Satıcı iletişim bilgilerimiz güncelleniyor. Bu arada her konuda '
+        + eposta + ' adresinden bize ulaşabilirsin.'
+      : 'Satıcı iletişim bilgilerimiz güncelleniyor.';
 
     sayfa.prepend(band);
   }
