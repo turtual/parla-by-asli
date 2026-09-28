@@ -93,7 +93,7 @@
       } else {
         // ui.js yüklenmediyse en azından bir bağlantı görünsün
         const a = document.createElement('a');
-        a.href = '../../katalog/?urun=' + encodeURIComponent(p.slug);
+        a.href = '../../urun/' + encodeURIComponent(p.slug) + '/';
         a.textContent = p.name;
         grid.appendChild(a);
       }

@@ -8,6 +8,12 @@
       "permanent": true
     }
   ],
+  "rewrites": [
+    {
+      "source": "/urun/:slug/",
+      "destination": "/urun/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

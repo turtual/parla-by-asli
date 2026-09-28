@@ -421,6 +421,9 @@ function PB_buildProductModalShell() {
           <span class="product-modal-badge" data-pm-badge>KOLEKSİYON</span>
           <h2 id="product-modal-title" class="h1" data-pm-title></h2>
           <div class="product-modal-price" data-pm-price></div>
+          <!-- Ürünün kendi sayfası: paylaşılabilir adres, tam galeri ve
+               taş bağlantıları orada. Pencere hızlı bakış için kalıyor. -->
+          <a class="product-modal-tam-sayfa" data-pm-tam-sayfa href="#">Tam sayfada aç →</a>
           <p class="product-modal-desc" data-pm-desc></p>
           <div class="product-modal-materials">
             <h4>Malzeme</h4>
@@ -516,6 +519,13 @@ async function PB_fillProductModal(modal, p) {
 
   // Doldur
   modal.querySelector('[data-pm-title]').textContent = p.name;
+
+  const tamSayfa = modal.querySelector('[data-pm-tam-sayfa]');
+  if (tamSayfa) {
+    const kok = document.documentElement.getAttribute('data-kok') || '';
+    tamSayfa.href = kok + 'urun/' + p.slug + '/';
+  }
+
   modal.querySelector('[data-pm-price]').textContent = formatPrice(p.price);
   modal.querySelector('[data-pm-desc]').textContent = p.description || '';
 

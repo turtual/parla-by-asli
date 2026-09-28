@@ -30,6 +30,7 @@ function agirlik(yol) {
   if (yol === '') return { oncelik: '1.0', siklik: 'weekly' };
   if (yol === 'urunler') return { oncelik: '0.9', siklik: 'daily' };
   if (['kolyeler', 'bileklikler', 'kupeler', 'setler'].includes(yol)) return { oncelik: '0.9', siklik: 'daily' };
+  if (yol.startsWith('urun/')) return { oncelik: '0.8', siklik: 'weekly' };
   if (yol === 'taslar') return { oncelik: '0.8', siklik: 'monthly' };
   if (yol.startsWith('taslar/')) return { oncelik: '0.6', siklik: 'yearly' };
   if (yol.startsWith('yasal/')) return { oncelik: '0.3', siklik: 'yearly' };
@@ -52,7 +53,9 @@ function sayfalar(dizin, onEk, toplam) {
   return toplam;
 }
 
-const yollar = [''].concat(sayfalar(KOK, '').sort());
+/* /urun/ kökü yedek şablon: noindex etiketli, sitemap'e girmemeli.
+   Ürünlerin kendi adresleri (/urun/<slug>/) listeleniyor. */
+const yollar = [''].concat(sayfalar(KOK, '').filter(y => y !== 'urun').sort());
 
 const satirlar = yollar.map(yol => {
   const { oncelik, siklik } = agirlik(yol);

@@ -36,7 +36,10 @@ const AKTIF_MENU = {
 };
 
 /* Her sayfada bulunması gereken betikler. Zaten varsa tekrar eklenmiyor. */
-const GEREKLI_BETIKLER = ['assets/site-nav.js'];
+/* content.js: üst şerit metnindeki *vurgu* işaretlerini biçimlendiren
+   pbFormatInline burada. site-nav.js şeridi panelden beslediği için her
+   sayfada gerekli. */
+const GEREKLI_BETIKLER = ['assets/content.js', 'assets/site-nav.js'];
 
 function htmlDosyalari(dizin, toplam) {
   toplam = toplam || [];

@@ -102,6 +102,7 @@ const ayak = derinlik => {
 ${footerHtml(derinlik)}
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="${u}assets/data.js"></script>
+  <script src="${u}assets/content.js"></script>
   <script src="${u}assets/products.js"></script>
   <script src="${u}assets/ui.js"></script>
   <script src="${u}assets/reviews.js"></script>

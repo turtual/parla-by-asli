@@ -259,9 +259,27 @@
     }
   }
 
+  /* ──────────── Üst şerit ────────────
+     Yazı panelden yönetiliyor (Metinler → "Üst şerit yazısı"). Eskiden
+     yalnız anasayfa besliyordu; diğer sayfalarda HTML'deki yedek metin
+     kalıyor ve şerit sayfadan sayfaya değişiyordu. Header her sayfada
+     olduğu için bağlama işi buraya taşındı. */
+  async function seritYaz() {
+    const el = document.getElementById('utility-bar-text');
+    if (!el || typeof PB_Data === 'undefined' || !PB_Data.getSiteTexts) return;
+    try {
+      const metinler = await PB_Data.getSiteTexts();
+      const deger = metinler.utility_bar;
+      if (!deger) return;
+      if (typeof pbFormatInline === 'function') el.innerHTML = pbFormatInline(deger);
+      else el.textContent = deger;
+    } catch (e) { /* ulaşılamazsa HTML'deki yedek metin kalır */ }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     kompaktHeader();
     mobilMenu();
+    seritYaz();
     const araBtn = document.querySelector('[data-ara-ac]');
     if (araBtn) araBtn.addEventListener('click', aramaAc);
   });
