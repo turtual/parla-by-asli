@@ -316,6 +316,9 @@ function renderProductCard(p, animDelay = 0) {
   // Rozet tek: tükendi bilgisi "yeni"den önemli, ikisi üst üste binmesin.
   if ((p.stockQuantity || 0) <= 0) {
     imgWrap.append(PB_h('span', { class: 'product-card-badge' }, 'TÜKENDİ'));
+    // Fotoğrafın üstüne hafif perde: kart listede kalıyor ama satın
+    // alınabilir parçalarla aynı ağırlıkta görünmüyor.
+    card.classList.add('is-tukendi');
   } else if (typeof isNewProduct === 'function' && isNewProduct(p)) {
     imgWrap.append(PB_h('span', { class: 'product-card-badge is-new' }, 'YENİ'));
   }

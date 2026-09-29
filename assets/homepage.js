@@ -292,7 +292,7 @@
 
     const yeniler = hepsi
       .slice()
-      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .sort((a, b) => stoktaOnce(a, b) || new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
       .slice(0, 4);
 
     grid.innerHTML = '';
@@ -309,7 +309,12 @@
     const duzen = document.getElementById('favori-duzen');
     if (!bolum || !duzen || typeof getProducts !== 'function') return;
 
-    const favoriler = (await getProducts({ featuredOnly: true })).slice(0, 3);
+    /* Stokta olan öne: favorilerde ilk sıra en büyük kart, oraya tükenmiş
+       bir parça düşünce bölümün tamamı ölü görünüyordu. */
+    const favoriler = (await getProducts({ featuredOnly: true }))
+      .slice()
+      .sort(stoktaOnce)
+      .slice(0, 3);
     if (!favoriler.length) return;   // hidden kalır
 
     duzen.innerHTML = '';

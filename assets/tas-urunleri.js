@@ -85,7 +85,10 @@
     if (!eslesen.length) return;   // eşleşme yoksa bölüm gizli kalır
 
     // Stokta olanlar önce; aynı gruptakiler mevcut sırayı korur
-    eslesen.sort((a, b) => ((b.stockQuantity || 0) > 0) - ((a.stockQuantity || 0) > 0));
+    // (kural products.js → stoktaOnce ile ortak)
+    eslesen.sort((a, b) => (typeof stoktaOnce === 'function'
+      ? stoktaOnce(a, b)
+      : ((b.stockQuantity || 0) > 0) - ((a.stockQuantity || 0) > 0)));
 
     eslesen.forEach((p, i) => {
       if (typeof renderProductCard === 'function') {

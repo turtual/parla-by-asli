@@ -297,7 +297,7 @@
     const secilenler = hepsi
       .map(u => ({ u, skor: puan(u) }))
       .filter(x => x.skor > 0)
-      .sort((a, b) => b.skor - a.skor || (a.u.displayOrder || 0) - (b.u.displayOrder || 0))
+      .sort((a, b) => b.skor - a.skor || stoktaOnce(a.u, b.u) || (a.u.displayOrder || 0) - (b.u.displayOrder || 0))
       .slice(0, 4)
       .map(x => x.u);
 

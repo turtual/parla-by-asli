@@ -187,7 +187,7 @@
     // panelde sürükleyerek verilen sırayla gelir (products.js sortForDisplay).
     // ?sirala=yeni ise eklenme tarihine göre yeniden eskiye.
     const items = siralama === 'yeni'
-      ? bulunanlar.slice().sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      ? bulunanlar.slice().sort((a, b) => stoktaOnce(a, b) || new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
       : (typeof sortForDisplay === 'function' ? sortForDisplay(bulunanlar) : bulunanlar);
 
     grid.innerHTML = '';

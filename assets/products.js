@@ -85,12 +85,31 @@ function isNewProduct(p) {
 }
 
 /**
- * Vitrin sıralaması: önce öne çıkanlar (⭐), sonra panelde sürükleyerek
- * verilen sıra. Panelde yeni eklenen ürün listenin başına geldiği için
- * yeni ürünler de doğal olarak üstte çıkıyor.
+ * Tükenen ürün her listede en sona gider — sıralama kuralı ne olursa olsun.
+ *
+ * Satın alınabilir parçanın önde durması gerekiyor: stoğu biten bir ürün
+ * ızgaranın başındayken ziyaretçi tıklayıp "tükendi" görüyor ve akış
+ * kopuyordu. Ürünü listeden tamamen kaldırmıyoruz — hem ilgi çekiyor hem
+ * de aynı parçadan tekrar üretilebiliyor.
+ *
+ * Diğer sıralamaların önüne konacak karşılaştırıcı olarak kullanılır.
+ */
+function stoktaOnce(a, b) {
+  const aVar = (a.stockQuantity || 0) > 0;
+  const bVar = (b.stockQuantity || 0) > 0;
+  if (aVar !== bVar) return aVar ? -1 : 1;
+  return 0;
+}
+
+/**
+ * Vitrin sıralaması: önce stokta olanlar, sonra öne çıkanlar (⭐), sonra
+ * panelde sürükleyerek verilen sıra. Panelde yeni eklenen ürün listenin
+ * başına geldiği için yeni ürünler de doğal olarak üstte çıkıyor.
  */
 function sortForDisplay(products) {
   return products.slice().sort((a, b) => {
+    const stok = stoktaOnce(a, b);
+    if (stok) return stok;
     if (!!b.featured !== !!a.featured) return b.featured ? 1 : -1;
     return (a.displayOrder || 0) - (b.displayOrder || 0);
   });

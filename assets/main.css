@@ -5100,3 +5100,30 @@ main { flex: 1 0 auto; }
   color: var(--c-toprak);
   margin: 0 0 var(--space-lg);
 }
+
+/* ── Tükenen ürün kartı ──
+   Ürün listeden kaldırılmıyor (ilgi çekiyor ve aynı parçadan tekrar
+   üretilebiliyor) ama satın alınabilir parçalarla aynı ağırlıkta
+   görünmemeli: fotoğrafın üstüne krem bir perde iniyor, yazılar
+   soluyor. "TÜKENDİ" rozeti ve favori kalbi perdenin üstünde kalıyor. */
+.product-card.is-tukendi .product-card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 241, 234, 0.55);
+  pointer-events: none;
+}
+
+.product-card.is-tukendi .product-card-img img {
+  filter: saturate(0.75);
+}
+
+.product-card.is-tukendi .product-card-name,
+.product-card.is-tukendi .product-card-price,
+.product-card.is-tukendi .product-card-stones {
+  color: var(--c-toprak);
+}
+
+/* Perde kararınca fiyatın üstü çizilmiyor — ürün hâlâ o fiyata
+   üretiliyor, yalnız şu an stokta yok. */
+.product-card.is-tukendi .product-card-price { opacity: 0.75; }
