@@ -114,6 +114,8 @@
     const dizin = kartlar.map(kart => ({
       el: kart,
       harf: kart.dataset.harf || '',
+      niyetler: (kart.dataset.niyet || '').split(' ').filter(Boolean),
+      renk: kart.dataset.renk || '',
       metin: normalize([
         kart.dataset.ad,
         kart.dataset.anahtar,   // İngilizce/alternatif yazımlar
@@ -122,7 +124,14 @@
     }));
 
     let aktifHarf = null;
+    let aktifNiyet = null;
+    let aktifRenk = null;
     let bosMesaj = null;
+
+    const niyetBtnler = [...document.querySelectorAll('[data-niyet]')].filter(e => e.tagName === 'BUTTON');
+    const renkBtnler = [...document.querySelectorAll('[data-renk]')].filter(e => e.tagName === 'BUTTON');
+    const niyetEtiket = window.PB_TAS_NIYETLER || {};
+    const renkEtiket = window.PB_TAS_RENKLER || {};
 
     function suz() {
       const q = normalize(girdi.value);
@@ -130,16 +139,20 @@
 
       dizin.forEach(k => {
         const metinUyar = !q || k.metin.indexOf(q) !== -1;
-        // Arama yazılmışsa harf filtresi devre dışı — aradığı taş başka
-        // harfteyse "sonuç yok" demek kullanıcıyı şaşırtıyordu.
-        const harfUyar = !aktifHarf || q ? true : k.harf === aktifHarf;
-        const goster = metinUyar && harfUyar;
+        // Arama yazılmışsa diğer süzgeçler devre dışı — aradığı taş başka
+        // harfte/niyette ise "sonuç yok" demek kullanıcıyı şaşırtıyordu.
+        const harfUyar = (!aktifHarf || q) ? true : k.harf === aktifHarf;
+        const niyetUyar = (!aktifNiyet || q) ? true : k.niyetler.indexOf(aktifNiyet) !== -1;
+        const renkUyar = (!aktifRenk || q) ? true : k.renk === aktifRenk;
+        const goster = metinUyar && harfUyar && niyetUyar && renkUyar;
         k.el.hidden = !goster;
         if (goster) gorunen++;
       });
 
       if (sayac) {
         if (q) sayac.textContent = gorunen + ' taş bulundu';
+        else if (aktifNiyet) sayac.textContent = (niyetEtiket[aktifNiyet] || aktifNiyet) + ' için ' + gorunen + ' taş';
+        else if (aktifRenk) sayac.textContent = (renkEtiket[aktifRenk] || aktifRenk) + ' tonlarında ' + gorunen + ' taş';
         else if (aktifHarf) sayac.textContent = aktifHarf + ' harfiyle başlayan ' + gorunen + ' taş';
         else sayac.textContent = '';
       }
@@ -159,11 +172,40 @@
 
     girdi.addEventListener('input', suz);
 
+    /* Keşif seçenekleri tek seçimli ve birbirini sıfırlıyor: aynı anda hem
+       niyet hem renk süzmek listeyi çoğu zaman boşaltıyordu. Aynı düğmeye
+       ikinci kez basmak seçimi kaldırıyor. */
+    function kesifSec(tur, deger) {
+      aktifNiyet = (tur === 'niyet' && aktifNiyet !== deger) ? deger : null;
+      aktifRenk = (tur === 'renk' && aktifRenk !== deger) ? deger : null;
+      aktifHarf = null;
+      girdi.value = '';
+
+      niyetBtnler.forEach(b => b.classList.toggle('is-active', b.dataset.niyet === aktifNiyet));
+      renkBtnler.forEach(b => b.classList.toggle('is-active', b.dataset.renk === aktifRenk));
+      harfler.forEach(b => b.classList.remove('is-active'));
+
+      suz();
+
+      // Seçim yapınca liste görünür alana gelsin
+      if (aktifNiyet || aktifRenk) {
+        const liste = document.getElementById('tas-izgara');
+        if (liste) liste.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    }
+
+    niyetBtnler.forEach(b => b.addEventListener('click', () => kesifSec('niyet', b.dataset.niyet)));
+    renkBtnler.forEach(b => b.addEventListener('click', () => kesifSec('renk', b.dataset.renk)));
+
     harfler.forEach(btn => {
       btn.addEventListener('click', () => {
         const harf = btn.dataset.harf || null;
         aktifHarf = (aktifHarf === harf) ? null : harf;
+        aktifNiyet = null;
+        aktifRenk = null;
         harfler.forEach(b => b.classList.toggle('is-active', b.dataset.harf === aktifHarf));
+        niyetBtnler.forEach(b => b.classList.remove('is-active'));
+        renkBtnler.forEach(b => b.classList.remove('is-active'));
         girdi.value = '';
         suz();
       });

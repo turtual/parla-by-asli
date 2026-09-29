@@ -32,7 +32,13 @@
   /* Menüdeki "Yeni Gelenler" /urunler/?sirala=yeni adresine gidiyor.
      Ayrı bir sayfa açmak yerine aynı listeyi tarihe göre sıralıyoruz —
      filtreler de çalışmaya devam ediyor. */
-  const siralama = new URLSearchParams(location.search).get('sirala');
+  const adresParam = new URLSearchParams(location.search);
+  const siralama = adresParam.get('sirala');
+
+  /* Taş sayfalarındaki "Lapis tasarımlarını gör" bağlantısı buraya geliyor:
+     /urunler/?tas=lapis-lazuli. Eşleşme kuralı taş sayfasındakiyle aynı
+     (assets/taslar-eslesme.js) — iki yerde iki farklı sonuç çıkmasın. */
+  const tasFiltresi = adresParam.get('tas');
 
   let activeCategory = sabitTip; // null = tüm ürün tipleri (üst filtre)
   let activeCollectionId = null; // null = tüm koleksiyonlar (alt filtre)
@@ -49,6 +55,22 @@
    *
    * Her iki satırda da yalnız gerçekten ürünü olan seçenekler görünür.
    */
+  /** Taş filtresi aktifse sayfanın başında hangi taşa bakıldığını söyler. */
+  function tasBasligiYaz() {
+    if (!tasFiltresi) return;
+    const baslik = document.getElementById('urunler-baslik');
+    const altYazi = document.querySelector('.section-head .section-sub');
+    const tas = (window.PB_TASLAR || []).find(t => t.slug === tasFiltresi);
+    if (!tas || !baslik) return;
+
+    baslik.textContent = tas.ad + ' tasarımları';
+    if (altYazi) {
+      altYazi.textContent = tas.ad + ' taşını taşıyan Parla parçaları. '
+        + 'Taşın hikâyesi için ansiklopedi sayfasına bakabilirsin.';
+    }
+    document.title = tas.ad + ' Tasarımları · Parla By Aslı';
+  }
+
   async function renderFilters() {
     if (!typeNavEl || typeof getCollections !== 'function') return;
 
@@ -152,10 +174,14 @@
       grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: var(--space-2xl) 0; color: var(--c-toprak);">Yükleniyor…</div>';
     }
 
-    const bulunanlar = await getProducts({
+    let bulunanlar = await getProducts({
       collectionId: activeCollectionId,
       category: activeCategory
     });
+
+    if (tasFiltresi && typeof PB_TasEslesme !== 'undefined') {
+      bulunanlar = PB_TasEslesme.tasinUrunleri(tasFiltresi, bulunanlar);
+    }
 
     // Varsayılan: öne çıkan (⭐) ürünler ızgaranın başına geçer, gerisi
     // panelde sürükleyerek verilen sırayla gelir (products.js sortForDisplay).
@@ -174,6 +200,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     if (!typeNavEl && !grid) return;   // bu sayfada liste yok
+    tasBasligiYaz();
     renderFilters();
     renderProducts();
   });

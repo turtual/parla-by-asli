@@ -4805,3 +4805,298 @@ main { flex: 1 0 auto; }
 
 .tas-kunye a { color: var(--c-toprak); text-decoration: underline; }
 .tas-kunye a:hover { color: var(--c-bakir); }
+
+/* ============================================================
+   TAŞ KEŞFİ — "Taşını bul, kendini bul"
+   ------------------------------------------------------------
+   Ansiklopedi artık A-Z sözlük değil, keşif alanı. Tasarım kararları:
+     · Niyet ve renk seçenekleri düğme değil, altı çizili metin —
+       sayfa filtre paneline dönüşmesin diye
+     · Mistik/astroloji estetiğinden kaçınıldı: yıldız-ay ikonu,
+       mor degrade, aura efekti yok; taşın kendi rengi tek vurgu
+     · Kutu içine alınan tek şey yok; bölümler ince çizgiyle ayrılıyor
+   ============================================================ */
+
+.tas-dizin-kapak h1 em {
+  font-style: italic;
+  color: var(--c-bakir);
+}
+
+/* ── Keşif bölümleri ── */
+.tas-kesif {
+  padding: var(--space-xl) 0 0;
+  text-align: center;
+}
+
+.tas-kesif-baslik {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(20px, 2.8vw, 27px);
+  color: var(--c-sicak-siyah);
+  margin: 0 0 var(--space-md);
+}
+
+.tas-kesif-alt-baslik {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+  margin: 0 0 var(--space-md);
+}
+
+.tas-kesif-secenekler {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px var(--space-lg);
+}
+
+/* Niyet seçenekleri: kutu değil, altı boş çizgili metin.
+   Seçilince çizgi bakıra dönüyor — tek vurgu bu. */
+.tas-kesif-secenek {
+  border: none;
+  background: none;
+  padding: 4px 0 5px;
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--c-toprak);
+  cursor: pointer;
+  border-bottom: 1.5px solid transparent;
+  transition: color var(--t-base), border-color var(--t-base);
+}
+
+.tas-kesif-secenek:hover { color: var(--c-sicak-siyah); }
+
+.tas-kesif-secenek.is-active {
+  color: var(--c-sicak-siyah);
+  border-bottom-color: var(--c-bakir);
+}
+
+/* Renk seçenekleri: taşın kendi renginden küçük bir nokta + adı */
+.tas-kesif-renk { padding-top: var(--space-lg); }
+
+.tas-kesif-renk-secenek {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  background: none;
+  padding: 4px 0 5px;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--c-toprak);
+  cursor: pointer;
+  border-bottom: 1.5px solid transparent;
+  transition: color var(--t-base), border-color var(--t-base);
+}
+
+.tas-kesif-renk-secenek:hover { color: var(--c-sicak-siyah); }
+
+.tas-kesif-renk-secenek.is-active {
+  color: var(--c-sicak-siyah);
+  border-bottom-color: var(--c-bakir);
+}
+
+.tas-kesif-nokta {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Öne çıkan taşlar ── */
+.tas-one-cikan {
+  padding: var(--space-3xl) 0 0;
+  text-align: center;
+}
+
+.tas-one-cikan-izgara {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg) var(--space-md);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+@media (min-width: 640px) { .tas-one-cikan-izgara { grid-template-columns: repeat(4, 1fr); } }
+
+.tas-one-cikan-izgara a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tas-one-cikan-ad {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--c-sicak-siyah);
+  margin-top: 12px;
+}
+
+/* Kartın altındaki kişisel cümle — markanın sesi burada duyuluyor */
+.tas-one-cikan-cumle {
+  display: block;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--c-toprak);
+  margin-top: 4px;
+}
+
+.tas-one-cikan-izgara a:hover .tas-one-cikan-ad { color: var(--c-bakir); }
+
+/* ── Tüm taşlar bölümü ── */
+.tas-tum { padding-top: var(--space-3xl); }
+
+.tas-tum-ust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm) var(--space-md);
+  border-top: 0.5px solid var(--c-line-soft);
+  padding-top: var(--space-lg);
+}
+
+.tas-tum-ust .tas-harfler { margin: 0; justify-content: flex-start; }
+.tas-tum .tas-sonuc-sayisi { text-align: left; margin-top: 6px; }
+
+/* ── Detay sayfası: editorial bölümler ── */
+.tas-kisa-kimlik {
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 2.2vw, 21px);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--c-bakir);
+  margin: 10px 0 0;
+}
+
+.tas-bolum-giris {
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--c-toprak);
+  margin: 0 0 var(--space-md);
+}
+
+/* "Bu taş sana göre mi?" — sayfanın en kişisel yeri, nefes alsın */
+.tas-yakinlik {
+  background: var(--c-warm-greige);
+  margin-left: calc(var(--space-md) * -1);
+  margin-right: calc(var(--space-md) * -1);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  border-top: none;
+}
+
+@media (min-width: 720px) {
+  .tas-yakinlik {
+    margin-left: calc(var(--space-xl) * -1);
+    margin-right: calc(var(--space-xl) * -1);
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
+}
+
+.tas-yakinlik-metin {
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 2.4vw, 22px);
+  line-height: 1.6;
+  color: var(--c-sicak-siyah);
+  max-width: 44ch;
+  margin: 0;
+}
+
+.tas-yakinlik-kapanis {
+  font-size: 15px;
+  color: var(--c-bakir);
+  margin: var(--space-md) 0 0;
+}
+
+/* Enerji etiketleri — madde madde, hızlı taranabilir */
+.tas-etiket-liste {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.tas-etiket-liste li {
+  font-size: 13.5px;
+  color: var(--c-sicak-siyah);
+  padding: 7px 13px;
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: var(--r-pill);
+  max-width: none;
+  margin: 0;
+}
+
+.tas-burc-not {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--c-bakir);
+  max-width: 48ch;
+  margin: var(--space-md) 0 0;
+}
+
+.tas-cakra {
+  margin: 0;
+  max-width: 56ch;
+}
+
+.tas-cakra div {
+  padding: 11px 0;
+  border-bottom: 0.5px solid var(--c-line-soft);
+}
+
+.tas-cakra div:last-child { border-bottom: none; }
+.tas-cakra dt { font-size: 14.5px; color: var(--c-sicak-siyah); margin-bottom: 3px; }
+.tas-cakra dd { margin: 0; font-size: 13.5px; color: var(--c-toprak); }
+
+.tas-neden p {
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1.6;
+  color: var(--c-sicak-siyah);
+  max-width: 50ch;
+}
+
+/* Geleneksel inanış notu — okunur ama baskın değil */
+.tas-bilgi-notu {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+  max-width: 66ch;
+  margin: var(--space-lg) 0 0;
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--c-bakir-cizgi);
+}
+
+/* ── Sayfa sonu CTA ── */
+.tas-son-cta {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  margin-top: var(--space-xl);
+  background: var(--c-soft-bej);
+  border-radius: 4px;
+}
+
+.tas-son-cta h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(21px, 3vw, 28px);
+  color: var(--c-sicak-siyah);
+  margin: 0 0 8px;
+}
+
+.tas-son-cta p {
+  font-size: 14.5px;
+  color: var(--c-toprak);
+  margin: 0 0 var(--space-lg);
+}

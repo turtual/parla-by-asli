@@ -1,0 +1,114 @@
+{
+  "_okuma_notu": [
+    "Taş ansiklopedisinin EDITORIAL katmanı. Mineral bilgisi (taslar*.json) ayrı",
+    "duruyor: orası doğrulanabilir bilim, burası markanın sesi. İkisini ayrı",
+    "tutmak, birini güncellerken diğerini bozmamayı sağlıyor.",
+    "",
+    "Buradaki hiçbir alan zorunlu değil. Bir taşta hangi alan yoksa o bölüm",
+    "sayfada HİÇ render edilmiyor — boş başlık ya da uydurma içerik çıkmıyor.",
+    "Şu an yalnız Lapis Lazuli tam dolu (prototip); diğerlerinde sadece kart",
+    "cümlesi var ya da hiç kayıt yok.",
+    "",
+    "DİL KURALI: burç, çakra ve enerji alanları geleneksel kristal kültürünün",
+    "aktarımıdır, sağlık iddiası değildir. Metinleri 'geleneksel kaynaklarda",
+    "... ile ilişkilendirilir' kipinde yaz. 'İyileştirir', 'tedavi eder',",
+    "'giderir' gibi ifadeler kullanma."
+  ],
+
+  "_niyetler": {
+    "kendini-ifade": "Kendini İfade",
+    "sezgi": "Sezgi",
+    "icsel-farkindalik": "İçsel Farkındalık",
+    "ozguven": "Özgüven",
+    "sakinlik": "Sakinlik",
+    "cesaret": "Cesaret",
+    "sevgi": "Sevgi",
+    "odak": "Odak",
+    "denge": "Denge",
+    "yeni-baslangiclar": "Yeni Başlangıçlar",
+    "enerji": "Enerji"
+  },
+
+  "_renkler": {
+    "mavi": "Mavi",
+    "yesil": "Yeşil",
+    "mor": "Mor",
+    "pembe": "Pembe",
+    "kirmizi": "Kırmızı",
+    "sari": "Sarı",
+    "beyaz": "Beyaz",
+    "siyah": "Siyah",
+    "toprak": "Toprak"
+  },
+
+  "taslar": {
+    "lapis-lazuli": {
+      "kisaKimlik": "Kendini daha açık ifade etmek isteyenlere.",
+      "renkGrubu": "mavi",
+
+      "giris": "Derin lacivert tonu ve kendine özgü altın renkli pirit izleriyle Lapis Lazuli, yüzyıllardır dikkat çeken doğal taşlardan biri. Geleneksel inanışlarda kendini ifade etme, sezgi ve içsel farkındalıkla ilişkilendirilir.",
+
+      "sanaGoreMi": [
+        "Kendini daha açık ifade etmek istiyorsan,",
+        "sezgilerine biraz daha kulak vermek istiyorsan,",
+        "güçlü maviler seni çekiyorsa",
+        "ve karakterli takıları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Lapis Lazuli sana yakın gelebilir.",
+
+      "niyetler": ["kendini-ifade", "sezgi", "icsel-farkindalik", "ozguven"],
+
+      "enerji": [
+        "Kendini ifade etme",
+        "Sezgi",
+        "İçsel farkındalık",
+        "Özgüven",
+        "Zihinsel berraklık"
+      ],
+
+      "burclar": ["Yay", "Kova"],
+
+      "cakralar": [
+        { "ad": "Boğaz çakrası", "aciklama": "İletişim ve kendini ifade etme" },
+        { "ad": "Üçüncü göz çakrası", "aciklama": "Sezgi ve farkındalık" }
+      ],
+
+      "nedenBugun": "Söylemek istediklerini biraz daha cesur söylemek, kendi sesini hatırlamak ya da sadece o güçlü maviyi üzerinde taşımak için."
+    },
+
+    "ametist": {
+      "kisaKimlik": "Biraz yavaşlamaya ihtiyacı olanlara.",
+      "renkGrubu": "mor"
+    },
+
+    "akik": {
+      "kisaKimlik": "Ayakları yere basanlardan.",
+      "renkGrubu": "toprak"
+    },
+
+    "gul-kuvars": {
+      "kisaKimlik": "Kendine biraz daha nazik davranmak isteyenlere.",
+      "renkGrubu": "pembe"
+    },
+
+    "kaplan-gozu": {
+      "kisaKimlik": "Kararının arkasında durmak isteyenlere.",
+      "renkGrubu": "toprak"
+    },
+
+    "sitrin": {
+      "kisaKimlik": "Biraz daha ışık isteyenlere.",
+      "renkGrubu": "sari"
+    },
+
+    "inci": {
+      "kisaKimlik": "Sessiz ama fark edilenlere.",
+      "renkGrubu": "beyaz"
+    },
+
+    "amazonit": {
+      "kisaKimlik": "Kendi ritmini bulmak isteyenlere.",
+      "renkGrubu": "yesil"
+    }
+  }
+}
