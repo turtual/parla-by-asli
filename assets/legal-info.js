@@ -42,7 +42,9 @@ window.PB_SATICI = {
   adres: 'Osmangazi Mah. Dumlupınar Cad. Çiçek Kardeşler No: 154/1 İç Kapı No: 28, Bayraklı / İzmir',
 
   telefon: '0536 636 99 96',
-  eposta: 'parlabyasli@outlook.com',
+  /* Yedek değer. Asıl kaynak panel: Metinler → "İletişim e-posta adresi".
+     Buradaki adres yalnız veritabanına ulaşılamazsa kullanılıyor. */
+  eposta: 'siparis.parlabyasli@outlook.com',
 
   /* ── Operasyon ──
    * Kişiye özel tasarım stüdyosu kaldırıldı (Temmuz 2026) — katalogda
@@ -194,7 +196,7 @@ window.PB_SATICI = {
    * hesapta geçiyor. Ayrı ayrı tutulursa yasal metin bir tutar yazarken
    * müşteriden başka tutar tahsil edilebilir.
    */
-  const kargoHazir = (async function kargoyuYukle() {
+  const saticiHazir = (async function saticiBilgisiniYukle() {
     try {
       if (typeof PB_Data === 'undefined' || !PB_Data.getSiteTexts) return;
       const texts = await PB_Data.getSiteTexts();
@@ -210,9 +212,17 @@ window.PB_SATICI = {
       if (texts.kargo_ucreti != null && texts.kargo_ucreti !== '') {
         S.kargoUcreti = sayi(texts.kargo_ucreti, S.kargoUcreti);
       }
+
+      /* İletişim e-postası panelden yönetiliyor. Yedi yasal sayfa, iletişim
+         sayfası ve "bize yaz" bağlantıları aynı değeri kullandığı için tek
+         yerden değişmesi gerekiyordu — eskiden yalnız bu dosyada sabitti. */
+      const eposta = String(texts.iletisim_eposta || '').trim();
+      if (eposta && /^[^@s]+@[^@s]+.[^@s]+$/.test(eposta)) {
+        S.eposta = eposta;
+      }
     } catch (e) {
       // Sessizce varsayılanlarda kal — yasal sayfa yine de dolu görünür
-      console.warn('Kargo bilgisi çekilemedi, varsayılanlar kullanılıyor:', e);
+      console.warn('Satıcı bilgisi çekilemedi, varsayılanlar kullanılıyor:', e);
     }
   })();
 
@@ -221,7 +231,7 @@ window.PB_SATICI = {
     mailtoBagla();
     uyariBandi();
     // DB'den gelen kargo değerleri geldiğinde ilgili span'ları tazele
-    kargoHazir.then(() => doldur(document));
+    saticiHazir.then(() => doldur(document));
   }
 
   if (document.readyState === 'loading') {
@@ -232,11 +242,11 @@ window.PB_SATICI = {
 
   /** Kasadaki hesap için: DB değerleri yüklendikten sonraki kargo bilgisi. */
   async function kargo() {
-    await kargoHazir;
+    await saticiHazir;
     return { esik: S.ucretsizKargoEsigi, ucret: S.kargoUcreti };
   }
 
   // Diğer scriptler kullanabilsin (örn. assets/content.js dinamik içerik
   // bastıktan sonra hem doldur hem mailtoBagla'yı tekrar çağırır)
-  window.PB_SaticiBilgi = { deger, doldur, mailtoBagla, kargo, kargoHazir };
+  window.PB_SaticiBilgi = { deger, doldur, mailtoBagla, kargo, saticiHazir };
 })(window, document);

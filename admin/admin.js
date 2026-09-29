@@ -2167,7 +2167,24 @@
       const saveBtn = card.querySelector('[data-action="save"]');
       const status = card.querySelector('.status-msg');
 
+      /* Bazı alanların biçimi site tarafında doğrulanıyor ve hatalıysa
+         sessizce yedek değere düşülüyor. Panelde "Kaydedildi ✓" görüp
+         sitede değişmediğini fark etmemek kötü bir sürpriz — o yüzden
+         kaydetmeden önce burada uyarıyoruz. */
+      const BICIM_KURALLARI = {
+        iletisim_eposta: {
+          gecerli: d => /^[^@s]+@[^@s]+.[^@s]+$/.test(String(d).trim()),
+          mesaj: 'Geçerli bir e-posta adresi yaz (örn. siparis@parlabyasli.com)'
+        }
+      };
+
       async function kaydet(deger) {
+        const kural = BICIM_KURALLARI[key];
+        if (kural && String(deger).trim() && !kural.gecerli(deger)) {
+          showStatus(status, kural.mesaj, 'error');
+          return false;
+        }
+
         const { error } = await PB_Data.adminUpdateSiteText(key, deger);
         showStatus(status, error ? 'Kaydedilemedi: ' + (error.message || error) : 'Kaydedildi ✓', error ? 'error' : 'success');
         return !error;
