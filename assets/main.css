@@ -3524,8 +3524,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .story-media-seal {
   width: 45%;
   max-width: 160px;
-  color: var(--c-bakir-cizgi);
   opacity: 0.55;
+  /* Rengi SVG dosyasının içinde — yukarıdaki nota bakınız. */
 }
 
 .story-metin { max-width: 46ch; }
@@ -4032,9 +4032,12 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .footer-brand-seal {
   width: 56px;
   height: 56px;
-  color: var(--c-bakir-light);
   opacity: 0.9;
   margin-bottom: var(--space-sm);
+  /* Renk CSS'ten verilemiyor: mühür <img> ile yükleniyor ve harici SVG
+     sayfanın renklerini almıyor — currentColor siyaha düşüp koyu yeşil
+     footer'da kayboluyordu. Bakır ton artık dosyanın içinde
+     (assets/img/logo-seal-bakir.svg). */
 }
 
 .footer-brand-text {
