@@ -2839,6 +2839,16 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   margin: 0 0 var(--space-md);
 }
 
+/* Panelden gelen serbest metinde yazarın satır sonları korunsun —
+   tarayıcı normalde ardışık satır sonlarını tek boşluğa indiriyor ve
+   Hikâyemiz gibi sayfalar tek blok halinde görünüyordu.
+   Yalnız .cp-metin (content.js'in ürettiği paragraflar) hedefleniyor:
+   yasal sayfaların statik HTML'i girintili yazıldığı için genel bir
+   .legal-body p kuralı oralarda yapay satır sonları oluştururdu. */
+.legal-body p.cp-metin {
+  white-space: pre-line;
+}
+
 .legal-body ul,
 .legal-body ol {
   padding-left: 1.25rem;

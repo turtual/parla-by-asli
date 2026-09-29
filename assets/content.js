@@ -69,7 +69,7 @@
     const html = (blocks || []).map(b => {
       if (b.type === 'heading') return `<h2>${pbFormatInline(b.text)}</h2>`;
       if (b.type === 'subheading') return `<h3>${pbFormatInline(b.text)}</h3>`;
-      if (b.type === 'paragraph') return `<p>${pbFormatInline(b.text)}</p>`;
+      if (b.type === 'paragraph') return `<p class="cp-metin">${pbFormatInline(b.text)}</p>`;
 
       if (b.type === 'list') {
         const tag = b.ordered ? 'ol' : 'ul';
@@ -84,7 +84,7 @@
         return `<div class="legal-table-wrap"><table class="legal-table"><tbody>${rows}</tbody></table></div>`;
       }
 
-      if (b.type === 'note') return `<div class="legal-note"><p>${pbFormatInline(b.text)}</p></div>`;
+      if (b.type === 'note') return `<div class="legal-note"><p class="cp-metin">${pbFormatInline(b.text)}</p></div>`;
 
       return '';
     }).join('');
