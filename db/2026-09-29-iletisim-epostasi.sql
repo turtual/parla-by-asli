@@ -27,3 +27,13 @@ update public.site_texts
    set value = 'siparis.parlabyasli@outlook.com'
  where key = 'iletisim_eposta'
    and value = 'parlabyasli@outlook.com';
+
+
+/* ─────────── Taşını Bul bölümünün başlığı ───────────
+   Bölümde üst üste iki başlık vardı ("Taşını Bul" / "Taşınla başla");
+   biri kaldırıldı ve kalan başlık da panelden düzenlenebilir oldu.
+   Açıklama satırı (tasini_bul_metni) zaten yönetiliyordu. */
+
+insert into public.site_texts (key, label, value) values
+  ('tasini_bul_baslik', 'Taşını Bul — başlık', 'Taşını Bul')
+on conflict (key) do nothing;

@@ -37,6 +37,7 @@
       'hero-eyebrow-text': 'hero_eyebrow',
       'hero-cta-text': 'hero_cta_metni',
       'editorial-metni': 'editorial_metni',
+      'tasini-bul-baslik': 'tasini_bul_baslik',
       'tasini-bul-metni': 'tasini_bul_metni',
       'kutu-baslik-text': 'kutu_baslik',
       'kutu-metin-text': 'kutu_metni',

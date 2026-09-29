@@ -2106,6 +2106,14 @@
     document.body.appendChild(kat);
   }
 
+  /* Metin kutusunun açılış yüksekliği: içerik kaç satırsa o kadar
+     (en az 2, en çok 18). Sabit iki satırken sekiz paragraflık hikâye
+     metni dar bir yarıkta görünüyor, paragrafları ayırmak zor oluyordu. */
+  function satirSayisi(deger) {
+    const satir = String(deger || '').split(/\r?\n/).length;
+    return Math.min(18, Math.max(2, satir + 1));
+  }
+
   function renderSiteTextsList(texts) {
     if (!texts.length) {
       siteTextsList.innerHTML = '<div class="empty-state"><p>Henüz site metni yok.</p></div>';
@@ -2152,7 +2160,7 @@
         <div class="text-field-card" data-key="${escapeHtml(t.key)}">
           <label>${escapeHtml(t.label)}</label>
           ${gorselAlani}
-          <textarea class="text-field-input" rows="2">${escapeHtml(t.value)}</textarea>
+          <textarea class="text-field-input" rows="${satirSayisi(t.value)}">${escapeHtml(t.value)}</textarea>
           <div class="text-field-actions">
             <button type="button" class="btn btn-ghost" data-action="save">KAYDET</button>
             <span class="status-msg" style="display:none;"></span>
@@ -2164,6 +2172,20 @@
     siteTextsList.querySelectorAll('.text-field-card').forEach(card => {
       const key = card.dataset.key;
       const textarea = card.querySelector('textarea');
+
+      /* Kutu içeriğe göre büyüyor. Sabit iki satırken sekiz paragraflık
+         hikâye metni dar bir yarıkta görünüyordu; paragrafların nerede
+         bittiğini görmeden düzenlemek zordu. */
+      if (textarea) {
+        const boyutla = () => {
+          textarea.style.height = 'auto';
+          textarea.style.height = Math.min(460, textarea.scrollHeight + 2) + 'px';
+        };
+        textarea.addEventListener('input', boyutla);
+        // Sekme ilk açıldığında kutu gizliyken scrollHeight 0 döner;
+        // bir sonraki karede ölçüyoruz.
+        requestAnimationFrame(boyutla);
+      }
       const saveBtn = card.querySelector('[data-action="save"]');
       const status = card.querySelector('.status-msg');
 

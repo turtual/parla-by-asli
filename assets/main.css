@@ -3484,6 +3484,10 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   .story-grid {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-2xl);
+    /* center yerine stretch: fotoğraf metin sütunuyla aynı yüksekliği
+       alsın. Sabit orana kilitliyken metin uzadıkça fotoğraf yanında ince
+       bir şerit gibi kalıyordu. */
+    align-items: stretch;
   }
 }
 
@@ -3494,7 +3498,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 @media (min-width: 860px) {
-  .story-media { aspect-ratio: 3 / 4; }
+  /* Yükseklik artık metne göre; oran serbest, kırpmayı object-fit yapıyor.
+     Alt sınır, metin çok kısaldığında fotoğrafın basık görünmemesi için. */
+  .story-media {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 420px;
+  }
 }
 
 .story-media img {

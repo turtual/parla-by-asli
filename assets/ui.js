@@ -49,6 +49,9 @@ const PB_Modal = {
   close(id) {
     const m = document.getElementById(id);
     if (!m) return;
+    if (id === 'product-modal' && typeof PB_urunAdresiGeriAl === 'function') {
+      PB_urunAdresiGeriAl();
+    }
     m.classList.remove('is-open');
     document.body.style.overflow = '';
     setTimeout(() => m.setAttribute('hidden', ''), 250);
@@ -375,6 +378,44 @@ function renderProductCard(p, animDelay = 0) {
 
 /* ──────────── Ürün detay modal (Koleksiyon) ──────────── */
 
+/* Ürün penceresi açılınca adres çubuğu o ürünün kendi adresine dönüyor.
+   İki işe yarıyor:
+     · Linki kopyalayıp paylaşmak — pencere açıkken adres değişmediği için
+       ürüne link vermek mümkün olmuyordu (panelde kombin bölümüne ürün
+       bağlamak isteyince kategori sayfasına linklemek gerekiyordu)
+     · Telefonda geri tuşu pencereyi kapatıyor, sayfadan çıkmıyor
+   Sayfa gerçekten /urun/<slug>/ adresine gitmiyor; yalnız adres yazısı
+   değişiyor (pushState). Pencere kapanınca eski adrese dönülüyor. */
+let PB_ModalOncekiAdres = null;
+
+function PB_urunAdresiYaz(slug) {
+  if (!window.history || !history.pushState) return;
+  const kok = document.documentElement.getAttribute('data-kok') || '';
+  try {
+    PB_ModalOncekiAdres = location.href;
+    history.pushState({ pbUrun: slug }, '', kok + 'urun/' + slug + '/');
+  } catch (e) {
+    PB_ModalOncekiAdres = null;   // farklı köken vb. — adresi olduğu gibi bırak
+  }
+}
+
+function PB_urunAdresiGeriAl() {
+  if (!PB_ModalOncekiAdres || !window.history) return;
+  try {
+    history.replaceState({}, '', PB_ModalOncekiAdres);
+  } catch (e) { /* önemsiz */ }
+  PB_ModalOncekiAdres = null;
+}
+
+/* Geri tuşu: pencere açıkken basılırsa pencereyi kapat, sayfadan çıkma */
+window.addEventListener('popstate', () => {
+  const m = document.getElementById('product-modal');
+  if (m && m.classList.contains('is-open')) {
+    PB_ModalOncekiAdres = null;   // adresi tarayıcı zaten geri aldı
+    PB_Modal.close('product-modal');
+  }
+});
+
 async function PB_openProductModal(slug) {
   const product = (typeof getProductBySlug === 'function') ? await getProductBySlug(slug) : null;
   if (!product) return;
@@ -391,6 +432,7 @@ async function PB_openProductModal(slug) {
 
   // Aç
   PB_Modal.open('product-modal');
+  PB_urunAdresiYaz(product.slug);
 }
 
 function PB_buildProductModalShell() {
