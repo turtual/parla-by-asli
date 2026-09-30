@@ -360,7 +360,7 @@ function tasSayfasi(tas, onceki, sonraki) {
           <p class="tas-bolum-giris">
             Geleneksel kristal ve astroloji kaynaklarında
             ${k.burclar.map(b => `<strong>${esc(b)}</strong>`).join(' ve ')}
-            burcuyla ilişkilendirilir.
+            ${k.burclar.length > 1 ? 'burçlarıyla' : 'burcuyla'} ilişkilendirilir.
           </p>
           <p class="tas-burc-not">
             Burcunun taşı olmak zorunda değil. Seni çeken taş, bazen en güzel başlangıçtır.

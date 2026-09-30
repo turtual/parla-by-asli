@@ -6,15 +6,21 @@
     "",
     "Buradaki hiçbir alan zorunlu değil. Bir taşta hangi alan yoksa o bölüm",
     "sayfada HİÇ render edilmiyor — boş başlık ya da uydurma içerik çıkmıyor.",
-    "Şu an yalnız Lapis Lazuli tam dolu (prototip); diğerlerinde sadece kart",
-    "cümlesi var ya da hiç kayıt yok.",
+    "49 taşın tamamı dolu.",
+    "",
+    "KAYNAK: her taşın enerji/niyet etiketleri, mineral verisindeki \"gelenek\"",
+    "bölümünde yazılı temalardan türetildi. Yeni bir taş eklerken önce oradaki",
+    "geleneksel anlatıyı yaz, etiketi ondan çıkar — tersi değil.",
+    "",
+    "NIYET ETIKETI KURALI: bir niyet, ancak taşın enerji listesinin ilk üçünde",
+    "karşılığı varsa verilir. Yoksa filtre neredeyse her taşı döndürür ve",
+    "keşfe yaramaz. (Bir kez 32/49 taşta \"denge\" vardı; kural bundan doğdu.)",
     "",
     "DİL KURALI: burç, çakra ve enerji alanları geleneksel kristal kültürünün",
-    "aktarımıdır, sağlık iddiası değildir. Metinleri 'geleneksel kaynaklarda",
-    "... ile ilişkilendirilir' kipinde yaz. 'İyileştirir', 'tedavi eder',",
-    "'giderir' gibi ifadeler kullanma."
+    "aktarımıdır, sağlık iddiası değildir. Metinleri \"geleneksel kaynaklarda",
+    "... ile ilişkilendirilir\" kipinde yaz. \"İyileştirir\", \"tedavi eder\",",
+    "\"giderir\" gibi ifadeler kullanma."
   ],
-
   "_niyetler": {
     "kendini-ifade": "Kendini İfade",
     "sezgi": "Sezgi",
@@ -28,7 +34,6 @@
     "yeni-baslangiclar": "Yeni Başlangıçlar",
     "enerji": "Enerji"
   },
-
   "_renkler": {
     "mavi": "Mavi",
     "yesil": "Yeşil",
@@ -40,14 +45,11 @@
     "siyah": "Siyah",
     "toprak": "Toprak"
   },
-
   "taslar": {
     "lapis-lazuli": {
       "kisaKimlik": "Kendini daha açık ifade etmek isteyenlere.",
       "renkGrubu": "mavi",
-
       "giris": "Derin lacivert tonu ve kendine özgü altın renkli pirit izleriyle Lapis Lazuli, yüzyıllardır dikkat çeken doğal taşlardan biri. Geleneksel inanışlarda kendini ifade etme, sezgi ve içsel farkındalıkla ilişkilendirilir.",
-
       "sanaGoreMi": [
         "Kendini daha açık ifade etmek istiyorsan,",
         "sezgilerine biraz daha kulak vermek istiyorsan,",
@@ -55,9 +57,12 @@
         "ve karakterli takıları seviyorsan…"
       ],
       "sanaGoreMiKapanis": "Lapis Lazuli sana yakın gelebilir.",
-
-      "niyetler": ["kendini-ifade", "sezgi", "icsel-farkindalik", "ozguven"],
-
+      "niyetler": [
+        "kendini-ifade",
+        "sezgi",
+        "ozguven",
+        "icsel-farkindalik"
+      ],
       "enerji": [
         "Kendini ifade etme",
         "Sezgi",
@@ -65,50 +70,1687 @@
         "Özgüven",
         "Zihinsel berraklık"
       ],
-
-      "burclar": ["Yay", "Kova"],
-
-      "cakralar": [
-        { "ad": "Boğaz çakrası", "aciklama": "İletişim ve kendini ifade etme" },
-        { "ad": "Üçüncü göz çakrası", "aciklama": "Sezgi ve farkındalık" }
+      "burclar": [
+        "Yay",
+        "Kova"
       ],
-
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
       "nedenBugun": "Söylemek istediklerini biraz daha cesur söylemek, kendi sesini hatırlamak ya da sadece o güçlü maviyi üzerinde taşımak için."
     },
-
     "ametist": {
       "kisaKimlik": "Biraz yavaşlamaya ihtiyacı olanlara.",
-      "renkGrubu": "mor"
+      "renkGrubu": "mor",
+      "giris": "Açık leylaktan koyu mora uzanan tonlarıyla ametist, Antik Yunan'dan bu yana bilinen en tanınmış doğal taşlardan biri. Şubat ayının doğum taşıdır ve geleneksel kaynaklarda sakinlik, durulma ve içsel farkındalıkla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Günün hızını biraz düşürmek istiyorsan,",
+        "kafanın içindeki gürültüyü azaltmak istiyorsan,",
+        "mor tonları seni dinlendiriyorsa",
+        "ve sade ama derin bir renk arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Ametist sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "sezgi",
+        "icsel-farkindalik"
+      ],
+      "enerji": [
+        "Sakinlik",
+        "Durulma",
+        "İçsel farkındalık",
+        "Sezgi",
+        "Denge"
+      ],
+      "burclar": [
+        "Balık",
+        "Kova",
+        "Oğlak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        },
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Yoğun bir günün ortasında biraz yavaşlamak, kendi temponu geri almak ya da sadece o derin moru üzerinde taşımak için."
     },
-
     "akik": {
       "kisaKimlik": "Ayakları yere basanlardan.",
-      "renkGrubu": "toprak"
+      "renkGrubu": "toprak",
+      "giris": "Kahve, kırmızı, gri ve beyazın bantlar hâlinde sıralandığı akik, insanlığın en eski süs taşlarından biri. Her parçanın deseni farklıdır. Halk inanışında denge ve topraklanma temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sakin ve sağlam bir zemin arıyorsan,",
+        "gösterişten çok karakter istiyorsan,",
+        "toprak tonları sana iyi geliyorsa",
+        "ve her parçanın tek olmasını önemsiyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Akik sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "sakinlik"
+      ],
+      "enerji": [
+        "Denge",
+        "Topraklanma",
+        "Sakinlik",
+        "Dayanıklılık"
+      ],
+      "burclar": [
+        "Boğa",
+        "İkizler"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Ayaklarını yere daha sağlam basmak, günün dağınıklığını toplamak ya da desenin tekliğini üzerinde taşımak için."
     },
-
     "gul-kuvars": {
       "kisaKimlik": "Kendine biraz daha nazik davranmak isteyenlere.",
-      "renkGrubu": "pembe"
+      "renkGrubu": "pembe",
+      "giris": "Soluk pembeden gül pembesine uzanan yumuşak tonuyla gül kuvars, rengini içindeki mikroskobik liflere borçlu. Halk inanışında sevgi ve şefkat temalarıyla anılır; modern doğal taş kültüründe en çok bu anlatıyla bilinir.",
+      "sanaGoreMi": [
+        "Kendine biraz daha nazik davranmak istiyorsan,",
+        "sevdiklerine yakın hissetmek istiyorsan,",
+        "yumuşak pembeler seni sakinleştiriyorsa",
+        "ve sade bir zarafet arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Gül kuvars sana yakın gelebilir.",
+      "niyetler": [
+        "sevgi",
+        "sakinlik"
+      ],
+      "enerji": [
+        "Sevgi",
+        "Şefkat",
+        "Yumuşama",
+        "Kendine iyi davranma"
+      ],
+      "burclar": [
+        "Boğa",
+        "Terazi"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Kendine biraz alan açmak, sevdiğin birini yanında hissetmek ya da o yumuşak pembeyi üzerinde taşımak için."
     },
-
     "kaplan-gozu": {
       "kisaKimlik": "Kararının arkasında durmak isteyenlere.",
-      "renkGrubu": "toprak"
+      "renkGrubu": "toprak",
+      "giris": "Altın sarısı ve kahve bantları ışıkta kayıyormuş gibi görünen kaplan gözü, bu etkisini şatoyans denen optik olguya borçlu. Modern doğal taş kültüründe kararlılık ve odak temalarıyla anılır.",
+      "sanaGoreMi": [
+        "Verdiğin kararın arkasında durmak istiyorsan,",
+        "dikkatini bir yere toplamak istiyorsan,",
+        "sıcak altın tonları seni çekiyorsa",
+        "ve hareketli bir yüzey seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Kaplan gözü sana yakın gelebilir.",
+      "niyetler": [
+        "odak",
+        "ozguven",
+        "cesaret"
+      ],
+      "enerji": [
+        "Odak",
+        "Kararlılık",
+        "Özgüven",
+        "Cesaret"
+      ],
+      "burclar": [
+        "Aslan",
+        "Başak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Solar pleksus çakrası",
+          "aciklama": "Özgüven ve irade"
+        },
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Zor bir karara netlik katmak, dikkatini toparlamak ya da ışıkta kayan o altın bandı üzerinde taşımak için."
     },
-
     "sitrin": {
       "kisaKimlik": "Biraz daha ışık isteyenlere.",
-      "renkGrubu": "sari"
+      "renkGrubu": "sari",
+      "giris": "Açık sarıdan bala ve ambere uzanan tonlarıyla sitrin, kuvarsın sarı çeşidi. Modern doğal taş kültüründe bolluk ve canlılık temalarıyla ilişkilendirilir; \"tüccar taşı\" adlandırması bu anlatının yakın dönem ürünüdür.",
+      "sanaGoreMi": [
+        "Güne biraz daha ışıkla başlamak istiyorsan,",
+        "yeni bir şeye niyetlendiysen,",
+        "sıcak sarılar seni iyi hissettiriyorsa",
+        "ve canlı bir taş arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Sitrin sana yakın gelebilir.",
+      "niyetler": [
+        "enerji",
+        "ozguven",
+        "yeni-baslangiclar"
+      ],
+      "enerji": [
+        "Canlılık",
+        "Özgüven",
+        "Yeni başlangıçlar",
+        "Bolluk"
+      ],
+      "burclar": [
+        "Koç",
+        "İkizler",
+        "Aslan"
+      ],
+      "cakralar": [
+        {
+          "ad": "Solar pleksus çakrası",
+          "aciklama": "Özgüven ve irade"
+        }
+      ],
+      "nedenBugun": "Yeni bir işe başlarken, güne biraz daha ışık katmak ya da o bal rengini üzerinde taşımak için."
     },
-
     "inci": {
       "kisaKimlik": "Sessiz ama fark edilenlere.",
-      "renkGrubu": "beyaz"
+      "renkGrubu": "beyaz",
+      "giris": "İnci mineral değil: canlı bir organizmanın ürünü ve takıdaki tek organik \"taş\"lardan biri. Haziran ayının doğum taşıdır. Geleneksel anlatılarda sadelik, sakinlik ve olgunlukla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sade ama fark edilen bir zarafet arıyorsan,",
+        "gösterişsiz bir güven hissi istiyorsan,",
+        "beyazın yumuşak parıltısı seni çekiyorsa",
+        "ve klasikten vazgeçemiyorsan…"
+      ],
+      "sanaGoreMiKapanis": "İnci sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "denge"
+      ],
+      "enerji": [
+        "Sakinlik",
+        "Sadelik",
+        "Denge",
+        "Olgunluk"
+      ],
+      "burclar": [
+        "Yengeç",
+        "İkizler",
+        "Balık"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Sade kalmak ama fark edilmek, gününe yumuşak bir parıltı katmak ya da klasiği yeniden denemek için."
     },
-
     "amazonit": {
       "kisaKimlik": "Kendi ritmini bulmak isteyenlere.",
-      "renkGrubu": "yesil"
+      "renkGrubu": "yesil",
+      "giris": "Beyaz damarlarıyla dolaşan mavi-yeşil tonuyla amazonit, adını Amazon'dan alır ama orada bulunmaz. Modern doğal taş kültüründe tazelik ve dinginlik anlatısıyla anılır — bu, rengin çağrışımından beslenen bir yakıştırmadır.",
+      "sanaGoreMi": [
+        "Kendi temponu bulmak istiyorsan,",
+        "söylemek istediklerini sakin söylemek istiyorsan,",
+        "deniz yeşili tonlar seni dinlendiriyorsa",
+        "ve damarlı dokular hoşuna gidiyorsa…"
+      ],
+      "sanaGoreMiKapanis": "Amazonit sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "kendini-ifade"
+      ],
+      "enerji": [
+        "Dinginlik",
+        "Tazelik",
+        "Kendini ifade etme",
+        "Denge"
+      ],
+      "burclar": [
+        "Başak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        },
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Kendi ritmine dönmek, sakin bir konuşmaya hazırlanmak ya da o deniz yeşilini üzerinde taşımak için."
+    },
+    "akuamarin": {
+      "kisaKimlik": "Sakin kalmayı seçenlere.",
+      "renkGrubu": "mavi",
+      "giris": "Adını Latince \"deniz suyu\"ndan alan akuamarin, zümrütle aynı mineral ailesinden gelir; farkı mavisini veren demirdir. Mart ayının doğum taşıdır. Modern doğal taş kültüründe genellikle sakinlik ve ifade rahatlığı temalarıyla anılır.",
+      "sanaGoreMi": [
+        "Sakin kalmayı önemsiyorsan,",
+        "söylemek istediklerini rahat söylemek istiyorsan,",
+        "açık mavi tonlar seni dinlendiriyorsa",
+        "ve berrak taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Akuamarin sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "kendini-ifade"
+      ],
+      "enerji": [
+        "Sakinlik",
+        "İfade rahatlığı",
+        "Berraklık",
+        "Denge"
+      ],
+      "burclar": [
+        "Balık",
+        "Kova",
+        "Terazi"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        }
+      ],
+      "nedenBugun": "Zor bir konuşma öncesi sakin kalmak, kendini rahat ifade etmek ya da o deniz mavisini üzerinde taşımak için."
+    },
+    "ametrin": {
+      "kisaKimlik": "İki tarafı da olanlara.",
+      "renkGrubu": "mor",
+      "giris": "Aynı kristalin bir yanı mor, bir yanı sarı: ametrin hem ametist hem sitrin barındırır ve neredeyse tek kaynağı Bolivya'da bir madendir. Modern doğal taş kültüründe iki zıt niteliğin birleşimi temasıyla anılır — bu, taşın görünüşünden türetilmiş yakın dönem bir anlatıdır.",
+      "sanaGoreMi": [
+        "İki ucu bir arada tutmaya çalışıyorsan,",
+        "hem sakin hem canlı kalmak istiyorsan,",
+        "mor ve sarının aynı taşta buluşması ilgini çekiyorsa",
+        "ve alışılmadık bir parça arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Ametrin sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "odak",
+        "enerji"
+      ],
+      "enerji": [
+        "Denge",
+        "Zıtlıkların uyumu",
+        "Odak",
+        "Canlılık"
+      ],
+      "burclar": [
+        "Terazi",
+        "Yay"
+      ],
+      "cakralar": [
+        {
+          "ad": "Solar pleksus çakrası",
+          "aciklama": "Özgüven ve irade"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "İki şey arasında denge kurmak, hem sakin hem hareketli bir gün geçirmek ya da o ikili rengi üzerinde taşımak için."
+    },
+    "angelit": {
+      "kisaKimlik": "Yumuşak konuşmayı sevenlere.",
+      "renkGrubu": "mavi",
+      "giris": "Soluk gök mavisi gövdesinde beyaz damarlar taşıyan angelit, Peru kökenli bir anhidrit. Yumuşaklığı ve suya duyarlılığıyla dikkat ister. Modern doğal taş kültüründe sükûnet ve sakin iletişim temalarıyla ilişkilendirilir; antik bir geleneği yoktur, yakın dönemde oluşmuş bir anlatıdır.",
+      "sanaGoreMi": [
+        "Sesini yükseltmeden anlaşılmak istiyorsan,",
+        "gününe sükûnet katmak istiyorsan,",
+        "soluk gök mavisi seni çekiyorsa",
+        "ve hassas ama zarif bir taş kullanabiliyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Angelit sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "kendini-ifade"
+      ],
+      "enerji": [
+        "Sükûnet",
+        "Sakin iletişim",
+        "Yumuşaklık"
+      ],
+      "burclar": [
+        "Kova"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Sakin bir gün geçirmek, yumuşak bir konuşma yapmak ya da o soluk maviyi üzerinde taşımak için."
+    },
+    "apatit": {
+      "kisaKimlik": "Söyleyecek sözü olanlara.",
+      "renkGrubu": "mavi",
+      "giris": "Neon maviden yeşile ve pembeye uzanan apatit, adını \"aldatmak\"tan alır: yüzyıllarca başka taşlarla karıştırılmıştır. Dişlerimizin de mineralidir. Modern doğal taş kültüründe ifade ve açıklık temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Söyleyecek sözün varsa,",
+        "düşündüğünü açık söylemek istiyorsan,",
+        "canlı maviler seni çekiyorsa",
+        "ve alışılmışın dışında bir renk arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Apatit sana yakın gelebilir.",
+      "niyetler": [
+        "kendini-ifade",
+        "ozguven",
+        "odak"
+      ],
+      "enerji": [
+        "Kendini ifade etme",
+        "Açıklık",
+        "Odak",
+        "Özgüven"
+      ],
+      "burclar": [
+        "İkizler",
+        "Terazi"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Söylemek istediğini açıkça söylemek, bir sunuma hazırlanmak ya da o neon maviyi üzerinde taşımak için."
+    },
+    "aventurin": {
+      "kisaKimlik": "Yeni bir şeye başlayanlara.",
+      "renkGrubu": "yesil",
+      "giris": "İçindeki mika pulcukları ışıkta pırıldayan aventurin, adını İtalyanca \"tesadüf\"ten alır. Modern doğal taş kültüründe büyüme ve tazelik çağrışımıyla anılır.",
+      "sanaGoreMi": [
+        "Yeni bir şeye başlıyorsan,",
+        "büyümeye alan açmak istiyorsan,",
+        "yeşilin tazeliği seni iyi hissettiriyorsa",
+        "ve ışıkta pırıldayan dokuları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Aventurin sana yakın gelebilir.",
+      "niyetler": [
+        "yeni-baslangiclar",
+        "sevgi"
+      ],
+      "enerji": [
+        "Büyüme",
+        "Tazelik",
+        "Yeni başlangıçlar",
+        "Denge"
+      ],
+      "burclar": [
+        "Boğa",
+        "Başak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Yeni bir şeye başlarken, kendine alan açmak ya da o pırıldayan yeşili üzerinde taşımak için."
+    },
+    "aytasi": {
+      "kisaKimlik": "Sezgisine güvenenlere.",
+      "renkGrubu": "beyaz",
+      "giris": "Yüzeyinde mavimsi bir ışık akan ay taşı, bu etkisini adularesans denen olguya borçlu. Art Nouveau döneminde René Lalique gibi tasarımcılar tarafından yoğun biçimde kullanılmıştır. Geleneksel anlatılarda sezgi ve döngülerle ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sezgilerine kulak vermek istiyorsan,",
+        "bir geçiş döneminden geçiyorsan,",
+        "yumuşak beyaz parıltılar seni çekiyorsa",
+        "ve ışığa göre değişen taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Ay taşı sana yakın gelebilir.",
+      "niyetler": [
+        "sezgi",
+        "yeni-baslangiclar",
+        "icsel-farkindalik"
+      ],
+      "enerji": [
+        "Sezgi",
+        "İçsel farkındalık",
+        "Yumuşama",
+        "Yeni başlangıçlar"
+      ],
+      "burclar": [
+        "Yengeç",
+        "Balık",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Bir geçiş dönemindeysen, sezgine kulak vermek ya da yüzeyinde akan o ışığı üzerinde taşımak için."
+    },
+    "caroit": {
+      "kisaKimlik": "Değişimin içinde olanlara.",
+      "renkGrubu": "mor",
+      "giris": "Girdaplı beyaz ve siyah desenleriyle mor-leylak çaroit, dünyada tek bir yerde bulunur: Sibirya'da Çara Nehri havzası. Modern doğal taş kültüründe dönüşüm temasıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Hayatında bir şey değişiyorsa,",
+        "o değişimle barışmak istiyorsan,",
+        "girdaplı mor desenler seni çekiyorsa",
+        "ve gerçekten nadir bir taş istiyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Çaroit sana yakın gelebilir.",
+      "niyetler": [
+        "icsel-farkindalik",
+        "denge",
+        "sezgi"
+      ],
+      "enerji": [
+        "Dönüşüm",
+        "İçsel farkındalık",
+        "Denge"
+      ],
+      "burclar": [
+        "Akrep",
+        "Yay"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Bir değişimin ortasındaysan, kendine dönmek ya da o girdaplı moru üzerinde taşımak için."
+    },
+    "dumanli-kuvars": {
+      "kisaKimlik": "Sakinleşmek isteyenlere.",
+      "renkGrubu": "toprak",
+      "giris": "Açık gri-kahveden neredeyse siyaha uzanan dumanlı kuvars, rengini yerin altındaki doğal radyasyona borçlu. Modern doğal taş kültüründe topraklanma ve sakinleşme temalarıyla anılır.",
+      "sanaGoreMi": [
+        "Kafanı dağıtmak değil toplamak istiyorsan,",
+        "sakin bir zemine ihtiyacın varsa,",
+        "füme ve duman tonları seni çekiyorsa",
+        "ve nötr ama karakterli bir taş arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Dumanlı kuvars sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "denge"
+      ],
+      "enerji": [
+        "Topraklanma",
+        "Sakinleşme",
+        "Denge",
+        "Odak"
+      ],
+      "burclar": [
+        "Oğlak",
+        "Yay"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Yoğun bir günü yumuşatmak, kendini toparlamak ya da o duman rengini üzerinde taşımak için."
+    },
+    "florit": {
+      "kisaKimlik": "Kafasını toplamak isteyenlere.",
+      "renkGrubu": "mor",
+      "giris": "\"Floresans\" kelimesi bu mineralden gelir. Mor, yeşil, mavi ve sarının çoğu zaman bantlar hâlinde buluştuğu florit, mineraller arasında en geniş renk skalasına sahip olanlardan. Modern doğal taş kültüründe berraklık ve düzen temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Kafanın içini düzenlemek istiyorsan,",
+        "dağınık bir döneme netlik katmak istiyorsan,",
+        "bantlı mor-yeşil geçişler seni çekiyorsa",
+        "ve her parçası farklı olan taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Florit sana yakın gelebilir.",
+      "niyetler": [
+        "odak"
+      ],
+      "enerji": [
+        "Berraklık",
+        "Düzen",
+        "Odak",
+        "Denge"
+      ],
+      "burclar": [
+        "Balık",
+        "Oğlak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        },
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Dağınık bir günü toparlamak, düşüncelerini sıraya koymak ya da o bantlı renk geçişini üzerinde taşımak için."
+    },
+    "granat": {
+      "kisaKimlik": "Sözünün arkasında duranlara.",
+      "renkGrubu": "kirmizi",
+      "giris": "Granat tek bir taş değil, bir mineral ailesi; adı nardan gelir. En yaygın hâli koyu kırmızıdır. Halk inanışında sadakat ve dayanıklılık temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sözünün arkasında durmayı önemsiyorsan,",
+        "uzun soluklu bağlara değer veriyorsan,",
+        "derin kırmızı seni çekiyorsa",
+        "ve klasik ama güçlü bir taş arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Granat sana yakın gelebilir.",
+      "niyetler": [
+        "cesaret",
+        "ozguven",
+        "sevgi",
+        "enerji"
+      ],
+      "enerji": [
+        "Sadakat",
+        "Dayanıklılık",
+        "Cesaret",
+        "Canlılık"
+      ],
+      "burclar": [
+        "Oğlak",
+        "Kova",
+        "Aslan"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Bir söz verdiysen, dayanıklı hissetmek ya da o derin kırmızıyı üzerinde taşımak için."
+    },
+    "hematit": {
+      "kisaKimlik": "Sağlam durmak isteyenlere.",
+      "renkGrubu": "siyah",
+      "giris": "Metalik gri-siyah görünür ama tozu kan kırmızısıdır; adı da buradan gelir. Hematit ağırlığıyla da hissedilen bir taştır. Halk inanışında koruma ve topraklanma temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sağlam ve dengede durmak istiyorsan,",
+        "dağılan bir günü toparlamak istiyorsan,",
+        "metalik gri seni çekiyorsa",
+        "ve ağırlığı hissedilen takıları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Hematit sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "ozguven"
+      ],
+      "enerji": [
+        "Topraklanma",
+        "Koruma",
+        "Denge",
+        "Odak"
+      ],
+      "burclar": [
+        "Koç",
+        "Kova"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Ayaklarını yere basmak, yoğun bir güne hazırlanmak ya da o metalik grinin ağırlığını üzerinde taşımak için."
+    },
+    "howlit": {
+      "kisaKimlik": "Sabra ihtiyacı olanlara.",
+      "renkGrubu": "beyaz",
+      "giris": "Beyaz gövdesinde gri-siyah damarlarıyla howlit, boyanıp \"turkuaz\" diye satılan taşların başında gelir — biz doğal hâliyle kullanıyoruz. Modern doğal taş kültüründe sakinlik ve sabır temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sabırlı olmaya ihtiyacın varsa,",
+        "aceleyi biraz azaltmak istiyorsan,",
+        "beyaz üzerine damar desenleri seni çekiyorsa",
+        "ve sade bir taş arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Howlit sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik"
+      ],
+      "enerji": [
+        "Sakinlik",
+        "Sabır",
+        "Durulma"
+      ],
+      "burclar": [
+        "İkizler",
+        "Başak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Sabır gerektiren bir gün varsa, aceleni yavaşlatmak ya da o damarlı beyazı üzerinde taşımak için."
+    },
+    "iolit": {
+      "kisaKimlik": "Yönünü arayanlara.",
+      "renkGrubu": "mavi",
+      "giris": "Bakış açısına göre rengi menekşe mavisinden griye ve sarımsıya kayan iolit, Vikinglerin pusulası olduğu düşünülen taş. Modern doğal taş kültüründe yön bulma ve içgörü temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Yönünü arıyorsan,",
+        "bir karar öncesi netlik istiyorsan,",
+        "menekşe mavisi seni çekiyorsa",
+        "ve açıya göre değişen taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "İolit sana yakın gelebilir.",
+      "niyetler": [
+        "sezgi",
+        "icsel-farkindalik"
+      ],
+      "enerji": [
+        "Yön bulma",
+        "İçgörü",
+        "Sezgi",
+        "Odak"
+      ],
+      "burclar": [
+        "Yay",
+        "Terazi"
+      ],
+      "cakralar": [
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Bir yol ayrımındaysan, kendi pusulanı hatırlamak ya da o menekşe maviyi üzerinde taşımak için."
+    },
+    "jasper": {
+      "kisaKimlik": "Toprakla bağını sevenlere.",
+      "renkGrubu": "toprak",
+      "giris": "Kırmızı, kahve, sarı ve yeşilin çoğu zaman manzara resmi gibi desenlendiği jasper, opak bir kalsedon; bu yüzden \"resimli taş\" da denir. Yerli Amerikan kültürlerinde toprakla bağ kurma temasıyla anılır.",
+      "sanaGoreMi": [
+        "Toprakla bağını hissetmek istiyorsan,",
+        "sağlam ve sıcak bir zemin arıyorsan,",
+        "desenli toprak tonları seni çekiyorsa",
+        "ve her parçanın bir manzara gibi olmasını seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Jasper sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "cesaret"
+      ],
+      "enerji": [
+        "Topraklanma",
+        "Dayanıklılık",
+        "Denge",
+        "Cesaret"
+      ],
+      "burclar": [
+        "Koç",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Doğaya yakın hissetmek, gününe sıcak bir zemin katmak ya da o manzara desenini üzerinde taşımak için."
+    },
+    "kalsedon": {
+      "kisaKimlik": "Yumuşak geçişleri sevenlere.",
+      "renkGrubu": "mavi",
+      "giris": "Akik, oniks, karneol ve jasperin ortak üst adı olan kalsedon, dar anlamda mavimsi gri, beyaz ve lavanta tonlarında bulunur. Mikroskobik kuvars liflerinden oluşur. Halk inanışında sakinlik ve uyum temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sakin ve uyumlu bir gün istiyorsan,",
+        "keskin değil yumuşak bir ton arıyorsan,",
+        "sisli maviler seni dinlendiriyorsa",
+        "ve yarı saydam dokuları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Kalsedon sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "denge",
+        "kendini-ifade"
+      ],
+      "enerji": [
+        "Sakinlik",
+        "Uyum",
+        "Yumuşama",
+        "Denge"
+      ],
+      "burclar": [
+        "Yengeç",
+        "Yay"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        }
+      ],
+      "nedenBugun": "Günü yumuşak geçirmek, bir ortama uyum sağlamak ya da o sisli maviyi üzerinde taşımak için."
+    },
+    "kalsit": {
+      "kisaKimlik": "Işığı geçirenlere.",
+      "renkGrubu": "sari",
+      "giris": "Yeryüzünün en yaygın minerallerinden biri olan kalsit, mermeri ve kireçtaşını oluşturur; bal sarısından maviye kadar onlarca renkte bulunur. Mısır'da alabaster adıyla bilinen ve kaplarda kullanılan taşın bir kısmı aslında kalsittir — ışığı geçiren yapısı nedeniyle tapınak kandillerinde tercih edilmiştir.",
+      "sanaGoreMi": [
+        "Gününe biraz ışık katmak istiyorsan,",
+        "sıcak ve yumuşak bir ton arıyorsan,",
+        "bal rengi seni çekiyorsa",
+        "ve ışığı geçiren taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Kalsit sana yakın gelebilir.",
+      "niyetler": [
+        "enerji",
+        "yeni-baslangiclar"
+      ],
+      "enerji": [
+        "Canlılık",
+        "Berraklık",
+        "Yeni başlangıçlar"
+      ],
+      "burclar": [
+        "Yengeç",
+        "Aslan"
+      ],
+      "cakralar": [
+        {
+          "ad": "Solar pleksus çakrası",
+          "aciklama": "Özgüven ve irade"
+        },
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Gününe sıcak bir ışık katmak, yeni bir şeye başlamak ya da o bal rengini üzerinde taşımak için."
+    },
+    "karneol": {
+      "kisaKimlik": "Cesaret toplayanlara.",
+      "renkGrubu": "kirmizi",
+      "giris": "Turuncudan kızıl kahveye uzanan karneol, antik dünyanın en çok kullanılan mühür taşlarından. İslam kültüründe yüzük taşı geleneği güçlüdür. Halk inanışında cesaret ve canlılık temalarıyla anılır.",
+      "sanaGoreMi": [
+        "Bir adım atmak için cesaret topluyorsan,",
+        "gününe canlılık katmak istiyorsan,",
+        "sıcak turuncu-kızıl tonlar seni çekiyorsa",
+        "ve köklü bir geleneği olan taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Karneol sana yakın gelebilir.",
+      "niyetler": [
+        "cesaret",
+        "enerji",
+        "ozguven"
+      ],
+      "enerji": [
+        "Cesaret",
+        "Canlılık",
+        "Özgüven",
+        "Harekete geçme"
+      ],
+      "burclar": [
+        "Boğa",
+        "Aslan"
+      ],
+      "cakralar": [
+        {
+          "ad": "Sakral çakra",
+          "aciklama": "Yaratıcılık ve canlılık"
+        },
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Cesaret isteyen bir gün varsa, harekete geçmek ya da o kızıl turuncuyu üzerinde taşımak için."
+    },
+    "kaya-kristali": {
+      "kisaKimlik": "Sadeliği sevenlere.",
+      "renkGrubu": "beyaz",
+      "giris": "\"Kristal\" kelimesinin kökeni olan kaya kristali, saf ve renksiz kuvarstır. Modern doğal taş kültüründe berraklık ve odak temalarıyla ilişkilendirilir; \"ana taş\" olarak anılması ve her burçla bağdaştırılması yakın dönem bir adlandırmadır.",
+      "sanaGoreMi": [
+        "Sade ve berrak bir şey arıyorsan,",
+        "kafanı toplamak istiyorsan,",
+        "renksiz saydamlık seni çekiyorsa",
+        "ve her şeyle uyum sağlayan bir taş istiyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Kaya kristali sana yakın gelebilir.",
+      "niyetler": [
+        "odak",
+        "yeni-baslangiclar"
+      ],
+      "enerji": [
+        "Berraklık",
+        "Odak",
+        "Sadelik",
+        "Denge"
+      ],
+      "burclar": [
+        "Aslan"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Sade kalmak, kafanı berraklaştırmak ya da her kombine uyan o saydamlığı üzerinde taşımak için."
+    },
+    "krizokol": {
+      "kisaKimlik": "Sakin konuşanlara.",
+      "renkGrubu": "mavi",
+      "giris": "Bakır yataklarında oluşan krizokol, turkuazdan gök mavisine ve yeşil-maviye uzanır; adı \"altın tutkalı\" demek. Modern doğal taş kültüründe iletişim ve dinginlik temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sakin ama net konuşmak istiyorsan,",
+        "gününe dinginlik katmak istiyorsan,",
+        "turkuaz-yeşil geçişler seni çekiyorsa",
+        "ve canlı ama yumuşak renkleri seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Krizokol sana yakın gelebilir.",
+      "niyetler": [
+        "kendini-ifade",
+        "sakinlik"
+      ],
+      "enerji": [
+        "İletişim",
+        "Dinginlik",
+        "Kendini ifade etme"
+      ],
+      "burclar": [
+        "Boğa",
+        "İkizler"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        },
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Sakin bir konuşma yapmak, gününe dinginlik katmak ya da o turkuaz yeşilini üzerinde taşımak için."
+    },
+    "kunzit": {
+      "kisaKimlik": "Kalbini yumuşatmak isteyenlere.",
+      "renkGrubu": "pembe",
+      "giris": "Spodumenin açık pembe-lila çeşidi olan kunzit, 1902'de tanımlanan, mücevher dünyasının görece genç taşlarından. Modern taş anlatılarında şefkat ve duygusal yumuşama temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Kendine ya da birine karşı yumuşamak istiyorsan,",
+        "şefkatle yaklaşmayı seçiyorsan,",
+        "lila-pembe geçişler seni çekiyorsa",
+        "ve zarif, açık renkli taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Kunzit sana yakın gelebilir.",
+      "niyetler": [
+        "sevgi",
+        "sakinlik"
+      ],
+      "enerji": [
+        "Şefkat",
+        "Duygusal yumuşama",
+        "Sevgi",
+        "Sakinlik"
+      ],
+      "burclar": [
+        "Boğa",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Kendine yumuşak davranmak, bir ilişkiyi onarmak ya da o lila pembeyi üzerinde taşımak için."
+    },
+    "kyanit": {
+      "kisaKimlik": "Açık konuşmayı sevenlere.",
+      "renkGrubu": "mavi",
+      "giris": "Bıçak gibi yassı mavi levhalar hâlinde büyüyen kyanitin aynı kristalinde iki farklı sertlik bulunur — yönüne göre değişir. Modern doğal taş kültüründe hizalanma ve açık ifade temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Açık ve dürüst konuşmayı seçiyorsan,",
+        "kendini hizada tutmak istiyorsan,",
+        "çizgili mavi yüzeyler seni çekiyorsa",
+        "ve sıra dışı formları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Kyanit sana yakın gelebilir.",
+      "niyetler": [
+        "kendini-ifade",
+        "denge"
+      ],
+      "enerji": [
+        "Açık ifade",
+        "Hizalanma",
+        "Denge",
+        "Odak"
+      ],
+      "burclar": [
+        "Koç",
+        "Terazi"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Açık konuşman gereken bir gün varsa, kendini toparlamak ya da o çizgili maviyi üzerinde taşımak için."
+    },
+    "labradorit": {
+      "kisaKimlik": "Değişimi karşılayanlara.",
+      "renkGrubu": "mavi",
+      "giris": "Gri gövdesi çevirdikçe mavi, yeşil, altın ve mor parlar; bu etkinin adı labradoresans. Modern doğal taş kültüründe dönüşüm ve koruma temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Bir dönüşümün içindeysen,",
+        "değişimi korkmadan karşılamak istiyorsan,",
+        "açıya göre renk değiştiren yüzeyler seni büyülüyorsa",
+        "ve sakin görünüp içinde ışık taşıyan taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Labradorit sana yakın gelebilir.",
+      "niyetler": [
+        "sezgi",
+        "icsel-farkindalik",
+        "cesaret"
+      ],
+      "enerji": [
+        "Dönüşüm",
+        "Koruma",
+        "Sezgi",
+        "İçsel farkındalık"
+      ],
+      "burclar": [
+        "Akrep",
+        "Yay"
+      ],
+      "cakralar": [
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        },
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Yeni bir döneme girerken, sezgine güvenmek ya da o gizli ışığı üzerinde taşımak için."
+    },
+    "lepidolit": {
+      "kisaKimlik": "Geçiş dönemindekilere.",
+      "renkGrubu": "mor",
+      "giris": "Lityum içeren leylak rengi bir mika olan lepidolitin pullu yapısı ışıkta pırıldar. Modern doğal taş kültüründe sakinleşme ve geçiş dönemleri temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Bir geçiş dönemindeysen,",
+        "yoğun bir dönemi yumuşatmak istiyorsan,",
+        "leylak tonları seni dinlendiriyorsa",
+        "ve pırıltılı dokuları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Lepidolit sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "denge"
+      ],
+      "enerji": [
+        "Sakinleşme",
+        "Geçiş dönemleri",
+        "Denge",
+        "Yumuşama"
+      ],
+      "burclar": [
+        "Terazi",
+        "Balık"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Hayatında bir şey değişiyorsa, yoğunluğu yumuşatmak ya da o leylak pırıltısını üzerinde taşımak için."
+    },
+    "malakit": {
+      "kisaKimlik": "Kendini korumayı bilenlere.",
+      "renkGrubu": "yesil",
+      "giris": "Açık ve koyu yeşilin konsantrik bantlar hâlinde sıralandığı malakit, Rus çarlarının odalarını kaplayan taş. Her parçanın halka deseni farklıdır. Halk inanışında koruma ve dönüşüm temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Kendi sınırlarını korumayı önemsiyorsan,",
+        "bir dönüşümün içindeysen,",
+        "koyu yeşil halkalar seni çekiyorsa",
+        "ve iddialı desenleri seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Malakit sana yakın gelebilir.",
+      "niyetler": [
+        "cesaret",
+        "icsel-farkindalik"
+      ],
+      "enerji": [
+        "Koruma",
+        "Dönüşüm",
+        "Cesaret",
+        "Denge"
+      ],
+      "burclar": [
+        "Akrep",
+        "Oğlak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Sınırlarını korumak, bir değişimi göğüslemek ya da o halkalı yeşili üzerinde taşımak için."
+    },
+    "mercan": {
+      "kisaKimlik": "Canlılığı sevenlere.",
+      "renkGrubu": "kirmizi",
+      "giris": "Mercan taş değil: canlı bir kolonin iskeleti. Akdeniz'in kırmızı mercanı yüzyıllardır takıda kullanılır. Halk inanışında koruma ve yaşam gücü temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Gününe canlılık katmak istiyorsan,",
+        "sıcak ve korunaklı hissetmek istiyorsan,",
+        "mercan kırmızısı seni çekiyorsa",
+        "ve denizden gelen bir hikâyeyi seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Mercan sana yakın gelebilir.",
+      "niyetler": [
+        "enerji",
+        "cesaret",
+        "sevgi"
+      ],
+      "enerji": [
+        "Yaşam gücü",
+        "Koruma",
+        "Canlılık"
+      ],
+      "burclar": [
+        "Balık",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        },
+        {
+          "ad": "Sakral çakra",
+          "aciklama": "Yaratıcılık ve canlılık"
+        }
+      ],
+      "nedenBugun": "Gününe canlılık katmak, sıcak hissetmek ya da o mercan kırmızısını üzerinde taşımak için."
+    },
+    "obsidiyen": {
+      "kisaKimlik": "Gerçeği görmek isteyenlere.",
+      "renkGrubu": "siyah",
+      "giris": "Obsidiyen mineral değil, volkanik cam; kesme kenarı çelikten keskin olabilir. Kar taneli, gökkuşağı ve altın parıltılı çeşitleri vardır. Halk inanışında koruma ve gerçeği görme temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Olanı olduğu gibi görmek istiyorsan,",
+        "kendini korunaklı hissetmek istiyorsan,",
+        "derin siyah seni çekiyorsa",
+        "ve sade ama güçlü parçaları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Obsidiyen sana yakın gelebilir.",
+      "niyetler": [
+        "icsel-farkindalik",
+        "cesaret"
+      ],
+      "enerji": [
+        "Koruma",
+        "Gerçeği görme",
+        "Topraklanma",
+        "Cesaret"
+      ],
+      "burclar": [
+        "Akrep",
+        "Yay"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Net görmek istediğin bir gün varsa, kendini toparlamak ya da o derin siyahı üzerinde taşımak için."
+    },
+    "oniks": {
+      "kisaKimlik": "Sadeliğin gücüne inananlara.",
+      "renkGrubu": "siyah",
+      "giris": "Bantlı kalsedonun siyah çeşidi olan oniks, Viktorya döneminde yas takılarının başlıca taşı olmuştur — piyasadaki çoğu örnek boyalıdır. Halk inanışında dayanıklılık ve sebat temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sade ve güçlü bir siyah arıyorsan,",
+        "sebat etmen gereken bir dönemdeysen,",
+        "mat ya da parlak siyah seni çekiyorsa",
+        "ve her şeye uyan bir taş istiyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Oniks sana yakın gelebilir.",
+      "niyetler": [
+        "odak",
+        "ozguven"
+      ],
+      "enerji": [
+        "Dayanıklılık",
+        "Sebat",
+        "Odak",
+        "Topraklanma"
+      ],
+      "burclar": [
+        "Aslan",
+        "Oğlak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Sebat gerektiren bir gün varsa, sade kalmak ya da o siyahın gücünü üzerinde taşımak için."
+    },
+    "opal": {
+      "kisaKimlik": "Renk oyununu sevenlere.",
+      "renkGrubu": "beyaz",
+      "giris": "İçinde su barındıran ve renk oyunu gösteren opal, mineraloid sınıfındadır. Ekim ayının doğum taşıdır. Geleneksel anlatılarda yaratıcılık ve duygusal ifade temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Yaratıcı bir dönemdeysen,",
+        "duygularını ifade etmek istiyorsan,",
+        "içinde renk oynayan yüzeyler seni büyülüyorsa",
+        "ve her açıdan başka görünen taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Opal sana yakın gelebilir.",
+      "niyetler": [
+        "kendini-ifade",
+        "sezgi",
+        "yeni-baslangiclar"
+      ],
+      "enerji": [
+        "Yaratıcılık",
+        "Duygusal ifade",
+        "Sezgi"
+      ],
+      "burclar": [
+        "Terazi",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        },
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Yaratıcı bir işe girişmek, kendini ifade etmek ya da o renk oyununu üzerinde taşımak için."
+    },
+    "peridot": {
+      "kisaKimlik": "Tazelenmek isteyenlere.",
+      "renkGrubu": "yesil",
+      "giris": "Zeytin yeşilinden sarı-yeşile uzanan peridot, tek renkte bulunan nadir taşlardan; meteoritlerde de rastlanır. Ağustos ayının doğum taşıdır. Geleneksel anlatılarda tazelik ve canlılıkla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Tazelenmeye ihtiyacın varsa,",
+        "yeni bir sayfa açmak istiyorsan,",
+        "sarımsı yeşil seni çekiyorsa",
+        "ve canlı ama zarif renkleri seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Peridot sana yakın gelebilir.",
+      "niyetler": [
+        "yeni-baslangiclar",
+        "enerji"
+      ],
+      "enerji": [
+        "Tazelik",
+        "Canlılık",
+        "Yeni başlangıçlar"
+      ],
+      "burclar": [
+        "Aslan",
+        "Başak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        },
+        {
+          "ad": "Solar pleksus çakrası",
+          "aciklama": "Özgüven ve irade"
+        }
+      ],
+      "nedenBugun": "Yeni bir sayfa açmak, tazelenmek ya da o zeytin yeşilini üzerinde taşımak için."
+    },
+    "pirit": {
+      "kisaKimlik": "İradesine güvenenlere.",
+      "renkGrubu": "sari",
+      "giris": "Metalik altın sarısı küpler hâlinde büyüyen pirit, \"aptal altını\" adını buradan alır. Halk inanışında bolluk ve irade temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "İradene güvenmek istiyorsan,",
+        "bir işi sonuna kadar götürmeye niyetliysen,",
+        "metalik altın parıltı seni çekiyorsa",
+        "ve geometrik formları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Pirit sana yakın gelebilir.",
+      "niyetler": [
+        "ozguven",
+        "enerji"
+      ],
+      "enerji": [
+        "İrade",
+        "Bolluk",
+        "Özgüven",
+        "Odak"
+      ],
+      "burclar": [
+        "Aslan",
+        "Koç"
+      ],
+      "cakralar": [
+        {
+          "ad": "Solar pleksus çakrası",
+          "aciklama": "Özgüven ve irade"
+        }
+      ],
+      "nedenBugun": "Bir işi bitirmeye niyetlendiysen, iradeni hatırlamak ya da o altın parıltıyı üzerinde taşımak için."
+    },
+    "rodokrozit": {
+      "kisaKimlik": "Kendine iyi davrananlara.",
+      "renkGrubu": "pembe",
+      "giris": "Gül pembesi ve beyazın halkalar hâlinde sıralandığı rodokrozit, Arjantin'in ulusal taşı. Modern doğal taş kültüründe şefkat ve kendine iyi davranma temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Kendine biraz daha iyi davranmak istiyorsan,",
+        "şefkati önce kendine göstermeyi öğreniyorsan,",
+        "pembe-beyaz halkalar seni çekiyorsa",
+        "ve desenli taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Rodokrozit sana yakın gelebilir.",
+      "niyetler": [
+        "sevgi"
+      ],
+      "enerji": [
+        "Şefkat",
+        "Kendine iyi davranma",
+        "Sevgi"
+      ],
+      "burclar": [
+        "Akrep",
+        "Aslan"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Kendine alan açmak, kendine nazik davranmak ya da o halkalı pembeyi üzerinde taşımak için."
+    },
+    "rodonit": {
+      "kisaKimlik": "Duygularını dengeleyenlere.",
+      "renkGrubu": "pembe",
+      "giris": "Pembe gövdesinde siyah manganez oksit damarları dolaşan rodonit, kontrastıyla dikkat çeker. Modern doğal taş kültüründe duygusal denge temasıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Duygularını dengede tutmak istiyorsan,",
+        "yoğun bir dönemi sakin geçirmek istiyorsan,",
+        "pembe-siyah kontrastı seni çekiyorsa",
+        "ve karakterli desenleri seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Rodonit sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "sevgi",
+        "sakinlik"
+      ],
+      "enerji": [
+        "Duygusal denge",
+        "Sevgi",
+        "Sakinlik"
+      ],
+      "burclar": [
+        "Boğa",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Duygularını dengelemek, yoğun bir günü yumuşatmak ya da o pembe-siyah kontrastı üzerinde taşımak için."
+    },
+    "sedef": {
+      "kisaKimlik": "Akışta kalmayı sevenlere.",
+      "renkGrubu": "beyaz",
+      "giris": "Sedef, kabuğun iç yüzeyidir; yanardöner rengi boyadan değil, ışığın katmanlarda kırılmasından gelir. Halk inanışında sakinlik ve akışkanlık anlatısıyla anılır.",
+      "sanaGoreMi": [
+        "Akışta kalmayı seçiyorsan,",
+        "sakin ve yumuşak bir gün istiyorsan,",
+        "yanardöner beyaz parıltı seni çekiyorsa",
+        "ve denizden gelen malzemeleri seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Sedef sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "sezgi"
+      ],
+      "enerji": [
+        "Sakinlik",
+        "Akışkanlık",
+        "Yumuşama"
+      ],
+      "burclar": [
+        "Yengeç",
+        "Balık"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Günü akışına bırakmak, sakin kalmak ya da o yanardöner parıltıyı üzerinde taşımak için."
+    },
+    "selenit": {
+      "kisaKimlik": "Sadeleşmek isteyenlere.",
+      "renkGrubu": "beyaz",
+      "giris": "Jipsin berrak çeşidi olan selenit o kadar yumuşaktır ki tırnakla çizilir; lifli yapısı ışığı bir şerit gibi taşır. Modern doğal taş kültüründe berraklık ve arınma temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Sadeleşmek istiyorsan,",
+        "zihnini berraklaştırmak istiyorsan,",
+        "ışığı içinde taşıyan beyazlar seni çekiyorsa",
+        "ve hassas ama etkileyici taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Selenit sana yakın gelebilir.",
+      "niyetler": [
+        "odak"
+      ],
+      "enerji": [
+        "Berraklık",
+        "Arınma",
+        "Sadeleşme",
+        "Dinginlik"
+      ],
+      "burclar": [
+        "Boğa",
+        "Yengeç"
+      ],
+      "cakralar": [
+        {
+          "ad": "Taç çakrası",
+          "aciklama": "Dinginlik ve berraklık"
+        }
+      ],
+      "nedenBugun": "Kafanı berraklaştırmak, sadeleşmek ya da içinden ışık geçen o beyazı üzerinde taşımak için."
+    },
+    "serpantin": {
+      "kisaKimlik": "Kendi alanını koruyanlara.",
+      "renkGrubu": "yesil",
+      "giris": "Yılan derisi desenli yeşil serpantin, sıkça \"yeşim\" diye satılır — biz adıyla anıyoruz. Halk inanışında koruma temasıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Kendi alanını korumak istiyorsan,",
+        "doğaya yakın hissetmek istiyorsan,",
+        "benekli yeşiller seni çekiyorsa",
+        "ve doğal dokuları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Serpantin sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "cesaret"
+      ],
+      "enerji": [
+        "Koruma",
+        "Topraklanma",
+        "Denge"
+      ],
+      "burclar": [
+        "Oğlak",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Kendi alanını korumak, doğaya yakın hissetmek ya da o benekli yeşili üzerinde taşımak için."
+    },
+    "sodalit": {
+      "kisaKimlik": "Aklıyla hareket edenlere.",
+      "renkGrubu": "mavi",
+      "giris": "Koyu mavi gövdesinde beyaz kalsit damarları dolaşan sodalit, lapis lazuliye benzer ama piriti yoktur. Modern doğal taş kültüründe akılcılık ve ifade temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Aklınla hareket etmeyi seviyorsan,",
+        "düşündüğünü düzgün anlatmak istiyorsan,",
+        "damarlı koyu mavi seni çekiyorsa",
+        "ve sakin ama derin renkleri seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Sodalit sana yakın gelebilir.",
+      "niyetler": [
+        "kendini-ifade",
+        "odak"
+      ],
+      "enerji": [
+        "Akılcılık",
+        "Kendini ifade etme",
+        "Odak",
+        "Denge"
+      ],
+      "burclar": [
+        "Yay",
+        "Kova"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        },
+        {
+          "ad": "Üçüncü göz çakrası",
+          "aciklama": "Sezgi ve farkındalık"
+        }
+      ],
+      "nedenBugun": "Net düşünmen gereken bir gün varsa, kendini iyi anlatmak ya da o damarlı maviyi üzerinde taşımak için."
+    },
+    "turkuaz": {
+      "kisaKimlik": "Yolda olanlara.",
+      "renkGrubu": "mavi",
+      "giris": "Adı Türkiye'den gelir ama Türkiye'de çıkmaz: Avrupa'ya Türk tüccarlar getirdiği için böyle anılmıştır. Yerli Amerikan kültürlerinde kutsal sayılır; Navajo ve Zuni gümüş işçiliğinin merkezindedir. Halk inanışında koruma ve yolculuk temalarıyla anılır.",
+      "sanaGoreMi": [
+        "Yolda olmayı seviyorsan,",
+        "kendini korunaklı hissetmek istiyorsan,",
+        "gök mavisi ve kahve damarlar seni çekiyorsa",
+        "ve köklü bir geleneği olan taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Turkuaz sana yakın gelebilir.",
+      "niyetler": [
+        "kendini-ifade",
+        "cesaret"
+      ],
+      "enerji": [
+        "Koruma",
+        "Yolculuk",
+        "Kendini ifade etme"
+      ],
+      "burclar": [
+        "Yay",
+        "Kova"
+      ],
+      "cakralar": [
+        {
+          "ad": "Boğaz çakrası",
+          "aciklama": "İletişim ve kendini ifade etme"
+        }
+      ],
+      "nedenBugun": "Bir yolculuğa çıkarken, kendini korunaklı hissetmek ya da o gök mavisini üzerinde taşımak için."
+    },
+    "turmalin": {
+      "kisaKimlik": "Sınırını bilenlere.",
+      "renkGrubu": "siyah",
+      "giris": "Bilinen en geniş renk yelpazesine sahip mineral olan turmalin ısıtılınca elektriklenir. Siyah turmalin, modern doğal taş kültüründe koruma temasıyla en çok anılan taşlardandır.",
+      "sanaGoreMi": [
+        "Kendi sınırını korumayı önemsiyorsan,",
+        "yoğun ortamlarda dengede kalmak istiyorsan,",
+        "derin siyah seni çekiyorsa",
+        "ve sade ama sağlam parçaları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Turmalin sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "cesaret"
+      ],
+      "enerji": [
+        "Koruma",
+        "Topraklanma",
+        "Denge",
+        "Odak"
+      ],
+      "burclar": [
+        "Terazi",
+        "Akrep"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Kalabalık bir güne hazırlanmak, sınırını korumak ya da o derin siyahı üzerinde taşımak için."
+    },
+    "unakit": {
+      "kisaKimlik": "Adım adım ilerleyenlere.",
+      "renkGrubu": "yesil",
+      "giris": "Zeytin yeşili epidot ve somon pembesi feldispatın birlikte bulunduğu bir granit olan unakit, iki rengi aynı taşta taşır. Modern doğal taş kültüründe denge ve kademeli ilerleme temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Adım adım ilerlemeyi seçiyorsan,",
+        "sabırlı bir denge arıyorsan,",
+        "yeşil ve pembenin birlikteliği hoşuna gidiyorsa",
+        "ve benekli dokuları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Unakit sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "sakinlik",
+        "yeni-baslangiclar"
+      ],
+      "enerji": [
+        "Denge",
+        "Kademeli ilerleme",
+        "Sabır"
+      ],
+      "burclar": [
+        "Akrep",
+        "Balık"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        },
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Uzun soluklu bir işe başlarken, sabırlı kalmak ya da o yeşil-pembe beneği üzerinde taşımak için."
+    },
+    "yesim": {
+      "kisaKimlik": "Kalıcı olanı sevenlere.",
+      "renkGrubu": "yesil",
+      "giris": "Yeşim tek bir taş değil, iki farklı mineralin ortak adı: jadeit ve nefrit. Maori kültüründe *pounamu* adıyla kuşaktan kuşağa aktarılan bir miras nesnesidir. Geleneksel anlatılarda denge, uyum ve kalıcılıkla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Kalıcı olanı seviyorsan,",
+        "uyumlu ve dengeli bir gün istiyorsan,",
+        "derin yeşil seni çekiyorsa",
+        "ve kuşaklar boyu taşınacak parçalar arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Yeşim sana yakın gelebilir.",
+      "niyetler": [
+        "denge",
+        "sevgi"
+      ],
+      "enerji": [
+        "Denge",
+        "Uyum",
+        "Kalıcılık",
+        "Sakinlik"
+      ],
+      "burclar": [
+        "Boğa",
+        "Terazi"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Kalıcı bir şeye başlamak, dengeli bir gün geçirmek ya da o derin yeşili üzerinde taşımak için."
+    },
+    "zumrut": {
+      "kisaKimlik": "Büyümeyi seçenlere.",
+      "renkGrubu": "yesil",
+      "giris": "Akuamarinle aynı mineral, farklı eser element: zümrüde canlı yeşilini krom verir. İçindeki çatlaklar kusur sayılmaz, taşın hikâyesinin parçasıdır. Mayıs ayının doğum taşıdır. Geleneksel anlatılarda büyüme ve sevgiyle ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Büyümeyi seçiyorsan,",
+        "sevgiye alan açmak istiyorsan,",
+        "canlı yeşil seni çekiyorsa",
+        "ve klasik bir mücevher tonu arıyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Zümrüt sana yakın gelebilir.",
+      "niyetler": [
+        "sevgi",
+        "yeni-baslangiclar"
+      ],
+      "enerji": [
+        "Büyüme",
+        "Sevgi",
+        "Yenilenme",
+        "Denge"
+      ],
+      "burclar": [
+        "Boğa",
+        "İkizler"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Yeni bir döneme girmek, sevgiye alan açmak ya da o canlı yeşili üzerinde taşımak için."
     }
   }
 }
