@@ -386,14 +386,36 @@ function renderProductCard(p, animDelay = 0) {
      · Telefonda geri tuşu pencereyi kapatıyor, sayfadan çıkmıyor
    Sayfa gerçekten /urun/<slug>/ adresine gitmiyor; yalnız adres yazısı
    değişiyor (pushState). Pencere kapanınca eski adrese dönülüyor. */
+/*
+ * Sitenin kökü, MUTLAK yol olarak (ör. "/").
+ *
+ * Sayfa yüklenirken bir kez hesaplanıyor. Bunun göreli data-kok'tan
+ * ayrı tutulması şart: modal açılınca pushState adresi /urun/<slug>/
+ * yapıyor ve o andan sonra göreli yollar yanlış çözülüyor. Bu yüzden
+ * "tam sayfada aç" bağlantısı /urun/x/urun/x/ olup 404 veriyordu.
+ */
+const PB_KOK_MUTLAK = (function () {
+  const kok = document.documentElement.getAttribute('data-kok') || './';
+  try {
+    const p = new URL(kok, location.href).pathname;
+    return p.endsWith('/') ? p : p + '/';
+  } catch (e) {
+    return '/';
+  }
+})();
+
+/* Bir ürünün mutlak adresi. Göreli kurmak güvenli değil — yukarıya bak. */
+function PB_urunYolu(slug) {
+  return PB_KOK_MUTLAK + 'urun/' + slug + '/';
+}
+
 let PB_ModalOncekiAdres = null;
 
 function PB_urunAdresiYaz(slug) {
   if (!window.history || !history.pushState) return;
-  const kok = document.documentElement.getAttribute('data-kok') || '';
   try {
     PB_ModalOncekiAdres = location.href;
-    history.pushState({ pbUrun: slug }, '', kok + 'urun/' + slug + '/');
+    history.pushState({ pbUrun: slug }, '', PB_urunYolu(slug));
   } catch (e) {
     PB_ModalOncekiAdres = null;   // farklı köken vb. — adresi olduğu gibi bırak
   }
@@ -572,8 +594,7 @@ async function PB_fillProductModal(modal, p) {
 
   const tamSayfa = modal.querySelector('[data-pm-tam-sayfa]');
   if (tamSayfa) {
-    const kok = document.documentElement.getAttribute('data-kok') || '';
-    tamSayfa.href = kok + 'urun/' + p.slug + '/';
+    tamSayfa.href = PB_urunYolu(p.slug);
   }
 
   modal.querySelector('[data-pm-price]').textContent = formatPrice(p.price);

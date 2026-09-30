@@ -82,9 +82,15 @@ const taslar = taslariOku()
     renk: renkBul(t),
     gorsel: yerelGorsel(t.slug),
     // Liste ve keşif ekranının ihtiyaç duyduğu editorial alanlar.
-    // Detay sayfasının uzun metinleri buraya girmiyor — onlar sayfaya
-    // üretim anında gömülüyor, her sayfada 49 taşın metnini taşımayalım.
+    // Detay sayfasının uzun metinleri (enerji, burç, çakra, oluşum…)
+    // buraya girmiyor — onlar sayfaya üretim anında gömülüyor.
+    //
+    // "giris" istisna: ürün sayfasındaki TAŞLAR bölümü taşı birkaç
+    // satırla tanıtıp taş sayfasına yönlendiriyor, oradaki tek kesik
+    // cümle ("...Takıdaki tek organik…") hiçbir şey anlatmıyordu.
+    // Maliyeti ~10 KB ve dosya tüm sitede paylaşılıp önbelleğe alınıyor.
     kisaKimlik: (kesif[t.slug] && kesif[t.slug].kisaKimlik) || null,
+    giris: (kesif[t.slug] && kesif[t.slug].giris) || null,
     niyetler: (kesif[t.slug] && kesif[t.slug].niyetler) || [],
     burclar: (kesif[t.slug] && kesif[t.slug].burclar) || [],
     renkGrubu: (kesif[t.slug] && kesif[t.slug].renkGrubu) || renkGrubuBul(t),

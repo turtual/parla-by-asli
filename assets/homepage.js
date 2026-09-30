@@ -427,11 +427,25 @@
     const muhur = document.getElementById('hikaye-muhur');
     if (!kap || !img || !url) return;
 
+    /* loading="lazy" BİLEREK kaldırılıyor: görsel hidden olduğu için
+       ekranda hiç görünmüyor, lazy tarayıcıya "henüz gerek yok" diyor ve
+       görsel hiç yüklenmiyordu. Load olayı gelmeyince de hidden hiç
+       kalkmıyordu. Bu bölüm sayfanın üst kısmında, ertelemeye değmez. */
+    img.loading = 'eager';
+
     img.addEventListener('load', () => {
       img.hidden = false;
       if (muhur) muhur.hidden = true;
       kap.classList.add('has-image');
     }, { once: true });
+
+    /* Görsel gelmezse (silinmiş dosya, ağ hatası) mühür görünür kalsın —
+       kırık görsel ikonu çıkmasın. */
+    img.addEventListener('error', () => {
+      img.hidden = true;
+      kap.classList.remove('has-image');
+    }, { once: true });
+
     img.src = url;
   }
 

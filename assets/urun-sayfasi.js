@@ -256,9 +256,17 @@
           const bag = h('a', { class: 'urun-tas-oge', href: kok + 'taslar/' + t.slug + '/' });
           const daire = h('span', { class: 'urun-tas-daire' });
           daire.style.background = t.renk || 'var(--c-warm-greige)';
-          const yazi = h('span');
-          yazi.append(h('span', { class: 'urun-tas-ad' }, t.ad),
-                      h('span', { class: 'urun-tas-ozet' }, t.ozet || ''));
+
+          const yazi = h('span', { class: 'urun-tas-yazi' });
+          yazi.append(h('span', { class: 'urun-tas-ad' }, t.ad));
+
+          /* Taşın kendi açılış paragrafı; yoksa kısa özete düşer.
+             CSS üç satırda kırpıyor, devamı taş sayfasında. */
+          const metin = t.giris || t.ozet || '';
+          if (metin) yazi.append(h('span', { class: 'urun-tas-ozet' }, metin));
+
+          yazi.append(h('span', { class: 'urun-tas-devam' }, 'Daha fazlası için tıklayın →'));
+
           bag.append(daire, yazi);
           govde.append(bag);
         });
