@@ -187,55 +187,14 @@
      Ürün açıklamasını teknik katalog gibi tek blok hâlinde dökmek yerine
      başlıklara ayırıyoruz. Metni olmayan bölüm hiç açılmıyor — boş
      "Bakım" başlığı göstermek kullanıcıyı boşa tıklatıyordu. */
-  async function bolumlerKur(p, taslar) {
+  /* Bölüm listesi ui.js'teki PB_urunBolumleri'nden geliyor — hızlı bakış
+     penceresi de aynı listeyi kullanıyor, ikisi ayrışmasın. Burası yalnız
+     tam sayfanın kendi biçimlendirmesini uyguluyor. */
+  async function bolumlerKur(p) {
     const kap = document.getElementById('urun-bolumler');
     if (!kap) return;
 
-    let koleksiyon = null;
-    if (typeof getCollections === 'function' && p.collectionId) {
-      const hepsi = await getCollections();
-      koleksiyon = hepsi.find(c => c.id === p.collectionId) || null;
-    }
-
-    const bolumler = [];
-
-    if (p.description) {
-      bolumler.push({ baslik: 'Hikâyesi', metin: p.description, acik: true });
-    }
-
-    if ((p.materials || []).length) {
-      bolumler.push({ baslik: 'Ürün detayları', liste: p.materials });
-    }
-
-    if (taslar.length) {
-      bolumler.push({ baslik: 'Taşlar', taslar });
-    }
-
-    if (koleksiyon && koleksiyon.careInstructions) {
-      bolumler.push({ baslik: 'Bakım', metin: koleksiyon.careInstructions });
-    }
-
-    // Kargo satırı yalnız iki değer de doluysa yazılıyor; eksikse
-    // "… ₺ ve üzeri" gibi yarım cümle görünmesin.
-    let kargoMetni = '';
-    if (typeof PB_Data !== 'undefined' && PB_Data.getSiteTexts) {
-      try {
-        const metinler = await PB_Data.getSiteTexts();
-        const esik = Number(metinler.kargo_ucretsiz_esigi);
-        const ucret = Number(metinler.kargo_ucreti);
-        if (esik > 0 && ucret >= 0) {
-          kargoMetni = formatPrice(esik) + ' ve üzeri siparişlerde kargo ücretsiz. '
-            + 'Altındaki siparişlerde kargo ' + formatPrice(ucret) + '.\n\n'
-            + 'Her parça siparişin için hazırlandığından kargoya veriliş süresi '
-            + 'ürüne göre değişir; sipariş sonrası seninle iletişime geçiyoruz.';
-        }
-      } catch (e) { /* metinler gelmezse bölüm hiç çıkmaz */ }
-    }
-    if (kargoMetni) bolumler.push({ baslik: 'Kargo & teslimat', metin: kargoMetni });
-
-    if (koleksiyon && koleksiyon.returnTerms) {
-      bolumler.push({ baslik: 'İptal ve iade', metin: koleksiyon.returnTerms });
-    }
+    const bolumler = await PB_urunBolumleri(p);
 
     kap.innerHTML = '';
     bolumler.forEach(b => {
@@ -244,34 +203,7 @@
       d.append(h('summary', {}, b.baslik));
 
       const govde = h('div', { class: 'urun-bolum-govde' });
-
-      if (b.metin) {
-        govde.append(h('p', {}, b.metin));
-      } else if (b.liste) {
-        const ul = h('ul');
-        b.liste.forEach(m => ul.append(h('li', {}, m)));
-        govde.append(ul);
-      } else if (b.taslar) {
-        b.taslar.forEach(t => {
-          const bag = h('a', { class: 'urun-tas-oge', href: kok + 'taslar/' + t.slug + '/' });
-          const daire = h('span', { class: 'urun-tas-daire' });
-          daire.style.background = t.renk || 'var(--c-warm-greige)';
-
-          const yazi = h('span', { class: 'urun-tas-yazi' });
-          yazi.append(h('span', { class: 'urun-tas-ad' }, t.ad));
-
-          /* Taşın kendi açılış paragrafı; yoksa kısa özete düşer.
-             CSS üç satırda kırpıyor, devamı taş sayfasında. */
-          const metin = t.giris || t.ozet || '';
-          if (metin) yazi.append(h('span', { class: 'urun-tas-ozet' }, metin));
-
-          yazi.append(h('span', { class: 'urun-tas-devam' }, 'Daha fazlası için tıklayın →'));
-
-          bag.append(daire, yazi);
-          govde.append(bag);
-        });
-      }
-
+      PB_urunBolumGovdesi(b, govde, kok);
       d.append(govde);
       kap.append(d);
     });
@@ -360,7 +292,7 @@
     galeriKur(p);
     const taslar = taslariKur(p);
     sepetKur(p);
-    bolumlerKur(p, taslar);
+    bolumlerKur(p);
     benzerleriKur(p, taslar);
 
     if (typeof PB_renderReviews === 'function') {

@@ -409,6 +409,103 @@ function PB_urunYolu(slug) {
   return PB_KOK_MUTLAK + 'urun/' + slug + '/';
 }
 
+/* ──────────── Ürün bölümleri (PAYLAŞILAN) ────────────
+ *
+ * Hem ürünün kendi sayfası hem hızlı bakış penceresi bu listeyi kullanır.
+ * Eskiden iki ayrı liste vardı ve pencere yalnız Bakım/İade gösteriyordu;
+ * aynı üründe iki farklı içerik çıkması kafa karıştırıyordu.
+ *
+ * Dönen her öğe: { baslik, acik?, metin? | liste? | taslar? }
+ * Verisi olmayan bölüm listeye hiç girmez — boş başlık çıkmaz.
+ */
+async function PB_urunBolumleri(p) {
+  const bolumler = [];
+
+  let koleksiyon = null;
+  if (typeof getCollections === 'function' && p.collectionId) {
+    try {
+      const hepsi = await getCollections();
+      koleksiyon = hepsi.find(c => c.id === p.collectionId) || null;
+    } catch (e) { /* koleksiyon gelmezse ilgili bölümler çıkmaz */ }
+  }
+
+  if (p.description) {
+    bolumler.push({ baslik: 'Hikâyesi', metin: p.description, acik: true });
+  }
+
+  if ((p.materials || []).length) {
+    bolumler.push({ baslik: 'Ürün detayları', liste: p.materials });
+  }
+
+  if (typeof PB_TasEslesme !== 'undefined') {
+    const taslar = PB_TasEslesme.urununTaslari(p, 4);
+    if (taslar.length) bolumler.push({ baslik: 'Taşlar', taslar });
+  }
+
+  if (koleksiyon && koleksiyon.careInstructions) {
+    bolumler.push({ baslik: 'Bakım', metin: koleksiyon.careInstructions });
+  }
+
+  /* Kargo satırı yalnız iki değer de doluysa yazılıyor; eksikse
+     "… ₺ ve üzeri" gibi yarım cümle görünmesin. */
+  if (typeof PB_Data !== 'undefined' && PB_Data.getSiteTexts) {
+    try {
+      const metinler = await PB_Data.getSiteTexts();
+      const esik = Number(metinler.kargo_ucretsiz_esigi);
+      const ucret = Number(metinler.kargo_ucreti);
+      if (esik > 0 && ucret >= 0) {
+        bolumler.push({
+          baslik: 'Kargo & teslimat',
+          metin: formatPrice(esik) + ' ve üzeri siparişlerde kargo ücretsiz. '
+            + 'Altındaki siparişlerde kargo ' + formatPrice(ucret) + '.\n\n'
+            + 'Her parça siparişin için hazırlandığından kargoya veriliş süresi '
+            + 'ürüne göre değişir; sipariş sonrası seninle iletişime geçiyoruz.'
+        });
+      }
+    } catch (e) { /* metinler gelmezse bölüm hiç çıkmaz */ }
+  }
+
+  if (koleksiyon && koleksiyon.returnTerms) {
+    bolumler.push({ baslik: 'İptal ve iade', metin: koleksiyon.returnTerms });
+  }
+
+  return bolumler;
+}
+
+/* Bir bölümün gövdesini verilen kaba çizer. Başlık/ayraç çağırana ait:
+   tam sayfa ile pencere farklı sınıf adları kullanıyor. */
+function PB_urunBolumGovdesi(b, govde, kok) {
+  if (b.metin) {
+    govde.appendChild(PB_h('p', {}, b.metin));
+    return;
+  }
+  if (b.liste) {
+    const ul = PB_h('ul');
+    b.liste.forEach(m => ul.appendChild(PB_h('li', {}, m)));
+    govde.appendChild(ul);
+    return;
+  }
+  if (b.taslar) {
+    b.taslar.forEach(t => {
+      const bag = PB_h('a', { class: 'urun-tas-oge', href: kok + 'taslar/' + t.slug + '/' });
+      const daire = PB_h('span', { class: 'urun-tas-daire' });
+      daire.style.background = t.renk || 'var(--c-warm-greige)';
+
+      const yazi = PB_h('span', { class: 'urun-tas-yazi' });
+      yazi.appendChild(PB_h('span', { class: 'urun-tas-ad' }, t.ad));
+
+      /* Taşın kendi açılış paragrafı; yoksa kısa özete düşer.
+         CSS üç satırda kırpıyor, devamı taş sayfasında. */
+      const metin = t.giris || t.ozet || '';
+      if (metin) yazi.appendChild(PB_h('span', { class: 'urun-tas-ozet' }, metin));
+      yazi.appendChild(PB_h('span', { class: 'urun-tas-devam' }, 'Daha fazlası için tıklayın →'));
+
+      bag.append(daire, yazi);
+      govde.appendChild(bag);
+    });
+  }
+}
+
 let PB_ModalOncekiAdres = null;
 
 function PB_urunAdresiYaz(slug) {
@@ -496,11 +593,6 @@ function PB_buildProductModalShell() {
           <!-- Ürünün kendi sayfası: paylaşılabilir adres, tam galeri ve
                taş bağlantıları orada. Pencere hızlı bakış için kalıyor. -->
           <a class="product-modal-tam-sayfa" data-pm-tam-sayfa href="#">Tam sayfada aç →</a>
-          <p class="product-modal-desc" data-pm-desc></p>
-          <div class="product-modal-materials">
-            <h4>Malzeme</h4>
-            <ul data-pm-materials></ul>
-          </div>
           <div class="product-modal-qty">
             <label class="eyebrow">Adet</label>
             <div class="product-modal-qty-row">
@@ -598,11 +690,6 @@ async function PB_fillProductModal(modal, p) {
   }
 
   modal.querySelector('[data-pm-price]').textContent = formatPrice(p.price);
-  modal.querySelector('[data-pm-desc]').textContent = p.description || '';
-
-  const matsList = modal.querySelector('[data-pm-materials]');
-  matsList.innerHTML = '';
-  (p.materials || []).forEach(m => matsList.appendChild(PB_h('li', {}, m)));
 
   // Adet kontrol — stok adedini aşamaz
   const stok = p.stockQuantity || 0;
@@ -660,28 +747,21 @@ async function PB_fillProductModal(modal, p) {
     };
   }
 
-  // Bakım/iade metinleri — ürünün koleksiyonuna göre değişir, admin
-  // panelinden koleksiyon bazlı yönetilir (bkz. assets/data.js rowToCollection).
+  /* Bölümler — ürünün kendi sayfasıyla AYNI liste (PB_urunBolumleri).
+     Açıklama ve malzemeler de buraya girdi; eskiden akordeonun dışında
+     ayrı kutulardaydı ve pencere yalnız Bakım/İade gösteriyordu. */
   const accordion = modal.querySelector('[data-pm-accordion]');
   accordion.innerHTML = '';
-  if (typeof getCollections === 'function' && p.collectionId) {
-    const collections = await getCollections();
-    const collection = collections.find(c => c.id === p.collectionId);
-    const bolumler = [
-      { baslik: 'Bakım ve Kullanım Talimatları', metin: collection?.careInstructions },
-      { baslik: 'İptal ve İade Koşulları', metin: collection?.returnTerms }
-    ];
-    bolumler.forEach(({ baslik, metin }) => {
-      if (!metin) return;
-      const details = PB_h('details', { class: 'product-modal-detail' });
-      details.innerHTML = `
-        <summary>${PB_escape(baslik)}</summary>
-        <div class="product-modal-detail-body"></div>
-      `;
-      details.querySelector('.product-modal-detail-body').textContent = metin;
-      accordion.appendChild(details);
-    });
-  }
+  const bolumler = await PB_urunBolumleri(p);
+  bolumler.forEach(b => {
+    const details = PB_h('details', { class: 'product-modal-detail' });
+    if (b.acik) details.setAttribute('open', '');
+    details.appendChild(PB_h('summary', {}, b.baslik));
+    const govde = PB_h('div', { class: 'product-modal-detail-body' });
+    PB_urunBolumGovdesi(b, govde, PB_KOK_MUTLAK);
+    details.appendChild(govde);
+    accordion.appendChild(details);
+  });
 
   // Değerlendirmeler — beklemesi gerekmesin diye ayrı çiziliyor
   PB_renderReviews(modal.querySelector('[data-pm-reviews]'), p);

@@ -4402,7 +4402,9 @@ main { flex: 1 0 auto; }
 /* Bölüm içindeki taş bağlantıları */
 .urun-tas-oge {
   display: flex;
-  align-items: center;
+  /* Satır artık üç satır metin + bağlantı taşıyor; ortalamak yerine
+     üstten hizalamak renk dairesini taşın adıyla aynı hizada tutuyor. */
+  align-items: flex-start;
   gap: 12px;
   padding: 8px 0;
   text-decoration: none;
