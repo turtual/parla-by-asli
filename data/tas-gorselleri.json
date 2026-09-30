@@ -5,11 +5,35 @@
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },
+  "akuamarin": {
+    "dosya": "Beryl-Muscovite-aquamarine nagar balanced budd.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Beryl-Muscovite-aquamarine_nagar_balanced_budd.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
+  "amazonit": {
+    "dosya": "Microcline-23845.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Microcline-23845.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
+  "ametist": {
+    "dosya": "Quartz var Amethyst Specimen 22.JPG",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz_var_Amethyst_Specimen_22.JPG",
+    "lisans": "CC BY-SA 4.0",
+    "yazar": "Photo by and (c)2015 Derek Ramsey (Ram-Man)"
+  },
   "ametrin": {
     "dosya": "Ametrine cut.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Ametrine_cut.jpg",
     "lisans": "CC BY-SA 3.0",
     "yazar": "Bilinmiyor"
+  },
+  "angelit": {
+    "dosya": "Anhydrite HMNH1.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Anhydrite_HMNH1.jpg",
+    "lisans": "Public domain",
+    "yazar": "Alcinoe"
   },
   "apatit": {
     "dosya": "Apatite-21564.jpg",
@@ -35,6 +59,12 @@
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },
+  "dumanli-kuvars": {
+    "dosya": "Quartz-fly03abg.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz-fly03abg.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
   "florit": {
     "dosya": "Fluorite-Quartz-54392.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Fluorite-Quartz-54392.jpg",
@@ -46,6 +76,12 @@
     "kaynak": "https://commons.wikimedia.org/wiki/File:Almandine-22575.jpg",
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
+  },
+  "gul-kuvars": {
+    "dosya": "Rose Quartz Macro 1.JPG",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Rose_Quartz_Macro_1.JPG",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "“Jon Zander (Digon3)\""
   },
   "hematit": {
     "dosya": "Hematite-Rutile-57088.jpg",
@@ -59,6 +95,18 @@
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },
+  "inci": {
+    "dosya": "Black pearl and his shell.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Black_pearl_and_his_shell.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Brocken Inaglory"
+  },
+  "iolit": {
+    "dosya": "Cordiérite var. iolite 1.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Cordi%C3%A9rite_var._iolite_1.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Parent Géry"
+  },
   "jasper": {
     "dosya": "Bilderjaspis Jaspis.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Bilderjaspis_Jaspis.jpg",
@@ -71,17 +119,41 @@
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },
+  "kalsit": {
+    "dosya": "Calcite-20188.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Calcite-20188.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
+  "kaplan-gozu": {
+    "dosya": "Tigers-Eye-Riebeckite-Hematite-214889.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Tigers-Eye-Riebeckite-Hematite-214889.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
   "karneol": {
     "dosya": "Carnelian sard (mineral specimen).jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Carnelian_sard_(mineral_specimen).jpg",
     "lisans": "CC BY-SA 4.0",
     "yazar": "Hyperdeath"
   },
+  "kaya-kristali": {
+    "dosya": "Quartz-153471.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz-153471.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
   "krizokol": {
     "dosya": "Quartz-Chrysocolla-27132.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz-Chrysocolla-27132.jpg",
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
+  },
+  "kunzit": {
+    "dosya": "Kunzite, Minas Gerais, Brazil-8801.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Kunzite,_Minas_Gerais,_Brazil-8801.jpg",
+    "lisans": "CC BY-SA 4.0",
+    "yazar": "Raimond Spekking"
   },
   "kyanit": {
     "dosya": "Kyanite-47673.jpg",
@@ -92,6 +164,12 @@
   "labradorit": {
     "dosya": "Labradorite (Wiborg Batholith, 1633 Ma; Kymi Province, Finland) 1.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Labradorite_(Wiborg_Batholith,_1633_Ma;_Kymi_Province,_Finland)_1.jpg",
+    "lisans": "CC BY 2.0",
+    "yazar": "James St. John"
+  },
+  "lapis-lazuli": {
+    "dosya": "Lapis lazuli (lazuritic metamorphite) (Sar-e-Sang Deposit, Sakhi Formation, Precambrian, 2.4-2.7 Ga (?); Sar-e-Sang Mining District, Hindu-Kush Mountains, Afghanistan) 6 (40672923793).jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Lapis_lazuli_(lazuritic_metamorphite)_(Sar-e-Sang_Deposit,_Sakhi_Formation,_Precambrian,_2.4-2.7_Ga_(%3F);_Sar-e-Sang_Mining_District,_Hindu-Kush_Mountains,_Afghanistan)_6_(40672923793).jpg",
     "lisans": "CC BY 2.0",
     "yazar": "James St. John"
   },
@@ -107,17 +185,41 @@
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },
+  "mercan": {
+    "dosya": "Corallium rubrum (red coral) 2 (15529370228).jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Corallium_rubrum_(red_coral)_2_(15529370228).jpg",
+    "lisans": "CC BY 2.0",
+    "yazar": "James St. John"
+  },
   "obsidiyen": {
     "dosya": "Cristobalite-Obsidian-40049.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Cristobalite-Obsidian-40049.jpg",
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },
+  "oniks": {
+    "dosya": "Black oval onyx cabochons 2.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Black_oval_onyx_cabochons_2.jpg",
+    "lisans": "CC BY 4.0",
+    "yazar": "W.carter"
+  },
   "opal": {
     "dosya": "Opal from Yowah, Queensland, Australia 2.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Opal_from_Yowah,_Queensland,_Australia_2.jpg",
     "lisans": "CC BY-SA 2.5",
     "yazar": "JJ Harrison (https://www.jjharrison.com.au/)"
+  },
+  "peridot": {
+    "dosya": "Forsterite-Olivine-4jg58d.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Forsterite-Olivine-4jg58d.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
+  "pirit": {
+    "dosya": "Pyrite-192589.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Pyrite-192589.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
   },
   "rodokrozit": {
     "dosya": "Rhodochrosite-Quartz-41397.jpg",
@@ -131,6 +233,12 @@
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },
+  "sedef": {
+    "dosya": "Paua.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Paua.jpg",
+    "lisans": "Public domain",
+    "yazar": "user Wolfgang K"
+  },
   "selenit": {
     "dosya": "Gypsum var. selenite from Andamooka Ranges - Lake Torrens area, South Australia.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Gypsum_var._selenite_from_Andamooka_Ranges_-_Lake_Torrens_area,_South_Australia.jpg",
@@ -142,6 +250,12 @@
     "kaynak": "https://commons.wikimedia.org/wiki/File:Serpentine-Group-142252.jpg",
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
+  },
+  "sitrin": {
+    "dosya": "Quartz Citrine Crystals in Their Natural Form.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz_Citrine_Crystals_in_Their_Natural_Form.jpg",
+    "lisans": "CC BY-SA 4.0",
+    "yazar": "Jennifer A Hogan"
   },
   "sodalit": {
     "dosya": "Sodalite-Afghanite-118489.jpg",
@@ -167,123 +281,15 @@
     "lisans": "Public domain",
     "yazar": "User:JohnArmagh"
   },
-  "zumrut": {
-    "dosya": "Beryl-Quartz-Emerald-Zambia-85mm 0872.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Beryl-Quartz-Emerald-Zambia-85mm_0872.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "kunzit": {
-    "dosya": "Kunzite, Minas Gerais, Brazil-8801.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Kunzite,_Minas_Gerais,_Brazil-8801.jpg",
-    "lisans": "CC BY-SA 4.0",
-    "yazar": "Raimond Spekking"
-  },
-  "akuamarin": {
-    "dosya": "Beryl-Muscovite-aquamarine nagar balanced budd.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Beryl-Muscovite-aquamarine_nagar_balanced_budd.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "ametist": {
-    "dosya": "Quartz var Amethyst Specimen 22.JPG",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz_var_Amethyst_Specimen_22.JPG",
-    "lisans": "CC BY-SA 4.0",
-    "yazar": "Photo by and (c)2015 Derek Ramsey (Ram-Man)"
-  },
-  "kaplan-gozu": {
-    "dosya": "Tigers-Eye-Riebeckite-Hematite-214889.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Tigers-Eye-Riebeckite-Hematite-214889.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "lapis-lazuli": {
-    "dosya": "Lapis lazuli (lazuritic metamorphite) (Sar-e-Sang Deposit, Sakhi Formation, Precambrian, 2.4-2.7 Ga (?); Sar-e-Sang Mining District, Hindu-Kush Mountains, Afghanistan) 6 (40672923793).jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Lapis_lazuli_(lazuritic_metamorphite)_(Sar-e-Sang_Deposit,_Sakhi_Formation,_Precambrian,_2.4-2.7_Ga_(%3F);_Sar-e-Sang_Mining_District,_Hindu-Kush_Mountains,_Afghanistan)_6_(40672923793).jpg",
-    "lisans": "CC BY 2.0",
-    "yazar": "James St. John"
-  },
-  "sitrin": {
-    "dosya": "Quartz Citrine Crystals in Their Natural Form.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz_Citrine_Crystals_in_Their_Natural_Form.jpg",
-    "lisans": "CC BY-SA 4.0",
-    "yazar": "Jennifer A Hogan"
-  },
-  "iolit": {
-    "dosya": "Cordiérite var. iolite 1.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Cordi%C3%A9rite_var._iolite_1.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Parent Géry"
-  },
-  "kaya-kristali": {
-    "dosya": "Quartz-153471.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz-153471.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "mercan": {
-    "dosya": "Corallium rubrum (red coral) 2 (15529370228).jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Corallium_rubrum_(red_coral)_2_(15529370228).jpg",
-    "lisans": "CC BY 2.0",
-    "yazar": "James St. John"
-  },
-  "peridot": {
-    "dosya": "Forsterite-Olivine-4jg58d.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Forsterite-Olivine-4jg58d.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "pirit": {
-    "dosya": "Pyrite-192589.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Pyrite-192589.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "kalsit": {
-    "dosya": "Calcite-20188.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Calcite-20188.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "amazonit": {
-    "dosya": "Microcline-23845.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Microcline-23845.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Robert M. Lavinsky"
-  },
-  "angelit": {
-    "dosya": "Anhydrite HMNH1.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Anhydrite_HMNH1.jpg",
-    "lisans": "Public domain",
-    "yazar": "Alcinoe"
-  },
-  "gul-kuvars": {
-    "dosya": "Rose Quartz Macro 1.JPG",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Rose_Quartz_Macro_1.JPG",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "“Jon Zander (Digon3)\""
-  },
-  "inci": {
-    "dosya": "Black pearl and his shell.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Black_pearl_and_his_shell.jpg",
-    "lisans": "CC BY-SA 3.0",
-    "yazar": "Brocken Inaglory"
-  },
-  "sedef": {
-    "dosya": "Paua.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Paua.jpg",
-    "lisans": "Public domain",
-    "yazar": "user Wolfgang K"
-  },
   "yesim": {
     "dosya": "Green nephrite jade (Precambrian; Granite Mountains, Wyoming, USA) 2 (24323267329).jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Green_nephrite_jade_(Precambrian;_Granite_Mountains,_Wyoming,_USA)_2_(24323267329).jpg",
     "lisans": "CC BY 2.0",
     "yazar": "James St. John"
   },
-  "dumanli-kuvars": {
-    "dosya": "Quartz-fly03abg.jpg",
-    "kaynak": "https://commons.wikimedia.org/wiki/File:Quartz-fly03abg.jpg",
+  "zumrut": {
+    "dosya": "Beryl-Quartz-Emerald-Zambia-85mm 0872.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Beryl-Quartz-Emerald-Zambia-85mm_0872.jpg",
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   }

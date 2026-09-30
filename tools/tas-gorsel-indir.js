@@ -51,7 +51,11 @@ const ARAMA_OZEL = {
   amazonit: 'amazonite microcline green mineral',
   'dumanli-kuvars': 'smoky quartz dark crystal point',
   mercan: 'Corallium rubrum red coral',
-  oniks: 'black chalcedony onyx polished stone',
+  // Oniks bantlı kalsedondur; kristal kümesi ya da mağara traverteni
+  // DEĞİL. 'onyx' araması hem bir kelebeği (Horaga onyx) hem deniz
+  // kabuklarını (Erronea onyx) hem de 'oniks mermeri' denen traverteni
+  // getiriyor. Cilalı kaboşon terimi doğru taşı bulan tek terim oldu.
+  oniks: 'black oval onyx cabochons',
   sedef: 'nacre mother of pearl shell interior',
   yesim: 'nephrite jade green stone',
   iolit: 'iolite cordierite gemstone',
