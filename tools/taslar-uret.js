@@ -296,7 +296,9 @@ ${harfNav}
 
 function tasSayfasi(tas, onceki, sonraki) {
   const kanonik = `${SITE}/taslar/${tas.slug}/`;
-  const baslik = `${tas.ad} — Özellikleri ve Bakımı · Parla By Aslı`;
+  /* Başlıkta "Bakımı" yazmıyor: o bölüm sayfadan kaldırıldı, arama
+     sonucunda olmayan bir içeriği vaat etmesin. */
+  const baslik = `${tas.ad} — Özellikleri ve Hikâyesi · Parla By Aslı`;
   const k = kesif[tas.slug] || {};
 
   const kimlik = Object.entries(tas.kimlik || {});
@@ -452,12 +454,6 @@ ${kimlikSatirlari}
 ${UYARI}
         </section>
 
-        <section class="tas-bolum">
-          <h2>Bakımı</h2>
-          <ul>
-            ${(tas.bakim || []).map(b => `<li>${bicim(b)}</li>`).join('\n            ')}
-          </ul>
-        </section>
 ${sonCta}
 
         <nav class="stone-nav" aria-label="Diğer taşlar">
