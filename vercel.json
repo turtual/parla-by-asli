@@ -11,7 +11,7 @@
   "rewrites": [
     {
       "source": "/urun/:slug/",
-      "destination": "/urun/index.html"
+      "destination": "/urun/"
     }
   ],
   "headers": [

@@ -78,7 +78,7 @@
   <main>
     <!-- İçerik admin → Sayfa içerikleri → "Hikâyemiz" alanından düzenlenir.
          Aşağıdaki metin, veritabanına ulaşılamazsa görünen yedek hâldir. -->
-    <section class="legal-page" data-content-slug="hikayemiz">
+    <section class="legal-page legal-page-genis" data-content-slug="hikayemiz">
       <div class="container">
 
         <nav class="legal-crumb" aria-label="Sayfa konumu">
@@ -89,6 +89,8 @@
           <span class="eyebrow" data-cp-eyebrow>Parla By Aslı</span>
           <h1 class="h1" data-cp-title>Hikâyemiz</h1>
         </div>
+
+        <div class="hikaye-duzen">
 
         <div class="legal-body" id="legal-body">
 
@@ -118,6 +120,15 @@
             Her sipariş verildikten sonra hazırlanıyor ve Parla kutusunda
             gönderiliyor. Üretim Türkiye'de, tasarım hep beraber.
           </p>
+
+        </div>
+
+          <!-- Fotoğraf anasayfadaki hikâye bölümüyle aynı kaynaktan gelir
+               (site_texts.hikaye_gorsel). Yoksa marka mührü görünür. -->
+          <figure class="hikaye-foto" id="hikaye-foto">
+            <img id="hikaye-foto-gorsel" alt="" decoding="async" hidden>
+            <img src="../assets/img/logo-seal-bakir.svg" alt="" class="hikaye-foto-muhur" id="hikaye-foto-muhur" aria-hidden="true">
+          </figure>
 
         </div>
 
