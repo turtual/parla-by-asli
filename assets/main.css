@@ -5238,3 +5238,156 @@ main { flex: 1 0 auto; }
 /* Perde kararınca fiyatın üstü çizilmiyor — ürün hâlâ o fiyata
    üretiliyor, yalnız şu an stokta yok. */
 .product-card.is-tukendi .product-card-price { opacity: 0.75; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBİL DÜZELTMELERİ
+
+   375x812 (iPhone) ölçülerek çıkarıldı. Bulgular ve gerekçeler
+   kuralların başında yazılı. Masaüstü düzenine dokunulmuyor —
+   hepsi medya sorgusu içinde.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Dokunma hedefleri ──
+   Apple ve Google ikisi de en az 44px öneriyor. Ölçümde filtre
+   düğmeleri 30-34px, adet düğmeleri 34px, bölüm başlıkları 21px
+   çıktı: parmakla isabet ettirmek zor, yanlış tıklama çok olur. */
+
+@media (max-width: 859px) {
+
+  .type-tab,
+  .pill,
+  .tas-kesif-secenek,
+  .tas-kesif-renk-secenek {
+    min-height: 44px;
+  }
+
+  /* Adet kutusu: artı/eksi kareleri büyüsün. Sepete eklemeden önceki
+     son adım, ıskalanması doğrudan satış kaybı. */
+  .qty-control button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Ürün sayfasındaki adet kutusu .qty-control kullanmıyor, kendi
+     sınıfı var; ikisi de büyüsün. */
+  .urun-adet button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Taş dizinindeki A-Z harfleri. 29 harf var; 44px satırları gereksiz
+     şişirirdi, 40px parmak için yeterli ve düzen bozulmuyor. */
+  .tas-harf {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  /* Konum izi bağlantıları (Anasayfa · Tüm ürünler). Satır 17px idi;
+     yazı boyutu aynı kalıyor, yalnız dokunma alanı açılıyor. */
+  .legal-crumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* Pencere kapatma — köşede küçük bir kare, en çok ıskalanan düğme.
+     Seçici ".product-modal-card .modal-close" kadar güçlü olmalı;
+     sade .modal-close o kuraldan zayıf kalıp geçmiyordu. */
+  .modal-close,
+  .product-modal-card .modal-close {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Galeri altındaki "yapay zekâ görseli" açıklaması. Dipnot olsa da
+     açılıp kapanan gerçek bir denetim; 21px satıra basmak zordu. */
+  .product-modal-ai-note summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-scroll {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Akordeon başlıkları (Hikâyesi, Taşlar, Bakım…). 21px'lik satıra
+     parmakla basmak zordu. */
+  .urun-bolum summary,
+  .product-modal-detail summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Tek başına duran bağlantılar: "Tümünü gör", "Tüm taşlar",
+     Instagram, alt menü sütunları. Metin içindeki bağlantılara
+     DOKUNULMUYOR — onlar cümlenin parçası, büyütmek satır arasını
+     bozar. */
+  .section-link,
+  .stone-nav-index,
+  .stone-nav-prev,
+  .stone-nav-next,
+  .footer-insta,
+  .footer-col a,
+  .footer-yasal a,
+  .product-modal-tam-sayfa,
+  .section-alt-link a,
+  #hikaye-link-text,
+  #lookbook-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* ── Açılış görseli ──
+   812px'lik ekranda hero 713px kaplıyordu (%88). Altındaki hiçbir
+   şey görünmediği için sayfa "tek fotoğraftan ibaret" hissi veriyor,
+   kaydırmayan ziyaretçi ürünleri hiç görmüyordu. */
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 68vh;
+    min-height: 68dvh;
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-2xl);
+  }
+}
+
+/* ── Form alanları ──
+   iOS Safari, yazı boyutu 16px'in altındaki bir alana basıldığında
+   sayfayı otomatik yakınlaştırıyor ve geri çıkmıyor. Ödeme formunda
+   bu doğrudan sipariş kaybettirir. 16px bunu kapatıyor. */
+
+@media (max-width: 859px) {
+  .input,
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  input[type='password'],
+  input[type='search'],
+  input[type='number'],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* ── Okunabilirlik ──
+   "YENİ" rozeti 9px'ti; büyük harf ve harf aralığıyla birlikte
+   telefonda okunmuyordu. */
+
+@media (max-width: 859px) {
+  /* Ödeme onay kutusu. Satırın tamamı <label> olduğu için dokunma alanı
+     zaten geniş; kutunun kendisi de parmakla isabet alsın diye büyüyor. */
+  .checkout-onay-satir input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+  }
+
+  .product-card-badge { font-size: 10.5px; }
+  .product-card-stones { font-size: 12px; }
+}
