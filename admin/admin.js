@@ -1944,6 +1944,7 @@
      tablosuna satır) anahtarını buraya da yaz. */
   const GORSEL_METIN_ANAHTARLARI = new Set([
     'hero_gorsel',
+    'liste_kapak_gorsel',
     'editorial_gorsel',
     'lookbook_gorsel',
     'hikaye_gorsel',

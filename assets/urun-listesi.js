@@ -198,7 +198,49 @@
     items.forEach((p, i) => grid.append(renderProductCard(p, i)));
   }
 
+  /*
+   * Başlık bandının kapak fotoğrafı.
+   *
+   * Kendi anahtarı var (liste_kapak_gorsel); yoksa anasayfanın kapak
+   * görsellerinin ilkine düşüyor. Böylece SQL çalıştırılmadan da bant
+   * dolu görünüyor, panelden ayrı bir fotoğraf seçmek isteyen de seçebiliyor.
+   *
+   * Fotoğraf gelmezse .has-media eklenmiyor ve bant eski sade hâlinde
+   * kalıyor — yarım, kırık bir görünüm çıkmıyor.
+   */
+  async function kapakGorseliYaz() {
+    const kap = document.getElementById('liste-kapak');
+    if (!kap || typeof PB_Data === 'undefined' || !PB_Data.getSiteTexts) return;
+
+    let url = '';
+    try {
+      const t = await PB_Data.getSiteTexts();
+      url = (t && t.liste_kapak_gorsel) || '';
+      if (!url && t && t.hero_gorseller) {
+        try {
+          const liste = JSON.parse(t.hero_gorseller);
+          if (Array.isArray(liste) && liste.length && liste[0] && liste[0].url) url = liste[0].url;
+        } catch (e) { /* bozuk JSON: tek görsele düş */ }
+      }
+      if (!url && t && t.hero_gorsel) url = t.hero_gorsel;
+    } catch (e) { return; }
+    if (!url) return;
+
+    const media = kap.querySelector('.sayfa-kapak-media');
+    if (!media) return;
+
+    /* Fotoğrafın yüklendiğini görmeden bandı koyultmuyoruz: yüklenmezse
+       açık zemin üstünde açık yazı kalırdı. */
+    const test = new Image();
+    test.onload = () => {
+      media.style.backgroundImage = 'url("' + url.replace(/"/g, '%22') + '")';
+      kap.classList.add('has-media');
+    };
+    test.src = url;
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    kapakGorseliYaz();
     if (!typeNavEl && !grid) return;   // bu sayfada liste yok
     tasBasligiYaz();
     renderFilters();

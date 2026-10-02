@@ -5241,6 +5241,90 @@ main { flex: 1 0 auto; }
 
 
 /* ═══════════════════════════════════════════════════════════════
+   LİSTE SAYFASI KAPAK BANDI
+
+   /urunler/ ve kategori sayfalarının başlık bandı düz krem bir blok
+   olarak duruyordu. Artık arkasında fotoğraf var.
+
+   Fotoğraf yalnız .has-media sınıfı eklenince görünür; o sınıfı
+   assets/urun-listesi.js fotoğrafın YÜKLENDİĞİNİ gördükten sonra
+   ekliyor. Böylece fotoğraf gelmezse bant eski sade hâlinde kalıyor,
+   açık zemin üstünde açık yazı gibi okunmaz bir ara durum oluşmuyor.
+   ═══════════════════════════════════════════════════════════════ */
+
+.sayfa-kapak {
+  position: relative;
+  overflow: hidden;
+}
+
+.sayfa-kapak .container {
+  position: relative;
+  z-index: 1;
+}
+
+.sayfa-kapak-media {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: 50% 50%;
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.sayfa-kapak.has-media .sayfa-kapak-media { opacity: 1; }
+
+/* Okunabilirlik katmanı. Tek düz karartma yerine iki yönlü geçiş:
+   yazının bulunduğu orta bant daha koyu, kenarlar açık kalıyor —
+   fotoğraf tamamen boğulmuyor ama kontrast her fotoğrafta yetiyor. */
+.sayfa-kapak.has-media .sayfa-kapak-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(20, 17, 14, 0.58) 0%,
+      rgba(20, 17, 14, 0.70) 45%,
+      rgba(20, 17, 14, 0.58) 100%);
+}
+
+/* Yazılar fotoğraf üstünde: krem tonlarına çevriliyor. Renkler
+   doğrudan yazılıyor çünkü değişkenler koyu zemin için tanımlı değil. */
+.sayfa-kapak.has-media .eyebrow,
+.sayfa-kapak.has-media .section-title,
+.sayfa-kapak.has-media .section-sub,
+.sayfa-kapak.has-media .legal-crumb,
+.sayfa-kapak.has-media .legal-crumb a {
+  color: var(--c-cream);
+}
+
+.sayfa-kapak.has-media .section-sub,
+.sayfa-kapak.has-media .legal-crumb {
+  color: rgba(245, 241, 234, 0.92);
+}
+
+.sayfa-kapak.has-media .legal-crumb a {
+  border-bottom-color: rgba(245, 241, 234, 0.45);
+}
+
+.sayfa-kapak.has-media .legal-crumb a:hover {
+  color: #fff;
+}
+
+/* Bandın kendisi biraz daha yüksek: fotoğrafın görünecek alanı olsun. */
+.sayfa-kapak {
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+}
+
+@media (min-width: 860px) {
+  .sayfa-kapak {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
    MOBİL DÜZELTMELERİ
 
    375x812 (iPhone) ölçülerek çıkarıldı. Bulgular ve gerekçeler

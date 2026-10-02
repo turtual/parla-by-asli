@@ -674,9 +674,19 @@
    * yeniden boyutlandırıp sıkıştırıyoruz. Tek giriş noktası
    * adminUploadImage olduğu için panelde hiçbir yol bunu atlayamaz.
    */
-  const IMG_MAX_EDGE = 2000;                   // uzun kenar üst sınırı (px)
-  const IMG_TARGET_BYTES = 4 * 1024 * 1024;    // depo sınırı 5MB, pay bırakıyoruz
-  const IMG_QUALITIES = [0.85, 0.75, 0.65];
+  /* Eşikler DEPOLAMAYA değil, web teslimine göre.
+
+     Önceden hedef 4 MB idi (Supabase tek dosyada 5 MB'a izin veriyor).
+     Ama 450 KB'lık bir ürün fotoğrafı bu hedefin çok altında kaldığı
+     için hiç sıkıştırılmadan geçiyordu; telefonda 164px'lik bir kartta
+     1400px'lik dosya iniyordu. Supabase free planında aylık 5 GB çıkış
+     sınırı var ve ürün listesi tek açılışta ~18 MB çekiyordu.
+
+     1400px üst sınır bilinçli: ürün sayfasındaki büyük görsel masaüstünde
+     ~560px yerleşiyor, tam ekran görüntüleyicide de yeterli kalıyor. */
+  const IMG_EDGE_ADIMLARI = [1400, 1100, 900]; // sırayla denenen uzun kenar (px)
+  const IMG_TARGET_BYTES = 180 * 1024;         // web için hedef dosya boyutu
+  const IMG_QUALITIES = [0.82, 0.72, 0.62];
   const IMG_SKIP_TYPES = ['image/svg+xml', 'image/gif']; // vektör ve hareketli GIF bozulur
 
   /** Dosyayı çözer; ImageBitmap veya <img> döner. EXIF dönüklüğü uygulanır. */
@@ -750,7 +760,7 @@
       const outExt = alpha ? 'webp' : 'jpg';
 
       let best = null;
-      for (const edge of [IMG_MAX_EDGE, 1600, 1200]) {
+      for (const edge of IMG_EDGE_ADIMLARI) {
         const scale = Math.min(1, edge / Math.max(srcW, srcH));
         const w = Math.max(1, Math.round(srcW * scale));
         const h = Math.max(1, Math.round(srcH * scale));
