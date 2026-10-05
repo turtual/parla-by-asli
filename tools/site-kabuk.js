@@ -65,13 +65,25 @@ function seritHtml() {
 `;
 }
 
+/*
+ * Yol ön eki.
+ *
+ * Sayı verilirse kökten kaç klasör içeride olduğudur ve göreli ön ek
+ * üretilir ("../../"). DİZE verilirse doğrudan ön ek olarak kullanılır:
+ * yedek ürün şablonu "/" geçiyor, çünkü o tek dosya birden çok
+ * derinlikte servis ediliyor ve göreli yol orada kırılıyor.
+ */
+function kokOneki(derinlik) {
+  return typeof derinlik === 'string' ? derinlik : '../'.repeat(derinlik);
+}
+
 /**
- * @param {number} derinlik  kökten kaç klasör içeride
+ * @param {number|string} derinlik  klasör derinliği ya da hazır ön ek ("/")
  * @param {string} aktif     o an açık olan menü yolu (aria-current için)
  */
 function headerHtml(derinlik, aktif) {
-  const u = '../'.repeat(derinlik);
-  const anasayfa = derinlik === 0 ? 'index.html' : u + 'index.html';
+  const u = kokOneki(derinlik);
+  const anasayfa = u === '/' ? '/' : (u === '' ? 'index.html' : u + 'index.html');
 
   const menu = ANA_MENU.map(m => {
     const simdi = aktif && m.yol === aktif ? ' aria-current="page"' : '';
@@ -117,7 +129,7 @@ ${menu}
 }
 
 function footerHtml(derinlik) {
-  const u = '../'.repeat(derinlik);
+  const u = kokOneki(derinlik);
 
   const sutun = (baslik, baglantilar) => `        <div class="footer-col">
           <h4>${kacar(baslik)}</h4>

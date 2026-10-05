@@ -270,8 +270,11 @@ ${footerHtml(2)}
  * adreste indekslenmesin.
  */
 function yedekSablon() {
+  /* Yollar KÖK-MUTLAK ("/assets/…"), göreli değil. Bu dosya hem /urun/
+     hem /urun/<slug>/ adresinde sunuluyor; göreli yol ikisinde birden
+     doğru olamaz ve derin adreste CSS/JS 404 veriyordu. */
   return `<!DOCTYPE html>
-<html lang="tr" data-kok="../">
+<html lang="tr" data-kok="/">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -281,27 +284,27 @@ function yedekSablon() {
   <title>Ürün · Parla By Aslı</title>
   <meta name="description" content="Parla By Aslı el emeği doğal taş takı.">
 
-  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-pa-bakir.svg">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo-pa-bakir.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:opsz,wght@9..144,400..500&display=swap">
-  <link rel="stylesheet" href="../assets/main.css">
+  <link rel="stylesheet" href="/assets/main.css">
 </head>
 <body>
 
 ${seritHtml()}
-${headerHtml(1)}
+${headerHtml('/')}
   <main class="urun-sayfa">
     <div class="container">
 
       <nav class="legal-crumb" aria-label="Sayfa konumu">
-        <a href="../index.html">Anasayfa</a> ·
-        <a href="../urunler/">Tüm ürünler</a>
+        <a href="/">Anasayfa</a> ·
+        <a href="/urunler/">Tüm ürünler</a>
       </nav>
 
       <div class="urun-yok" id="urun-yok" hidden role="status">
         <p>Bu ürün şu anda satışta değil.</p>
-        <a class="btn btn-primary" href="../urunler/">Tüm ürünlere bak</a>
+        <a class="btn btn-primary" href="/urunler/">Tüm ürünlere bak</a>
       </div>
 
       <div class="urun-duzen">
@@ -341,7 +344,7 @@ ${headerHtml(1)}
       <section id="urun-benzer" hidden aria-labelledby="urun-benzer-baslik">
         <div class="section-head">
           <h2 class="section-title" id="urun-benzer-baslik">Birlikte güzel</h2>
-          <a class="section-link" href="../urunler/">Tümünü gör →</a>
+          <a class="section-link" href="/urunler/">Tümünü gör →</a>
         </div>
         <div class="product-grid product-grid-4" id="urun-benzer-grid"></div>
       </section>
@@ -351,18 +354,18 @@ ${headerHtml(1)}
     </div>
   </main>
 
-${footerHtml(1)}
+${footerHtml('/')}
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../assets/data.js"></script>
-  <script src="../assets/content.js"></script>
-  <script src="../assets/products.js"></script>
-  <script src="../assets/ui.js"></script>
-  <script src="../assets/reviews.js"></script>
-  <script src="../assets/account.js"></script>
-  <script src="../assets/taslar-listesi.js"></script>
-  <script src="../assets/taslar-eslesme.js"></script>
-  <script src="../assets/urun-sayfasi.js"></script>
-  <script src="../assets/site-nav.js"></script>
+  <script src="/assets/data.js"></script>
+  <script src="/assets/content.js"></script>
+  <script src="/assets/products.js"></script>
+  <script src="/assets/ui.js"></script>
+  <script src="/assets/reviews.js"></script>
+  <script src="/assets/account.js"></script>
+  <script src="/assets/taslar-listesi.js"></script>
+  <script src="/assets/taslar-eslesme.js"></script>
+  <script src="/assets/urun-sayfasi.js"></script>
+  <script src="/assets/site-nav.js"></script>
 </body>
 </html>
 `;
