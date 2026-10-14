@@ -19,18 +19,18 @@
 --   Açıklama alanı artık ayrı bir paragraf değil, başlığın ikinci satırı.
 
 update public.site_texts
-   set value = 'Her taşın bir hikâyesi var.'
+   set value = 'Her taşın başka bir hikâyesi var.'
  where key = 'tasini_bul_baslik';
 
 update public.site_texts
-   set value = 'Taşını keşfet'
+   set value = 'Seninki hangisi ?'
  where key = 'tasini_bul_metni';
 
 
 -- Satırlar yoksa oluştur (önceki kurulumlarda eklenmemiş olabilir).
 insert into public.site_texts (key, label, value) values
-  ('tasini_bul_baslik', 'Taşını Bul — başlık', 'Her taşın bir hikâyesi var.'),
-  ('tasini_bul_metni',  'Taşını Bul — ikinci satır', 'Taşını keşfet')
+  ('tasini_bul_baslik', 'Taşını Bul — başlık', 'Her taşın başka bir hikâyesi var.'),
+  ('tasini_bul_metni',  'Taşını Bul — ikinci satır', 'Seninki hangisi ?')
 on conflict (key) do nothing;
 
 
