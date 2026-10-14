@@ -1,6 +1,5 @@
 {
   "_not": "Taş ansiklopedisi — 2. parça (A–H). Yazım kuralı için data/taslar.json'a bak.",
-
   "taslar": [
     {
       "slug": "akik",
@@ -28,9 +27,12 @@
         "Boyalı örneklerde asit ve alkolden kaçın; renk açılabilir.",
         "Sabunlu ılık su ve yumuşak fırça yeterlidir."
       ],
-      "eslesme": ["akik", "agate", "agat"]
+      "eslesme": [
+        "akik",
+        "agate",
+        "agat"
+      ]
     },
-
     {
       "slug": "ametrin",
       "ad": "Ametrin",
@@ -57,9 +59,11 @@
         "Sabunlu ılık su yeterlidir.",
         "Yüksek ısıdan uzak tut — renk dengesi bozulabilir."
       ],
-      "eslesme": ["ametrin", "ametrine"]
+      "eslesme": [
+        "ametrin",
+        "ametrine"
+      ]
     },
-
     {
       "slug": "apatit",
       "ad": "Apatit",
@@ -86,9 +90,11 @@
         "Ultrasonik ve buharlı temizleyici kullanma.",
         "Asitli maddelerden uzak tut — fosfat asitte çözünür."
       ],
-      "eslesme": ["apatit", "apatite"]
+      "eslesme": [
+        "apatit",
+        "apatite"
+      ]
     },
-
     {
       "slug": "aventurin",
       "ad": "Aventurin",
@@ -115,9 +121,12 @@
         "Uzun güneş maruziyeti yeşili soldurabilir.",
         "Sabunlu ılık su ve yumuşak bez yeterlidir."
       ],
-      "eslesme": ["aventurin", "aventurine", "avanturin"]
+      "eslesme": [
+        "aventurin",
+        "aventurine",
+        "avanturin"
+      ]
     },
-
     {
       "slug": "aytasi",
       "ad": "Ay Taşı",
@@ -144,9 +153,14 @@
         "Ultrasonik temizleyici kullanma.",
         "Sabunlu ılık su ve yumuşak bez yeterlidir."
       ],
-      "eslesme": ["ay taşı", "aytaşı", "ay tasi", "moonstone", "aytasi"]
+      "eslesme": [
+        "ay taşı",
+        "aytaşı",
+        "ay tasi",
+        "moonstone",
+        "aytasi"
+      ]
     },
-
     {
       "slug": "caroit",
       "ad": "Çaroit",
@@ -172,9 +186,12 @@
         "Asitli temizleyicilerden uzak tut.",
         "Nemli bezle sil, kuru sakla."
       ],
-      "eslesme": ["çaroit", "caroit", "charoite"]
+      "eslesme": [
+        "çaroit",
+        "caroit",
+        "charoite"
+      ]
     },
-
     {
       "slug": "dumanli-kuvars",
       "ad": "Dumanlı Kuvars",
@@ -201,9 +218,13 @@
         "Güneşte ve ısıda rengi açılır — vitrinde sergileme.",
         "Sabunlu ılık su yeterlidir."
       ],
-      "eslesme": ["dumanlı kuvars", "dumanli kuvars", "smoky quartz", "füme kuvars"]
+      "eslesme": [
+        "dumanlı kuvars",
+        "dumanli kuvars",
+        "smoky quartz",
+        "füme kuvars"
+      ]
     },
-
     {
       "slug": "florit",
       "ad": "Florit",
@@ -230,9 +251,12 @@
         "Ani sıcaklık değişimi çatlatır.",
         "Ultrasonik ve buharlı temizleyici kesinlikle kullanma."
       ],
-      "eslesme": ["florit", "fluorit", "fluorite"]
+      "eslesme": [
+        "florit",
+        "fluorit",
+        "fluorite"
+      ]
     },
-
     {
       "slug": "granat",
       "ad": "Granat",
@@ -258,9 +282,13 @@
         "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
         "Ani sıcaklık değişiminden kaçın."
       ],
-      "eslesme": ["granat", "garnet", "almandin"]
+      "eslesme": [
+        "granat",
+        "garnet",
+        "almandin",
+        "lal"
+      ]
     },
-
     {
       "slug": "hematit",
       "ad": "Hematit",
@@ -287,9 +315,12 @@
         "Nemli ortamda paslanabilir; kuru sakla.",
         "Ultrasonik temizleyici kullanma, nemli bezle sil."
       ],
-      "eslesme": ["hematit", "hematite", "hematıt"]
+      "eslesme": [
+        "hematit",
+        "hematite",
+        "hematıt"
+      ]
     },
-
     {
       "slug": "howlit",
       "ad": "Howlit",
@@ -316,7 +347,77 @@
         "Boyalı örneklerde su ve alkol rengi çıkarabilir.",
         "Yalnızca kuru veya hafif nemli yumuşak bezle sil."
       ],
-      "eslesme": ["howlit", "howlite"]
+      "eslesme": [
+        "howlit",
+        "howlite"
+      ]
+    },
+    {
+      "slug": "morganit",
+      "ad": "Morganit",
+      "ozet": "Berilin pembe çeşidi. Zümrüt ve akuamarinle aynı mineral, farklı eser element.",
+      "kimlik": {
+        "Mineral grubu": "Beril",
+        "Kimyasal formül": "Be₃Al₂Si₆O₁₈",
+        "Sertlik (Mohs)": "7,5 – 8",
+        "Renk": "Şeftali pembesi, pudra pembesi, somon",
+        "Başlıca kaynaklar": "Brezilya, Madagaskar, Afganistan, Mozambik, ABD (Maine)"
+      },
+      "anlatim": [
+        "Morganit, beril ailesinin pembe üyesidir. Zümrüt ve akuamarinle **aynı mineraldir**; aradaki fark yapıya giren eser elementtir. Zümrüde yeşilini krom, akuamarine mavisini demir verirken, morganitin pembesi mangandan gelir.",
+        "Adını bankacı ve mineral koleksiyoncusu **J. P. Morgan**'dan alır. Taşı 1910'da adlandıran kişi, kunzite de adını veren Tiffany gemoloğu George Frederick Kunz'tur.",
+        "7,5–8 sertliğiyle günlük kullanıma dayanıklıdır. Berilin ortak zayıflığı burada da geçerli: darbeye karşı dilinimi vardır, sert bir çarpma çizikten çok çatlak yaratır.",
+        "Piyasadaki taşların önemli bölümü ısıl işlem görmüştür; işlem sarımsı ve turuncu tonları alıp daha temiz bir pembe bırakır. Yaygın ve kabul gören bir uygulamadır, ama bilmekte fayda var."
+      ],
+      "gelenek": [
+        "Geçmişi yenidir: 20. yüzyılda tanımlandığı için antik anlatılarda yer almaz.",
+        "Modern doğal taş kültüründe şefkat ve yumuşaklık temalarıyla ilişkilendirilir — bu, rengin çağrışımından beslenen yakın dönem bir anlatıdır.",
+        "Son yıllarda nişan yüzüklerinde pırlantaya alternatif olarak öne çıkmıştır."
+      ],
+      "bakim": [
+        "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
+        "Darbeye karşı dikkatli ol; sertliği yüksek olsa da dilinimi nedeniyle çarpınca çatlayabilir.",
+        "Ultrasonik temizleyiciyi, taşta çatlak varsa kullanma.",
+        "Parfüm ve kozmetikten sonra tak; yüzeyde iz bırakabilirler."
+      ],
+      "eslesme": [
+        "morganit",
+        "morganite",
+        "pembe beril"
+      ]
+    },
+    {
+      "slug": "prehnit",
+      "ad": "Prehnit",
+      "ozet": "Yarı saydam fıstık yeşili. İlk kez Ümit Burnu'nda bulunan, bir kişinin adını taşıyan ilk mineral.",
+      "kimlik": {
+        "Mineral grubu": "Prehnit (silikat)",
+        "Kimyasal formül": "Ca₂Al(AlSi₃O₁₀)(OH)₂",
+        "Sertlik (Mohs)": "6 – 6,5",
+        "Renk": "Fıstık yeşili, sarımsı yeşil, renksiz",
+        "Başlıca kaynaklar": "Avustralya, Güney Afrika, Çin, Mali, ABD (New Jersey)"
+      },
+      "anlatim": [
+        "Prehnit, yarı saydam fıstık yeşili rengiyle tanınır. Işığı içine aldığı için yüzeyi donuk değil, hafif buğulu bir derinlik gösterir.",
+        "Çoğu zaman **böbreğimsi** (üzüm salkımı gibi yuvarlak) kümeler hâlinde oluşur. İçinde iğne biçimli epidot kristalleri bulunabilir; bu örnekler koleksiyonerler arasında ayrıca aranır.",
+        "Adını 18. yüzyılda taşı Ümit Burnu'ndan Avrupa'ya getiren Hollandalı albay **Hendrik von Prehn**'den alır. Bir kişinin adıyla anılan **ilk mineral** olarak kabul edilir.",
+        "6–6,5 sertliğiyle kuvarstan yumuşaktır; yüzük taşı olarak kullanıldığında zamanla çizilebilir. Kolye ve küpede daha korunaklıdır."
+      ],
+      "gelenek": [
+        "Antik bir geleneği yoktur; 18. yüzyılda tanımlanmış görece yeni bir taştır.",
+        "Modern doğal taş kültüründe sakinlik ve düzen temalarıyla ilişkilendirilir.",
+        "Yeşil tonu nedeniyle doğa ve tazelik anlatısıyla birlikte anılır."
+      ],
+      "bakim": [
+        "Ilık sabunlu su ve yumuşak bez yeterlidir.",
+        "Kuvarstan yumuşak olduğu için sert yüzeylere sürtünmesinden kaçın; ayrı gözde sakla.",
+        "Ultrasonik ve buharlı temizleyici kullanma.",
+        "Uzun süreli güçlü ışıkta bırakma; rengi zamanla donuklaşabilir."
+      ],
+      "eslesme": [
+        "prehnit",
+        "prehnite"
+      ]
     }
   ]
 }

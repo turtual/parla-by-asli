@@ -48,6 +48,12 @@ const ARAMA_EKI = 'mineral specimen';
      · "oniks" mağara travertenini getiriyordu
    Bu listedeki taşlarda ad kontrolü atlanır; terim zaten kesin. */
 const ARAMA_OZEL = {
+  // ingilizceAd() eşleşme listesindeki EN UZUN adayı seçiyor; morganitte
+  // bu "pembe beril" oluyor ve Commons'ta sonuç getirmiyordu.
+  // 'morganite beryl crystal' soluk, neredeyse renksiz bir beril getiriyordu;
+  // bu terim taşın somon pembesini gösteren örneği buluyor.
+  morganit: 'Beryl Quartz morganite brazil',
+  prehnit: 'prehnite botryoidal green mineral',
   amazonit: 'amazonite microcline green mineral',
   'dumanli-kuvars': 'smoky quartz dark crystal point',
   mercan: 'Corallium rubrum red coral',

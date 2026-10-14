@@ -3268,6 +3268,17 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .home-section-greige { background: var(--c-warm-greige); }
 
+/* Kendi arka planı olan bölüm, kendi iç boşluğunu korur.
+
+   ".home-section + .home-section { padding-top: 0 }" kuralı ardışık
+   bölümlerde çift boşluk oluşmasın diye var; ama o kural AYNI zeminde
+   duran bölümler içindir. Rengi değişen bir bantta üst boşluğun silinmesi
+   başlığı bandın tam tepesine yapıştırıyor, altta ise 96px boşluk
+   kalıyordu — bant gözle bakıldığında yamuk duruyordu. */
+.home-section + .home-section.home-section-greige {
+  padding-top: var(--space-3xl);
+}
+
 /* ── Bölüm başlığı ──
    Sol: küçük üst yazı + başlık. Sağ: "tümünü gör". Mobilde alt alta. */
 .section-head {
@@ -3310,6 +3321,33 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   align-items: center;
   text-align: center;
 }
+
+/* ── "Taşını Bul" başlığı ──
+   İki satır tek bir ifade: ikinci satır bakır italik, taş ansiklopedisinin
+   kapağıyla (.tas-dizin-kapak h1 em) aynı dilde. */
+
+.section-title-vurgu {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--c-bakir);
+  margin-top: 2px;
+}
+
+/* Başlık bloğunun alt boşluğu, bölümün kendi iç boşluğuyla dengeli olsun:
+   başlık yukarıda sıkışık, taşlar aşağıda boşlukta kalıyordu. */
+.tasini-bul-head {
+  margin-bottom: var(--space-xl);
+}
+
+.tasini-bul-head .section-title,
+.tasini-bul-head .section-title-vurgu {
+  font-size: clamp(24px, 3.4vw, 34px);
+  line-height: 1.2;
+}
+
+.tasini-bul-head .section-title { margin: 0; }
 
 .section-sub {
   font-size: 15px;

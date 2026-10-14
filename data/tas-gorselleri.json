@@ -191,6 +191,12 @@
     "lisans": "CC BY 2.0",
     "yazar": "James St. John"
   },
+  "morganit": {
+    "dosya": "Beryl-Quartz-morganite brazil2.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Beryl-Quartz-morganite_brazil2.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
   "obsidiyen": {
     "dosya": "Cristobalite-Obsidian-40049.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Cristobalite-Obsidian-40049.jpg",
@@ -218,6 +224,12 @@
   "pirit": {
     "dosya": "Pyrite-192589.jpg",
     "kaynak": "https://commons.wikimedia.org/wiki/File:Pyrite-192589.jpg",
+    "lisans": "CC BY-SA 3.0",
+    "yazar": "Robert M. Lavinsky"
+  },
+  "prehnit": {
+    "dosya": "Prehnite-52280.jpg",
+    "kaynak": "https://commons.wikimedia.org/wiki/File:Prehnite-52280.jpg",
     "lisans": "CC BY-SA 3.0",
     "yazar": "Robert M. Lavinsky"
   },

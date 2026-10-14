@@ -227,6 +227,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://parlabyasli.com/taslar/morganit/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://parlabyasli.com/taslar/obsidiyen/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
@@ -248,6 +253,11 @@
   </url>
   <url>
     <loc>https://parlabyasli.com/taslar/pirit/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://parlabyasli.com/taslar/prehnit/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -1751,6 +1751,73 @@
         }
       ],
       "nedenBugun": "Yeni bir döneme girmek, sevgiye alan açmak ya da o canlı yeşili üzerinde taşımak için."
+    },
+    "morganit": {
+      "kisaKimlik": "Yumuşak kalmayı seçenlere.",
+      "renkGrubu": "pembe",
+      "giris": "Şeftali pembesinden somona uzanan morganit, zümrüt ve akuamarinle aynı mineraldir — pembesini mangana borçlu. Geçmişi yeni olduğu için antik anlatılarda yer almaz; modern doğal taş kültüründe şefkat ve yumuşaklık temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Yumuşak kalmayı seçiyorsan,",
+        "sevgiye alan açmak istiyorsan,",
+        "pudra pembesi seni çekiyorsa",
+        "ve berrak, zarif taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Morganit sana yakın gelebilir.",
+      "niyetler": [
+        "sevgi",
+        "sakinlik"
+      ],
+      "enerji": [
+        "Şefkat",
+        "Yumuşaklık",
+        "Sevgi",
+        "Dinginlik"
+      ],
+      "burclar": [
+        "Boğa",
+        "Terazi"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Kendine yumuşak davranmak, sevdiğin birine yakın hissetmek ya da o pudra pembesini üzerinde taşımak için."
+    },
+    "prehnit": {
+      "kisaKimlik": "Kafasını toparlamak isteyenlere.",
+      "renkGrubu": "yesil",
+      "giris": "Yarı saydam fıstık yeşiliyle prehnit, ışığı içine aldığı için donuk değil buğulu bir derinlik gösterir. Bir kişinin adını taşıyan ilk mineral olarak bilinir. Modern doğal taş kültüründe sakinlik ve düzen temalarıyla ilişkilendirilir.",
+      "sanaGoreMi": [
+        "Dağınık bir dönemi toparlamak istiyorsan,",
+        "sakin bir düzen arıyorsan,",
+        "yumuşak fıstık yeşili seni dinlendiriyorsa",
+        "ve içine ışık alan taşları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Prehnit sana yakın gelebilir.",
+      "niyetler": [
+        "sakinlik",
+        "odak",
+        "denge"
+      ],
+      "enerji": [
+        "Sakinlik",
+        "Düzen",
+        "Denge",
+        "Tazelik"
+      ],
+      "burclar": [
+        "Terazi",
+        "Başak"
+      ],
+      "cakralar": [
+        {
+          "ad": "Kalp çakrası",
+          "aciklama": "Sevgi ve şefkat"
+        }
+      ],
+      "nedenBugun": "Günü düzene sokmak, kafanı toparlamak ya da o buğulu yeşili üzerinde taşımak için."
     }
   }
 }
