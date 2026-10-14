@@ -1818,6 +1818,45 @@
         }
       ],
       "nedenBugun": "Günü düzene sokmak, kafanı toparlamak ya da o buğulu yeşili üzerinde taşımak için."
+    },
+    "yildiz-tasi": {
+      "kisaKimlik": "Yeni bir role hazırlananlara.",
+      "renkGrubu": "mavi",
+      "giris": "Lacivert zemininde yıldız gibi parıldayan yıldız taşı, aslında bir mineral değil: 17. yüzyıl Venedik'inde geliştirilen, içinde mikroskobik bakır kristalleri taşıyan el yapımı bir cam. Modern doğal taş kültüründe neşe, azim ve cesaret temalarıyla anılır.",
+      "sanaGoreMi": [
+        "Hayatında yeni bir role hazırlanıyorsan,",
+        "cesaret ve neşeye ihtiyacın varsa,",
+        "gece göğü gibi parıldayan bir yüzey seni çekiyorsa",
+        "ve hikâyesi olan parçaları seviyorsan…"
+      ],
+      "sanaGoreMiKapanis": "Yıldız taşı sana yakın gelebilir.",
+      "niyetler": [
+        "cesaret",
+        "enerji",
+        "yeni-baslangiclar",
+        "sevgi"
+      ],
+      "enerji": [
+        "Neşe",
+        "Cesaret",
+        "Azim",
+        "Açık yüreklilik"
+      ],
+      "cakralar": [
+        {
+          "ad": "Solar pleksus çakrası",
+          "aciklama": "Özgüven ve irade"
+        },
+        {
+          "ad": "Sakral çakra",
+          "aciklama": "Yaratıcılık ve canlılık"
+        },
+        {
+          "ad": "Kök çakrası",
+          "aciklama": "Topraklanma ve güven duygusu"
+        }
+      ],
+      "nedenBugun": "Yeni bir işe ya da role başlarken, cesaretini toplamak ya da o yıldızlı laciverti üzerinde taşımak için."
     }
   }
 }

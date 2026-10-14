@@ -1,6 +1,5 @@
 {
   "_not": "Taş ansiklopedisi — 3. parça (İ–M). Yazım kuralı için data/taslar.json'a bak.",
-
   "taslar": [
     {
       "slug": "iolit",
@@ -28,9 +27,12 @@
         "Ultrasonik temizleyici kullanma.",
         "Sabunlu ılık su yeterlidir."
       ],
-      "eslesme": ["iolit", "iolite", "kordiyerit"]
+      "eslesme": [
+        "iolit",
+        "iolite",
+        "kordiyerit"
+      ]
     },
-
     {
       "slug": "jasper",
       "ad": "Jasper",
@@ -57,9 +59,12 @@
         "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
         "Boyalı örneklerde asitten kaçın."
       ],
-      "eslesme": ["jasper", "jaspis", "yeşim taşı jasper"]
+      "eslesme": [
+        "jasper",
+        "jaspis",
+        "yeşim taşı jasper"
+      ]
     },
-
     {
       "slug": "kalsedon",
       "ad": "Kalsedon",
@@ -86,9 +91,12 @@
         "Gözenekli olabilir; parfüm ve boyalı sıvılardan uzak tut.",
         "Sabunlu ılık su yeterlidir."
       ],
-      "eslesme": ["kalsedon", "chalcedony", "kadıköy taşı"]
+      "eslesme": [
+        "kalsedon",
+        "chalcedony",
+        "kadıköy taşı"
+      ]
     },
-
     {
       "slug": "karneol",
       "ad": "Karneol",
@@ -115,9 +123,12 @@
         "Uzun güneş maruziyeti rengi değiştirebilir.",
         "Sabunlu ılık su yeterlidir."
       ],
-      "eslesme": ["karneol", "carnelian", "kırmızı akik"]
+      "eslesme": [
+        "karneol",
+        "carnelian",
+        "kırmızı akik"
+      ]
     },
-
     {
       "slug": "kaya-kristali",
       "ad": "Kristal Kuvars",
@@ -144,9 +155,14 @@
         "Sabunlu ılık su ve yumuşak fırça yeterlidir.",
         "İç çatlağı olan taşlarda ani sıcaklık değişiminden kaçın."
       ],
-      "eslesme": ["kaya kristali", "kuvars", "quartz", "rock crystal", "kristal kuvars"]
+      "eslesme": [
+        "kaya kristali",
+        "kuvars",
+        "quartz",
+        "rock crystal",
+        "kristal kuvars"
+      ]
     },
-
     {
       "slug": "krizokol",
       "ad": "Krizokol",
@@ -172,9 +188,12 @@
         "Asit ve amonyaktan uzak tut — bakır bileşikleri tepki verir.",
         "Suda bekletme; nemli bezle sil."
       ],
-      "eslesme": ["krizokol", "chrysocolla", "gem silika"]
+      "eslesme": [
+        "krizokol",
+        "chrysocolla",
+        "gem silika"
+      ]
     },
-
     {
       "slug": "kyanit",
       "ad": "Kyanit",
@@ -201,9 +220,13 @@
         "Ultrasonik temizleyici kullanma.",
         "Yumuşak nemli bezle sil."
       ],
-      "eslesme": ["kyanit", "kianit", "kyanite", "disten"]
+      "eslesme": [
+        "kyanit",
+        "kianit",
+        "kyanite",
+        "disten"
+      ]
     },
-
     {
       "slug": "labradorit",
       "ad": "Labradorit",
@@ -229,9 +252,12 @@
         "Ultrasonik temizleyici kullanma.",
         "Sabunlu ılık su ve yumuşak bez yeterlidir."
       ],
-      "eslesme": ["labradorit", "labradorite", "spektrolit"]
+      "eslesme": [
+        "labradorit",
+        "labradorite",
+        "spektrolit"
+      ]
     },
-
     {
       "slug": "lepidolit",
       "ad": "Lepidolit",
@@ -257,9 +283,11 @@
         "Suda bekletme, yapraklar arasına su girer.",
         "Kuru yumuşak bezle sil."
       ],
-      "eslesme": ["lepidolit", "lepidolite"]
+      "eslesme": [
+        "lepidolit",
+        "lepidolite"
+      ]
     },
-
     {
       "slug": "malakit",
       "ad": "Malakit",
@@ -286,9 +314,11 @@
         "Suda bekletme, ultrasonik temizleyici kullanma.",
         "Kuru yumuşak bezle sil, ayrı sakla."
       ],
-      "eslesme": ["malakit", "malachite"]
+      "eslesme": [
+        "malakit",
+        "malachite"
+      ]
     },
-
     {
       "slug": "mercan",
       "ad": "Mercan",
@@ -315,7 +345,53 @@
         "Parfüm, ter ve temizleyicilerden uzak tut — yüzeyi matlaşır.",
         "Nemli bezle sil, ayrı bir kesede sakla."
       ],
-      "eslesme": ["mercan", "coral", "kırmızı mercan"]
+      "eslesme": [
+        "mercan",
+        "coral",
+        "kırmızı mercan"
+      ]
+    },
+    {
+      "slug": "yildiz-tasi",
+      "ad": "Yıldız Taşı",
+      "ozet": "Gece göğü gibi parıldayan lacivert ve bronz. Mineral değil: Venedik camcılığından kalma, bakır kristalli el yapımı cam.",
+      "kimlik": {
+        "Malzeme": "Avventurina — el yapımı cam (doğal mineral değildir)",
+        "Bileşim": "Silis camı + içinde çöktürülmüş metalik bakır kristalleri",
+        "Sertlik (Mohs)": "5 – 5,5",
+        "Renk": "Lacivert, bronz-kahve; altın ve mavi parıltılı",
+        "Başlıca kaynaklar": "Venedik (Murano) geleneği; bugün Çin ve Hindistan"
+      },
+      "anlatim": [
+        "Yıldız taşı bir mineral değildir. Doğada oluşmaz — **eritilip soğutulan bir camdır**. Bunu gizlemeye gerek yok, çünkü hikâyesi tam da buradan geliyor.",
+        "İçindeki parıltı boya ya da simi değil. Cam, bakır bileşikleriyle birlikte eritilip çok yavaş soğutulduğunda bakır sıvının içinde **mikroskobik metal kristalleri** hâlinde çöker. Işık bu kristallere çarpıp geri döndüğü için yüzey gece göğü gibi görünür. Adı da buradan gelir.",
+        "Tarifi 17. yüzyıl Venedik'inde, Murano cam ustaları tarafından geliştirilmiştir. İtalyanca adı *avventurina*, \"şans eseri\" anlamına gelen *a ventura*'dan gelir; anlatıya göre etki bir kazayla bulunmuştur. Tarif uzun süre aile sırrı olarak saklanmıştır.",
+        "Lacivert olanı kobalt, bronz olanı bakırın kendi rengiyle elde edilir. İkisi de aynı yöntemin ürünüdür.",
+        "Sertliği 5–5,5 civarındadır; kuvarstan yumuşaktır. Cam olduğu için keskin bir darbede çizikten çok kırılma verir — kenarları kabuksu kırılır."
+      ],
+      "gelenek": [
+        "Antik bir geleneği yoktur; 17. yüzyıl sonrası bir malzemedir ve ona yüklenen anlamlar yakın döneme aittir.",
+        "Modern doğal taş kültüründe neşe, azim ve cesaret temalarıyla anılır; açık yüreklilikle ilişkilendirilir.",
+        "Hayatında yeni bir role hazırlananların taşı olarak anlatılır.",
+        "Gece göğünü andıran görüntüsü nedeniyle yıldızlarla ve dilek tutmakla birlikte anılır."
+      ],
+      "bakim": [
+        "Cam olduğu için çizilmeye açıktır; sert taşlarla aynı gözde saklama.",
+        "Sert darbeden koru — kenarları kırılabilir.",
+        "Ilık sabunlu su ve yumuşak bez yeterlidir.",
+        "Ultrasonik ve buharlı temizleyici kullanma; ani ısı değişimi camı çatlatabilir.",
+        "Parfüm ve kozmetikten sonra tak."
+      ],
+      "eslesme": [
+        "yıldız taşı",
+        "yildiz tasi",
+        "goldstone",
+        "star stone",
+        "avventurina",
+        "lacivert yıldız taşı",
+        "bronz yıldız taşı",
+        "aventürin camı"
+      ]
     }
   ]
 }

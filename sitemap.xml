@@ -317,6 +317,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://parlabyasli.com/taslar/yildiz-tasi/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://parlabyasli.com/taslar/zumrut/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

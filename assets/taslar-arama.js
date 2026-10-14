@@ -87,7 +87,11 @@
     const p = document.createElement('p');
     p.className = 'tas-kunye';
 
-    const yazar = String(kunye.yazar || '').replace(/s+/g, ' ').trim().slice(0, 60);
+    /* Düzen için art arda boşlukları teke indiriyoruz. Burada \s ŞART:
+       ters bölü unutulunca kalıp "s" HARFİNİ eşliyor ve fotoğrafçı adını
+       bozuyordu ("James St. John" -> "Jame  St. John"). CC lisansları
+       doğru atıf şart koştuğu için bu sessiz bir lisans ihlaliydi. */
+    const yazar = String(kunye.yazar || '').replace(/\s+/g, ' ').trim().slice(0, 60);
     p.append(document.createTextNode('Fotoğraf: ' + (yazar || 'Wikimedia Commons') + ' · '));
 
     const bag = document.createElement('a');
