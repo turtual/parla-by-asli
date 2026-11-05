@@ -248,6 +248,28 @@
         console.log('Önizleme görselleri:', previewImages);
       }
 
+      /* Müşteriye onay e-postası (api/siparis-maili.js → Resend).
+         Formspree'nin otomatik yanıtı ücretli planda olduğu için
+         müşterinin elinde sipariş kaydı kalmıyordu.
+
+         BİLEREK beklemiyoruz ve hatayı yutuyoruz: e-posta gitmese de
+         sipariş alındı, Formspree'ye düştü ve müşteri ödeme bilgisini
+         teşekkür sayfasında görecek. Mail yüzünden akışı durdurmak
+         ya da müşteriye hata göstermek zarar verirdi. */
+      fetch('/api/siparis-maili', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          email: customer.email,
+          ad: customer.ad,
+          items: items.map(u => ({ name: u.name, quantity: u.quantity, price: u.price })),
+          subtotal,
+          shipping,
+          total
+        })
+      }).catch(err => console.warn('Onay e-postası gönderilemedi:', err));
+
       // Başarılı: sepeti temizle, onay sayfasına git
       // (Sipariş ID'sini sakla ki onay sayfasında gösterilebilsin)
       sessionStorage.setItem('pb_last_order', JSON.stringify({
