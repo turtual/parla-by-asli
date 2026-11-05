@@ -195,6 +195,13 @@
       }
 
       const payload = {
+        /* Formspree'nin tanıdığı özel alan: gelen bildirimin konusu.
+           Eskiden hepsi aynı konuyla düşüyordu, kutuda ayırt etmek zordu. */
+        _subject: `Yeni sipariş — ${orderId} — ${formatPrice(total)}`,
+
+        /* "email" alanının adı AYNEN böyle kalmalı: Formspree otomatik
+           yanıtı (ücretli planlarda) alıcıyı bu alandan buluyor. Adı
+           değişirse müşteriye hiçbir şey gitmez. */
         order_id: orderId,
         // Müşteri
         ad: customer.ad,

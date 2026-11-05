@@ -99,7 +99,10 @@
               </div>
               <div>
                 <dt>IBAN</dt>
-                <dd><span class="odeme-iban" data-satici="iban"></span></dd>
+                <dd class="odeme-iban-satir">
+                  <span class="odeme-iban" id="iban-metin" data-satici="iban"></span>
+                  <button type="button" class="iban-kopyala" id="iban-kopyala">Kopyala</button>
+                </dd>
               </div>
               <div>
                 <dt>Banka</dt>
@@ -197,6 +200,40 @@
   </script>
 
   <script src="../assets/legal-info.js"></script>
+  <script>
+    /* IBAN kopyalama. Boşluklar siliniyor: bankaların çoğu boşluklu
+       IBAN'ı reddediyor, müşteri de nedenini anlamıyor. */
+    (function () {
+      var dugme = document.getElementById('iban-kopyala');
+      var metin = document.getElementById('iban-metin');
+      if (!dugme || !metin) return;
+
+      dugme.addEventListener('click', async function () {
+        var deger = (metin.textContent || '').replace(/\s+/g, '');
+        if (!deger || deger === '—') return;
+        try {
+          await navigator.clipboard.writeText(deger);
+        } catch (e) {
+          /* Clipboard izni yoksa (eski tarayıcı, http) sessizce
+             başarısız olmak yerine metni seçili bırak: müşteri
+             kendi kopyalayabilsin. */
+          var r = document.createRange();
+          r.selectNodeContents(metin);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(r);
+          return;
+        }
+        var eski = dugme.textContent;
+        dugme.textContent = '✓ Kopyalandı';
+        dugme.disabled = true;
+        setTimeout(function () {
+          dugme.textContent = eski;
+          dugme.disabled = false;
+        }, 1800);
+      });
+    })();
+  </script>
   <script src="../assets/site-nav.js"></script>
   <script src="../assets/content.js"></script>
 </body>
