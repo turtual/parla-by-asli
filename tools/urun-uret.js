@@ -71,7 +71,31 @@ function fiyatYaz(kurus) {
   return new Intl.NumberFormat('tr-TR').format(kurus) + ' ₺';
 }
 
+/*
+ * Fiyat bloğu. İndirim varsa üstü çizili eski fiyat + yüzde etiketi.
+ * Kural assets/products.js'teki indirimBilgisi() ile AYNI olmalı:
+ * eski fiyat satış fiyatından büyük değilse indirim gösterilmiyor.
+ */
+function fiyatBlogu(urun) {
+  const eski = Number(urun.compare_at_price);
+  const yeni = Number(urun.price);
+  const indirimli = isFinite(eski) && isFinite(yeni) && yeni > 0 && eski > yeni
+    && Math.round((1 - yeni / eski) * 100) >= 1;
+
+  if (!indirimli) {
+    return { sinif: '', html: '<span class="fiyat-tek">' + esc(fiyatYaz(yeni)) + '</span>' };
+  }
+  const yuzde = Math.round((1 - yeni / eski) * 100);
+  return {
+    sinif: ' has-indirim',
+    html: '<span class="fiyat-eski">' + esc(fiyatYaz(eski)) + '</span>'
+        + '<span class="fiyat-yeni">' + esc(fiyatYaz(yeni)) + '</span>'
+        + '<span class="fiyat-rozet">%' + yuzde + ' indirim</span>'
+  };
+}
+
 function sayfaHtml(urun, koleksiyon) {
+  const fiyat = fiyatBlogu(urun);
   const kanonik = SITE + '/urun/' + urun.slug + '/';
   const baslik = urun.name + ' · Parla By Aslı';
   const aciklama = metaAciklama(urun);
@@ -188,7 +212,7 @@ ${headerHtml(2)}
           <h1 class="urun-ad" id="urun-ad">${esc(urun.name)}</h1>
           <p class="urun-taslar" id="urun-taslar" hidden></p>
 
-          <p class="urun-fiyat" id="urun-fiyat">${esc(fiyatYaz(urun.price))}</p>
+          <p class="urun-fiyat${fiyat.sinif}" id="urun-fiyat">${fiyat.html}</p>
           <p class="urun-stok" id="urun-stok"></p>
 
           <div class="urun-satinal">

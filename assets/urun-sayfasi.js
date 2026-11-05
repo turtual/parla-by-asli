@@ -172,6 +172,8 @@
         slug: p.slug,
         name: p.name,
         price: p.price,
+        /* Sepette "şuydu → bu" için; tahsilat her zaman price üzerinden. */
+        comparePrice: p.comparePrice ?? null,
         quantity: adet,
         image: p.image,
         stockQuantity: stok
@@ -279,7 +281,15 @@
       if (el && deger) el.textContent = deger;
     };
     yaz('urun-ad', p.name);
-    yaz('urun-fiyat', formatPrice(p.price));
+    /* Fiyat: indirim varsa üstü çizili eski fiyat + yüzde rozeti. */
+    const fiyatEl = document.getElementById('urun-fiyat');
+    if (fiyatEl) {
+      fiyatEl.innerHTML = '';
+      fiyatEl.append(...fiyatOgeleri(p));
+      const ind = indirimBilgisi(p);
+      fiyatEl.classList.toggle('has-indirim', !!ind);
+      if (ind) fiyatEl.append(h('span', { class: 'fiyat-rozet' }, '%' + ind.yuzde + ' indirim'));
+    }
 
     // Koleksiyon adı — başlığın üstündeki küçük yazı
     if (typeof getCollections === 'function' && p.collectionId) {

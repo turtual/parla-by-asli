@@ -53,6 +53,20 @@
 
   /* ──────────── Sipariş özeti ──────────── */
 
+  /*
+   * Ödeme özetindeki satır fiyatı. Sepetle aynı mantık: indirim varsa
+   * üstü çizili eski toplam görünüyor. Ara toplam ve genel toplam HER
+   * ZAMAN indirimli fiyattan hesaplanıyor — buradaki yalnız gösterim.
+   */
+  function ozetFiyatHtml(item) {
+    const adet = item.quantity || 1;
+    const bilgi = typeof indirimBilgisi === 'function' ? indirimBilgisi(item) : null;
+    const yeni = '<span class="' + (bilgi ? 'fiyat-yeni' : 'fiyat-tek') + '">'
+      + PB_escape(formatPrice(Number(item.price) * adet)) + '</span>';
+    if (!bilgi) return yeni;
+    return '<span class="fiyat-eski">' + PB_escape(formatPrice(bilgi.eski * adet)) + '</span>' + yeni;
+  }
+
   async function renderSummary() {
     const items = PB_Cart.read();
     const listEl = document.getElementById('checkout-summary-list');
@@ -84,7 +98,7 @@
           <div class="checkout-summary-item-name">${PB_escape(item.name)}</div>
           ${meta ? `<div class="checkout-summary-item-meta">${meta}</div>` : ''}
         </div>
-        <div class="checkout-summary-item-price">${formatPrice(item.price * (item.quantity || 1))}</div>
+        <div class="checkout-summary-item-price">${ozetFiyatHtml(item)}</div>
       `;
       listEl.appendChild(row);
     });

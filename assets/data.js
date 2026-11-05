@@ -90,6 +90,10 @@
       createdAt: row.created_at || null,
       mode: row.mode,
       price: row.price,
+      /* İndirimden önceki fiyat. Doluysa ve price'tan büyükse site
+         indirimi gösteriyor. Kolon henüz eklenmemişse null kalır ve
+         hiçbir yerde indirim çıkmaz — eski kurulumlar bozulmasın. */
+      comparePrice: row.compare_at_price ?? null,
       description: row.description || '',
       materials: row.materials || [],
       image: row.image || 'assets/img/products/kolye.svg',
@@ -512,6 +516,18 @@
     return multiCollection;
   }
 
+  /** products.compare_at_price kolonu var mı? Bir kez sorup hatırlıyor.
+   *  Yoksa indirim alanı hiç yazılmıyor — eski kurulumda kaydetme kırılmasın. */
+  let indirimKolonu = null;
+  async function hasComparePrice() {
+    if (indirimKolonu !== null) return indirimKolonu;
+    if (!supabase) init();
+    if (!supabase) return false;
+    const { error } = await supabase.from('products').select('compare_at_price').limit(1);
+    indirimKolonu = !error;
+    return indirimKolonu;
+  }
+
   /** products.stones kolonu var mı? Bir kez sorup hatırlıyor. */
   async function hasStones() {
     if (stonesKolonu !== null) return stonesKolonu;
@@ -604,6 +620,9 @@
       dbUpdates.collection_ids = updates.collectionIds || [];
     }
     if ('stockQuantity' in updates) dbUpdates.stock_quantity = updates.stockQuantity;
+    if ('comparePrice' in updates && await hasComparePrice()) {
+      dbUpdates.compare_at_price = updates.comparePrice || null;
+    }
     // Diğerleri direkt eşleşiyor
     const directKeys = ['slug', 'name', 'category', 'mode', 'price', 'description',
                         'materials', 'image', 'images', 'featured', 'customizable', 'customization'];
@@ -643,6 +662,10 @@
       display_order: product.displayOrder || 0,
       stock_quantity: product.stockQuantity || 0
     };
+
+    if (await hasComparePrice()) {
+      dbRow.compare_at_price = product.comparePrice || null;
+    }
 
     if (await hasMultiCollection()) {
       dbRow.collection_ids = product.collectionIds || [];

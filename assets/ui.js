@@ -119,6 +119,20 @@ const PB_Modal = {
   }
 };
 
+/*
+ * Sepet satırındaki fiyat. İndirim varsa üstü çizili eski toplam +
+ * yeni toplam. Adetle çarpılmış hâli gösteriliyor ki satır toplamıyla
+ * tutarlı olsun.
+ */
+function sepetFiyatHtml(item) {
+  const adet = item.quantity || 1;
+  const bilgi = typeof indirimBilgisi === 'function' ? indirimBilgisi(item) : null;
+  const yeni = '<span class="' + (bilgi ? 'fiyat-yeni' : 'fiyat-tek') + '">'
+    + PB_escape(formatPrice(Number(item.price) * adet)) + '</span>';
+  if (!bilgi) return yeni;
+  return '<span class="fiyat-eski">' + PB_escape(formatPrice(bilgi.eski * adet)) + '</span>' + yeni;
+}
+
 /* ──────────── Sepet state (localStorage) ──────────── */
 
 const PB_Cart = {
@@ -316,12 +330,18 @@ function renderProductCard(p, animDelay = 0) {
   const img = PB_h('img', { src: PB_imgPath(p.image), alt: p.name, loading: 'lazy' });
   imgWrap.append(img);
 
-  // Rozet tek: tükendi bilgisi "yeni"den önemli, ikisi üst üste binmesin.
+  /* Rozet tek. Öncelik: TÜKENDİ > İNDİRİM > YENİ.
+     Tükenen üründe indirim rozeti anlamsız (satın alınamıyor); indirim
+     ise "yeni"den daha güçlü bir satın alma nedeni, o yüzden önde. */
+  const kartIndirim = typeof indirimBilgisi === 'function' ? indirimBilgisi(p) : null;
   if ((p.stockQuantity || 0) <= 0) {
     imgWrap.append(PB_h('span', { class: 'product-card-badge' }, 'TÜKENDİ'));
     // Fotoğrafın üstüne hafif perde: kart listede kalıyor ama satın
     // alınabilir parçalarla aynı ağırlıkta görünmüyor.
     card.classList.add('is-tukendi');
+  } else if (kartIndirim) {
+    imgWrap.append(PB_h('span', { class: 'product-card-badge is-indirim' }, '%' + kartIndirim.yuzde));
+    card.classList.add('is-indirimli');
   } else if (typeof isNewProduct === 'function' && isNewProduct(p)) {
     imgWrap.append(PB_h('span', { class: 'product-card-badge is-new' }, 'YENİ'));
   }
@@ -336,7 +356,10 @@ function renderProductCard(p, animDelay = 0) {
     if (taslar) info.append(PB_h('div', { class: 'product-card-stones' }, taslar));
   }
 
-  info.append(PB_h('div', { class: 'product-card-price' }, formatPrice(p.price)));
+  const fiyatKutu = PB_h('div', { class: 'product-card-price' });
+  if (typeof fiyatOgeleri === 'function') fiyatKutu.append(...fiyatOgeleri(p));
+  else fiyatKutu.textContent = formatPrice(p.price);
+  info.append(fiyatKutu);
 
   // Yıldız özeti — özet tek sorguda çekilip cache'lendiği için her kart
   // ayrı istek atmıyor. Yorumu olmayan üründe hiç yer kaplamıyor.
@@ -689,7 +712,14 @@ async function PB_fillProductModal(modal, p) {
     tamSayfa.href = PB_urunYolu(p.slug);
   }
 
-  modal.querySelector('[data-pm-price]').textContent = formatPrice(p.price);
+  const pmFiyat = modal.querySelector('[data-pm-price]');
+  pmFiyat.innerHTML = '';
+  pmFiyat.append(...fiyatOgeleri(p));
+  const pmIndirim = indirimBilgisi(p);
+  pmFiyat.classList.toggle('has-indirim', !!pmIndirim);
+  if (pmIndirim) {
+    pmFiyat.append(PB_h('span', { class: 'fiyat-rozet' }, '%' + pmIndirim.yuzde + ' indirim'));
+  }
 
   // Adet kontrol — stok adedini aşamaz
   const stok = p.stockQuantity || 0;
@@ -735,6 +765,9 @@ async function PB_fillProductModal(modal, p) {
         slug: p.slug,
         name: p.name,
         price: p.price,
+        /* Sepette "şuydu → bu" gösterebilmek için eski fiyat da
+           kaydediliyor. Tahsilat her zaman price üzerinden. */
+        comparePrice: p.comparePrice ?? null,
         quantity: qty,
         image: p.image,
         stockQuantity: stok
@@ -1114,7 +1147,7 @@ const PB_CartDrawer = {
               <span data-qty>${item.quantity || 1}</span>
               <button type="button" data-qty-up aria-label="Artır" ${stokDoldu ? 'disabled' : ''}>+</button>
             </div>
-            <span class="cart-item-price">${formatPrice(item.price * (item.quantity || 1))}</span>
+            <span class="cart-item-price">${sepetFiyatHtml(item)}</span>
           </div>
         </div>
         <button type="button" class="cart-item-remove" data-remove aria-label="${PB_escape(item.name)} — sepetten kaldır">

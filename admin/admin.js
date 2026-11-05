@@ -102,6 +102,7 @@
   // Form fields
   const fName = document.getElementById('product-name');
   const fPrice = document.getElementById('product-price');
+  const fComparePrice = document.getElementById('product-compare-price');
   const fCategory = document.getElementById('product-category');
   const fCollection = document.getElementById('product-collection');
   const fCollections = document.getElementById('product-collections');
@@ -717,6 +718,7 @@
 
       fName.value = product.name || '';
       fPrice.value = product.price || 0;
+      fComparePrice.value = product.comparePrice ?? '';
       fCategory.value = product.category || '';
       fCollection.value = product.collectionId || '';
       productStones = Array.isArray(product.stones) ? [...product.stones] : [];
@@ -1414,6 +1416,9 @@
       slug: fSlug.value.trim(),
       name: fName.value.trim(),
       price: parseInt(fPrice.value) || 0,
+      /* Boş bırakılırsa null gider = indirim yok. 0 da null sayılıyor;
+         "0 TL'ydi" diye bir eski fiyat anlamsız. */
+      comparePrice: parseInt(fComparePrice.value) || null,
       category: fCategory.value,
       collectionId: fCollection.value,
       stones: [...productStones],

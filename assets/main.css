@@ -747,6 +747,73 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   color: var(--c-cream);
 }
 
+/* İndirim rozeti: markanın bakırı değil, dikkat çeken koyu kırmızı.
+   "Yeni"den ayrışsın ki müşteri ikisini karıştırmasın. */
+.product-card-badge.is-indirim {
+  background: var(--c-bakir-koyu, #7A4038);
+  color: var(--c-cream);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   İNDİRİMLİ FİYAT GÖSTERİMİ
+
+   Üç yerde aynı görünüyor: ürün kartı, ürün sayfası/pencere, sepet
+   ve ödeme özeti. Sınıflar ortak (assets/products.js → fiyatOgeleri).
+
+   .fiyat-eski  üstü çizili, soluk — indirimden önceki fiyat
+   .fiyat-yeni  satış fiyatı, indirim varken vurgulu
+   .fiyat-tek   indirim yokken; normal fiyatla aynı görünür
+   ═══════════════════════════════════════════════════════════════ */
+
+.fiyat-eski {
+  text-decoration: line-through;
+  /* Çizgiyi rakamlardan ayırmak için: düz line-through kalın
+     rakamlarda okunmayı zorlaştırıyor. */
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(117, 107, 95, 0.7);
+  color: var(--c-toprak);
+  font-size: 0.82em;
+  font-weight: 400;
+  margin-right: 8px;
+}
+
+.fiyat-yeni {
+  color: var(--c-bakir-koyu, #7A4038);
+  font-weight: 500;
+}
+
+/* Fiyatın yanındaki "%20 indirim" etiketi — ürün sayfası ve pencerede.
+   Kartta yer dar olduğu için orada yalnız rozet var. */
+.fiyat-rozet {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: rgba(122, 64, 56, 0.1);
+  color: var(--c-bakir-koyu, #7A4038);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Sepet ve ödeme özetinde satır dar: eski fiyat alta kayabilsin */
+.cart-item-price,
+.checkout-summary-item-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 6px;
+  justify-content: flex-end;
+}
+
+.cart-item-price .fiyat-eski,
+.checkout-summary-item-price .fiyat-eski { margin-right: 0; }
+
 .product-card-info { padding: 12px 14px 16px; }
 
 .product-card-name {

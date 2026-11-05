@@ -143,6 +143,51 @@ async function getProductById(id) {
   return await window.PB_Data.getProductById(id);
 }
 
+/**
+ * Bir üründe indirim var mı?
+ *
+ * Tek kaynak: kart, ürün sayfası, pencere, sepet ve ödeme özeti hep
+ * bunu çağırıyor. Böylece "indirim sayılır mı" kararı her yerde aynı.
+ *
+ * null döner (indirim YOK) şu hâllerde:
+ *   · eski fiyat girilmemişse
+ *   · eski fiyat satış fiyatından büyük değilse (ters ya da eşit girilmiş)
+ *   · yuvarlanmış yüzde 1'in altındaysa — "%0 indirim" yazmasın
+ */
+function indirimBilgisi(p) {
+  if (!p) return null;
+  const eski = Number(p.comparePrice);
+  const yeni = Number(p.price);
+  if (!isFinite(eski) || !isFinite(yeni)) return null;
+  if (!(yeni > 0) || !(eski > yeni)) return null;
+  const yuzde = Math.round((1 - yeni / eski) * 100);
+  if (yuzde < 1) return null;
+  return { eski, yeni, yuzde };
+}
+
+/**
+ * Fiyat satırını kuran ortak parça: indirim varsa üstü çizili eski fiyat
+ * + satış fiyatı, yoksa yalnız satış fiyatı. Çağıran yere <span>'ler
+ * döner; hangi kaba konacağına çağıran karar verir.
+ */
+function fiyatOgeleri(p, carpan = 1) {
+  const bilgi = indirimBilgisi(p);
+  const ogeler = [];
+  if (bilgi) {
+    const eskiEl = document.createElement('span');
+    eskiEl.className = 'fiyat-eski';
+    eskiEl.textContent = formatPrice(bilgi.eski * carpan);
+    /* Ekran okuyucu "500 lira 350 lira" diye okuyup kafa karıştırmasın */
+    eskiEl.setAttribute('aria-label', 'Eski fiyat: ' + formatPrice(bilgi.eski * carpan));
+    ogeler.push(eskiEl);
+  }
+  const yeniEl = document.createElement('span');
+  yeniEl.className = bilgi ? 'fiyat-yeni' : 'fiyat-tek';
+  yeniEl.textContent = formatPrice(Number(p.price) * carpan);
+  ogeler.push(yeniEl);
+  return ogeler;
+}
+
 function formatPrice(price) {
   return new Intl.NumberFormat('tr-TR').format(price) + ' ₺';
 }

@@ -1578,6 +1578,16 @@
             <div class="field">
               <label>Fiyat (₺) *</label>
               <input type="number" id="product-price" required min="0" step="1">
+              <small class="field-not">Müşterinin ödeyeceği fiyat. İndirim yaparken buraya İNDİRİMLİ fiyatı yaz.</small>
+            </div>
+
+            <div class="field">
+              <label>İndirimden önceki fiyat (₺)</label>
+              <input type="number" id="product-compare-price" min="0" step="1" placeholder="İndirim yoksa boş bırak">
+              <small class="field-not" id="indirim-onizleme">
+                Doldurursan üstü çizili gösterilir ve indirim yüzdesi hesaplanır.
+                İndirimi bitirmek için bu alanı boşalt.
+              </small>
             </div>
 
             <div class="field">
