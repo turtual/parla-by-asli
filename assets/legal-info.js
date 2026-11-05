@@ -46,6 +46,14 @@ window.PB_SATICI = {
      Buradaki adres yalnız veritabanına ulaşılamazsa kullanılıyor. */
   eposta: 'siparis.parlabyasli@outlook.com',
 
+  /* ── Havale/EFT bilgisi ──
+     Sipariş sonrası ödeme buraya yapılıyor. Teşekkür sayfası ve sipariş
+     e-postası ikisi de BURAYI okuyor; iki ayrı yere yazılsaydı birini
+     güncelleyip diğerini unutmak parayı yanlış hesaba yollardı. */
+  hesapAdi: 'Ali Salihoğlu',
+  iban: 'TR16 0015 7000 0000 0206 5325 21',
+  bankaAdi: 'Enpara Bank A.Ş.',
+
   /* ── Operasyon ──
    * Kişiye özel tasarım stüdyosu kaldırıldı (Temmuz 2026) — katalogda
    * artık tek tip ürün var, hepsi standart teslimat ve cayma hakkına tabi.

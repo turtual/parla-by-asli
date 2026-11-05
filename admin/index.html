@@ -274,6 +274,72 @@
     }
 
     /* Tablo */
+    /* ── Toplu indirim şeridi ──
+       Yalnız en az bir ürün seçiliyken görünüyor; boşken yer kaplamasın. */
+    .toplu-indirim {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--c-bej);
+      border: 0.5px solid var(--c-line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+    }
+    .toplu-indirim-sol { display: flex; align-items: center; gap: 10px; }
+    .toplu-indirim-sag { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .toplu-yuzde {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: white;
+      border: 0.5px solid var(--c-line);
+      border-radius: 8px;
+      padding: 0 10px;
+    }
+    .toplu-yuzde input {
+      width: 58px;
+      border: none;
+      outline: none;
+      padding: 9px 0;
+      font-size: 15px;
+      font-family: inherit;
+      text-align: right;
+    }
+    .toplu-yuzde span { color: var(--c-toprak); }
+    .btn-link {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--c-toprak);
+      text-decoration: underline;
+    }
+    .sec-kutu { width: 17px; height: 17px; cursor: pointer; accent-color: var(--c-bakir, #7A4038); }
+
+    /* Listedeki fiyat sütununda indirim görünsün */
+    .tablo-eski-fiyat {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--c-toprak);
+      text-decoration: line-through;
+    }
+    .tablo-indirim-etiket {
+      display: inline-block;
+      margin-top: 2px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(122, 64, 56, 0.1);
+      color: #7A4038;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
     .product-table {
       background: white;
       border-radius: 12px;
@@ -1418,6 +1484,23 @@
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
             YENİ ÜRÜN
           </button>
+        </div>
+
+        <!-- Toplu indirim: listeden tik at, yüzdeyi yaz, uygula.
+             Zaten indirimli ürünler atlanıyor (üst üste indirim olmasın). -->
+        <div class="toplu-indirim" id="toplu-indirim" hidden>
+          <div class="toplu-indirim-sol">
+            <strong id="toplu-secim-sayisi">0 ürün seçildi</strong>
+            <button type="button" class="btn-link" id="toplu-secimi-temizle">seçimi temizle</button>
+          </div>
+          <div class="toplu-indirim-sag">
+            <label class="toplu-yuzde">
+              <input type="number" id="toplu-yuzde" min="1" max="90" step="1" placeholder="20">
+              <span>%</span>
+            </label>
+            <button type="button" class="btn btn-primary" id="toplu-indirim-uygula">İNDİRİM UYGULA</button>
+            <button type="button" class="btn btn-ghost" id="toplu-indirim-kaldir">İNDİRİMİ KALDIR</button>
+          </div>
         </div>
 
         <p class="sort-hint" id="sort-hint">⠿ tutup sürükleyerek sırala — sıralamayı değiştirmek için önce arama/filtreleri temizle.</p>

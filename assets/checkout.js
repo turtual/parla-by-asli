@@ -275,6 +275,26 @@
     lines.push(`TOPLAM: ${formatPrice(total)}`);
     lines.push('═══════════════════════════════');
 
+    /* Ödeme bilgisi. Değerler legal-info.js'ten okunuyor — IBAN'ı iki
+       ayrı yerde tutmak, birini güncelleyip diğerini unutunca parayı
+       yanlış hesaba yollamak demek. legal-info yüklü değilse ödeme
+       bloğu hiç yazılmıyor; yanlış/yarım IBAN göstermektense hiç
+       göstermemek doğru. */
+    const banka = window.PB_SaticiBilgi;
+    const iban = banka && banka.deger('iban');
+    if (iban) {
+      lines.push('');
+      lines.push('ÖDEME BİLGİLERİ (Havale / EFT)');
+      lines.push('───────────────────────────────');
+      lines.push(`Hesap adı : ${banka.deger('hesapAdi') || ''}`);
+      lines.push(`IBAN      : ${iban}`);
+      lines.push(`Banka     : ${banka.deger('bankaAdi') || ''}`);
+      lines.push('');
+      lines.push(`Açıklama kısmına sipariş numaranı yazmayı unutma.`);
+      lines.push('Ödemen ulaşınca siparişin hazırlanmaya başlanır.');
+      lines.push('═══════════════════════════════');
+    }
+
     return lines.join('\n');
   }
 })();

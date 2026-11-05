@@ -118,6 +118,10 @@
 
   let currentUser = null;
   let allProducts = [];
+
+  /* Toplu indirim için seçili ürün kimlikleri. Tablo yeniden çizilince
+     kaybolmasın diye tablo dışında tutuluyor. */
+  const secililer = new Set();
   let allOrders = [];
   let allCollections = [];
   let allProductTypes = [];
@@ -434,6 +438,41 @@
    * solunda ayrı bir sütun olarak görünür (ikisi de admin'den yönetilen
    * ayrı kavramlar). Arama ve filtreler satırları daraltır.
    */
+  /* Bir üründe indirim var mı? Kural sitedekiyle (assets/products.js →
+     indirimBilgisi) AYNI olmalı, yoksa panel ile site farklı şey söyler. */
+  function urunIndirimi(p) {
+    const eski = Number(p.comparePrice);
+    const yeni = Number(p.price);
+    if (!isFinite(eski) || !isFinite(yeni)) return null;
+    if (!(yeni > 0) || !(eski > yeni)) return null;
+    const yuzde = Math.round((1 - yeni / eski) * 100);
+    return yuzde >= 1 ? { eski, yeni, yuzde } : null;
+  }
+
+  /* Listedeki fiyat hücresi: indirim varsa üstü çizili eski fiyat ve yüzde */
+  function tabloFiyat(p) {
+    const ind = urunIndirimi(p);
+    if (!ind) return escapeHtml(formatPrice(p.price));
+    return '<span class="tablo-eski-fiyat">' + escapeHtml(formatPrice(ind.eski)) + '</span>'
+         + escapeHtml(formatPrice(ind.yeni))
+         + '<span class="tablo-indirim-etiket">%' + ind.yuzde + '</span>';
+  }
+
+  function secimiGuncelle() {
+    const serit = document.getElementById('toplu-indirim');
+    const sayac = document.getElementById('toplu-secim-sayisi');
+    if (!serit || !sayac) return;
+    serit.hidden = secililer.size === 0;
+    sayac.textContent = secililer.size + ' ürün seçildi';
+    const hepsi = document.getElementById('sec-hepsi');
+    if (hepsi) {
+      const gorunen = [...document.querySelectorAll('[data-sec]')];
+      const secliGorunen = gorunen.filter(c => secililer.has(c.dataset.sec));
+      hepsi.checked = gorunen.length > 0 && secliGorunen.length === gorunen.length;
+      hepsi.indeterminate = secliGorunen.length > 0 && secliGorunen.length < gorunen.length;
+    }
+  }
+
   function renderProductTable() {
     const search = (searchInput.value || '').toLowerCase().trim();
     const catF = filterCategory.value;
@@ -472,6 +511,9 @@
       <table>
         <thead>
           <tr>
+            <th style="width: 34px;">
+              <input type="checkbox" class="sec-kutu" id="sec-hepsi" title="Görünen ürünlerin hepsini seç">
+            </th>
             <th style="width: 28px;"></th>
             <th style="width: 64px;"></th>
             <th>Ad</th>
@@ -486,6 +528,30 @@
         <tbody>${rows}</tbody>
       </table>
     `;
+
+    // Seçim kutuları
+    productTable.querySelectorAll('[data-sec]').forEach(kutu => {
+      kutu.addEventListener('click', e => e.stopPropagation());
+      kutu.addEventListener('change', () => {
+        if (kutu.checked) secililer.add(kutu.dataset.sec);
+        else secililer.delete(kutu.dataset.sec);
+        secimiGuncelle();
+      });
+    });
+    const secHepsi = document.getElementById('sec-hepsi');
+    if (secHepsi) {
+      secHepsi.addEventListener('change', () => {
+        /* Yalnız O AN GÖRÜNEN (filtrelenmiş) satırları etkiliyor —
+           filtre varken görünmeyen ürünü sessizce seçmek sürpriz olur. */
+        productTable.querySelectorAll('[data-sec]').forEach(k => {
+          k.checked = secHepsi.checked;
+          if (secHepsi.checked) secililer.add(k.dataset.sec);
+          else secililer.delete(k.dataset.sec);
+        });
+        secimiGuncelle();
+      });
+    }
+    secimiGuncelle();
 
     // Row event listener'ları
     productTable.querySelectorAll('[data-action]').forEach(btn => {
@@ -544,6 +610,9 @@
     return `
       <tr data-id="${escapeHtml(p.id)}">
         <td>
+          <input type="checkbox" class="sec-kutu" data-sec="${escapeHtml(p.id)}"${secililer.has(p.id) ? ' checked' : ''}>
+        </td>
+        <td>
           <div class="drag-handle" draggable="${dragEnabled ? 'true' : 'false'}" title="${dragEnabled ? 'Sürükle, sıralamayı değiştir' : 'Sıralamak için filtreleri temizle'}">⠿</div>
         </td>
         <td><div class="row-img"><img src="${escapeHtml(imgSrc)}" alt=""></div></td>
@@ -555,7 +624,7 @@
         <td>${escapeHtml(typeName)}</td>
         <td><span class="${stockClass}">${stock} adet</span></td>
         <td>${inactiveBadge}</td>
-        <td style="font-weight: 500;">${formatPrice(p.price)}</td>
+        <td style="font-weight: 500;">${tabloFiyat(p)}</td>
         <td>
           <div class="row-actions">
             <button class="icon-btn" data-action="edit" title="Düzenle">
@@ -687,6 +756,104 @@
     productTable.style.opacity = '';
     productTable.style.pointerEvents = '';
   }
+
+  /* ──────────── Toplu indirim ────────────
+   *
+   * Yüzde giriliyor, seçili ürünlere uygulanıyor:
+   *   eski fiyat  = o anki satış fiyatı
+   *   yeni fiyat  = eski * (1 - yüzde/100), tam sayıya yuvarlanmış
+   *
+   * ZATEN İNDİRİMDE OLAN ÜRÜN ATLANIYOR. Sebebi: üstüne indirim
+   * uygulanırsa "indirimden önceki fiyat" zaten indirimli olan fiyat
+   * olur ve gerçek liste fiyatı kaybolur — geri dönüşü olmayan bir
+   * veri kaybı. Kullanıcıya hangilerinin atlandığı söyleniyor.
+   */
+  const tIndirimSerit = document.getElementById('toplu-indirim');
+  const tYuzde = document.getElementById('toplu-yuzde');
+  const tUygula = document.getElementById('toplu-indirim-uygula');
+  const tKaldir = document.getElementById('toplu-indirim-kaldir');
+  const tTemizle = document.getElementById('toplu-secimi-temizle');
+
+  if (tTemizle) {
+    tTemizle.addEventListener('click', () => {
+      secililer.clear();
+      document.querySelectorAll('[data-sec]').forEach(k => { k.checked = false; });
+      secimiGuncelle();
+    });
+  }
+
+  async function topluUygula(islem) {
+    const secili = allProducts.filter(p => secililer.has(p.id));
+    if (!secili.length) return;
+
+    let yuzde = 0;
+    if (islem === 'uygula') {
+      yuzde = parseInt(tYuzde.value, 10);
+      if (!(yuzde >= 1 && yuzde <= 90)) {
+        alert('Lütfen 1 ile 90 arasında bir indirim yüzdesi gir.');
+        tYuzde.focus();
+        return;
+      }
+    }
+
+    const yapilacak = [];
+    const atlanan = [];
+
+    for (const p of secili) {
+      const ind = urunIndirimi(p);
+      if (islem === 'uygula') {
+        if (ind) { atlanan.push(p.name + ' (zaten %' + ind.yuzde + ')'); continue; }
+        const yeniFiyat = Math.round(p.price * (1 - yuzde / 100));
+        if (!(yeniFiyat >= 1)) { atlanan.push(p.name + ' (fiyat çok düşük kalıyor)'); continue; }
+        yapilacak.push({ p, veri: { comparePrice: p.price, price: yeniFiyat } });
+      } else {
+        if (!ind) { atlanan.push(p.name + ' (indirimi yok)'); continue; }
+        /* Kaldırırken ESKİ fiyat geri yükleniyor — indirimli fiyatı
+           kalıcı hâle getirmek istemeyiz. */
+        yapilacak.push({ p, veri: { price: ind.eski, comparePrice: null } });
+      }
+    }
+
+    if (!yapilacak.length) {
+      alert(islem === 'uygula'
+        ? 'Seçilen ürünlerin hepsi zaten indirimde, hiçbiri değiştirilmedi.\n\n' + atlanan.join('\n')
+        : 'Seçilen ürünlerin hiçbirinde indirim yok.');
+      return;
+    }
+
+    const ozet = islem === 'uygula'
+      ? yapilacak.length + ' ürüne %' + yuzde + ' indirim uygulanacak.'
+      : yapilacak.length + ' üründe indirim kaldırılacak, eski fiyatlar geri yüklenecek.';
+    const atlamaNotu = atlanan.length
+      ? '\n\nAtlanacak (' + atlanan.length + '):\n' + atlanan.slice(0, 10).join('\n')
+        + (atlanan.length > 10 ? '\n…' : '')
+      : '';
+    if (!confirm(ozet + atlamaNotu + '\n\nDevam edilsin mi?')) return;
+
+    tUygula.disabled = tKaldir.disabled = true;
+    const eskiMetin = tUygula.textContent;
+    tUygula.textContent = 'UYGULANIYOR…';
+
+    const hatalar = [];
+    for (const i of yapilacak) {
+      const r = await PB_Data.adminUpdateProduct(i.p.id, i.veri);
+      if (r && r.error) hatalar.push(i.p.name);
+    }
+
+    tUygula.disabled = tKaldir.disabled = false;
+    tUygula.textContent = eskiMetin;
+
+    secililer.clear();
+    await loadProducts();
+
+    let sonMesaj = (yapilacak.length - hatalar.length) + ' ürün güncellendi.';
+    if (atlanan.length) sonMesaj += '\n' + atlanan.length + ' ürün atlandı.';
+    if (hatalar.length) sonMesaj += '\n\nKAYDEDİLEMEYEN (' + hatalar.length + '):\n' + hatalar.join('\n');
+    alert(sonMesaj);
+  }
+
+  if (tUygula) tUygula.addEventListener('click', () => topluUygula('uygula'));
+  if (tKaldir) tKaldir.addEventListener('click', () => topluUygula('kaldir'));
 
   // Taş seçimi ve taş görselleri aramaları
   const stonePickerAra = document.getElementById('product-stones-ara');

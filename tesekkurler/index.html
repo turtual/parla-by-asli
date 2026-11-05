@@ -71,7 +71,9 @@
           <h1 class="h-display">Teşekkürler</h1>
 
           <p>
-            Siparişin bize ulaştı. Detayları gözden geçireceğiz ve <strong>en geç 1 iş günü içinde</strong> seninle iletişime geçip ödeme bilgilerini paylaşacağız.
+            Siparişin bize ulaştı. Ödemeni aşağıdaki hesaba yaptıktan sonra
+            siparişin hazırlanmaya başlıyor; <strong>en geç 1 iş günü içinde</strong>
+            seninle iletişime geçiyoruz.
           </p>
 
           <!-- Sipariş numarası bloğu, numara gerçekten varsa açılıyor.
@@ -83,6 +85,32 @@
             </p>
 
             <div class="thanks-order-id" id="order-id-display"></div>
+          </div>
+
+          <!-- Ödeme bilgileri. Değerler assets/legal-info.js'ten geliyor
+               (data-satici), IBAN burada ikinci kez yazılmıyor. -->
+          <div class="odeme-kutu">
+            <span class="eyebrow">Ödeme — Havale / EFT</span>
+
+            <dl class="odeme-satirlar">
+              <div>
+                <dt>Hesap adı</dt>
+                <dd data-satici="hesapAdi"></dd>
+              </div>
+              <div>
+                <dt>IBAN</dt>
+                <dd><span class="odeme-iban" data-satici="iban"></span></dd>
+              </div>
+              <div>
+                <dt>Banka</dt>
+                <dd data-satici="bankaAdi"></dd>
+              </div>
+            </dl>
+
+            <p class="odeme-not">
+              Açıklama kısmına <strong>sipariş numaranı</strong> yazmayı unutma.
+              Ödemen ulaştığında siparişin hazırlanmaya başlar.
+            </p>
           </div>
 
           <p style="font-size: 12px; padding: 0 var(--space-md);">
@@ -168,6 +196,7 @@
     });
   </script>
 
+  <script src="../assets/legal-info.js"></script>
   <script src="../assets/site-nav.js"></script>
   <script src="../assets/content.js"></script>
 </body>

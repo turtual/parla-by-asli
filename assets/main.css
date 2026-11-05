@@ -5580,3 +5580,38 @@ main { flex: 1 0 auto; }
   .product-card-badge { font-size: 10.5px; }
   .product-card-stones { font-size: 12px; }
 }
+
+/* ── Teşekkür sayfası: ödeme bilgileri ──
+   IBAN telefondan elle kopyalanacağı için harf aralığı açık ve
+   tek parça seçilebilir; ekranda okunurken rakam karıştırılmasın. */
+.odeme-kutu {
+  margin: var(--space-lg) 0;
+  padding: var(--space-lg);
+  border: 0.5px solid var(--c-line-strong);
+  border-radius: var(--r-md);
+  background: var(--c-cream);
+  text-align: left;
+}
+.odeme-kutu .eyebrow { display: block; margin-bottom: 12px; }
+.odeme-satirlar { margin: 0; display: grid; gap: 10px; }
+.odeme-satirlar > div { display: grid; gap: 2px; }
+.odeme-satirlar dt {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-toprak);
+}
+.odeme-satirlar dd { margin: 0; font-size: 15px; color: var(--c-sicak-siyah); }
+.odeme-iban {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  user-select: all;
+  word-break: break-all;
+}
+.odeme-not {
+  margin: 14px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+}
