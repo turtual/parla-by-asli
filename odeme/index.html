@@ -83,6 +83,28 @@
 
         <div class="checkout-layout">
 
+          <!-- Sol sütun: ödeme yöntemi seçimi + ilgili panel.
+               Izgara iki sütunlu; anahtar ve paneller tek bir sarmalın
+               içinde duruyor ki üçüncü bir sütun oluşmasın. -->
+          <div class="checkout-odeme-sutun">
+
+            <!-- Ödeme yöntemi. Düğmeler <button>: form içindeki radio
+                 girdileri gönderilen veriye karışırdı, üstelik burada
+                 seçim formun İÇERİĞİNİ değil hangi formun görüneceğini
+                 belirliyor. -->
+            <div class="odeme-yontem" role="radiogroup" aria-label="Ödeme yöntemi">
+              <button type="button" class="odeme-yontem-sec is-aktif"
+                      role="radio" aria-checked="true" data-yontem="havale">
+                <span class="odeme-yontem-ad">Havale / EFT</span>
+                <span class="odeme-yontem-alt">Bilgilerini bırak, IBAN'a öde</span>
+              </button>
+              <button type="button" class="odeme-yontem-sec"
+                      role="radio" aria-checked="false" data-yontem="kart">
+                <span class="odeme-yontem-ad">Kredi Kartı</span>
+                <span class="odeme-yontem-alt">Shopier ile güvenli ödeme</span>
+              </button>
+            </div>
+
           <!-- Sol: form -->
           <form class="checkout-form-pane" id="checkout-form">
 
@@ -134,10 +156,54 @@
             </button>
 
             <p class="checkout-meta">
-              Siparişi tamamladığında bilgilerin bize ulaşır. <strong>Ödeme henüz online değil</strong> — sipariş alındıktan sonra ödeme detayları için seninle iletişime geçeceğiz (havale veya kapıda ödeme).
+              Siparişi tamamladığında bilgilerin bize ulaşır ve <strong>IBAN bilgisi hem ekranda hem e-postanda</strong> olur. Ödemen ulaştığında siparişin hazırlanmaya başlar.
             </p>
 
           </form>
+
+          <!-- Kredi kartı paneli. Kart ödemesi Shopier mağazasında
+               alınıyor; burada toplanacak bir bilgi yok, o yüzden form
+               değil yönlendirme var. -->
+          <div class="checkout-form-pane kart-panel" id="kart-paneli" hidden>
+
+            <div class="kart-saglayici">
+              <!-- loading="lazy" YOK: panel açılışta hidden, tembel görsel
+                   gizli kapsayıcıda hiç yüklenmiyor ve kart sekmesine
+                   geçildiğinde logo boş çıkıyordu. 4,5 KB'lık SVG için
+                   tembel yüklemenin kazancı da yok. -->
+              <img src="../assets/img/odeme/shopier.svg" alt="Shopier" width="90" height="26">
+              <span>ile güvenli ödeme</span>
+            </div>
+
+            <p class="kart-aciklama">
+              Kart ödemelerimizi Shopier üzerinden alıyoruz. Aşağıdaki butona
+              bastığında Shopier'deki <strong>Parla By Aslı</strong> mağazası
+              yeni sekmede açılır; ödemeyi orada tamamlarsın.
+            </p>
+
+            <!-- Shopier ayrı bir mağaza: sepet oraya taşınamıyor.
+                 Bunu söylememek, müşterinin Shopier'e geçtiğinde sepetini
+                 boş bulup geri dönmesi (ya da hiç dönmemesi) demekti. -->
+            <div class="kart-uyari">
+              <p><strong>Sepetin Shopier'e taşınmıyor.</strong> Parçaları orada
+              yeniden seçmen gerekiyor. Sitemizdeki sepet indirimi de Shopier'de
+              otomatik uygulanmaz.</p>
+              <div id="kart-sepet-ozeti"></div>
+            </div>
+
+            <a href="https://www.shopier.com/parlabyasli" target="_blank" rel="noopener"
+               class="btn btn-bakir btn-block kart-git">
+              SHOPIER'DE ÖDEMEYE GEÇ
+            </a>
+
+            <p class="checkout-meta">
+              Sepetini olduğu gibi korumak istersen yukarıdan
+              <strong>Havale / EFT</strong>'ye dönebilirsin.
+            </p>
+
+          </div>
+
+          </div><!-- /checkout-odeme-sutun -->
 
           <!-- Sağ: özet -->
           <aside class="checkout-summary-pane">

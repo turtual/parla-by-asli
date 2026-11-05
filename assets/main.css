@@ -1814,6 +1814,140 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   border: 0.5px solid var(--c-line);
 }
 
+/* ── Ödeme yöntemi anahtarı ──
+   İki seçenek yan yana, seçili olan beyaz ve çerçeveli: altındaki
+   panelin "devamı" gibi okunuyor. Sekme metaforu bilerek — müşteri
+   diğerine geçince bir şey kaybetmediğini görsün. */
+.checkout-odeme-sutun {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.odeme-yontem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.odeme-yontem-sec {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 16px;
+  text-align: left;
+  background: transparent;
+  border: 0.5px solid var(--c-line);
+  border-radius: var(--r-lg, 14px);
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--c-toprak);
+  transition: border-color 0.18s, background 0.18s, color 0.18s;
+  /* Mobilde parmakla isabet etsin */
+  min-height: 56px;
+}
+
+.odeme-yontem-sec:hover { border-color: var(--c-bakir-cizgi); }
+
+.odeme-yontem-sec.is-aktif {
+  background: var(--c-white);
+  border-color: var(--c-bakir);
+  color: var(--c-sicak-siyah);
+}
+
+.odeme-yontem-ad {
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.odeme-yontem-sec.is-aktif .odeme-yontem-ad { color: var(--c-bakir); }
+
+.odeme-yontem-alt {
+  font-size: 11.5px;
+  color: var(--c-toprak);
+  line-height: 1.35;
+}
+
+@media (max-width: 420px) {
+  /* Dar ekranda iki kutu yan yana sıkışıp alt yazılar üç satıra
+     bölünüyordu; alt alta daha okunaklı. */
+  .odeme-yontem { grid-template-columns: 1fr; }
+  .odeme-yontem-sec { min-height: 0; }
+}
+
+/* ── Kredi kartı (Shopier) paneli ── */
+.kart-saglayici {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--space-md);
+}
+
+.kart-saglayici img {
+  display: block;
+  height: 22px;
+  width: auto;
+}
+
+.kart-saglayici span {
+  font-size: 12px;
+  color: var(--c-toprak);
+  letter-spacing: 0.02em;
+}
+
+.kart-aciklama {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--c-sicak-siyah);
+  margin: 0 0 var(--space-lg);
+}
+
+.kart-uyari {
+  background: var(--c-soft-bej, #F5F1EA);
+  border-radius: var(--r-md, 10px);
+  padding: 14px 16px;
+  margin-bottom: var(--space-lg);
+}
+
+.kart-uyari p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--c-toprak);
+  margin: 0;
+}
+
+/* Seçici `.kart-uyari p`'den daha belirgin olmalı, yoksa oradaki
+   margin/font-size bunu eziyor. */
+.kart-uyari .kart-sepet-baslik {
+  margin: 12px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kart-uyari ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+  border-top: 0.5px solid var(--c-line);
+}
+
+.kart-uyari li {
+  font-size: 12.5px;
+  color: var(--c-sicak-siyah);
+  padding: 3px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.kart-uyari li span:last-child {
+  color: var(--c-toprak);
+  white-space: nowrap;
+}
+
 @media (min-width: 768px) {
   .checkout-form-pane { padding: var(--space-2xl); }
 }

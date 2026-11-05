@@ -27,6 +27,94 @@
     renderSummary();
     bindForm();
     bindOrderId();
+    bindOdemeYontemi();
+  }
+
+  /* ──────────── Ödeme yöntemi (Havale / Kredi kartı) ──────────── */
+
+  /**
+   * Havale/EFT varsayılan; kart seçilince form gizlenip Shopier
+   * yönlendirmesi çıkıyor.
+   *
+   * Formu GİZLEMEK (kaldırmak değil) bilinçli: müşteri karta bakıp
+   * havaleye dönerse yazdıkları olduğu gibi duruyor. Gizli formdaki
+   * required alanlar tarayıcıyı rahatsız etmiyor, çünkü gönderim
+   * yalnız formun kendi butonundan yapılıyor ve o da gizli.
+   */
+  function bindOdemeYontemi() {
+    const dugmeler = Array.prototype.slice.call(
+      document.querySelectorAll('.odeme-yontem-sec'));
+    const form = document.getElementById('checkout-form');
+    const kartPaneli = document.getElementById('kart-paneli');
+    if (!dugmeler.length || !form || !kartPaneli) return;
+
+    function sec(yontem, odakla) {
+      const kartMi = yontem === 'kart';
+      form.hidden = kartMi;
+      kartPaneli.hidden = !kartMi;
+
+      dugmeler.forEach(d => {
+        const aktif = d.dataset.yontem === yontem;
+        d.classList.toggle('is-aktif', aktif);
+        d.setAttribute('aria-checked', aktif ? 'true' : 'false');
+        /* Gezinen sekme sırası: radyo grubunda Tab tek seferde gruba
+           girer, seçim ok tuşlarıyla değişir. */
+        d.tabIndex = aktif ? 0 : -1;
+        if (aktif && odakla) d.focus();
+      });
+
+      if (kartMi) kartSepetOzeti();
+    }
+
+    dugmeler.forEach((d, i) => {
+      d.addEventListener('click', () => sec(d.dataset.yontem));
+      d.addEventListener('keydown', e => {
+        let hedef = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') hedef = dugmeler[(i + 1) % dugmeler.length];
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') hedef = dugmeler[(i - 1 + dugmeler.length) % dugmeler.length];
+        if (!hedef) return;
+        e.preventDefault();
+        sec(hedef.dataset.yontem, true);
+      });
+    });
+
+    sec('havale');
+  }
+
+  /**
+   * Shopier panelindeki sepet listesi.
+   *
+   * Sepet Shopier'e taşınamıyor; müşteri parçaları orada yeniden
+   * seçecek. Ne alacağını hatırlaması için liste burada duruyor —
+   * yoksa yeni sekmede ürün adlarını hatırlamaya çalışıyor.
+   */
+  function kartSepetOzeti() {
+    const kutu = document.getElementById('kart-sepet-ozeti');
+    if (!kutu) return;
+
+    const items = PB_Cart.read();
+    if (!items.length) { kutu.replaceChildren(); return; }
+
+    const ul = document.createElement('ul');
+    items.forEach(u => {
+      const adet = u.quantity || 1;
+      const li = document.createElement('li');
+
+      const ad = document.createElement('span');
+      ad.textContent = u.name + (adet > 1 ? ' × ' + adet : '');
+
+      const fiyat = document.createElement('span');
+      fiyat.textContent = formatPrice(Number(u.price) * adet);
+
+      li.append(ad, fiyat);
+      ul.appendChild(li);
+    });
+
+    const baslik = document.createElement('p');
+    baslik.className = 'kart-sepet-baslik';
+    baslik.textContent = 'Sepetindekiler:';
+
+    kutu.replaceChildren(baslik, ul);
   }
 
   /* ──────────── Kargo ve sepet indirimi ──────────── */
