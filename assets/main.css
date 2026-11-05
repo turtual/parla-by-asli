@@ -1738,6 +1738,39 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   font-style: italic;
 }
 
+/* ── Sepet indirimi satırları ──
+   Ara toplam ile indirim satırı aynı boyda olunca hangisinin sonuç
+   olduğu anlaşılmıyordu. İndirim küçük ve bakır, altındaki "Toplam"
+   satırı ise ince bir çizgiyle ayrılıp büyük: göz son tutara iniyor. */
+.cart-totals-indirim span:first-child {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--c-bakir);
+}
+
+.cart-totals-indirim span:first-child strong {
+  font-weight: 600;
+}
+
+.cart-totals-indirim .cart-total-price {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cart-totals-son {
+  border-top: 0.5px solid var(--c-line);
+  padding-top: 8px;
+  margin-top: 6px;
+}
+
+/* İndirim satırının kendi vurgusu var; eşiğe ulaşıldığını söyleyen not
+   da bakır olunca iki ayrı yerde aynı şey iki kez bağırıyordu. Not
+   soluk kalıyor. */
+.cart-totals-indirim + .cart-totals-son + .cart-shipping-note {
+  font-style: normal;
+}
+
 /* ──────────── 19. Checkout sayfası ──────────── */
 
 .checkout-page {
@@ -1896,6 +1929,17 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   justify-content: space-between;
   font-size: 13px;
   color: var(--c-sicak-siyah);
+}
+
+/* Ödeme özetindeki sepet indirimi satırı. Bakır renk, "burada para
+   kazandın" demenin sessiz hâli; eksi işareti de satırın solunda değil
+   tutarın başında duruyor ki göz sayıya gitsin. */
+.checkout-summary-row.is-indirim {
+  color: var(--c-bakir);
+}
+
+.checkout-summary-row.is-indirim span:last-child {
+  font-weight: 500;
 }
 
 .checkout-summary-row.is-total {

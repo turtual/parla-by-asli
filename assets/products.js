@@ -192,6 +192,167 @@ function formatPrice(price) {
   return new Intl.NumberFormat('tr-TR').format(price) + ' ₺';
 }
 
+/* ──────────── Sepet indirimi (tutar eşiğine bağlı) ────────────
+ *
+ * "4.000 ₺ üzeri sepete ek %10" türü kampanya. İki sayı panelden
+ * (Metinler) yönetiliyor:
+ *   sepet_indirim_esigi    → kaç ₺ ve üzerinde geçerli
+ *   sepet_indirim_yuzdesi  → yüzde kaç
+ * Biri boş ya da 0 ise kampanya KAPALI. Alanların varsayılan hâli bu;
+ * yani bu özellik siteye eklendiğinde kendiliğinden hiçbir şey değişmez.
+ *
+ * ÜRÜN İNDİRİMİNİN ÜSTÜNE BİNER. compare_at_price ile indirimli bir
+ * ürün sepetteyse müşteri iki indirimi birlikte alır. Toplu indirim
+ * aracında "zaten indirimli" ürünü atlıyoruz çünkü orada ürünün kendi
+ * fiyatı KALICI olarak eziliyordu; burada öyle bir şey yok, sepete
+ * özel geçici bir iskonto. Kampanyanın amacı da sepeti büyütmek.
+ *
+ * Buradaki iki fonksiyon tek karar noktası: sepet çekmecesi, ödeme
+ * özeti, sipariş maili ve Supabase kaydı hepsi bunları çağırıyor.
+ * Ayrı ayrı hesaplanırsa gösterilen indirim ile tahsil edilen tutar
+ * ayrışır — müşteriye yanlış para yazmak demek.
+ */
+const PB_SEPET_INDIRIM_AZAMI = 90;   // güvenlik tavanı (%)
+
+/* Kargo eşiği de aynı okumadan geliyor. Sepet çekmecesi eskiden 500 ₺'yi
+   koda gömüyordu: panelde eşik 2.000 ₺ iken çekmece 500 ₺'de "✓ Ücretsiz
+   kargo" yazıyor, kasada 35 ₺ kargo çıkıyordu. */
+const PB_KARGO_YEDEK = { esik: 2000, ucret: 35 };
+
+let pbSepetKurallariSozu = null;     // tek seferlik okuma
+let pbSepetKurallariHazir = null;    // çözülmüş kurallar — senkron çizim için
+
+function pbSayi(v) {
+  const n = parseFloat(String(v == null ? '' : v).replace(',', '.'));
+  return Number.isFinite(n) ? n : 0;
+}
+
+/**
+ * Kampanya alanları için SADECE rakam kabul eden okuma.
+ *
+ * Neden gevşek parseFloat değil: panele Türkçe alışkanlıkla "4.000"
+ * yazılırsa parseFloat bunu 4 okur. Eşik 4 ₺ demek, yani indirim her
+ * sepete uygulanır — kimsenin fark etmeyeceği, her siparişte para
+ * kaybettiren bir hata. Belirsiz girişte kampanyayı kapatmak doğru
+ * taraf; panel de aynı kuralla baştan uyarıyor.
+ */
+function pbTamSayi(v) {
+  const s = String(v == null ? '' : v).trim();
+  if (!/^\d{1,9}$/.test(s)) return 0;
+  return Number(s);
+}
+
+/** Ham site_texts değerlerini kurallara çevirir. Ayrı tutuldu ki testlenebilsin. */
+function pbSepetKurallariCoz(t) {
+  const esik = pbTamSayi(t && t.sepet_indirim_esigi);
+  let yuzde = pbTamSayi(t && t.sepet_indirim_yuzdesi);
+  let indirim = null;
+
+  if (esik > 0 && yuzde > 0) {
+    /* Tavan: panele yanlışlıkla "100" ya da "1000" yazılırsa toplam sıfıra
+       veya eksiye düşer. Kırpıp konsola yazıyoruz; sessizce 0 ₺ sipariş
+       almaktan iyidir. */
+    if (yuzde > PB_SEPET_INDIRIM_AZAMI) {
+      console.warn('Sepet indirimi %' + yuzde + ' girilmiş; %'
+        + PB_SEPET_INDIRIM_AZAMI + ' ile sınırlandı.');
+      yuzde = PB_SEPET_INDIRIM_AZAMI;
+    }
+    indirim = { esik, yuzde };
+  }
+
+  const kEsik = pbSayi(t && t.kargo_ucretsiz_esigi);
+  const kUcret = pbSayi(t && t.kargo_ucreti);
+  const kargo = {
+    esik: kEsik > 0 ? kEsik : PB_KARGO_YEDEK.esik,
+    ucret: kUcret >= 0 && t && t.kargo_ucreti != null && t.kargo_ucreti !== ''
+      ? kUcret : PB_KARGO_YEDEK.ucret
+  };
+
+  return { indirim, kargo };
+}
+
+/** Panelden gelen sepet kuralları. site_texts cache'li, tekrar çağırmak ucuz. */
+function sepetKurallari() {
+  if (!pbSepetKurallariSozu) {
+    pbSepetKurallariSozu = (async () => {
+      let kurallar = { indirim: null, kargo: PB_KARGO_YEDEK };
+      try {
+        if (window.PB_Data && window.PB_Data.getSiteTexts) {
+          kurallar = pbSepetKurallariCoz(await window.PB_Data.getSiteTexts());
+        }
+      } catch (e) {
+        /* Metinler gelmezse kampanya KAPALI sayılıyor. Ters yön — "emin
+           değilim, indirimi uygula" — müşteriden eksik tahsil etmek
+           olurdu. Kargoda ise yedek değerler devreye giriyor. */
+        console.warn('Sepet kuralları okunamadı:', e);
+      }
+      pbSepetKurallariHazir = kurallar;
+      return kurallar;
+    })();
+  }
+  return pbSepetKurallariSozu;
+}
+
+/**
+ * Daha önce okunmuş kuralları senkron döner; henüz okunmadıysa null.
+ * Sepet çekmecesi ilk çizimde bunu kullanıyor, ardından sözü bekleyip
+ * altlığı tazeliyor — ikinci açılışta indirim satırı anında görünür.
+ */
+function sepetKurallariHazir() {
+  return pbSepetKurallariHazir;
+}
+
+/**
+ * Ara toplama göre sepet indirimi. Eşiğin altındaysa veya kampanya
+ * kapalıysa null.
+ *
+ * Kuruş yuvarlaması: yüzde hesabı 435.00000000000006 gibi kuyruklar
+ * üretiyor. İki haneye yuvarlanıyor ve toplam HER ZAMAN bu yuvarlanmış
+ * tutardan düşülüyor; müşteriye gösterilen indirim ile toplamdaki fark
+ * birbirini tutsun.
+ */
+function sepetIndirimi(araToplam, kural) {
+  if (!kural) return null;
+  const t = Number(araToplam);
+  if (!Number.isFinite(t) || t < kural.esik) return null;
+  const tutar = Math.round(t * kural.yuzde) / 100;
+  if (!(tutar > 0)) return null;
+  return { yuzde: kural.yuzde, esik: kural.esik, tutar };
+}
+
+/**
+ * Kargo ücreti. BİLEREK indirim ÖNCESİ ara toplama bakıyor.
+ *
+ * Müşteri sepeti 2.100 ₺ yapıp "ücretsiz kargo" gördükten sonra, biz
+ * ona %10 sepet indirimi verdiğimiz için toplam 1.890 ₺'ye düşüp kargo
+ * ücreti eklenmesi — indirim yüzünden daha fazla ödemek gibi görünür ve
+ * çekmecede satırlar yanıp sönerdi. Hak kazandığı anda kazanmış sayılıyor.
+ */
+function kargoUcretiHesapla(araToplam, kargo) {
+  const k = kargo || PB_KARGO_YEDEK;
+  return Number(araToplam) >= k.esik ? 0 : k.ucret;
+}
+
+/**
+ * Sepetin para tablosu: tek yerden ara toplam, indirim, kargo, toplam.
+ * Çekmece, ödeme özeti, sipariş maili ve Supabase kaydı hepsi bunu
+ * kullanıyor; başka hiçbir yerde toplam hesaplanmıyor.
+ */
+function sepetToplamlari(araToplam, kurallar) {
+  const k = kurallar || { indirim: null, kargo: PB_KARGO_YEDEK };
+  const indirim = sepetIndirimi(araToplam, k.indirim);
+  const kargo = kargoUcretiHesapla(araToplam, k.kargo);
+  const indirimTutar = indirim ? indirim.tutar : 0;
+  return {
+    araToplam: Number(araToplam) || 0,
+    indirim,                                   // null ya da {yuzde, esik, tutar}
+    indirimTutar,
+    kargo,
+    kargoKurali: k.kargo,
+    toplam: (Number(araToplam) || 0) - indirimTutar + kargo
+  };
+}
+
 /**
  * Ürün ızgarası boş kaldığında içine uygun mesajı basar.
  *

@@ -94,6 +94,10 @@ function epostaGovdesi(s) {
         <td style="padding:10px 0 2px;color:#756B5F;">Ara toplam</td>
         <td style="padding:10px 0 2px;text-align:right;">${kacar(paraYaz(s.subtotal))}</td>
       </tr>
+      ${s.discount > 0 ? `<tr>
+        <td style="padding:2px 0;color:#7A4038;">Sepet indirimi${s.discountPercent > 0 ? ' (%' + kacar(s.discountPercent) + ')' : ''}</td>
+        <td style="padding:2px 0;text-align:right;color:#7A4038;">−${kacar(paraYaz(s.discount))}</td>
+      </tr>` : ''}
       <tr>
         <td style="padding:2px 0;color:#756B5F;">Kargo</td>
         <td style="padding:2px 0;text-align:right;">${s.shipping > 0 ? kacar(paraYaz(s.shipping)) : 'Ücretsiz'}</td>
@@ -163,6 +167,13 @@ module.exports = async (req, res) => {
     ad: String(g.ad || '').slice(0, 60),
     items,
     subtotal: Number(g.subtotal) || 0,
+    /* İndirim yalnız GÖSTERİM için; tutarı burada yeniden hesaplamıyoruz.
+       Kampanya kuralı panelde (site_texts) duruyor ve bu fonksiyonun
+       veritabanı erişimi yok. subtotal/total da aynı şekilde istemciden
+       geliyor — yani bu alan onlardan daha fazla güven istemiyor.
+       Negatif değer gelirse satır hiç basılmıyor (> 0 koşulu). */
+    discount: Number(g.discount) || 0,
+    discountPercent: Math.max(0, Math.min(100, parseInt(g.discountPercent, 10) || 0)),
     shipping: Number(g.shipping) || 0,
     total: Number(g.total) || 0
   };

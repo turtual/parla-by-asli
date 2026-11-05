@@ -124,6 +124,11 @@ const PB_Modal = {
  * yeni toplam. Adetle çarpılmış hâli gösteriliyor ki satır toplamıyla
  * tutarlı olsun.
  */
+/* Sepet altlığı iki kez çiziliyor (önce elde olanla, sonra panelden gelen
+   kurallarla). Arada sepet değişirse geç gelen çizim bayat kalır; bu
+   sayaç hangi çizimin güncel olduğunu söylüyor. */
+let pbSepetNesli = 0;
+
 function sepetFiyatHtml(item) {
   const adet = item.quantity || 1;
   const bilgi = typeof indirimBilgisi === 'function' ? indirimBilgisi(item) : null;
@@ -1176,18 +1181,70 @@ const PB_CartDrawer = {
     });
     body.appendChild(list);
 
-    // Footer: toplam + checkout
-    const total = PB_Cart.total();
-    foot.innerHTML = `
-      <div class="cart-totals">
-        <span>Ara toplam</span>
-        <span class="cart-total-price">${formatPrice(total)}</span>
-      </div>
-      <p class="cart-shipping-note">${total >= 500 ? '✓ Ücretsiz kargo' : `Kargo ücretsiz olması için: ${formatPrice(500 - total)} daha`}</p>
+    /* Footer: toplamlar + kasaya geçiş.
+     *
+     * Kargo eşiği ve sepet indirimi panelden geliyor (site_texts), yani
+     * okuması async. Çekmecenin açılmasını bekletmemek için altlık önce
+     * elde olanla çiziliyor, kurallar gelince bir kez tazeleniyor.
+     * site_texts cache'li olduğundan ikinci açılışta zaten hazır. */
+    const araToplam = PB_Cart.total();
+    const nesil = ++pbSepetNesli;
+
+    function altligiCiz(kurallar) {
+      const t = typeof sepetToplamlari === 'function'
+        ? sepetToplamlari(araToplam, kurallar)
+        : { araToplam, indirim: null, kargo: null, kargoKurali: null, toplam: araToplam };
+
+      const satirlar = [`
+        <div class="cart-totals">
+          <span>Ara toplam</span>
+          <span class="cart-total-price">${formatPrice(t.araToplam)}</span>
+        </div>`];
+
+      if (t.indirim) {
+        satirlar.push(`
+        <div class="cart-totals cart-totals-indirim">
+          <span>Sepet indirimi <strong>%${t.indirim.yuzde}</strong></span>
+          <span class="cart-total-price">−${formatPrice(t.indirim.tutar)}</span>
+        </div>
+        <div class="cart-totals cart-totals-son">
+          <span>Toplam</span>
+          <span class="cart-total-price">${formatPrice(t.araToplam - t.indirim.tutar)}</span>
+        </div>`);
+      }
+
+      /* Teşvik satırı: indirim eşiğine yakınken onu, değilse kargo
+         eşiğini gösteriyoruz. İkisini birlikte yazmak çekmecenin dibini
+         duyuruya çeviriyordu; müşteriye her an tek bir sonraki adım. */
+      let not = '';
+      if (t.indirim) {
+        not = `✓ %${t.indirim.yuzde} sepet indirimi uygulandı`;
+      } else if (kurallar && kurallar.indirim) {
+        const kalan = kurallar.indirim.esik - araToplam;
+        not = `%${kurallar.indirim.yuzde} sepet indirimi için: ${formatPrice(kalan)} daha`;
+      } else if (t.kargoKurali) {
+        not = t.kargo === 0
+          ? '✓ Ücretsiz kargo'
+          : `Kargo ücretsiz olması için: ${formatPrice(t.kargoKurali.esik - araToplam)} daha`;
+      }
+
+      foot.innerHTML = satirlar.join('')
+        + (not ? `\n      <p class="cart-shipping-note">${not}</p>` : '')
+        + `
       <a href="${PB_imgPath('odeme/index.html')}" class="btn btn-bakir btn-block">SİPARİŞİ TAMAMLA</a>
       <button type="button" class="btn btn-ghost btn-block" data-cart-close>Alışverişe devam</button>
     `;
-    foot.querySelector('[data-cart-close]').addEventListener('click', () => PB_CartDrawer.close());
+      foot.querySelector('[data-cart-close]').addEventListener('click', () => PB_CartDrawer.close());
+    }
+
+    altligiCiz(typeof sepetKurallariHazir === 'function' ? sepetKurallariHazir() : null);
+
+    if (typeof sepetKurallari === 'function') {
+      sepetKurallari().then(kurallar => {
+        // Arada sepet değiştiyse bu çizim bayat; yenisi zaten çizildi.
+        if (nesil === pbSepetNesli) altligiCiz(kurallar);
+      });
+    }
   },
 
   bindHeaderTrigger() {

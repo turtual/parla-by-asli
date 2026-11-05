@@ -2043,7 +2043,9 @@
           <div style="margin-bottom: 8px;">${items}</div>
           ${o.customer_note ? `<div style="font-size: 12px; padding: 8px 10px; background: var(--c-bej); border-radius: 6px; margin-bottom: 8px;"><strong>Not:</strong> ${escapeHtml(o.customer_note)}</div>` : ''}
           <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 0.5px solid var(--c-line);">
-            <div style="font-size: 11px; color: var(--c-toprak);">Ara: ${formatPrice(o.subtotal)} · Kargo: ${formatPrice(o.shipping_fee)}</div>
+            <!-- Sepet indirimi satıra yalnız varsa giriyor; her siparişte
+                 "İndirim: 0 ₺" yazmak listeyi okunmaz hâle getiriyordu. -->
+            <div style="font-size: 11px; color: var(--c-toprak);">Ara: ${formatPrice(o.subtotal)}${Number(o.cart_discount) > 0 ? ` · <span style="color: var(--c-bakir);">İndirim: −${formatPrice(o.cart_discount)}</span>` : ''} · Kargo: ${formatPrice(o.shipping_fee)}</div>
             <div style="font-weight: 600;">Toplam: ${formatPrice(o.total)}</div>
           </div>
         </div>
@@ -2132,6 +2134,20 @@
      hero_gorseller aldı. Veritabanında duruyor çünkü site, yeni alan
      boşsa hâlâ ona düşüyor (eski kapak kaybolmasın diye). */
   const GIZLI_METIN_ANAHTARLARI = new Set(['hero_gorsel']);
+
+  /* Kutunun altına yazılan açıklama. Yalnızca davranışı kutudan
+     anlaşılmayan alanlarda var: "4000" yazan bir kutuya bakıp bunun
+     kampanyayı AÇTIĞINI anlamanın yolu yok. */
+  const METIN_IPUCLARI = {
+    sepet_indirim_esigi:
+      'Sepet bu tutara ulaştığında indirim uygulanır. '
+      + '<strong>Boş bırakmak ya da 0 yazmak kampanyayı kapatır.</strong> '
+      + 'Yalnız sayı yaz: 4000',
+    sepet_indirim_yuzdesi:
+      'Eşiği geçen sepete uygulanacak indirim yüzdesi. '
+      + '<strong>Boş ya da 0 ise kampanya kapalıdır.</strong> '
+      + 'Ürünün kendi indirimine <em>ek</em> olarak uygulanır. Yalnız sayı yaz: 10'
+  };
 
   /**
    * Kapak görseli çerçeveleme aracı.
@@ -2329,9 +2345,14 @@
         </div>
       ` : '';
 
+      const ipucu = METIN_IPUCLARI[t.key]
+        ? `<p class="texts-section-hint">${METIN_IPUCLARI[t.key]}</p>`
+        : '';
+
       return `
         <div class="text-field-card" data-key="${escapeHtml(t.key)}">
           <label>${escapeHtml(t.label)}</label>
+          ${ipucu}
           ${gorselAlani}
           <textarea class="text-field-input" rows="${satirSayisi(t.value)}">${escapeHtml(t.value)}</textarea>
           <div class="text-field-actions">
@@ -2366,10 +2387,27 @@
          sessizce yedek değere düşülüyor. Panelde "Kaydedildi ✓" görüp
          sitede değişmediğini fark etmemek kötü bir sürpriz — o yüzden
          kaydetmeden önce burada uyarıyoruz. */
+      /* Kampanya alanları: yalnız rakam. "4.000" yazılırsa site bunu
+         4 ₺ okur (parseFloat) ve indirim her sepete uygulanır — kimsenin
+         fark etmediği, her siparişte para kaybettiren bir hata. Nokta,
+         virgül, boşluk ve "TL" baştan reddediliyor. */
+      const rakamMi = d => /^\d{1,9}$/.test(String(d).trim());
+
       const BICIM_KURALLARI = {
         iletisim_eposta: {
           gecerli: d => /^[^@s]+@[^@s]+.[^@s]+$/.test(String(d).trim()),
           mesaj: 'Geçerli bir e-posta adresi yaz (örn. siparis@parlabyasli.com)'
+        },
+        /* Bu iki alan doğrudan müşterinin ödediği tutarı değiştiriyor.
+           Harf ya da "4.000 TL" gibi bir giriş sitede sessizce 0'a
+           düşüyor, yani kampanya kapanıyordu; burada baştan reddediliyor. */
+        sepet_indirim_esigi: {
+          gecerli: rakamMi,
+          mesaj: 'Yalnızca rakam yaz — nokta, virgül ve "TL" olmadan. 4.000 değil: 4000'
+        },
+        sepet_indirim_yuzdesi: {
+          gecerli: d => rakamMi(d) && Number(String(d).trim()) <= 90,
+          mesaj: 'Yüzde olarak 1–90 arası tam sayı yaz (örn. 10)'
         }
       };
 

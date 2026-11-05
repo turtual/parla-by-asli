@@ -152,6 +152,12 @@
                 <span>Ara toplam</span>
                 <span id="summary-subtotal">—</span>
               </div>
+              <!-- Sepet indirimi satırı: kampanya kapalıyken ya da eşiğin
+                   altındayken checkout.js bunu gizli tutuyor. -->
+              <div class="checkout-summary-row is-indirim" id="summary-discount-row" hidden>
+                <span id="summary-discount-label">Sepet indirimi</span>
+                <span id="summary-discount">—</span>
+              </div>
               <div class="checkout-summary-row">
                 <span>Kargo</span>
                 <span id="summary-shipping">—</span>

@@ -29,26 +29,27 @@
     bindOrderId();
   }
 
-  /* ──────────── Kargo ──────────── */
+  /* ──────────── Kargo ve sepet indirimi ──────────── */
 
   /**
-   * Kargo eşiği ve ücreti admin panelinden yönetiliyor; tek kaynağı
-   * assets/legal-info.js (o da site_texts'ten okuyor). Buradaki yedek
-   * değerler yalnızca legal-info.js hiç yüklenmediyse devreye girer.
+   * Kargo eşiği/ücreti ve sepet indirimi kampanyası admin panelinden
+   * yönetiliyor (site_texts). Hesabın TEK yeri assets/products.js:
+   * sepetKurallari() panelden okur, sepetToplamlari() de ara toplam,
+   * indirim, kargo ve toplamı birlikte üretir.
    *
-   * ÖNEMLİ: bu sayıları buraya tekrar gömmeyin. Yasal metinler (mesafeli
-   * satış, ön bilgilendirme, kargo-teslimat) aynı kaynaktan besleniyor;
-   * ayrışırlarsa metinde yazan tutarla tahsil edilen tutar farklı olur.
+   * ÖNEMLİ: bu sayıları buraya tekrar gömmeyin ve toplamı burada elle
+   * hesaplamayın. Yasal metinler (mesafeli satış, ön bilgilendirme,
+   * kargo-teslimat) aynı kaynaktan besleniyor; ayrışırlarsa metinde
+   * yazan tutarla tahsil edilen tutar farklı olur. Sepet çekmecesinde
+   * gösterilen indirim ile kasada düşülen indirimin ayrışması ise
+   * doğrudan müşteriye yanlış para yazmak demek.
    */
-  async function kargoBilgisi() {
-    if (window.PB_SaticiBilgi && typeof window.PB_SaticiBilgi.kargo === 'function') {
-      return await window.PB_SaticiBilgi.kargo();
-    }
-    return { esik: 500, ucret: 35 };
-  }
-
-  function kargoUcretiHesapla(subtotal, k) {
-    return subtotal >= k.esik ? 0 : k.ucret;
+  async function sepetHesabi() {
+    const araToplam = PB_Cart.total();
+    const kurallar = typeof sepetKurallari === 'function'
+      ? await sepetKurallari()
+      : null;
+    return sepetToplamlari(araToplam, kurallar);
   }
 
   /* ──────────── Sipariş özeti ──────────── */
@@ -104,13 +105,29 @@
     });
 
     // Toplam
-    const subtotal = PB_Cart.total();
-    const shipping = kargoUcretiHesapla(subtotal, await kargoBilgisi());
-    const total = subtotal + shipping;
+    const h = await sepetHesabi();
 
-    subtotalEl.textContent = formatPrice(subtotal);
-    shippingEl.textContent = shipping === 0 ? 'Ücretsiz' : formatPrice(shipping);
-    totalEl.textContent = formatPrice(total);
+    subtotalEl.textContent = formatPrice(h.araToplam);
+    shippingEl.textContent = h.kargo === 0 ? 'Ücretsiz' : formatPrice(h.kargo);
+    totalEl.textContent = formatPrice(h.toplam);
+
+    /* Sepet indirimi satırı. Kampanya kapalı ya da eşiğin altındaysa
+       satır hiç görünmüyor — "Sepet indirimi: 0 ₺" yazmak müşteriye
+       kaçırdığı bir şey varmış izlenimi veriyordu. */
+    const discountRow = document.getElementById('summary-discount-row');
+    const discountEl = document.getElementById('summary-discount');
+    const discountLabel = document.getElementById('summary-discount-label');
+    if (discountRow && discountEl) {
+      if (h.indirim) {
+        if (discountLabel) {
+          discountLabel.textContent = 'Sepet indirimi (%' + h.indirim.yuzde + ')';
+        }
+        discountEl.textContent = '−' + formatPrice(h.indirim.tutar);
+        discountRow.hidden = false;
+      } else {
+        discountRow.hidden = true;
+      }
+    }
   }
 
   /* ──────────── Sipariş ID ──────────── */
@@ -155,12 +172,17 @@
       const items = PB_Cart.read();
       const orderId = generateOrderId();
 
-      const subtotal = PB_Cart.total();
-      const shipping = kargoUcretiHesapla(subtotal, await kargoBilgisi());
-      const total = subtotal + shipping;
+      /* Toplamlar: özet panelinde gösterilenle AYNI fonksiyondan.
+         Burada yeniden hesaplamak, müşterinin gördüğü tutarla sipariş
+         kaydındaki tutarın ayrışmasına açık kapı bırakırdı. */
+      const h = await sepetHesabi();
+      const subtotal = h.araToplam;
+      const shipping = h.kargo;
+      const discount = h.indirimTutar;
+      const total = h.toplam;
 
       // Sipariş özetini insan-okunabilir formatta hazırla
-      const orderSummary = buildOrderSummary(items, subtotal, shipping, total);
+      const orderSummary = buildOrderSummary(items, h);
 
       // Supabase'e de yaz (admin panelde "Siparişler" sekmesinde görünsün ve
       // stok takibi buradan beslensin). Formspree zaten müşteri/işletme sahibine
@@ -188,6 +210,7 @@
           items,
           subtotal,
           shippingFee: shipping,
+          cartDiscount: discount,
           total
         }).then(({ error }) => {
           if (error) console.error('Sipariş Supabase\'e kaydedilemedi:', error);
@@ -213,6 +236,11 @@
         not: customer.not || '',
         // Sipariş
         ara_toplam: formatPrice(subtotal),
+        /* İndirim satırı yalnız varsa gönderiliyor: her siparişte
+           "Sepet indirimi: 0 ₺" satırı bildirimi gürültüye çeviriyor. */
+        ...(h.indirim ? {
+          sepet_indirimi: '%' + h.indirim.yuzde + ' — ' + formatPrice(h.indirim.tutar)
+        } : {}),
         kargo: shipping === 0 ? 'Ücretsiz' : formatPrice(shipping),
         toplam: formatPrice(total),
         urun_sayisi: items.length,
@@ -265,6 +293,8 @@
           ad: customer.ad,
           items: items.map(u => ({ name: u.name, quantity: u.quantity, price: u.price })),
           subtotal,
+          discount,
+          discountPercent: h.indirim ? h.indirim.yuzde : 0,
           shipping,
           total
         })
@@ -283,7 +313,7 @@
     });
   }
 
-  function buildOrderSummary(items, subtotal, shipping, total) {
+  function buildOrderSummary(items, h) {
     // Mailde okunaklı çıkması için düz metin sipariş özeti
     let lines = [];
     lines.push('═══════════════════════════════');
@@ -299,9 +329,12 @@
     });
 
     lines.push('───────────────────────────────');
-    lines.push(`Ara toplam: ${formatPrice(subtotal)}`);
-    lines.push(`Kargo: ${shipping === 0 ? 'Ücretsiz' : formatPrice(shipping)}`);
-    lines.push(`TOPLAM: ${formatPrice(total)}`);
+    lines.push(`Ara toplam: ${formatPrice(h.araToplam)}`);
+    if (h.indirim) {
+      lines.push(`Sepet indirimi (%${h.indirim.yuzde}): -${formatPrice(h.indirim.tutar)}`);
+    }
+    lines.push(`Kargo: ${h.kargo === 0 ? 'Ücretsiz' : formatPrice(h.kargo)}`);
+    lines.push(`TOPLAM: ${formatPrice(h.toplam)}`);
     lines.push('═══════════════════════════════');
 
     /* Ödeme bilgisi. Değerler legal-info.js'ten okunuyor — IBAN'ı iki

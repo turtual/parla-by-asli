@@ -427,24 +427,36 @@
     if (!supabase) init();
     if (!supabase) return { error: 'supabase_not_ready' };
 
-    const { data, error } = await supabase
-      .from('orders')
-      .insert([{
-        order_code: orderData.orderCode,
-        user_id: orderData.userId || null,
-        customer_name: orderData.name,
-        customer_email: orderData.email,
-        customer_phone: orderData.phone,
-        shipping_address: orderData.address,
-        shipping_city: orderData.city,
-        customer_note: orderData.note || null,
-        items: orderData.items,
-        subtotal: orderData.subtotal,
-        shipping_fee: orderData.shippingFee || 0,
-        total: orderData.total
-      }])
-      .select()
-      .single();
+    const satir = {
+      order_code: orderData.orderCode,
+      user_id: orderData.userId || null,
+      customer_name: orderData.name,
+      customer_email: orderData.email,
+      customer_phone: orderData.phone,
+      shipping_address: orderData.address,
+      shipping_city: orderData.city,
+      customer_note: orderData.note || null,
+      items: orderData.items,
+      subtotal: orderData.subtotal,
+      shipping_fee: orderData.shippingFee || 0,
+      cart_discount: orderData.cartDiscount || 0,
+      total: orderData.total
+    };
+
+    let { data, error } = await supabase.from('orders').insert([satir]).select().single();
+
+    /* cart_discount sütunu db/2026-11-05-sepet-indirimi.sql ile geliyor.
+       SQL henüz çalıştırılmadan site yayına alınırsa sütun yok ve insert
+       komple patlardı — yani panelde sipariş hiç görünmezdi. Sütun
+       yoksa indirim alanını düşürüp tekrar deniyoruz: tutar zaten
+       subtotal ve total'dan çıkarılabiliyor, sipariş kaydını büsbütün
+       kaybetmek çok daha pahalı. */
+    if (error && /cart_discount/.test(String(error.message || ''))) {
+      console.warn('orders.cart_discount sütunu yok — sipariş indirim alanı olmadan kaydediliyor. '
+        + 'db/2026-11-05-sepet-indirimi.sql çalıştırılmalı.');
+      delete satir.cart_discount;
+      ({ data, error } = await supabase.from('orders').insert([satir]).select().single());
+    }
 
     if (error) {
       console.error('Sipariş kaydedilemedi:', error);
